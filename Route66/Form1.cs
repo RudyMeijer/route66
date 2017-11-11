@@ -16,5 +16,15 @@ namespace Route66
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            webBrowser1.Navigate(My.ExePath+"initialmap.html");
+            //webBrowser1.Url = new Uri("http://www.openstreetmap.org");
+            //NGEngine engine = NGEngine.createNew();
+            //var status = engine.init(dataDir: "C:\\ProgramData\\Aebi-Schmidt\\AutologicRouteCreator\\map\\data", mapDir: "C:\\ProgramData\\Aebi-Schmidt\\AutologicRouteCreator\\map");
+            //var result = engine.authorize(cid: "-----------CID-for-NaviGenie-team----------", aid: "PC_NaviGenie");
+            //var versie = engine.versionInfo();
+        }
     }
 }
