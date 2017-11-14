@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Route66", "Route66\Route66.csproj", "{334E18B0-2A1D-4FE5-BDA0-634B792FCB8E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My", "..\My\My\My.csproj", "{02B95A35-AA86-49EE-B9A2-85BED81A189A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{334E18B0-2A1D-4FE5-BDA0-634B792FCB8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{334E18B0-2A1D-4FE5-BDA0-634B792FCB8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{334E18B0-2A1D-4FE5-BDA0-634B792FCB8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02B95A35-AA86-49EE-B9A2-85BED81A189A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02B95A35-AA86-49EE-B9A2-85BED81A189A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02B95A35-AA86-49EE-B9A2-85BED81A189A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02B95A35-AA86-49EE-B9A2-85BED81A189A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
