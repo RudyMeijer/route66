@@ -98,5 +98,15 @@ namespace Route66
         {
             Console.WriteLine($"Marker {item.Tag} entered.");
         }
+
+        private void textBox1_Validated(object sender, EventArgs e)
+        {
+            gmap.SetPositionByKeywords(textBox1.Text);
+        }
+
+        private void textBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter) textBox1_Validated(null, null);
+        }
     }
 }
