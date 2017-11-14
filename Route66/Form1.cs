@@ -13,12 +13,15 @@ namespace Route66
 {
     public partial class Form1 : Form
     {
+        #region CONSTRUCTOR
         public Form1()
         {
             InitializeComponent();
             Text += My.Version;
             My.Log($"Start {this.Text}");
         }
+        #endregion
+        #region INITIALIZE
         private void Form1_Load(object sender, EventArgs e)
         {
             InitializeGmap();
@@ -41,6 +44,9 @@ namespace Route66
 
         private void InitializeGmap()
         {
+            //
+            // See http://www.independent-software.com/gmap-net-beginners-tutorial-maps-markers-polygons-routes-updated-for-visual-studio-2015-and-gmap-net-1-7/
+            //
             gmap.MapProvider = GMap.NET.MapProviders.BingMapProvider.Instance;
             GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerOnly;
             gmap.Zoom = 13;
@@ -48,10 +54,9 @@ namespace Route66
             gmap.ShowCenter = false;
 
         }
-
+        #endregion
         private void button1_Click(object sender, EventArgs e)
         {
-            InitializeComboboxWithMapProviders();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
