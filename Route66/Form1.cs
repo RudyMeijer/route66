@@ -60,7 +60,23 @@ namespace Route66
         #endregion
         private void button1_Click(object sender, EventArgs e)
         {
+            gmap.Overlays.Clear();
             AddMarker();
+            AddRoute();
+        }
+
+        private void AddRoute()
+        {
+            GMapOverlay routes = new GMapOverlay("routes");
+            List<PointLatLng> points = new List<PointLatLng>();
+            points.Add(new PointLatLng(48.866383, 2.323575));
+            points.Add(new PointLatLng(48.863868, 2.321554));
+            points.Add(new PointLatLng(48.861017, 2.330030));
+            GMapRoute route = new GMapRoute(points, "A walk in the park");
+            route.Stroke = new Pen(Color.Red, 3);
+            routes.Routes.Add(route);
+            gmap.Overlays.Add(routes);
+            Console.WriteLine($"Route {route.Name} distance = {route.Distance} km.");
         }
 
         private void AddMarker()
@@ -76,6 +92,11 @@ namespace Route66
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             gmap.MapProvider = comboBox1.SelectedItem as GMapProvider;
+        }
+
+        private void gmap_OnMarkerEnter(GMapMarker item)
+        {
+            Console.WriteLine($"Marker {item.Tag} entered.");
         }
     }
 }

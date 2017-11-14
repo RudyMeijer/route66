@@ -92,6 +92,7 @@
             this.gmap.Size = new System.Drawing.Size(445, 338);
             this.gmap.TabIndex = 0;
             this.gmap.Zoom = 13D;
+            this.gmap.OnMarkerEnter += new GMap.NET.WindowsForms.MarkerEnter(this.gmap_OnMarkerEnter);
             // 
             // comboBox1
             // 
