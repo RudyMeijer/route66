@@ -1,4 +1,7 @@
-﻿using GMap.NET.MapProviders;
+﻿using GMap.NET;
+using GMap.NET.MapProviders;
+using GMap.NET.WindowsForms;
+using GMap.NET.WindowsForms.Markers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,8 +20,7 @@ namespace Route66
         public Form1()
         {
             InitializeComponent();
-            Text += My.Version;
-            My.Log($"Start {this.Text}");
+            My.Log($"Start {this.Text += My.Version}");
         }
         #endregion
         #region INITIALIZE
@@ -38,6 +40,7 @@ namespace Route66
             comboBox1.Items.Add(GoogleTerrainMapProvider.Instance);
             comboBox1.Items.Add(OpenCycleMapProvider.Instance);
             comboBox1.Items.Add(WikiMapiaMapProvider.Instance);
+            comboBox1.Items.Add(BingHybridMapProvider.Instance);
             comboBox1.Items.Add(OpenStreetMapProvider.Instance);
             comboBox1.SelectedIndex = 0;
         }
@@ -50,13 +53,24 @@ namespace Route66
             gmap.MapProvider = GMap.NET.MapProviders.BingMapProvider.Instance;
             GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerOnly;
             gmap.Zoom = 13;
-            gmap.SetPositionByKeywords("Holten");
+            gmap.SetPositionByKeywords("Paris, france");
             gmap.ShowCenter = false;
 
         }
         #endregion
         private void button1_Click(object sender, EventArgs e)
         {
+            AddMarker();
+        }
+
+        private void AddMarker()
+        {
+            GMapOverlay markers = new GMapOverlay("markers");
+            GMapMarker marker = new GMarkerGoogle(
+                new PointLatLng(48.8617774, 2.349272), GMarkerGoogleType.red_small);
+            markers.Markers.Add(marker);
+            gmap.Overlays.Add(markers);
+            marker.ToolTipText = "hello\nout there";
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
