@@ -79,6 +79,7 @@ namespace Route66
         {
             mOverlay.Markers.Clear();
             UpdateRoute(mOverlay.Markers);
+            mCurrentMarker = null;
             //mRoute.IsVisible = !mRoute.IsVisible;
             //mOverlay.IsVisibile = !mOverlay.IsVisibile;
         }
@@ -139,6 +140,7 @@ namespace Route66
         {
             mOverlay.Markers.Remove(mCurrentMarker);
             UpdateRoute(mOverlay.Markers);
+            mCurrentMarker = null;
         }
 
         private void gmap_OnMarkerLeave(GMapMarker item)
@@ -160,9 +162,6 @@ namespace Route66
             }
         }
 
-        private void gmap_MouseUp(object sender, MouseEventArgs e)
-        {
-            IsDragging = false;
-        }
+        private void gmap_MouseUp(object sender, MouseEventArgs e) => IsDragging = false;
     }
 }
