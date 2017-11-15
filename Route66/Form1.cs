@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GMap.NET.ObjectModel;
 
 namespace Route66
 {
@@ -18,6 +19,7 @@ namespace Route66
     {
         #region FIELDS
         private GMapOverlay mOverlay;
+        private GMapRoute mRoute;
         private GMapMarker mCurrentMarker;
         #endregion
         #region CONSTRUCTOR
@@ -38,6 +40,10 @@ namespace Route66
         private void InitializeOverlays()
         {
             mOverlay = new GMapOverlay("markers");
+            mRoute = new GMapRoute("routes");
+            mRoute.Stroke = new Pen(Color.Red, 2);
+            mOverlay.Routes.Add(mRoute);
+            gmap.Overlays.Add(mOverlay);
         }
 
         private void InitializeComboboxWithMapProviders()
@@ -70,11 +76,11 @@ namespace Route66
         #endregion
         private void button1_Click(object sender, EventArgs e)
         {
-            //gmap.Overlays.Clear();
             mOverlay.Markers.Clear();
+            UpdateRoute(mOverlay.Markers);
         }
 
-        private void AddRoute()
+        private void xxxAddRoute()
         {
             GMapOverlay routes = new GMapOverlay("routes");
             List<PointLatLng> points = new List<PointLatLng>();
@@ -88,22 +94,27 @@ namespace Route66
             Console.WriteLine($"Route {route.Name} distance = {route.Distance} km.");
         }
 
-        private void AddMarker(int x = 0, int y = 0)
+        private void AddRoutePoint(int x = 0, int y = 0)
         {
             PointLatLng point = gmap.FromLocalToLatLng(x,y);
-            GMapMarker marker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
-            mOverlay.Markers.Add(marker);
-            gmap.Overlays.Add(mOverlay);
-            //marker.ToolTipText = "hello\nout there";
-            gmap.UpdateMarkerLocalPosition(marker);
-            Console.WriteLine($"Marker  added  at {marker.LocalPosition}");
+            mCurrentMarker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
+            mOverlay.Markers.Add(mCurrentMarker);
+            mOverlay.Routes[0].Points.Add(point);
+            UpdateRoute(mOverlay.Markers);
+            Console.WriteLine($"Marker added at {mCurrentMarker.LocalPosition}");
+        }
+
+        private void UpdateRoute(ObservableCollectionThreadSafe<GMapMarker> markers)
+        {
+            mRoute.Points.Clear();
+            foreach (var item in markers) mRoute.Points.Add(item.Position);
+            gmap.UpdateRouteLocalPosition(mRoute);
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             gmap.MapProvider = comboBox1.SelectedItem as GMapProvider;
         }
-
 
         private void textBox1_Validated(object sender, EventArgs e)
         {
@@ -117,12 +128,14 @@ namespace Route66
 
         private void gmap_MouseDown(object sender, MouseEventArgs e)
         {
-            if (mCurrentMarker == null)
-            {
-                if (e.Button == MouseButtons.Left) AddMarker(e.X, e.Y);
-            }
-            else { }
+            if (e.Button == MouseButtons.Left && mCurrentMarker == null) AddRoutePoint(e.X, e.Y);
+            if (e.Button == MouseButtons.Right && mCurrentMarker != null) RemoveMarker(mCurrentMarker);
+        }
 
+        private void RemoveMarker(GMapMarker mCurrentMarker)
+        {
+            mOverlay.Markers.Remove(mCurrentMarker);
+            UpdateRoute(mOverlay.Markers);
         }
 
         private void gmap_OnMarkerLeave(GMapMarker item) => mCurrentMarker = null;
@@ -130,10 +143,10 @@ namespace Route66
 
         private void gmap_MouseMove(object sender, MouseEventArgs e)
         {
-            if (mCurrentMarker != null && e.Button==MouseButtons.Left)
+            if (e.Button == MouseButtons.Left && mCurrentMarker != null)
             {
                 mCurrentMarker.Position = gmap.FromLocalToLatLng(e.X, e.Y);
-                gmap.UpdateMarkerLocalPosition(mCurrentMarker);
+                UpdateRoute(mOverlay.Markers);
             }
         }
     }
