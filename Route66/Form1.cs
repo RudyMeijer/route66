@@ -78,18 +78,22 @@ namespace Route66
             Console.WriteLine($"paris at {gmap.Position}");
             //gmap.ShowCenter = false;
         }
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            gmap.MapProvider = comboBox1.SelectedItem as GMapProvider;
+        }
         #endregion
         private void button1_Click(object sender, EventArgs e)
         {
-            //mOverlay.Markers.Clear();
-            //UpdateRoute(mOverlay.Markers);
-            //mCurrentMarker = mLastMarker = null;
-            gmap.MarkersEnabled = !gmap.MarkersEnabled;
-            gmap.Refresh();
+            mOverlay.Markers.Clear();
+            UpdateRoute(mOverlay.Markers);
+            mCurrentMarker = mLastMarker = null;
+            //gmap.MarkersEnabled = !gmap.MarkersEnabled;
 
             //mRoute.IsVisible = !mRoute.IsVisible;
             //mOverlay.IsVisibile = !mOverlay.IsVisibile;
             //xxxAddRoute();
+            gmap.Refresh();
         }
 
         private void xxxAddRoute()
@@ -106,6 +110,25 @@ namespace Route66
             Console.WriteLine($"Route {route.Name} distance = {route.Distance} km.");
         }
 
+        private void UpdateRoute(ObservableCollectionThreadSafe<GMapMarker> markers)
+        {
+            mRoute.Points.Clear();
+            foreach (var item in markers) mRoute.Points.Add(item.Position);
+            gmap.UpdateRouteLocalPosition(mRoute);
+        }
+
+        #region SEARCH
+        private void textBox1_Validated(object sender, EventArgs e)
+        {
+            gmap.SetPositionByKeywords(textBox1.Text);
+        }
+
+        private void textBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter) textBox1_Validated(null, null);
+        }
+        #endregion
+        #region EDIT ROUTE
         private void AddMarker(int x, int y)
         {
             PointLatLng point = gmap.FromLocalToLatLng(x,y);
@@ -125,37 +148,12 @@ namespace Route66
             UpdateRoute(mOverlay.Markers);
             Console.WriteLine($"Marker added at {mCurrentMarker.LocalPosition}");
         }
-
-        private void UpdateRoute(ObservableCollectionThreadSafe<GMapMarker> markers)
-        {
-            mRoute.Points.Clear();
-            foreach (var item in markers) mRoute.Points.Add(item.Position);
-            gmap.UpdateRouteLocalPosition(mRoute);
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            gmap.MapProvider = comboBox1.SelectedItem as GMapProvider;
-        }
-        #region SEARCH
-        private void textBox1_Validated(object sender, EventArgs e)
-        {
-            gmap.SetPositionByKeywords(textBox1.Text);
-        }
-
-        private void textBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter) textBox1_Validated(null, null);
-        }
-        #endregion
-
         private void RemoveMarker(GMapMarker mCurrentMarker)
         {
             mOverlay.Markers.Remove(mCurrentMarker);
             UpdateRoute(mOverlay.Markers);
             mCurrentMarker = mLastMarker = null;
         }
-
         private void gmap_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -185,7 +183,7 @@ namespace Route66
             }
         }
         private void gmap_MouseUp(object sender, MouseEventArgs e) => IsDragging = false;
-
+        #endregion
         private void chkRawPoints_CheckedChanged(object sender, EventArgs e)
         {
             gmap.MarkersEnabled = chkRawPoints.Checked;
