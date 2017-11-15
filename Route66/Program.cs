@@ -16,7 +16,18 @@ namespace Route66
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            bool retry=false;
+            do try
+            {
+                Application.Run(new Form1());
+            }
+            catch (Exception e)
+            {
+                var msg = $"{e} {e.InnerException}";
+                My.Log(msg);
+                retry = MessageBox.Show(msg, "Sometimes you have luck sometimes not. Please send file Route.log to Rudy.", MessageBoxButtons.RetryCancel) == DialogResult.Retry;
+            }
+            while (retry);
         }
     }
 }

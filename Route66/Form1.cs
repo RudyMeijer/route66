@@ -83,7 +83,7 @@ namespace Route66
         {
             mOverlay.Markers.Clear();
             UpdateRoute(mOverlay.Markers);
-            mCurrentMarker= mLastMarker = null;
+            mCurrentMarker = mLastMarker = null;
             //mRoute.IsVisible = !mRoute.IsVisible;
             //mOverlay.IsVisibile = !mOverlay.IsVisibile;
         }
@@ -106,7 +106,7 @@ namespace Route66
         {
             PointLatLng point = gmap.FromLocalToLatLng(x,y);
             mCurrentMarker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
-            if (mLastMarker==null) mLastMarker = mCurrentMarker;
+            if (mLastMarker == null) mLastMarker = mCurrentMarker;
             if (mLastMarker == mCurrentMarker)
             {
                 mOverlay.Markers.Add(mCurrentMarker);
@@ -160,7 +160,7 @@ namespace Route66
         {
             mOverlay.Markers.Remove(mCurrentMarker);
             UpdateRoute(mOverlay.Markers);
-            mCurrentMarker=mLastMarker = null;
+            mCurrentMarker = mLastMarker = null;
         }
 
         private void gmap_OnMarkerLeave(GMapMarker item)
