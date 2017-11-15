@@ -81,11 +81,15 @@ namespace Route66
         #endregion
         private void button1_Click(object sender, EventArgs e)
         {
-            mOverlay.Markers.Clear();
-            UpdateRoute(mOverlay.Markers);
-            mCurrentMarker = mLastMarker = null;
+            //mOverlay.Markers.Clear();
+            //UpdateRoute(mOverlay.Markers);
+            //mCurrentMarker = mLastMarker = null;
+            gmap.MarkersEnabled = !gmap.MarkersEnabled;
+            gmap.Refresh();
+
             //mRoute.IsVisible = !mRoute.IsVisible;
             //mOverlay.IsVisibile = !mOverlay.IsVisibile;
+            //xxxAddRoute();
         }
 
         private void xxxAddRoute()
@@ -102,7 +106,7 @@ namespace Route66
             Console.WriteLine($"Route {route.Name} distance = {route.Distance} km.");
         }
 
-        private void AddMarker(int x = 0, int y = 0)
+        private void AddMarker(int x, int y)
         {
             PointLatLng point = gmap.FromLocalToLatLng(x,y);
             mCurrentMarker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
@@ -144,6 +148,14 @@ namespace Route66
             if (e.KeyCode == Keys.Enter) textBox1_Validated(null, null);
         }
         #endregion
+
+        private void RemoveMarker(GMapMarker mCurrentMarker)
+        {
+            mOverlay.Markers.Remove(mCurrentMarker);
+            UpdateRoute(mOverlay.Markers);
+            mCurrentMarker = mLastMarker = null;
+        }
+
         private void gmap_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -155,14 +167,6 @@ namespace Route66
             }
             if (e.Button == MouseButtons.Right && mCurrentMarker != null) RemoveMarker(mCurrentMarker);
         }
-
-        private void RemoveMarker(GMapMarker mCurrentMarker)
-        {
-            mOverlay.Markers.Remove(mCurrentMarker);
-            UpdateRoute(mOverlay.Markers);
-            mCurrentMarker = mLastMarker = null;
-        }
-
         private void gmap_OnMarkerLeave(GMapMarker item)
         {
             if (!IsDragging) mCurrentMarker = null;
@@ -171,7 +175,6 @@ namespace Route66
         {
             if (!IsDragging) mCurrentMarker = item;
         }
-
         private void gmap_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left && mCurrentMarker != null)
@@ -181,7 +184,12 @@ namespace Route66
                 UpdateRoute(mOverlay.Markers);
             }
         }
-
         private void gmap_MouseUp(object sender, MouseEventArgs e) => IsDragging = false;
+
+        private void chkRawPoints_CheckedChanged(object sender, EventArgs e)
+        {
+            gmap.MarkersEnabled = chkRawPoints.Checked;
+            gmap.Refresh();
+        }
     }
 }

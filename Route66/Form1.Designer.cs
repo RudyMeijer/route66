@@ -36,10 +36,15 @@
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.chkRawPoints = new System.Windows.Forms.CheckBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkChangePoints = new System.Windows.Forms.CheckBox();
+            this.chkNavPoints = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -64,12 +69,13 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
             this.splitContainer1.Panel2.Controls.Add(this.textBox1);
             this.splitContainer1.Panel2.Controls.Add(this.label1);
             this.splitContainer1.Panel2.Controls.Add(this.comboBox1);
             this.splitContainer1.Panel2.Controls.Add(this.button1);
             this.splitContainer1.Size = new System.Drawing.Size(553, 338);
-            this.splitContainer1.SplitterDistance = 445;
+            this.splitContainer1.SplitterDistance = 427;
             this.splitContainer1.TabIndex = 1;
             // 
             // gmap
@@ -95,7 +101,7 @@
             this.gmap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.gmap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.gmap.ShowTileGridLines = false;
-            this.gmap.Size = new System.Drawing.Size(445, 338);
+            this.gmap.Size = new System.Drawing.Size(427, 338);
             this.gmap.TabIndex = 0;
             this.toolTip1.SetToolTip(this.gmap, "Use right mouse button to drag map.");
             this.gmap.Zoom = 13D;
@@ -134,6 +140,51 @@
             this.comboBox1.TabIndex = 1;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
+            // chkRawPoints
+            // 
+            this.chkRawPoints.AutoSize = true;
+            this.chkRawPoints.Checked = true;
+            this.chkRawPoints.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkRawPoints.Location = new System.Drawing.Point(6, 19);
+            this.chkRawPoints.Name = "chkRawPoints";
+            this.chkRawPoints.Size = new System.Drawing.Size(80, 17);
+            this.chkRawPoints.TabIndex = 1;
+            this.chkRawPoints.Text = "Raw Points";
+            this.chkRawPoints.UseVisualStyleBackColor = true;
+            this.chkRawPoints.CheckedChanged += new System.EventHandler(this.chkRawPoints_CheckedChanged);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.chkNavPoints);
+            this.groupBox1.Controls.Add(this.chkChangePoints);
+            this.groupBox1.Controls.Add(this.chkRawPoints);
+            this.groupBox1.Location = new System.Drawing.Point(6, 88);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(104, 145);
+            this.groupBox1.TabIndex = 3;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Show points";
+            // 
+            // chkChangePoints
+            // 
+            this.chkChangePoints.AutoSize = true;
+            this.chkChangePoints.Location = new System.Drawing.Point(6, 42);
+            this.chkChangePoints.Name = "chkChangePoints";
+            this.chkChangePoints.Size = new System.Drawing.Size(92, 17);
+            this.chkChangePoints.TabIndex = 2;
+            this.chkChangePoints.Text = "ChangePoints";
+            this.chkChangePoints.UseVisualStyleBackColor = true;
+            // 
+            // chkNavPoints
+            // 
+            this.chkNavPoints.AutoSize = true;
+            this.chkNavPoints.Location = new System.Drawing.Point(6, 65);
+            this.chkNavPoints.Name = "chkNavPoints";
+            this.chkNavPoints.Size = new System.Drawing.Size(77, 17);
+            this.chkNavPoints.TabIndex = 3;
+            this.chkNavPoints.Text = "Navigation";
+            this.chkNavPoints.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -148,6 +199,8 @@
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -161,6 +214,10 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.CheckBox chkNavPoints;
+        private System.Windows.Forms.CheckBox chkChangePoints;
+        private System.Windows.Forms.CheckBox chkRawPoints;
     }
 }
 
