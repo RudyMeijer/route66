@@ -22,6 +22,10 @@ namespace Route66
         private GMapRoute mRoute;
         private GMapMarker mCurrentMarker;
         private bool IsDragging;
+        /// <summary>
+        /// LastMarker is used to insert a marker in the route.
+        /// </summary>
+        private GMapMarker mLastMarker;
         #endregion
         #region CONSTRUCTOR
         public Form1()
@@ -79,7 +83,7 @@ namespace Route66
         {
             mOverlay.Markers.Clear();
             UpdateRoute(mOverlay.Markers);
-            mCurrentMarker = null;
+            mCurrentMarker= mLastMarker = null;
             //mRoute.IsVisible = !mRoute.IsVisible;
             //mOverlay.IsVisibile = !mOverlay.IsVisibile;
         }
@@ -102,7 +106,17 @@ namespace Route66
         {
             PointLatLng point = gmap.FromLocalToLatLng(x,y);
             mCurrentMarker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
-            mOverlay.Markers.Add(mCurrentMarker);
+            if (mLastMarker==null) mLastMarker = mCurrentMarker;
+            if (mLastMarker == mCurrentMarker)
+            {
+                mOverlay.Markers.Add(mCurrentMarker);
+            }
+            else
+            {
+                var idx = mOverlay.Markers.IndexOf(mLastMarker);
+                mOverlay.Markers.Insert(idx, mCurrentMarker);
+                mLastMarker = mCurrentMarker;
+            }
             mOverlay.Routes[0].Points.Add(point);
             UpdateRoute(mOverlay.Markers);
             Console.WriteLine($"Marker added at {mCurrentMarker.LocalPosition}");
@@ -132,7 +146,13 @@ namespace Route66
         #endregion
         private void gmap_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left && mCurrentMarker == null) AddMarker(e.X, e.Y);
+            if (e.Button == MouseButtons.Left)
+            {
+                if (mCurrentMarker == null)
+                    AddMarker(e.X, e.Y);
+                else
+                    mLastMarker = mCurrentMarker;
+            }
             if (e.Button == MouseButtons.Right && mCurrentMarker != null) RemoveMarker(mCurrentMarker);
         }
 
@@ -140,7 +160,7 @@ namespace Route66
         {
             mOverlay.Markers.Remove(mCurrentMarker);
             UpdateRoute(mOverlay.Markers);
-            mCurrentMarker = null;
+            mCurrentMarker=mLastMarker = null;
         }
 
         private void gmap_OnMarkerLeave(GMapMarker item)
