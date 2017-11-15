@@ -21,6 +21,7 @@ namespace Route66
         private GMapOverlay mOverlay;
         private GMapRoute mRoute;
         private GMapMarker mCurrentMarker;
+        private bool IsDragging;
         #endregion
         #region CONSTRUCTOR
         public Form1()
@@ -78,6 +79,8 @@ namespace Route66
         {
             mOverlay.Markers.Clear();
             UpdateRoute(mOverlay.Markers);
+            //mRoute.IsVisible = !mRoute.IsVisible;
+            //mOverlay.IsVisibile = !mOverlay.IsVisibile;
         }
 
         private void xxxAddRoute()
@@ -115,7 +118,7 @@ namespace Route66
         {
             gmap.MapProvider = comboBox1.SelectedItem as GMapProvider;
         }
-
+        #region SEARCH
         private void textBox1_Validated(object sender, EventArgs e)
         {
             gmap.SetPositionByKeywords(textBox1.Text);
@@ -125,7 +128,7 @@ namespace Route66
         {
             if (e.KeyCode == Keys.Enter) textBox1_Validated(null, null);
         }
-
+        #endregion
         private void gmap_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left && mCurrentMarker == null) AddRoutePoint(e.X, e.Y);
@@ -138,16 +141,28 @@ namespace Route66
             UpdateRoute(mOverlay.Markers);
         }
 
-        private void gmap_OnMarkerLeave(GMapMarker item) => mCurrentMarker = null;
-        private void gmap_OnMarkerEnter(GMapMarker item) => mCurrentMarker = item;
+        private void gmap_OnMarkerLeave(GMapMarker item)
+        {
+            if (!IsDragging) mCurrentMarker = null;
+        }
+        private void gmap_OnMarkerEnter(GMapMarker item)
+        {
+            if (!IsDragging) mCurrentMarker = item;
+        }
 
         private void gmap_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left && mCurrentMarker != null)
             {
+                IsDragging = true;
                 mCurrentMarker.Position = gmap.FromLocalToLatLng(e.X, e.Y);
                 UpdateRoute(mOverlay.Markers);
             }
+        }
+
+        private void gmap_MouseUp(object sender, MouseEventArgs e)
+        {
+            IsDragging = false;
         }
     }
 }
