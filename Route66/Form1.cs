@@ -98,7 +98,7 @@ namespace Route66
             Console.WriteLine($"Route {route.Name} distance = {route.Distance} km.");
         }
 
-        private void AddRoutePoint(int x = 0, int y = 0)
+        private void AddMarker(int x = 0, int y = 0)
         {
             PointLatLng point = gmap.FromLocalToLatLng(x,y);
             mCurrentMarker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
@@ -132,7 +132,7 @@ namespace Route66
         #endregion
         private void gmap_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left && mCurrentMarker == null) AddRoutePoint(e.X, e.Y);
+            if (e.Button == MouseButtons.Left && mCurrentMarker == null) AddMarker(e.X, e.Y);
             if (e.Button == MouseButtons.Right && mCurrentMarker != null) RemoveMarker(mCurrentMarker);
         }
 
