@@ -16,6 +16,10 @@ namespace Route66
 {
     public partial class Form1 : Form
     {
+        #region FIELDS
+        private GMapOverlay mOverlay;
+        private GMapMarker mCurrentMarker;
+        #endregion
         #region CONSTRUCTOR
         public Form1()
         {
@@ -27,7 +31,13 @@ namespace Route66
         private void Form1_Load(object sender, EventArgs e)
         {
             InitializeGmap();
+            InitializeOverlays();
             InitializeComboboxWithMapProviders();
+        }
+
+        private void InitializeOverlays()
+        {
+            mOverlay = new GMapOverlay("markers");
         }
 
         private void InitializeComboboxWithMapProviders()
@@ -54,15 +64,14 @@ namespace Route66
             GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerOnly;
             gmap.Zoom = 13;
             gmap.SetPositionByKeywords("Paris, france");
-            gmap.ShowCenter = false;
-
+            Console.WriteLine($"paris at {gmap.Position}");
+            //gmap.ShowCenter = false;
         }
         #endregion
         private void button1_Click(object sender, EventArgs e)
         {
-            gmap.Overlays.Clear();
-            AddMarker();
-            AddRoute();
+            //gmap.Overlays.Clear();
+            mOverlay.Markers.Clear();
         }
 
         private void AddRoute()
@@ -79,14 +88,15 @@ namespace Route66
             Console.WriteLine($"Route {route.Name} distance = {route.Distance} km.");
         }
 
-        private void AddMarker()
+        private void AddMarker(int x = 0, int y = 0)
         {
-            GMapOverlay markers = new GMapOverlay("markers");
-            GMapMarker marker = new GMarkerGoogle(
-                new PointLatLng(48.8617774, 2.349272), GMarkerGoogleType.red_small);
-            markers.Markers.Add(marker);
-            gmap.Overlays.Add(markers);
-            marker.ToolTipText = "hello\nout there";
+            PointLatLng point = gmap.FromLocalToLatLng(x,y);
+            GMapMarker marker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
+            mOverlay.Markers.Add(marker);
+            gmap.Overlays.Add(mOverlay);
+            //marker.ToolTipText = "hello\nout there";
+            gmap.UpdateMarkerLocalPosition(marker);
+            Console.WriteLine($"Marker  added  at {marker.LocalPosition}");
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -94,10 +104,6 @@ namespace Route66
             gmap.MapProvider = comboBox1.SelectedItem as GMapProvider;
         }
 
-        private void gmap_OnMarkerEnter(GMapMarker item)
-        {
-            Console.WriteLine($"Marker {item.Tag} entered.");
-        }
 
         private void textBox1_Validated(object sender, EventArgs e)
         {
@@ -107,6 +113,28 @@ namespace Route66
         private void textBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Enter) textBox1_Validated(null, null);
+        }
+
+        private void gmap_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (mCurrentMarker == null)
+            {
+                if (e.Button == MouseButtons.Left) AddMarker(e.X, e.Y);
+            }
+            else { }
+
+        }
+
+        private void gmap_OnMarkerLeave(GMapMarker item) => mCurrentMarker = null;
+        private void gmap_OnMarkerEnter(GMapMarker item) => mCurrentMarker = item;
+
+        private void gmap_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mCurrentMarker != null && e.Button==MouseButtons.Left)
+            {
+                mCurrentMarker.Position = gmap.FromLocalToLatLng(e.X, e.Y);
+                gmap.UpdateMarkerLocalPosition(mCurrentMarker);
+            }
         }
     }
 }
