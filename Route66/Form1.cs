@@ -96,19 +96,19 @@ namespace Route66
             gmap.Refresh();
         }
 
-        private void xxxAddRoute()
-        {
-            GMapOverlay routes = new GMapOverlay("routes");
-            List<PointLatLng> points = new List<PointLatLng>();
-            points.Add(new PointLatLng(48.866383, 2.323575));
-            points.Add(new PointLatLng(48.863868, 2.321554));
-            points.Add(new PointLatLng(48.861017, 2.330030));
-            GMapRoute route = new GMapRoute(points, "A walk in the park");
-            route.Stroke = new Pen(Color.Red, 3);
-            routes.Routes.Add(route);
-            gmap.Overlays.Add(routes);
-            Console.WriteLine($"Route {route.Name} distance = {route.Distance} km.");
-        }
+        //private void xxxAddRoute()
+        //{
+        //    GMapOverlay routes = new GMapOverlay("routes");
+        //    List<PointLatLng> points = new List<PointLatLng>();
+        //    points.Add(new PointLatLng(48.866383, 2.323575));
+        //    points.Add(new PointLatLng(48.863868, 2.321554));
+        //    points.Add(new PointLatLng(48.861017, 2.330030));
+        //    GMapRoute route = new GMapRoute(points, "A walk in the park");
+        //    route.Stroke = new Pen(Color.Red, 3);
+        //    routes.Routes.Add(route);
+        //    gmap.Overlays.Add(routes);
+        //    Console.WriteLine($"Route {route.Name} distance = {route.Distance} km.");
+        //}
 
         private void UpdateRoute(ObservableCollectionThreadSafe<GMapMarker> markers)
         {
@@ -117,11 +117,8 @@ namespace Route66
             gmap.UpdateRouteLocalPosition(mRoute);
         }
 
-        #region SEARCH
-        private void textBox1_Validated(object sender, EventArgs e)
-        {
-            gmap.SetPositionByKeywords(textBox1.Text);
-        }
+        #region SEARCH PLACES
+        private void textBox1_Validated(object sender, EventArgs e) => gmap.SetPositionByKeywords(textBox1.Text);
 
         private void textBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
@@ -133,12 +130,14 @@ namespace Route66
         {
             PointLatLng point = gmap.FromLocalToLatLng(x,y);
             mCurrentMarker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
+            mCurrentMarker.ToolTipText = $"Dosing {x} gr.";
+            mCurrentMarker.ToolTipMode = MarkerTooltipMode.Never;
             if (mLastMarker == null) mLastMarker = mCurrentMarker;
             if (mLastMarker == mCurrentMarker)
             {
                 mOverlay.Markers.Add(mCurrentMarker);
             }
-            else
+            else // Insert marker.
             {
                 var idx = mOverlay.Markers.IndexOf(mLastMarker);
                 mOverlay.Markers.Insert(idx, mCurrentMarker);
@@ -188,6 +187,19 @@ namespace Route66
         {
             gmap.MarkersEnabled = chkRawPoints.Checked;
             gmap.Refresh();
+        }
+
+        private void chkShowTooltip_CheckedChanged(object sender, EventArgs e)
+        {
+            SetTooltipOnOff(chkShowTooltip.Checked);
+        }
+
+        private void SetTooltipOnOff(bool on)
+        {
+            foreach (var item in mOverlay.Markers)
+            {
+                item.ToolTipMode = (on) ? MarkerTooltipMode.OnMouseOver : MarkerTooltipMode.Never;
+            }
         }
     }
 }
