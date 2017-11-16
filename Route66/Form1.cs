@@ -26,11 +26,14 @@ namespace Route66
         /// LastMarker is used to insert a marker in the route.
         /// </summary>
         private GMapMarker mLastMarker;
+
+        public Settings Settings { get; set; }
         #endregion
         #region CONSTRUCTOR
         public Form1()
         {
             InitializeComponent();
+            Settings = Settings.Load();
             My.Log($"Start {this.Text += My.Version}");
         }
         #endregion
@@ -82,6 +85,19 @@ namespace Route66
         {
             gmap.MapProvider = comboBox1.SelectedItem as GMapProvider;
         }
+        //private void xxxAddRoute()
+        //{
+        //    GMapOverlay routes = new GMapOverlay("routes");
+        //    List<PointLatLng> points = new List<PointLatLng>();
+        //    points.Add(new PointLatLng(48.866383, 2.323575));
+        //    points.Add(new PointLatLng(48.863868, 2.321554));
+        //    points.Add(new PointLatLng(48.861017, 2.330030));
+        //    GMapRoute route = new GMapRoute(points, "A walk in the park");
+        //    route.Stroke = new Pen(Color.Red, 3);
+        //    routes.Routes.Add(route);
+        //    gmap.Overlays.Add(routes);
+        //    Console.WriteLine($"Route {route.Name} distance = {route.Distance} km.");
+        //}
         #endregion
         private void button1_Click(object sender, EventArgs e)
         {
@@ -96,24 +112,16 @@ namespace Route66
             gmap.Refresh();
         }
 
-        //private void xxxAddRoute()
-        //{
-        //    GMapOverlay routes = new GMapOverlay("routes");
-        //    List<PointLatLng> points = new List<PointLatLng>();
-        //    points.Add(new PointLatLng(48.866383, 2.323575));
-        //    points.Add(new PointLatLng(48.863868, 2.321554));
-        //    points.Add(new PointLatLng(48.861017, 2.330030));
-        //    GMapRoute route = new GMapRoute(points, "A walk in the park");
-        //    route.Stroke = new Pen(Color.Red, 3);
-        //    routes.Routes.Add(route);
-        //    gmap.Overlays.Add(routes);
-        //    Console.WriteLine($"Route {route.Name} distance = {route.Distance} km.");
-        //}
 
         private void UpdateRoute(ObservableCollectionThreadSafe<GMapMarker> markers)
         {
+            var on = chkShowTooltip.Checked;
             mRoute.Points.Clear();
-            foreach (var item in markers) mRoute.Points.Add(item.Position);
+            foreach (var item in markers)
+            {
+
+                mRoute.Points.Add(item.Position);
+            }
             gmap.UpdateRouteLocalPosition(mRoute);
         }
 
@@ -130,8 +138,6 @@ namespace Route66
         {
             PointLatLng point = gmap.FromLocalToLatLng(x,y);
             mCurrentMarker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
-            mCurrentMarker.ToolTipText = $"Dosing {x} gr.";
-            mCurrentMarker.ToolTipMode = MarkerTooltipMode.Never;
             if (mLastMarker == null) mLastMarker = mCurrentMarker;
             if (mLastMarker == mCurrentMarker)
             {
@@ -199,7 +205,29 @@ namespace Route66
             foreach (var item in mOverlay.Markers)
             {
                 item.ToolTipMode = (on) ? MarkerTooltipMode.OnMouseOver : MarkerTooltipMode.Never;
+                item.ToolTipText = $"Dosing {item.LocalPosition.X} gr.\nLat={item.Position.Lat:f3} Lng={item.Position.Lng:f3}";
             }
+        }
+        #region MENU ITEMS
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+               // Route.SaveAs(saveFileDialog1.FileName);
+            }
+        }
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var f = new FormOptions(Settings);
+            f.ShowDialog();
+            Settings = f.Settings;
+        }
+        #endregion
+
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Settings.Save();
         }
     }
 }
