@@ -74,11 +74,11 @@ namespace Route66
             //
             // See http://www.independent-software.com/gmap-net-beginners-tutorial-maps-markers-polygons-routes-updated-for-visual-studio-2015-and-gmap-net-1-7/
             //
-            gmap.MapProvider = GMap.NET.MapProviders.BingMapProvider.Instance;
-            GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerOnly;
+            gmap.MapProvider = BingMapProvider.Instance;
+            GMaps.Instance.Mode = AccessMode.ServerOnly;
             gmap.Zoom = 13;
-            gmap.SetPositionByKeywords("Paris, france");
-            Console.WriteLine($"paris at {gmap.Position}");
+            gmap.SetPositionByKeywords(textBox1.Text);
+            Console.WriteLine($"{textBox1.Text} at {gmap.Position}");
             //gmap.ShowCenter = false;
         }
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
