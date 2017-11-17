@@ -13,7 +13,6 @@ namespace Route66
         private GMapOverlay mOverlay;
         private GMapRoute mRoute;
         private GMapMarker mCurrentMarker;
-        private GMarkerGoogle head;
 
         public Overlay(GMapControl gmap, string markers)
         {
@@ -29,16 +28,9 @@ namespace Route66
         {
             PointLatLng point = gmap.FromLocalToLatLng(x,y);
             var marker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
-            if (mCurrentMarker == head)
-            {
-                mOverlay.Markers.Add(marker);
-                head = marker;
-            }
-            else // Insert marker.
-            {
-                var idx = mOverlay.Markers.IndexOf(mCurrentMarker);
-                mOverlay.Markers.Insert(idx, marker);
-            }
+
+            var idx = mOverlay.Markers.IndexOf(mCurrentMarker)+1;
+            mOverlay.Markers.Insert(idx, marker);
             mCurrentMarker = marker;
             mOverlay.Routes[0].Points.Add(point);
             UpdateRoute();
@@ -74,7 +66,7 @@ namespace Route66
             mOverlay.Markers.Clear();
             mRoute.Clear();
             gmap.UpdateRouteLocalPosition(mRoute);
-            mCurrentMarker = head = null;
+            mCurrentMarker = null;
         }
 
         internal void SetCurrentMarker(GMapMarker item)
@@ -82,11 +74,31 @@ namespace Route66
             mCurrentMarker = item;
         }
 
-        internal void UpdateCurrentMarker(int x, int y)
+        internal void UpdateCurrentMarkerPosition(int x, int y)
         {
             if (mCurrentMarker == null) return;
             mCurrentMarker.Position = gmap.FromLocalToLatLng(x, y);
             UpdateRoute();
+        }
+
+        internal void Load(Route route)
+        {
+            Clear();
+            foreach (var item in route.GpsMarkers)
+            {
+                mOverlay.Markers.Add(new GMarkerGoogle(new PointLatLng(item.Lat, item.Lng), GMarkerGoogleType.red_small));
+            }
+            UpdateRoute();
+            gmap.ZoomAndCenterRoute(mOverlay.Routes[0]);
+        }
+
+        internal void Save(Route route)
+        {
+            route.GpsMarkers.Clear();
+            foreach (var item in mOverlay.Markers)
+            {
+                route.GpsMarkers.Add(new GpsMarker(item.Position.Lng, item.Position.Lat));
+            }
         }
     }
 }

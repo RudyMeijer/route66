@@ -36,7 +36,7 @@
             this.chkShowTooltip = new System.Windows.Forms.CheckBox();
             this.chkNavPoints = new System.Windows.Forms.CheckBox();
             this.chkChangePoints = new System.Windows.Forms.CheckBox();
-            this.chkRawPoints = new System.Windows.Forms.CheckBox();
+            this.chkGpsPoints = new System.Windows.Forms.CheckBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -49,6 +49,7 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -125,7 +126,7 @@
             this.groupBox1.Controls.Add(this.chkShowTooltip);
             this.groupBox1.Controls.Add(this.chkNavPoints);
             this.groupBox1.Controls.Add(this.chkChangePoints);
-            this.groupBox1.Controls.Add(this.chkRawPoints);
+            this.groupBox1.Controls.Add(this.chkGpsPoints);
             this.groupBox1.Location = new System.Drawing.Point(6, 88);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(89, 115);
@@ -164,18 +165,18 @@
             this.chkChangePoints.Text = "Changepoints";
             this.chkChangePoints.UseVisualStyleBackColor = true;
             // 
-            // chkRawPoints
+            // chkGpsPoints
             // 
-            this.chkRawPoints.AutoSize = true;
-            this.chkRawPoints.Checked = true;
-            this.chkRawPoints.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkRawPoints.Location = new System.Drawing.Point(6, 19);
-            this.chkRawPoints.Name = "chkRawPoints";
-            this.chkRawPoints.Size = new System.Drawing.Size(76, 17);
-            this.chkRawPoints.TabIndex = 1;
-            this.chkRawPoints.Text = "GPSpoints";
-            this.chkRawPoints.UseVisualStyleBackColor = true;
-            this.chkRawPoints.CheckedChanged += new System.EventHandler(this.chkRawPoints_CheckedChanged);
+            this.chkGpsPoints.AutoSize = true;
+            this.chkGpsPoints.Checked = true;
+            this.chkGpsPoints.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkGpsPoints.Location = new System.Drawing.Point(6, 19);
+            this.chkGpsPoints.Name = "chkGpsPoints";
+            this.chkGpsPoints.Size = new System.Drawing.Size(76, 17);
+            this.chkGpsPoints.TabIndex = 1;
+            this.chkGpsPoints.Text = "GPSpoints";
+            this.chkGpsPoints.UseVisualStyleBackColor = true;
+            this.chkGpsPoints.CheckedChanged += new System.EventHandler(this.chkGpsPoints_CheckedChanged);
             // 
             // textBox1
             // 
@@ -233,19 +234,21 @@
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.saveAsToolStripMenuItem.Text = "Save as...";
-            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -258,7 +261,13 @@
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.optionsToolStripMenuItem.Text = "Options";
-            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
+            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.OptionsToolStripMenuItem_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.DefaultExt = "xml";
+            this.openFileDialog1.FileName = "Route66.xml";
+            this.openFileDialog1.Filter = "Xml files|*.xml|AR3 files|*.ar3|All files|*.*";
             // 
             // Form1
             // 
@@ -298,7 +307,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox chkNavPoints;
         private System.Windows.Forms.CheckBox chkChangePoints;
-        private System.Windows.Forms.CheckBox chkRawPoints;
+        private System.Windows.Forms.CheckBox chkGpsPoints;
         private System.Windows.Forms.CheckBox chkShowTooltip;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
@@ -308,6 +317,7 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
 
