@@ -6,6 +6,8 @@ using System.IO;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
+using Route66;
+
 [Serializable()]
 public class Settings
 {
@@ -22,28 +24,10 @@ public class Settings
         // Set Defaults.
         //
         RoutePath = @"C:\ProgramData\Aebi - Schmidt\AutologicRouteCreator\Routes";
+        MachineType = MachineTypes.StandardSpreader;
     }
     #endregion
     #region METHODES
-    //public static Settings Load(PropertyGrid propertyGrid, string fileName = "Settings.xml")
-    //{
-    //	appSettings = new Settings(); //return defaults
-    //	try
-    //	{
-    //		using (TextReader reader = new StreamReader(fileName))
-    //			appSettings = new XmlSerializer(typeof(Settings)).Deserialize(reader) as Settings;
-    //	}
-    //	catch (Exception ex) { if (MessageBox.Show(ex.Message + "\nWould you like to load default settings?", "Loading application settings.", MessageBoxButtons.YesNo) == DialogResult.No) Environment.Exit(1); }
-
-    //	appSettings.fileName = fileName; // allow Save().
-    //	_propertyGrid = propertyGrid;	 // allow refresh().
-    //	if (propertyGrid != null)
-    //	{
-    //		propertyGrid.SelectedObject = appSettings;
-    //		propertyGrid.PropertyValueChanged += new PropertyValueChangedEventHandler(propertygrid_PropertyValueChanged);
-    //	}
-    //	return appSettings;
-    //}
     public static Settings Load(PropertyGrid propertyGrid = null, string fileName = "Settings.xml", bool autoCreate = true)
     {
         appSettings = new Settings(); //return defaults
@@ -149,6 +133,7 @@ public class Settings
     [DescriptionAttribute("Only Supervisors can save modifications.")]
     public bool SupervisorMode { get; set; }
     public static bool IsChanged { get; private set; }
+    public MachineTypes MachineType { get; set; }
     #endregion
 }
 
