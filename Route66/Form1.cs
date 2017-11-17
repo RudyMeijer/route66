@@ -84,6 +84,11 @@ namespace Route66
         {
             gmap.MapProvider = comboBox1.SelectedItem as GMapProvider;
         }
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Settings.Save();
+        }
+
         #endregion
         private void button1_Click(object sender, EventArgs e)
         {
@@ -131,12 +136,10 @@ namespace Route66
             gmap.MarkersEnabled = chkGpsPoints.Checked;
             gmap.Refresh();
         }
-
         private void chkShowTooltip_CheckedChanged(object sender, EventArgs e)
         {
             Overlay.SetTooltipOnOff(chkShowTooltip.Checked);
         }
-
         #region MENU ITEMS
         private void OptionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -145,14 +148,6 @@ namespace Route66
             Settings = f.Settings;
             InitializeSettings();
         }
-        #endregion
-
-
-        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Settings.Save();
-        }
-
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //openFileDialog1.InitialDirectory = Settings.RoutePath;
@@ -175,11 +170,12 @@ namespace Route66
             }
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Overlay.Save(Route);
             Route.Save();
         }
+        #endregion
     }
 
 }
