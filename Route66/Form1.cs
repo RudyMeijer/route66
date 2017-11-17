@@ -17,15 +17,17 @@ namespace Route66
 {
     public partial class Form1 : Form
     {
+        private Overlay Overlay;
         #region FIELDS
-        private GMapOverlay mOverlay;
-        private GMapRoute mRoute;
-        private GMapMarker mCurrentMarker;
+        //private GMapOverlay mOverlay;
+        //private GMapRoute mRoute;
+        //private GMapMarker mCurrentMarker;
         private bool IsDragging;
         /// <summary>
         /// LastMarker is used to insert a marker in the route.
         /// </summary>
-        private GMapMarker mLastMarker;
+        //private GMapMarker mLastMarker;
+        private bool IsOnMarker;
 
         public Settings Settings { get; set; }
         #endregion
@@ -47,11 +49,7 @@ namespace Route66
 
         private void InitializeOverlays()
         {
-            mOverlay = new GMapOverlay("markers");
-            mRoute = new GMapRoute("routes");
-            mRoute.Stroke = new Pen(Color.Red, 2);
-            mOverlay.Routes.Add(mRoute);
-            gmap.Overlays.Add(mOverlay);
+            Overlay = new Overlay(gmap, "rawpoints");
         }
 
         private void InitializeComboboxWithMapProviders()
@@ -101,29 +99,11 @@ namespace Route66
         #endregion
         private void button1_Click(object sender, EventArgs e)
         {
-            mOverlay.Markers.Clear();
-            UpdateRoute(mOverlay.Markers);
-            mCurrentMarker = mLastMarker = null;
-            //gmap.MarkersEnabled = !gmap.MarkersEnabled;
-
-            //mRoute.IsVisible = !mRoute.IsVisible;
-            //mOverlay.IsVisibile = !mOverlay.IsVisibile;
-            //xxxAddRoute();
-            gmap.Refresh();
+            Overlay.Clear();
+            IsOnMarker = IsDragging = false;
         }
 
 
-        private void UpdateRoute(ObservableCollectionThreadSafe<GMapMarker> markers)
-        {
-            var on = chkShowTooltip.Checked;
-            mRoute.Points.Clear();
-            foreach (var item in markers)
-            {
-
-                mRoute.Points.Add(item.Position);
-            }
-            gmap.UpdateRouteLocalPosition(mRoute);
-        }
 
         #region SEARCH PLACES
         private void textBox1_Validated(object sender, EventArgs e) => gmap.SetPositionByKeywords(textBox1.Text);
@@ -134,57 +114,31 @@ namespace Route66
         }
         #endregion
         #region EDIT ROUTE
-        private void AddMarker(int x, int y)
-        {
-            PointLatLng point = gmap.FromLocalToLatLng(x,y);
-            mCurrentMarker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
-            if (mLastMarker == null) mLastMarker = mCurrentMarker;
-            if (mLastMarker == mCurrentMarker)
-            {
-                mOverlay.Markers.Add(mCurrentMarker);
-            }
-            else // Insert marker.
-            {
-                var idx = mOverlay.Markers.IndexOf(mLastMarker);
-                mOverlay.Markers.Insert(idx, mCurrentMarker);
-                mLastMarker = mCurrentMarker;
-            }
-            mOverlay.Routes[0].Points.Add(point);
-            UpdateRoute(mOverlay.Markers);
-            Console.WriteLine($"Marker added at {mCurrentMarker.LocalPosition}");
-        }
-        private void RemoveMarker(GMapMarker mCurrentMarker)
-        {
-            mOverlay.Markers.Remove(mCurrentMarker);
-            UpdateRoute(mOverlay.Markers);
-            mCurrentMarker = mLastMarker = null;
-        }
         private void gmap_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
-            {
-                if (mCurrentMarker == null)
-                    AddMarker(e.X, e.Y);
-                else
-                    mLastMarker = mCurrentMarker;
-            }
-            if (e.Button == MouseButtons.Right && mCurrentMarker != null) RemoveMarker(mCurrentMarker);
+            if (e.Button == MouseButtons.Left && !IsOnMarker) { Overlay.AddMarker(e.X, e.Y); }
+            if (e.Button == MouseButtons.Right && IsOnMarker) { Overlay.RemoveCurrentMarker(); }
         }
         private void gmap_OnMarkerLeave(GMapMarker item)
         {
-            if (!IsDragging) mCurrentMarker = null;
+            //Console.WriteLine($"{DateTime.Now} OnMarkerLeave");
+            if (!IsDragging) IsOnMarker = false;
         }
         private void gmap_OnMarkerEnter(GMapMarker item)
         {
-            if (!IsDragging) mCurrentMarker = item;
+            //Console.WriteLine($"{DateTime.Now} OnMarkerEnter");
+            if (!IsDragging)
+            {
+                IsOnMarker = true;
+                Overlay.SetCurrentMarker(item);
+            }
         }
         private void gmap_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left && mCurrentMarker != null)
+            if (e.Button == MouseButtons.Left && IsOnMarker)
             {
                 IsDragging = true;
-                mCurrentMarker.Position = gmap.FromLocalToLatLng(e.X, e.Y);
-                UpdateRoute(mOverlay.Markers);
+                Overlay.UpdateCurrentMarker(e.X, e.Y);
             }
         }
         private void gmap_MouseUp(object sender, MouseEventArgs e) => IsDragging = false;
@@ -197,23 +151,15 @@ namespace Route66
 
         private void chkShowTooltip_CheckedChanged(object sender, EventArgs e)
         {
-            SetTooltipOnOff(chkShowTooltip.Checked);
+            Overlay.SetTooltipOnOff(chkShowTooltip.Checked);
         }
 
-        private void SetTooltipOnOff(bool on)
-        {
-            foreach (var item in mOverlay.Markers)
-            {
-                item.ToolTipMode = (on) ? MarkerTooltipMode.OnMouseOver : MarkerTooltipMode.Never;
-                item.ToolTipText = $"Dosing {item.LocalPosition.X} gr.\nLat={item.Position.Lat:f3} Lng={item.Position.Lng:f3}";
-            }
-        }
         #region MENU ITEMS
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-               // Route.SaveAs(saveFileDialog1.FileName);
+                // Route.SaveAs(saveFileDialog1.FileName);
             }
         }
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
