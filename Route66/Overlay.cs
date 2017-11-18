@@ -4,6 +4,7 @@ using System;
 using GMap.NET;
 using GMap.NET.WindowsForms.Markers;
 using GMap.NET.ObjectModel;
+using System.Windows.Forms;
 
 namespace Route66
 {
@@ -26,10 +27,10 @@ namespace Route66
 
         public void AddMarker(int x, int y)
         {
-            PointLatLng point = gmap.FromLocalToLatLng(x,y);
+            PointLatLng point = gmap.FromLocalToLatLng(x, y);
             var marker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
 
-            var idx = mOverlay.Markers.IndexOf(mCurrentMarker)+1;
+            var idx = mOverlay.Markers.IndexOf(mCurrentMarker) + 1;
             mOverlay.Markers.Insert(idx, marker);
             mCurrentMarker = marker;
             mOverlay.Routes[0].Points.Add(point);
@@ -44,13 +45,12 @@ namespace Route66
         }
         public void UpdateRoute()
         {
-            var id = 0;
             mRoute.Points.Clear();
             foreach (var item in mOverlay.Markers)
             {
-                item.Tag = id++;
                 mRoute.Points.Add(item.Position);
             }
+            UpdateGreenBlueOverlay();
             gmap.UpdateRouteLocalPosition(mRoute);
         }
         public void SetTooltipOnOff(bool on)
@@ -58,7 +58,7 @@ namespace Route66
             foreach (var item in mOverlay.Markers)
             {
                 item.ToolTipMode = (on) ? MarkerTooltipMode.OnMouseOver : MarkerTooltipMode.Never;
-                item.ToolTipText = $"id {item.Tag} Dosing {item.LocalPosition.X} gr.\nLat={item.Position.Lat:f3} Lng={item.Position.Lng:f3}";
+                item.ToolTipText = $"Lat={item.Position.Lat:f3} Lng={item.Position.Lng:f3}";
             }
         }
         internal void Clear()
@@ -99,6 +99,61 @@ namespace Route66
             {
                 route.GpsMarkers.Add(new GpsMarker(item.Position.Lng, item.Position.Lat));
             }
+        }
+
+        internal void EditMarker(MouseEventArgs e)
+        {
+            Console.WriteLine($"EditMarker currentMarker {mCurrentMarker.Tag}");
+            Form form = null;
+            if (mCurrentMarker.Tag is ChangeMarker)
+            {
+                form = new FormEditChangeMarker(mCurrentMarker);
+            }
+            else if (mCurrentMarker.Tag is NavigationMarker)
+            {
+                form = new FormEditChangeMarker(mCurrentMarker);
+            }
+            else if (mCurrentMarker.Tag == null) // Empty GpsMarkers contains integer id.
+            {
+                form = new FormEditChangeMarker(mCurrentMarker); //TODO key to Edit NavigationMarker
+            }
+            else My.Log($"Error during edit Tag {mCurrentMarker.Tag}");
+
+            form.ShowDialog();
+            UpdateGreenBlueOverlay();
+        }
+
+        private void UpdateGreenBlueOverlay()
+        {
+            var RedMarkers = mOverlay.Markers;
+            var GreenMarkers = gmap.Overlays[1].Markers;
+            var BlueMarkers = gmap.Overlays[2].Markers;
+            GreenMarkers.Clear();
+            BlueMarkers.Clear();
+            foreach (var item in RedMarkers)
+            {
+                if (item.Tag !=null)
+                {
+                    if (item.Tag is ChangeMarker)
+                        GreenMarkers.Add(new GMarkerGoogle(item.Position, GMarkerGoogleType.green_small));
+                    if (item.Tag is NavigationMarker)
+                        BlueMarkers.Add(new GMarkerGoogle(item.Position, GMarkerGoogleType.blue_small));
+                }
+            }
+        }
+
+        private void ShowMarkerIcon(GMarkerGoogleType icon)
+        {
+            //PointLatLng point = gmap.FromLocalToLatLng(x, y);
+            //var marker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
+
+            //var idx = mOverlay.Markers.IndexOf(mCurrentMarker) + 1;
+            //mOverlay.Markers.Insert(idx, marker);
+
+            var point = mCurrentMarker.Position;
+            mCurrentMarker = new GMarkerGoogle(point, icon);
+            gmap.UpdateMarkerLocalPosition(mCurrentMarker);
+            gmap.Refresh();
         }
     }
 }

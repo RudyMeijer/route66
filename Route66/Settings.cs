@@ -121,18 +121,20 @@ public class Settings
     }
     #endregion
     #region PROPERTIES
+    //[Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
+    //[Editor(typeof(NumericUpDownTypeEditor), typeof(UITypeEditor)), MinMaxAttribute(0, 64255, 1)]
     [Category("Application Settings"), Description("Show description of applicatie parameters.")]
     public bool HelpVisible { get; set; }
 
-    [Category("Application Settings"), Description("Enter routes location.")]
+    [Category("Application Settings"), DescriptionAttribute("Supervisors have special rights for modifications.")]
+    public bool SupervisorMode { get; set; }
+    public static bool IsChanged { get; private set; }
+
+    [Category("Route Settings"), Description("Enter routes location. Leave empty to open last location.")]
     [Editor(typeof(FolderNameEditor), typeof(UITypeEditor))]
     public string RoutePath { get; set; }
 
-    //[Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
-    //[Editor(typeof(NumericUpDownTypeEditor), typeof(UITypeEditor)), MinMaxAttribute(0, 64255, 1)]
-    [DescriptionAttribute("Only Supervisors can save modifications.")]
-    public bool SupervisorMode { get; set; }
-    public static bool IsChanged { get; private set; }
+    [Category("Route Settings"), Description("Default machine type: standard spreader.")]
     public MachineTypes MachineType { get; set; }
     #endregion
 }

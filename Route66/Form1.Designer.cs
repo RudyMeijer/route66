@@ -37,7 +37,7 @@
             this.chkNavPoints = new System.Windows.Forms.CheckBox();
             this.chkChangePoints = new System.Windows.Forms.CheckBox();
             this.chkGpsPoints = new System.Windows.Forms.CheckBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtSearchPlaces = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -81,7 +81,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
-            this.splitContainer1.Panel2.Controls.Add(this.textBox1);
+            this.splitContainer1.Panel2.Controls.Add(this.txtSearchPlaces);
             this.splitContainer1.Panel2.Controls.Add(this.label1);
             this.splitContainer1.Panel2.Controls.Add(this.comboBox1);
             this.splitContainer1.Panel2.Controls.Add(this.button1);
@@ -148,22 +148,28 @@
             // chkNavPoints
             // 
             this.chkNavPoints.AutoSize = true;
+            this.chkNavPoints.Checked = true;
+            this.chkNavPoints.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkNavPoints.Location = new System.Drawing.Point(6, 65);
             this.chkNavPoints.Name = "chkNavPoints";
             this.chkNavPoints.Size = new System.Drawing.Size(77, 17);
             this.chkNavPoints.TabIndex = 3;
             this.chkNavPoints.Text = "Navigation";
             this.chkNavPoints.UseVisualStyleBackColor = true;
+            this.chkNavPoints.CheckedChanged += new System.EventHandler(this.chkNavPoints_CheckedChanged);
             // 
             // chkChangePoints
             // 
             this.chkChangePoints.AutoSize = true;
+            this.chkChangePoints.Checked = true;
+            this.chkChangePoints.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkChangePoints.Location = new System.Drawing.Point(6, 42);
             this.chkChangePoints.Name = "chkChangePoints";
             this.chkChangePoints.Size = new System.Drawing.Size(91, 17);
             this.chkChangePoints.TabIndex = 2;
             this.chkChangePoints.Text = "Changepoints";
             this.chkChangePoints.UseVisualStyleBackColor = true;
+            this.chkChangePoints.CheckedChanged += new System.EventHandler(this.chkChangePoints_CheckedChanged);
             // 
             // chkGpsPoints
             // 
@@ -178,16 +184,16 @@
             this.chkGpsPoints.UseVisualStyleBackColor = true;
             this.chkGpsPoints.CheckedChanged += new System.EventHandler(this.chkGpsPoints_CheckedChanged);
             // 
-            // textBox1
+            // txtSearchPlaces
             // 
-            this.textBox1.Location = new System.Drawing.Point(50, 35);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(45, 20);
-            this.textBox1.TabIndex = 2;
-            this.textBox1.Text = "paris";
-            this.textBox1.WordWrap = false;
-            this.textBox1.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.textBox1_PreviewKeyDown);
-            this.textBox1.Validated += new System.EventHandler(this.textBox1_Validated);
+            this.txtSearchPlaces.Location = new System.Drawing.Point(50, 35);
+            this.txtSearchPlaces.Name = "txtSearchPlaces";
+            this.txtSearchPlaces.Size = new System.Drawing.Size(45, 20);
+            this.txtSearchPlaces.TabIndex = 2;
+            this.txtSearchPlaces.Text = "holten";
+            this.txtSearchPlaces.WordWrap = false;
+            this.txtSearchPlaces.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.textBox1_PreviewKeyDown);
+            this.txtSearchPlaces.Validated += new System.EventHandler(this.textBox1_Validated);
             // 
             // label1
             // 
@@ -239,7 +245,7 @@
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
@@ -301,7 +307,7 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private GMap.NET.WindowsForms.GMapControl gmap;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtSearchPlaces;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.GroupBox groupBox1;

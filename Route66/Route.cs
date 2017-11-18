@@ -94,15 +94,19 @@ namespace Route66
         public ChangeMarker()
         {
             Dosing = 20.0;
-            WidhtLeft = 1.0;
-            WidhtRight = 1.0;
+            WidthLeft = 1.0;
+            WidthRight = 1.0;
+        }
+        public override string ToString()
+        {
+            return $"Dosing {Dosing}\nWidthLeft {WidthLeft}\nWidthRight {WidthRight}";
         }
         [XmlAttribute()]
         public double Dosing { get; set; }
         [XmlAttribute()]
-        public double WidhtLeft { get; set; }
+        public double WidthLeft { get; set; }
         [XmlAttribute()]
-        public double WidhtRight { get; set; }
+        public double WidthRight { get; set; }
     }
 
     public class GpsMarker

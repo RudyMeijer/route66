@@ -19,6 +19,8 @@ namespace Route66
     {
         #region FIELDS
         private Overlay Overlay;
+        //private Overlay OverlayChangePoints;
+        //private Overlay OverlayNavigationPoints;
         private bool IsDragging; // Moving with Left mouse button pressed.
         private bool IsOnMarker; // Mouse is on a Marker.
         public Settings Settings { get; set; }
@@ -51,8 +53,9 @@ namespace Route66
         private void InitializeOverlays()
         {
             Overlay = new Overlay(gmap, "GpsPoints");
+            gmap.Overlays.Add(new GMapOverlay("ChangePoints"));
+            gmap.Overlays.Add(new GMapOverlay("NavigationPoints"));
         }
-
         private void InitializeComboboxWithMapProviders()
         {
             //var x = GMap.NET.MapProviders.
@@ -76,8 +79,8 @@ namespace Route66
             gmap.MapProvider = BingMapProvider.Instance;
             GMaps.Instance.Mode = AccessMode.ServerOnly;
             gmap.Zoom = 13;
-            gmap.SetPositionByKeywords(textBox1.Text);
-            Console.WriteLine($"{textBox1.Text} at {gmap.Position}");
+            gmap.SetPositionByKeywords(txtSearchPlaces.Text);
+            Console.WriteLine($"{txtSearchPlaces.Text} at {gmap.Position}");
             //gmap.ShowCenter = false;
         }
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -96,7 +99,7 @@ namespace Route66
             IsOnMarker = IsDragging = false;
         }
         #region SEARCH PLACES
-        private void textBox1_Validated(object sender, EventArgs e) => gmap.SetPositionByKeywords(textBox1.Text);
+        private void textBox1_Validated(object sender, EventArgs e) => gmap.SetPositionByKeywords(txtSearchPlaces.Text);
 
         private void textBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
@@ -108,6 +111,7 @@ namespace Route66
         {
             if (e.Button == MouseButtons.Left && !IsOnMarker) { Overlay.AddMarker(e.X, e.Y); }
             if (e.Button == MouseButtons.Right && IsOnMarker) { Overlay.RemoveCurrentMarker(); }
+            if (IsOnMarker &&e.Clicks==2) { Overlay.EditMarker(e); }
         }
         private void gmap_OnMarkerLeave(GMapMarker item)
         {
@@ -131,11 +135,6 @@ namespace Route66
         }
         private void gmap_MouseUp(object sender, MouseEventArgs e) => IsDragging = false;
         #endregion
-        private void chkGpsPoints_CheckedChanged(object sender, EventArgs e)
-        {
-            gmap.MarkersEnabled = chkGpsPoints.Checked;
-            gmap.Refresh();
-        }
         private void chkShowTooltip_CheckedChanged(object sender, EventArgs e)
         {
             Overlay.SetTooltipOnOff(chkShowTooltip.Checked);
@@ -150,7 +149,7 @@ namespace Route66
         }
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //openFileDialog1.InitialDirectory = Settings.RoutePath;
+            openFileDialog1.InitialDirectory = Settings.RoutePath;
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 Route = Route.Load(openFileDialog1.FileName);
@@ -174,6 +173,29 @@ namespace Route66
         {
             Overlay.Save(Route);
             Route.Save();
+        }
+        #endregion
+
+        #region SHOW
+        private void chkGpsPoints_CheckedChanged(object sender, EventArgs e)
+        {
+            foreach (var item in gmap.Overlays[0].Markers)
+            {
+                item.IsVisible = chkGpsPoints.Checked;
+            }
+            gmap.Refresh();
+        }
+        private void chkChangePoints_CheckedChanged(object sender, EventArgs e)
+        {
+            gmap.Overlays[1].IsVisibile = chkChangePoints.Checked;
+            gmap.Refresh();
+        }
+
+        private void chkNavPoints_CheckedChanged(object sender, EventArgs e)
+        {
+            gmap.Overlays[2].IsVisibile = chkNavPoints.Checked;
+            gmap.Refresh();
+
         }
         #endregion
     }

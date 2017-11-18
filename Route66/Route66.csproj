@@ -43,10 +43,6 @@
     <Reference Include="GMap.NET.WindowsForms">
       <HintPath>..\..\Assemblies\GMAP\GMap.NET.WindowsForms.dll</HintPath>
     </Reference>
-    <Reference Include="My, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Assemblies\My.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
@@ -67,6 +63,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormEditChangeMarker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEditChangeMarker.Designer.cs">
+      <DependentUpon>FormEditChangeMarker.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormOptions.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +82,9 @@
     <Compile Include="Settings.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormEditChangeMarker.resx">
+      <DependentUpon>FormEditChangeMarker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormOptions.resx">
       <DependentUpon>FormOptions.cs</DependentUpon>
@@ -105,6 +110,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\My\My\My.csproj">
+      <Project>{02b95a35-aa86-49ee-b9a2-85bed81a189a}</Project>
+      <Name>My</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
