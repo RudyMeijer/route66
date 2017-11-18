@@ -31,7 +31,7 @@ namespace Route66
         public Route()
         {
             MachineType = MachineTypes.StandardSpreader;
-            Version = "5.0";
+            Version = "1.0";
             GpsMarkers = new List<GpsMarker>();
             ChangeMarkers = new List<ChangeMarker>();
             NavigationMarkers = new List<NavigationMarker>();
@@ -94,10 +94,15 @@ namespace Route66
         public ChangeMarker()
         {
             Dosing = 20.0;
-            WidhtLeft = 2.0;
+            WidhtLeft = 1.0;
+            WidhtRight = 1.0;
         }
+        [XmlAttribute()]
         public double Dosing { get; set; }
+        [XmlAttribute()]
         public double WidhtLeft { get; set; }
+        [XmlAttribute()]
+        public double WidhtRight { get; set; }
     }
 
     public class GpsMarker
@@ -112,7 +117,9 @@ namespace Route66
             Lng = 4.0;
             Lat = 52.0;
         }
+        [XmlAttribute()]
         public double Lng { get; set; }
+        [XmlAttribute()]
         public double Lat { get; set; }
     }
 }
