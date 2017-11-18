@@ -19,13 +19,11 @@ namespace Route66
         {
             InitializeComponent();
             this.marker = marker;
-            if (marker.Tag == null)
-                marker.Tag = new ChangeMarker();
+            if (marker.Tag == null) marker.Tag = new ChangeMarker();
             ChangeMarker = marker.Tag as ChangeMarker;
             DisplayOnForm(ChangeMarker);
             ChangeMarker.Lat = marker.Position.Lat;
             ChangeMarker.Lng = marker.Position.Lng;
-            marker.ToolTipText = "hello me";
         }
 
         private void DisplayOnForm(ChangeMarker changeMarker)

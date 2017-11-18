@@ -178,9 +178,9 @@
             this.chkGpsPoints.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkGpsPoints.Location = new System.Drawing.Point(6, 19);
             this.chkGpsPoints.Name = "chkGpsPoints";
-            this.chkGpsPoints.Size = new System.Drawing.Size(76, 17);
+            this.chkGpsPoints.Size = new System.Drawing.Size(79, 17);
             this.chkGpsPoints.TabIndex = 1;
-            this.chkGpsPoints.Text = "GPSpoints";
+            this.chkGpsPoints.Text = "GPS points";
             this.chkGpsPoints.UseVisualStyleBackColor = true;
             this.chkGpsPoints.CheckedChanged += new System.EventHandler(this.chkGpsPoints_CheckedChanged);
             // 

@@ -85,8 +85,17 @@ namespace Route66
         #endregion
     }
 
-    public class NavigationMarker
+    public class NavigationMarker : GpsMarker
     {
+        public NavigationMarker()
+        {
+            SoundFile = "EnterSoundfile.wav";
+            Msg = "Turn right";
+        }
+        [XmlAttribute()]
+        public string SoundFile { get; set; }
+        [XmlAttribute()]
+        public string Msg { get; set; }
     }
 
     public class ChangeMarker : GpsMarker
