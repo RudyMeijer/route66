@@ -13,12 +13,14 @@ namespace Route66
 {
     public partial class FormEditChangeMarker : Form
     {
+        #region FIELDS
         private GMapMarker marker;
         private readonly object originalTag;
         private bool IsButton;
 
         public ChangeMarker ChangeMarker { get; set; }
-
+        #endregion
+        #region CONSTRUCTOR
         public FormEditChangeMarker(GMapMarker marker)
         {
             InitializeComponent();
@@ -28,7 +30,7 @@ namespace Route66
             ChangeMarker = marker.Tag as ChangeMarker;
             DisplayOnForm(ChangeMarker);
         }
-
+        #endregion
         private void DisplayOnForm(ChangeMarker changeMarker)
         {
             numDosing.Value = (decimal)changeMarker.Dosing;
@@ -41,14 +43,12 @@ namespace Route66
             ChangeMarker.WidthLeft = (double)numWidthLeft.Value;
             ChangeMarker.WidthRight = (double)numWidthRight.Value;
             IsButton = true;
-            // marker.ToolTipText = ChangeMarker.ToString();
             this.Close();
         }
         private void btnDelete_Click(object sender, EventArgs e)
         {
             marker.Tag = null;
             IsButton = true;
-            //marker.ToolTipText = "";
             this.Close();
         }
         private void FormEditChangeMarker_FormClosing(object sender, FormClosingEventArgs e)

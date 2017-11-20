@@ -21,8 +21,6 @@ namespace Route66
     {
         #region FIELDS
         private Overlay Overlay;
-        //private Overlay OverlayChangePoints;
-        //private Overlay OverlayNavigationPoints;
         private bool IsDragging; // Moving with Left mouse button pressed.
         private bool IsOnMarker; // Mouse is on a Marker.
         private readonly string Title;
@@ -34,7 +32,7 @@ namespace Route66
         public Form1()
         {
             InitializeComponent();
-            Title = this.Text += My.Version+" ";
+            Title = this.Text += My.Version + " ";
             My.Log($"Start {Title}");
             My.SetStatus(toolStripStatusLabel1);
             Settings = Settings.Load();
@@ -139,10 +137,6 @@ namespace Route66
         }
         private void gmap_MouseUp(object sender, MouseEventArgs e) => IsDragging = false;
         #endregion
-        private void chkShowTooltip_CheckedChanged(object sender, EventArgs e)
-        {
-            Overlay.SetTooltipOnOff(chkShowTooltip.Checked);
-        }
         #region MENU ITEMS
         private void OptionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -158,7 +152,7 @@ namespace Route66
             {
                 Route = Route.Load(openFileDialog1.FileName);
                 Overlay.Load(Route);
-                this.Text = Title + openFileDialog1.FileName; 
+                this.Text = Title + openFileDialog1.FileName;
             }
         }
         private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -181,8 +175,11 @@ namespace Route66
             else Route.Save();
         }
         #endregion
-
         #region SHOW
+        private void chkShowTooltip_CheckedChanged(object sender, EventArgs e)
+        {
+            Overlay.SetTooltipOnOff(chkShowTooltip.Checked);
+        }
         private void chkGpsPoints_CheckedChanged(object sender, EventArgs e)
         {
             foreach (var item in gmap.Overlays[0].Markers)

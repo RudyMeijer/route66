@@ -194,7 +194,7 @@
             this.txtSearchPlaces.Name = "txtSearchPlaces";
             this.txtSearchPlaces.Size = new System.Drawing.Size(45, 20);
             this.txtSearchPlaces.TabIndex = 2;
-            this.txtSearchPlaces.Text = "holten";
+            this.txtSearchPlaces.Text = "Paris";
             this.txtSearchPlaces.WordWrap = false;
             this.txtSearchPlaces.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.textBox1_PreviewKeyDown);
             this.txtSearchPlaces.Validated += new System.EventHandler(this.textBox1_Validated);
