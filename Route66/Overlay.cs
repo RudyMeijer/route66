@@ -72,8 +72,8 @@ namespace Route66
             //
             // Update current marker position.
             //
+            foreach (var item in Red.Markers) if (item == CurrentMarker) item.Position = newPosition;
             CurrentMarker.Position = newPosition;
-
         }
         public void UpdateRoute()
         {
@@ -115,18 +115,26 @@ namespace Route66
         public void Load(Route route)
         {
             Red.Markers.Clear();
+            Green.Markers.Clear();
+            Blue.Markers.Clear();
             foreach (var item in route.GpsMarkers)
             {
                 Red.Markers.Add(new GMarkerGoogle(new PointLatLng(item.Lat, item.Lng), GMarkerGoogleType.red_small));
                 //
-                // Copy green and blue tags into redmarkers.
+                // Copy green and blue tags into red markers.
                 //
-                var red = Red.Markers[Red.Markers.Count - 1];
-                var pos = red.Position;
-                foreach (var green in route.ChangeMarkers) if (green.Lat == pos.Lat && green.Lng == pos.Lng)
-                        Red.Markers[Red.Markers.Count - 1].Tag = green;
-                foreach (var blue in route.NavigationMarkers) if (blue.Lat == pos.Lat && blue.Lng == pos.Lng)
-                        Red.Markers[Red.Markers.Count - 1].Tag = blue;
+                var currentmarker = Red.Markers[Red.Markers.Count - 1];
+                //var pos = red.Position;
+                foreach (var green in route.ChangeMarkers) if (green.Lat == item.Lat && green.Lng == item.Lng)
+                    {
+                        currentmarker.Tag = green;                        
+                        AddGreenMarker(currentmarker);
+                    }
+                foreach (var blue in route.NavigationMarkers) if (blue.Lat == item.Lat && blue.Lng == item.Lng)
+                    {
+                        currentmarker.Tag = blue;
+                        AddBlueMarker(currentmarker);
+                    }
             }
             UpdateRoute();
             Map.ZoomAndCenterRoute(RedRoute);
@@ -143,7 +151,8 @@ namespace Route66
             foreach (var item in Red.Markers)
             {
                 route.GpsMarkers.Add(new GpsMarker(item.Position.Lng, item.Position.Lat));
-                if (item.Tag is ChangeMarker) route.ChangeMarkers.Add(item.Tag as ChangeMarker);
+                if (item.Tag is ChangeMarker)
+                    route.ChangeMarkers.Add(item.Tag as ChangeMarker);
                 if (item.Tag is NavigationMarker) route.NavigationMarkers.Add(item.Tag as NavigationMarker);
             }
         }
@@ -182,18 +191,8 @@ namespace Route66
                 case Crud.None:
                     break;
                 case Crud.Create:
-                    if (tag is ChangeMarker)
-                    {
-                        Green.Markers.Add(new GMarkerGoogle(CurrentMarker.Position, GMarkerGoogleType.green_small));
-                        Green.Markers[Green.Markers.Count - 1].Tag = CurrentMarker.Tag;
-                        Green.Markers[Green.Markers.Count - 1].ToolTipText = CurrentMarker.Tag.ToString();
-                    }
-                    if (tag is NavigationMarker)
-                    {
-                        Blue.Markers.Add(new GMarkerGoogle(CurrentMarker.Position, GMarkerGoogleType.blue_small));
-                        Blue.Markers[Blue.Markers.Count - 1].Tag = CurrentMarker.Tag;
-                        Blue.Markers[Blue.Markers.Count - 1].ToolTipText = CurrentMarker.Tag.ToString();
-                    }
+                    if (tag is ChangeMarker) AddGreenMarker(CurrentMarker);
+                    if (tag is NavigationMarker) AddBlueMarker(CurrentMarker);
                     break;
                 case Crud.Delete:
                     if (origin is ChangeMarker) foreach (var item in Green.Markers) if (item.Tag == origin)
@@ -216,28 +215,18 @@ namespace Route66
             }
         }
 
-        private void UpdateGreenAndBlueOverlay()
+        private void AddBlueMarker(GMapMarker currentMarker)
         {
-            Green.Markers.Clear();
-            Blue.Markers.Clear();
-            foreach (var item in Red.Markers)
-            {
-                if (item.Tag != null)
-                {
-                    if (item.Tag is ChangeMarker)
-                    {
-                        Green.Markers.Add(new GMarkerGoogle(item.Position, GMarkerGoogleType.green_small));
-                        Green.Markers[Green.Markers.Count - 1].Tag = item.Tag;
-                    }
-                    if (item.Tag is NavigationMarker)
-                    {
-                        Blue.Markers.Add(new GMarkerGoogle(item.Position, GMarkerGoogleType.blue_small));
-                        Blue.Markers[Blue.Markers.Count - 1].Tag = item.Tag;
-                    }
-                }
-            }
-            foreach (var item in Green.Markers) item.ToolTipText = $"{item.Tag as ChangeMarker}";
-            foreach (var item in Blue.Markers) item.ToolTipText = $"{item.Tag as NavigationMarker}";
+            Blue.Markers.Add(new GMarkerGoogle(currentMarker.Position, GMarkerGoogleType.blue_small));
+            Blue.Markers[Blue.Markers.Count - 1].Tag = currentMarker.Tag;
+            Blue.Markers[Blue.Markers.Count - 1].ToolTipText = currentMarker.Tag.ToString();
+        }
+
+        private void AddGreenMarker(GMapMarker currentMarker)
+        {
+            Green.Markers.Add(new GMarkerGoogle(currentMarker.Position, GMarkerGoogleType.green_small));
+            Green.Markers[Green.Markers.Count - 1].Tag = currentMarker.Tag;
+            Green.Markers[Green.Markers.Count - 1].ToolTipText = currentMarker.Tag.ToString();
         }
 
         private enum Crud { None, Create, Delete, Update }

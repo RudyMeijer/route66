@@ -203,7 +203,6 @@ namespace Route66
             gmap.Refresh();
 
         }
-        #endregion
 
         /// <summary>
         /// Clear status bar.
@@ -211,5 +210,6 @@ namespace Route66
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void gmap_MouseLeave(object sender, EventArgs e) => My.Status("Ready");
+        #endregion
     }
 }
