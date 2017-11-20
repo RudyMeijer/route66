@@ -94,19 +94,6 @@ namespace Route66
         }
 
         #endregion
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Overlay.Clear();
-            IsOnMarker = IsDragging = false;
-        }
-        #region SEARCH PLACES
-        private void textBox1_Validated(object sender, EventArgs e) => gmap.SetPositionByKeywords(txtSearchPlaces.Text);
-
-        private void textBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter) textBox1_Validated(null, null);
-        }
-        #endregion
         #region EDIT ROUTE
         private void gmap_MouseDown(object sender, MouseEventArgs e)
         {
@@ -125,7 +112,6 @@ namespace Route66
                 IsOnMarker = true;
                 Overlay.SetCurrentMarker(item);
             }
-            Console.WriteLine($"{DateTime.Now} OnMarkerEnter");
         }
         private void gmap_MouseMove(object sender, MouseEventArgs e)
         {
@@ -136,6 +122,12 @@ namespace Route66
             }
         }
         private void gmap_MouseUp(object sender, MouseEventArgs e) => IsDragging = false;
+        /// <summary>
+        /// Clear status bar.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void gmap_MouseLeave(object sender, EventArgs e) => My.Status("Ready");
         #endregion
         #region MENU ITEMS
         private void OptionsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -175,11 +167,20 @@ namespace Route66
             else Route.Save();
         }
         #endregion
-        #region SHOW
-        private void chkShowTooltip_CheckedChanged(object sender, EventArgs e)
+        #region RIGHT PANE
+        private void button1_Click(object sender, EventArgs e)
         {
-            Overlay.SetTooltipOnOff(chkShowTooltip.Checked);
+            Overlay.Clear();
+            IsOnMarker = IsDragging = false;
         }
+        #region SEARCH PLACES
+        private void textBox1_Validated(object sender, EventArgs e) => gmap.SetPositionByKeywords(txtSearchPlaces.Text);
+
+        private void textBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter) textBox1_Validated(null, null);
+        }
+        #endregion
         private void chkGpsPoints_CheckedChanged(object sender, EventArgs e)
         {
             foreach (var item in gmap.Overlays[0].Markers)
@@ -193,20 +194,16 @@ namespace Route66
             gmap.Overlays[1].IsVisibile = chkChangePoints.Checked;
             gmap.Refresh();
         }
-
         private void chkNavPoints_CheckedChanged(object sender, EventArgs e)
         {
             gmap.Overlays[2].IsVisibile = chkNavPoints.Checked;
             gmap.Refresh();
 
         }
-
-        /// <summary>
-        /// Clear status bar.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void gmap_MouseLeave(object sender, EventArgs e) => My.Status("Ready");
+        private void chkShowTooltip_CheckedChanged(object sender, EventArgs e)
+        {
+            Overlay.SetTooltipOnOff(chkShowTooltip.Checked);
+        }
         #endregion
     }
 }
