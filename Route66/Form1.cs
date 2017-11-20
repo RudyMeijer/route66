@@ -1,4 +1,5 @@
-﻿using GMap.NET;
+﻿// todo supress IDE1006
+using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
@@ -12,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GMap.NET.ObjectModel;
+using System.IO;
 
 namespace Route66
 {
@@ -52,9 +54,7 @@ namespace Route66
 
         private void InitializeOverlays()
         {
-            Overlay = new Overlay(gmap, "GpsPoints");
-            gmap.Overlays.Add(new GMapOverlay("ChangePoints"));
-            gmap.Overlays.Add(new GMapOverlay("NavigationPoints"));
+            Overlay = new Overlay(gmap);
         }
         private void InitializeComboboxWithMapProviders()
         {
@@ -110,8 +110,8 @@ namespace Route66
         private void gmap_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left && !IsOnMarker) { Overlay.AddMarker(e.X, e.Y); }
-            if (e.Button == MouseButtons.Right && IsOnMarker) { Overlay.RemoveCurrentMarker(); }
-            if (IsOnMarker &&e.Clicks==2) { Overlay.EditMarker(e); }
+            if (e.Button == MouseButtons.Right && IsOnMarker) { Overlay.RemoveCurrentMarker(); IsOnMarker = false; }
+            if (IsOnMarker && e.Clicks == 2) { Overlay.EditMarker(e); }
         }
         private void gmap_OnMarkerLeave(GMapMarker item)
         {
@@ -124,6 +124,7 @@ namespace Route66
                 IsOnMarker = true;
                 Overlay.SetCurrentMarker(item);
             }
+            Console.WriteLine($"{DateTime.Now} OnMarkerEnter");
         }
         private void gmap_MouseMove(object sender, MouseEventArgs e)
         {
@@ -164,15 +165,16 @@ namespace Route66
             saveFileDialog1.DefaultExt = openFileDialog1.DefaultExt;
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                Overlay.Save(Route);
+                Overlay.CopyTo(Route);
                 Route.SaveAs(saveFileDialog1.FileName);
             }
         }
 
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Overlay.Save(Route);
-            Route.Save();
+            Overlay.CopyTo(Route);
+            if (Route.IsDefaultFile) Route.SaveAs(Path.Combine(Settings.RoutePath, "Route66.xml"));
+            else Route.Save();
         }
         #endregion
 

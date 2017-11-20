@@ -35,9 +35,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.numDosing = new System.Windows.Forms.NumericUpDown();
             this.btnRemove = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
-            this.numDosing = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.numWidthLeft)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numWidthRight)).BeginInit();
@@ -132,26 +132,6 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Dosage";
             // 
-            // btnRemove
-            // 
-            this.btnRemove.Location = new System.Drawing.Point(126, 127);
-            this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(75, 23);
-            this.btnRemove.TabIndex = 6;
-            this.btnRemove.Text = "Remove";
-            this.btnRemove.UseVisualStyleBackColor = true;
-            this.btnRemove.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
-            // btnSave
-            // 
-            this.btnSave.Location = new System.Drawing.Point(207, 127);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 7;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
             // numDosing
             // 
             this.numDosing.DecimalPlaces = 1;
@@ -175,6 +155,26 @@
             0,
             65536});
             // 
+            // btnRemove
+            // 
+            this.btnRemove.Location = new System.Drawing.Point(126, 127);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(75, 23);
+            this.btnRemove.TabIndex = 6;
+            this.btnRemove.Text = "Remove";
+            this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(207, 127);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 7;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
             // FormEditChangeMarker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -189,6 +189,7 @@
             this.Name = "FormEditChangeMarker";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Change marker";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormEditChangeMarker_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.numWidthLeft)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

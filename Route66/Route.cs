@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GMap.NET;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -25,7 +26,7 @@ namespace Route66
         #region FIELDS
         private static Route route;
         private string fileName;
-
+        public static bool IsDefaultFile;
         #endregion
         #region CONSTRUCTOR
         public Route()
@@ -40,6 +41,7 @@ namespace Route66
         #region METHODES
         public static Route Load(string fileName = "Route66.xml")
         {
+            IsDefaultFile = (fileName == "Route66.xml");
             route = new Route();
             try
             {
@@ -50,7 +52,7 @@ namespace Route66
             }
             catch (Exception exception)
             {
-                if (MessageBox.Show(exception.Message + "\nWould you like to load default settings?", "Loading application settings.", MessageBoxButtons.YesNo) == DialogResult.No)
+                if (!IsDefaultFile && MessageBox.Show(exception.Message + "\nWould you like to load default settings?", "Loading application settings.", MessageBoxButtons.YesNo) == DialogResult.No)
                 {
                     Environment.Exit(1);
                 }
@@ -63,11 +65,11 @@ namespace Route66
         {
             try
             {
+                var dir = Path.GetDirectoryName(fileName);
+                if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+
                 XmlSerializer serializer = new XmlSerializer(typeof(Route));
-                using (StreamWriter writer = new StreamWriter(fileName))
-                {
-                    serializer.Serialize((TextWriter)writer, this);
-                }
+                using (StreamWriter writer = new StreamWriter(fileName)) serializer.Serialize(writer, this);
             }
             catch (Exception e)
             {
@@ -87,20 +89,28 @@ namespace Route66
 
     public class NavigationMarker : GpsMarker
     {
-        public NavigationMarker()
+        public NavigationMarker() { }
+        public NavigationMarker(PointLatLng position) : base(position.Lng, position.Lat)
         {
             SoundFile = "EnterSoundfile.wav";
             Msg = "Turn right";
         }
+        public override string ToString()
+        {
+            return $"{Msg} {SoundFile}";
+        }
+        #region PROPERTIES
         [XmlAttribute()]
         public string SoundFile { get; set; }
         [XmlAttribute()]
         public string Msg { get; set; }
+        #endregion
     }
 
     public class ChangeMarker : GpsMarker
     {
-        public ChangeMarker()
+        public ChangeMarker() { }
+        public ChangeMarker(PointLatLng position) : base(position.Lng, position.Lat)
         {
             Dosing = 20.0;
             WidthLeft = 1.0;
