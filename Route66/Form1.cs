@@ -25,6 +25,8 @@ namespace Route66
         //private Overlay OverlayNavigationPoints;
         private bool IsDragging; // Moving with Left mouse button pressed.
         private bool IsOnMarker; // Mouse is on a Marker.
+        private readonly string Title;
+
         public Settings Settings { get; set; }
         public Route Route { get; set; }
         #endregion
@@ -32,8 +34,9 @@ namespace Route66
         public Form1()
         {
             InitializeComponent();
-
-            My.Log($"Start {this.Text += My.Version}");
+            Title = this.Text += My.Version+" ";
+            My.Log($"Start {Title}");
+            My.SetStatus(toolStripStatusLabel1);
             Settings = Settings.Load();
             Route = Route.Load();
         }
@@ -155,6 +158,7 @@ namespace Route66
             {
                 Route = Route.Load(openFileDialog1.FileName);
                 Overlay.Load(Route);
+                this.Text = Title + openFileDialog1.FileName; 
             }
         }
         private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -200,6 +204,12 @@ namespace Route66
 
         }
         #endregion
-    }
 
+        /// <summary>
+        /// Clear status bar.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void gmap_MouseLeave(object sender, EventArgs e) => My.Status("Ready");
+    }
 }

@@ -10,8 +10,8 @@ namespace Route66
     internal class Overlay
     {
         private GMapControl Map;
-        private GMapRoute RedRoute;
         private GMapMarker CurrentMarker;
+        private readonly GMapRoute RedRoute;
         private readonly GMapOverlay Red;
         private readonly GMapOverlay Green;
         private readonly GMapOverlay Blue;
@@ -150,7 +150,7 @@ namespace Route66
 
         public void EditMarker(MouseEventArgs e)
         {
-            var origin = CurrentMarker.Tag;
+            var originalTag = CurrentMarker.Tag;
             var before = (CurrentMarker.Tag != null) ? 2 : 0;
             Form form = null;
             if (CurrentMarker.Tag is ChangeMarker)
@@ -169,7 +169,7 @@ namespace Route66
             var after = (CurrentMarker.Tag != null) ? 1 : 0;
             var crud = (Crud)before + after;
 
-            UpdateGreenAndBlueOverlay(crud, origin, CurrentMarker.Tag);
+            UpdateGreenAndBlueOverlay(crud, originalTag, CurrentMarker.Tag);
         }
 
         private void UpdateGreenAndBlueOverlay(Crud crud, object origin, object tag)

@@ -14,6 +14,7 @@ namespace Route66
         [STAThread]
         static void Main()
         {
+            TestReflection();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             try
@@ -26,6 +27,14 @@ namespace Route66
                 My.Log(msg);
                 MessageBox.Show(msg, "Sometimes you have luck sometimes not. Please send file Route.log to Rudy.");
             }
+        }
+
+        private static void TestReflection()
+        {
+            var obj = new Route();
+            var type = typeof(object);
+            var properties = obj.GetType().GetProperties();
+            var methodes = obj.GetType().GetMethods();
         }
     }
 }

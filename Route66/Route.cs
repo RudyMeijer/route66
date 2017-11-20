@@ -70,6 +70,9 @@ namespace Route66
 
                 XmlSerializer serializer = new XmlSerializer(typeof(Route));
                 using (StreamWriter writer = new StreamWriter(fileName)) serializer.Serialize(writer, this);
+                route.fileName = fileName;
+                IsDefaultFile = (fileName == "Route66.xml");
+                My.Status($"Route saved to {fileName}");
             }
             catch (Exception e)
             {

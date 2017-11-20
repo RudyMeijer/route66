@@ -135,11 +135,6 @@
             // numDosing
             // 
             this.numDosing.DecimalPlaces = 1;
-            this.numDosing.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            65536});
             this.numDosing.Location = new System.Drawing.Point(9, 20);
             this.numDosing.Maximum = new decimal(new int[] {
             90,
@@ -150,10 +145,10 @@
             this.numDosing.Size = new System.Drawing.Size(44, 20);
             this.numDosing.TabIndex = 6;
             this.numDosing.Value = new decimal(new int[] {
-            205,
+            20,
             0,
             0,
-            65536});
+            0});
             // 
             // btnRemove
             // 
