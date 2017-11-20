@@ -8,19 +8,6 @@ using System.Xml.Serialization;
 
 namespace Route66
 {
-    public enum MachineTypes
-    {
-        StandardSpreader,
-        WspPercentage,
-        WspDosage,
-        RspPercentage,
-        RspDosage,
-        Sprayer,
-        Dst,
-        RspDstPercentage,
-        WspDstPercentage,
-        StreetWasher
-    }
     public class Route
     {
         #region FIELDS
@@ -89,6 +76,20 @@ namespace Route66
 
         #endregion
     }
+    #region DATA CONTRACTS
+    public enum MachineTypes
+    {
+        StandardSpreader,
+        WspPercentage,
+        WspDosage,
+        RspPercentage,
+        RspDosage,
+        Sprayer,
+        Dst,
+        RspDstPercentage,
+        WspDstPercentage,
+        StreetWasher
+    }
 
     public class NavigationMarker : GpsMarker
     {
@@ -148,4 +149,5 @@ namespace Route66
         [XmlAttribute()]
         public double Lat { get; set; }
     }
+    #endregion
 }
