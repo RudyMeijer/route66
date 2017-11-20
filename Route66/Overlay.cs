@@ -55,6 +55,14 @@ namespace Route66
             Map.UpdateRouteLocalPosition(RedRoute);
             CurrentMarker = null;
         }
+
+        //
+        // Update position in:
+        //    CurrentMarker, 
+        //    Red.Markers, Green.Markers, Blue.Markers, 
+        //    RedRoute, 
+        //    ChangeMarker, NavigationMarker instances
+        //
         public void UpdateCurrentMarkerPosition(int x, int y)
         {
             if (CurrentMarker == null) return;
@@ -74,6 +82,8 @@ namespace Route66
             //
             foreach (var item in Red.Markers) if (item == CurrentMarker) item.Position = newPosition;
             CurrentMarker.Position = newPosition;
+            (CurrentMarker.Tag as GpsMarker).Lat = newPosition.Lat;
+            (CurrentMarker.Tag as GpsMarker).Lng = newPosition.Lng;
         }
         public void UpdateRoute()
         {
