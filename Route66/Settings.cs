@@ -25,6 +25,7 @@ public class Settings
         //
         RoutePath = @"C:\ProgramData\Aebi - Schmidt\AutologicRouteCreator\Routes";
         MachineType = MachineTypes.StandardSpreader;
+        MapProvider = "BingHybridMap";
     }
     #endregion
     #region METHODES
@@ -56,7 +57,7 @@ public class Settings
         {
             propertyGrid.SelectedObject = appSettings;
             propertyGrid.PropertyValueChanged += new PropertyValueChangedEventHandler(propertygrid_PropertyValueChanged);
-            propertyGrid.CollapseAllGridItems();
+            //propertyGrid.CollapseAllGridItems();
         }
         return appSettings;
     }
@@ -136,6 +137,8 @@ public class Settings
 
     [Category("Route Settings"), Description("Default machine type: standard spreader.")]
     public MachineTypes MachineType { get; set; }
+    [Category("Route Settings"), Description("Map provider: BingHybridMap, OpenStreetMap...")]
+    public string MapProvider { get; set; }
     #endregion
 }
 

@@ -50,6 +50,18 @@ namespace Route66
         private void InitializeSettings()
         {
             Route.MachineType = Settings.MachineType;
+            var idx = GetIndex(Settings.MapProvider);
+            if (idx == 6) gmap.Zoom = 10;// PositionByKeywords("lng:-74.696044921875 lat:22.857194700969629");
+            comboBox1.SelectedIndex = idx;
+            gmap.Refresh();
+        }
+
+        private int GetIndex(string mapProvider)
+        {
+            for (int i = 0; i < comboBox1.Items.Count; i++)
+                if (comboBox1.Items[i].GetType().Name.Contains(Settings.MapProvider))
+                    return i;
+            return 0;
         }
 
         private void InitializeOverlays()
