@@ -51,7 +51,7 @@ namespace Route66
         {
             Route.MachineType = Settings.MachineType;
             var idx = GetIndex(Settings.MapProvider);
-            if (idx == 6) gmap.Zoom = 10;// PositionByKeywords("lng:-74.696044921875 lat:22.857194700969629");
+            if (idx == 6) gmap.Zoom = 9;
             comboBox1.SelectedIndex = idx;
             gmap.Refresh();
         }
@@ -102,15 +102,16 @@ namespace Route66
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             Settings.Save();
+            if (Route.IsChanged) SaveAsToolStripMenuItem_Click(null, null);
         }
 
         #endregion
         #region EDIT ROUTE
         private void gmap_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left && !IsOnMarker) { Overlay.AddMarker(e.X, e.Y); }
-            if (e.Button == MouseButtons.Right && IsOnMarker) { Overlay.RemoveCurrentMarker(); IsOnMarker = false; }
-            if (IsOnMarker && e.Clicks == 2) { Overlay.EditMarker(e); }
+            if (e.Button == MouseButtons.Left && !IsOnMarker) { Route.IsChanged = Overlay.AddMarker(e.X, e.Y); }
+            if (e.Button == MouseButtons.Right && IsOnMarker) { Route.IsChanged = Overlay.RemoveCurrentMarker(); IsOnMarker = false; }
+            if (IsOnMarker && e.Clicks == 2) { Route.IsChanged = Overlay.EditMarker(e); }
         }
         private void gmap_OnMarkerLeave(GMapMarker item)
         {
@@ -129,7 +130,7 @@ namespace Route66
             if (e.Button == MouseButtons.Left && IsOnMarker)
             {
                 IsDragging = true;
-                Overlay.UpdateCurrentMarkerPosition(e.X, e.Y);
+                Route.IsChanged = Overlay.UpdateCurrentMarkerPosition(e.X, e.Y);
             }
         }
         private void gmap_MouseUp(object sender, MouseEventArgs e) => IsDragging = false;
@@ -150,6 +151,8 @@ namespace Route66
         }
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (Route.IsChanged && MessageBox.Show("Save route?", "Route is changed.", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                SaveAsToolStripMenuItem_Click(null, null);
             openFileDialog1.InitialDirectory = Settings.RoutePath;
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -158,19 +161,24 @@ namespace Route66
                 this.Text = Title + openFileDialog1.FileName;
             }
         }
+        /// <summary>
+        /// This function is called on Save, SaveAs and Form_Closed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             saveFileDialog1.InitialDirectory = openFileDialog1.InitialDirectory;
             saveFileDialog1.FileName = openFileDialog1.FileName;
             saveFileDialog1.Filter = openFileDialog1.Filter;
             saveFileDialog1.DefaultExt = openFileDialog1.DefaultExt;
+            saveFileDialog1.Title = (sender == null) ? "Route is changed. Save changes?" : "Save As";
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 Overlay.CopyTo(Route);
                 Route.SaveAs(saveFileDialog1.FileName);
             }
         }
-
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Overlay.CopyTo(Route);
@@ -178,12 +186,6 @@ namespace Route66
             else Route.Save();
         }
         #endregion
-        #region RIGHT PANE
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Overlay.Clear();
-            IsOnMarker = IsDragging = false;
-        }
         #region SEARCH PLACES
         private void textBox1_Validated(object sender, EventArgs e) => gmap.SetPositionByKeywords(txtSearchPlaces.Text);
 
@@ -192,6 +194,12 @@ namespace Route66
             if (e.KeyCode == Keys.Enter) textBox1_Validated(null, null);
         }
         #endregion
+        #region RIGHT PANE
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Overlay.Clear();
+            IsOnMarker = IsDragging = false;
+        }
         private void chkGpsPoints_CheckedChanged(object sender, EventArgs e)
         {
             foreach (var item in gmap.Overlays[0].Markers)

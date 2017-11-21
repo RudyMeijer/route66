@@ -32,7 +32,7 @@ namespace Route66
             Red.Routes.Add(RedRoute);
         }
 
-        public void AddMarker(int x, int y)
+        public bool AddMarker(int x, int y)
         {
             PointLatLng point = Map.FromLocalToLatLng(x, y);
             var marker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
@@ -43,16 +43,18 @@ namespace Route66
             RedRoute.Points.Insert(idx, point);
             Map.UpdateRouteLocalPosition(RedRoute);
             Console.WriteLine($"Marker added at {marker.LocalPosition}");
+            return true;
         }
-        public void RemoveCurrentMarker()
+        public bool RemoveCurrentMarker()
         {
-            if (CurrentMarker == null) return;
+            if (CurrentMarker == null) return false;
             Red.Markers.Remove(CurrentMarker);
             UpdateGreenAndBlueOverlay(Crud.Delete, CurrentMarker.Tag, null);
             Map.UpdateMarkerLocalPosition(CurrentMarker);
             RedRoute.Points.Remove(CurrentMarker.Position);
             Map.UpdateRouteLocalPosition(RedRoute);
             CurrentMarker = null;
+            return true;
         }
 
         //
@@ -62,9 +64,9 @@ namespace Route66
         //    RedRoute, 
         //    ChangeMarker, NavigationMarker instances
         //
-        public void UpdateCurrentMarkerPosition(int x, int y)
+        public bool UpdateCurrentMarkerPosition(int x, int y)
         {
-            if (CurrentMarker == null) return;
+            if (CurrentMarker == null) return false;
             var newPosition = Map.FromLocalToLatLng(x, y);
             if (CurrentMarker.Tag is ChangeMarker) GetGreenMarker(CurrentMarker).Position = newPosition;
             if (CurrentMarker.Tag is NavigationMarker) GetBlueMarker(CurrentMarker).Position = newPosition;
@@ -84,6 +86,7 @@ namespace Route66
                 (CurrentMarker.Tag as GpsMarker).Lat = newPosition.Lat;
                 (CurrentMarker.Tag as GpsMarker).Lng = newPosition.Lng;
             }
+            return true;
         }
         public void UpdateRoute()
         {
@@ -161,7 +164,7 @@ namespace Route66
             }
         }
 
-        public void EditMarker(MouseEventArgs e)
+        public bool EditMarker(MouseEventArgs e)
         {
             var originalTag = CurrentMarker.Tag;
             var before = (CurrentMarker.Tag != null) ? 2 : 0;
@@ -183,6 +186,7 @@ namespace Route66
             var crud = (Crud)before + after;
 
             UpdateGreenAndBlueOverlay(crud, originalTag, CurrentMarker.Tag);
+            return crud != Crud.None;
         }
         private enum Crud { None, Create, Delete, Update }
         private void UpdateGreenAndBlueOverlay(Crud crud, object origin, object tag)

@@ -14,6 +14,7 @@ namespace Route66
         private static Route route;
         private string fileName;
         public static bool IsDefaultFile;
+        public bool IsChanged;
         #endregion
         #region CONSTRUCTOR
         public Route()
@@ -45,6 +46,7 @@ namespace Route66
                 }
             }
             route.fileName = fileName;
+            route.IsChanged = false;
             return route;
         }
         public void Save() => SaveAs(fileName);
@@ -60,6 +62,7 @@ namespace Route66
                 route.fileName = fileName;
                 IsDefaultFile = (fileName == "Route66.xml");
                 My.Status($"Route saved to {fileName}");
+                IsChanged = false;
             }
             catch (Exception e)
             {
