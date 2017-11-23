@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
 using Route66;
-
+// TODO make Settings static
 [Serializable()]
 public class Settings
 {
@@ -23,9 +23,11 @@ public class Settings
         //
         // Set Defaults.
         //
-        RoutePath = @"C:\ProgramData\Aebi - Schmidt\AutologicRouteCreator\Routes";
+        HelpVisible = true;
+        RoutePath = @"C:\ProgramData\Aebi-Schmidt\AutologicRouteCreator\Routes";
         MachineType = MachineTypes.StandardSpreader;
         MapProvider = "BingHybridMap";
+        FastDrawMode = true;
     }
     #endregion
     #region METHODES
@@ -66,12 +68,12 @@ public class Settings
     {
         var pg = s as PropertyGrid;
         var property = e.ChangedItem;
-        My.Log($"User changed application setting {property.Label} from {e.OldValue} to {property.Value}.");
         if (property.Label == "SupervisorMode")
         {
             if (appSettings.SupervisorMode) appSettings.SupervisorMode = (Prompt.ShowDialog("Enter Supervisor password:", _propertyGrid.ParentForm.Text) == "Rudy" + DateTime.Now.Minute.ToString("00"));
             else appSettings.SaveAs(appSettings.fileName); //Save SuperVisor = false;
         }
+        My.Log($"User {My.UserName} changed application setting {property.Label} from {e.OldValue} to {property.Value}.");
         if (property.Label.EndsWith("Path")) CheckPath(e);
         if (property.Label.StartsWith("Help")) pg.HelpVisible = (bool)property.Value;
         appSettings.Save();
@@ -139,6 +141,8 @@ public class Settings
     public MachineTypes MachineType { get; set; }
     [Category("Route Settings"), Description("Map provider: BingHybridMap, OpenStreetMap...")]
     public string MapProvider { get; set; }
+    [Category("Route Settings"), Description("Route edit mode: Select current marker by mouse hover instead of left mouse click.")]
+    public bool FastDrawMode { get; set; }
     #endregion
 }
 

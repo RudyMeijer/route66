@@ -10,6 +10,9 @@ namespace Route66
     internal class Overlay
     {
         private GMapControl Map;
+        /// <summary>
+        /// This field contains Lat,Lng coordinates of the last clicked marker.
+        /// </summary>
         private GMapMarker CurrentMarker;
         private readonly GMapRoute RedRoute;
         private readonly GMapOverlay Red;
@@ -45,23 +48,23 @@ namespace Route66
             Console.WriteLine($"Marker added at {marker.LocalPosition}");
             return true;
         }
-        public bool RemoveCurrentMarker()
+        internal bool Remove(GMapMarker marker)
         {
-            if (CurrentMarker == null) return false;
-            Red.Markers.Remove(CurrentMarker);
-            UpdateGreenAndBlueOverlay(Crud.Delete, CurrentMarker.Tag, null);
-            Map.UpdateMarkerLocalPosition(CurrentMarker);
-            RedRoute.Points.Remove(CurrentMarker.Position);
+            if (marker == null) return false;
+            Red.Markers.Remove(marker);
+            UpdateGreenAndBlueOverlay(Crud.Delete, marker.Tag, null);
+            RedRoute.Points.Remove(marker.Position);
+            Map.UpdateMarkerLocalPosition(marker);
             Map.UpdateRouteLocalPosition(RedRoute);
-            CurrentMarker = null;
+            marker = null;
             return true;
         }
 
         //
-        // When Mouse is moved update position in:
+        // When Mouse is moved update position of:
         //    CurrentMarker, 
-        //    Red.Markers, Green.Markers, Blue.Markers, 
-        //    RedRoute, 
+        //    Red, green and blue Markers,
+        //    RedRoute points, 
         //    ChangeMarker, NavigationMarker instances
         //
         public bool UpdateCurrentMarkerPosition(int x, int y)
@@ -164,7 +167,7 @@ namespace Route66
             }
         }
 
-        public bool EditMarker(MouseEventArgs e)
+        public bool EditMarker(KeyEventArgs key)
         {
             var originalTag = CurrentMarker.Tag;
             var before = (CurrentMarker.Tag != null) ? 2 : 0;
@@ -172,9 +175,12 @@ namespace Route66
             if (CurrentMarker.Tag is ChangeMarker)
                 form = new FormEditChangeMarker(CurrentMarker);
             else if (CurrentMarker.Tag is NavigationMarker)
-                form = new FormEditChangeMarker(CurrentMarker);
+                form = new FormEditNavigationMarker(CurrentMarker);
             else if (CurrentMarker.Tag == null) // Empty GpsMarkers contains integer id.
-                form = new FormEditChangeMarker(CurrentMarker); //TODO key to Edit NavigationMarker
+                if (key !=null && key.Control)
+                    form = new FormEditNavigationMarker(CurrentMarker);
+                else
+                    form = new FormEditChangeMarker(CurrentMarker);
             else My.Log($"Error during edit Tag {CurrentMarker.Tag}");
 
             form.ShowDialog();

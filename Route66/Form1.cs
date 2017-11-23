@@ -19,34 +19,75 @@ namespace Route66
     public partial class Form1 : Form
     {
         #region FIELDS
-        private Overlay Overlay;
-        private bool IsDragging; // Moving with Left mouse button pressed.
-        private bool IsOnMarker; // Mouse is on a Marker.
-        private readonly string Title;
-
+        /// <summary>
+        /// Application configuration loaded on startup from Settings.xml. 
+        /// </summary>
         public Settings Settings { get; set; }
+        /// <summary>
+        /// Route data of current route on form.
+        /// Filled during Save. 
+        /// </summary>
         public Route Route { get; set; }
+        /// <summary>
+        /// Contains all overlays like routes and markers.
+        /// </summary>
+        private Overlay Overlay;
+        /// <summary>
+        /// Moving while Leftmouse button pressed.
+        /// </summary>
+        private bool IsDragging;
+        /// <summary>
+        /// Mouse is on a Marker.
+        /// </summary>
+        private bool IsOnMarker;
+        /// <summary>
+        /// Last marker entered with mouse.
+        /// </summary>
+        private GMapMarker LastMarker;
+        /// <summary>
+        /// Title shown on top of form.
+        /// </summary>
+        private readonly string Title;
+        private bool CtrlKeyIsPressed;
+        private KeyEventArgs Key;
+
         #endregion
         #region CONSTRUCTOR
         public Form1()
         {
             InitializeComponent();
             Title = this.Text += My.Version + " ";
-            My.Log($"Start {Title}");
-            My.SetStatus(toolStripStatusLabel1);
-            Settings = Settings.Load();
-            Route = Route.Load();
         }
         #endregion
         #region INITIALIZE
         private void Form1_Load(object sender, EventArgs e)
         {
+            InitializeLogfile();
+            My.Log($"Start {Title} User {My.UserName} {My.WindowsVersion}");
+            My.SetStatus(toolStripStatusLabel1);
+            Settings = Settings.Load();
+            Route = Route.Load();
             InitializeGmap();
             InitializeOverlays();
             InitializeComboboxWithMapProviders();
             InitializeSettings();
         }
-
+        /// <summary>
+        /// Limit maximum logfile size to 1 Mb.
+        /// </summary>
+        private void InitializeLogfile()
+        {
+            try
+            {
+                var fileName = My.ExeFile + ".log";
+                if (File.Exists(fileName))
+                {
+                    var fi = new FileInfo(fileName);
+                    if (fi.Length > 1000000) File.Delete(fileName);
+                }
+            }
+            catch (Exception ee) { My.Log($"InitializeLogfile {ee.Message + ee.InnerException}"); }
+        }
         private void InitializeSettings()
         {
             Route.MachineType = Settings.MachineType;
@@ -109,9 +150,10 @@ namespace Route66
         #region EDIT ROUTE
         private void gmap_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left && !IsOnMarker) { Route.IsChanged = Overlay.AddMarker(e.X, e.Y); }
-            if (e.Button == MouseButtons.Right && IsOnMarker) { Route.IsChanged = Overlay.RemoveCurrentMarker(); IsOnMarker = false; }
-            if (IsOnMarker && e.Clicks == 2) { Route.IsChanged = Overlay.EditMarker(e); }
+            if (e.Button == MouseButtons.Left && !IsOnMarker) { Overlay.AddMarker(e.X, e.Y); Route.IsChanged = true; }
+            if (e.Button == MouseButtons.Right && IsOnMarker) { Overlay.Remove(LastMarker); IsOnMarker = false; Route.IsChanged = true; }
+            if (e.Button == MouseButtons.Left && IsOnMarker && !Settings.FastDrawMode) { Overlay.SetCurrentMarker(LastMarker); }
+            if (IsOnMarker && e.Clicks == 2) { Route.IsChanged = Overlay.EditMarker(Key); }
         }
         private void gmap_OnMarkerLeave(GMapMarker item)
         {
@@ -122,24 +164,25 @@ namespace Route66
             if (!IsDragging)
             {
                 IsOnMarker = true;
-                Overlay.SetCurrentMarker(item);
+                LastMarker = item;
+                if (Settings.FastDrawMode) Overlay.SetCurrentMarker(item);
             }
         }
         private void gmap_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left && IsOnMarker)
             {
-                IsDragging = true;
-                Route.IsChanged = Overlay.UpdateCurrentMarkerPosition(e.X, e.Y);
+                Route.IsChanged = IsDragging = true;
+                Overlay.UpdateCurrentMarkerPosition(e.X, e.Y);
             }
         }
         private void gmap_MouseUp(object sender, MouseEventArgs e) => IsDragging = false;
         /// <summary>
-        /// Clear status bar.
+        /// Clear status bar when mouse leaves the map.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void gmap_MouseLeave(object sender, EventArgs e) => My.Status("Ready");
+        private void gmap_MouseLeave(object sender, EventArgs e) => My.Status(" Ready");
         #endregion
         #region MENU ITEMS
         private void OptionsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -177,6 +220,7 @@ namespace Route66
             {
                 Overlay.CopyTo(Route);
                 Route.SaveAs(saveFileDialog1.FileName);
+                this.Text = Title + Route.FileName;
             }
         }
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -184,10 +228,16 @@ namespace Route66
             Overlay.CopyTo(Route);
             if (Route.IsDefaultFile) Route.SaveAs(Path.Combine(Settings.RoutePath, "Route66.xml"));
             else Route.Save();
+            this.Text = Title + Route.FileName;
         }
         #endregion
         #region SEARCH PLACES
-        private void textBox1_Validated(object sender, EventArgs e) => gmap.SetPositionByKeywords(txtSearchPlaces.Text);
+        private void textBox1_Validated(object sender, EventArgs e)
+        {
+            if (gmap.MapProvider == BingHybridMapProvider.Instance) comboBox1.SelectedItem = OpenStreetMapProvider.Instance;
+            gmap.Zoom = 14;
+            gmap.SetPositionByKeywords(txtSearchPlaces.Text);
+        }
 
         private void textBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
@@ -199,6 +249,7 @@ namespace Route66
         {
             Overlay.Clear();
             IsOnMarker = IsDragging = false;
+            this.Text = Title + "Create new route by click left mouse on map.";
         }
         private void chkGpsPoints_CheckedChanged(object sender, EventArgs e)
         {
@@ -224,5 +275,22 @@ namespace Route66
             Overlay.SetTooltipOnOff(chkShowTooltip.Checked);
         }
         #endregion
+        private void gmap_OnMapZoomChanged()
+        {
+            My.Status($"Zoom factor = {gmap.Zoom}");
+        }
+
+        private void gmap_KeyDown(object sender, KeyEventArgs e)
+        {
+            Console.WriteLine($"KeyDown Ctrl = {e.Control}");
+            Key = e;
+            CtrlKeyIsPressed = e.Control;
+        }
+
+        private void gmap_KeyUp(object sender, KeyEventArgs e)
+        {
+            Key = e;
+            Console.WriteLine($"KeyUp Ctrl = {e.Control}");
+        }
     }
 }

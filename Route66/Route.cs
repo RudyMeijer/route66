@@ -11,10 +11,12 @@ namespace Route66
     public class Route
     {
         #region FIELDS
-        private static Route route;
-        private string fileName;
+        [XmlIgnore]
+        public string FileName;
         public static bool IsDefaultFile;
+        [XmlIgnore]
         public bool IsChanged;
+        private static Route route;
         #endregion
         #region CONSTRUCTOR
         public Route()
@@ -29,6 +31,7 @@ namespace Route66
         #region METHODES
         public static Route Load(string fileName = "Route66.xml")
         {
+            My.Log($"Open route {fileName }");
             IsDefaultFile = (fileName == "Route66.xml");
             route = new Route();
             try
@@ -45,21 +48,21 @@ namespace Route66
                     Environment.Exit(1);
                 }
             }
-            route.fileName = fileName;
+            route.FileName = fileName;
             route.IsChanged = false;
             return route;
         }
-        public void Save() => SaveAs(fileName);
+        public void Save() => SaveAs(FileName);
         public void SaveAs(string fileName)
         {
             try
             {
                 var dir = Path.GetDirectoryName(fileName);
-                if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+                if (!Directory.Exists(dir) && dir.Length > 0) Directory.CreateDirectory(dir);
 
                 XmlSerializer serializer = new XmlSerializer(typeof(Route));
                 using (StreamWriter writer = new StreamWriter(fileName)) serializer.Serialize(writer, this);
-                route.fileName = fileName;
+                route.FileName = fileName;
                 IsDefaultFile = (fileName == "Route66.xml");
                 My.Status($"Route saved to {fileName}");
                 IsChanged = false;
@@ -79,78 +82,4 @@ namespace Route66
 
         #endregion
     }
-    #region DATA CONTRACTS
-    public enum MachineTypes
-    {
-        StandardSpreader,
-        WspPercentage,
-        WspDosage,
-        RspPercentage,
-        RspDosage,
-        Sprayer,
-        Dst,
-        RspDstPercentage,
-        WspDstPercentage,
-        StreetWasher
-    }
-
-    public class NavigationMarker : GpsMarker
-    {
-        public NavigationMarker() { }
-        public NavigationMarker(PointLatLng position) : base(position.Lng, position.Lat)
-        {
-            SoundFile = "EnterSoundfile.wav";
-            Msg = "Turn right";
-        }
-        public override string ToString()
-        {
-            return $"{Msg} {SoundFile}";
-        }
-        #region PROPERTIES
-        [XmlAttribute()]
-        public string SoundFile { get; set; }
-        [XmlAttribute()]
-        public string Msg { get; set; }
-        #endregion
-    }
-
-    public class ChangeMarker : GpsMarker
-    {
-        public ChangeMarker() { }
-        public ChangeMarker(PointLatLng position) : base(position.Lng, position.Lat)
-        {
-            Dosing = 20.0;
-            WidthLeft = 1.0;
-            WidthRight = 1.0;
-        }
-        public override string ToString()
-        {
-            return $"Dosing {Dosing}\nWidthLeft {WidthLeft}\nWidthRight {WidthRight}";
-        }
-        [XmlAttribute()]
-        public double Dosing { get; set; }
-        [XmlAttribute()]
-        public double WidthLeft { get; set; }
-        [XmlAttribute()]
-        public double WidthRight { get; set; }
-    }
-
-    public class GpsMarker
-    {
-        public GpsMarker(double lng, double lat)
-        {
-            Lng = lng;
-            Lat = lat;
-        }
-        public GpsMarker()
-        {
-            Lng = 4.0;
-            Lat = 52.0;
-        }
-        [XmlAttribute()]
-        public double Lng { get; set; }
-        [XmlAttribute()]
-        public double Lat { get; set; }
-    }
-    #endregion
 }
