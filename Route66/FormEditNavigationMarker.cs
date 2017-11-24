@@ -11,60 +11,60 @@ using System.Windows.Forms;
 
 namespace Route66
 {
-    public partial class FormEditNavigationMarker : Form
-    {
-        #region FIELDS
-        private GMapMarker marker;
-        private readonly object originalTag;
-        private bool IsButton;
-        #endregion
-        #region PROPERTIES
-        public NavigationMarker NavigationMarker { get; set; }
-        #endregion
-        #region CONSTRUCTOR
-        public FormEditNavigationMarker(GMapMarker marker)
-        {
-            InitializeComponent();
-            InitializeComboBox();
-            this.marker = marker;
-            originalTag = marker.Tag;
-            if (marker.Tag == null) marker.Tag = new NavigationMarker(marker.Position);
-            NavigationMarker = marker.Tag as NavigationMarker;
-            DisplayOnForm(NavigationMarker);
-        }
+	public partial class FormEditNavigationMarker : Form
+	{
+		#region FIELDS
+		private GMapMarker marker;
+		private readonly object originalTag;
+		private bool IsButton;
+		#endregion
+		#region PROPERTIES
+		public NavigationMarker NavigationMarker { get; set; }
+		#endregion
+		#region CONSTRUCTOR
+		public FormEditNavigationMarker(GMapMarker marker)
+		{
+			InitializeComponent();
+			InitializeComboBox();
+			this.marker = marker;
+			originalTag = marker.Tag;
+			if (marker.Tag == null) marker.Tag = new NavigationMarker(marker.Position);
+			NavigationMarker = marker.Tag as NavigationMarker;
+			DisplayOnForm(NavigationMarker);
+		}
 
-        private void InitializeComboBox()
-        {
-            cmbMessage.DataSource = Translate.NavigationMessages;
-        }
-        #endregion
-        private void DisplayOnForm(NavigationMarker marker)
-        {
-            cmbMessage.SelectedIndex = -1; // Allow custom message.
-            cmbMessage.Text = marker.Message;
-            txtSoundFile.Text = marker.SoundFile;
-        }
-        private void GetFromForm()
-        {
-            NavigationMarker.Message = cmbMessage.Text;
-            NavigationMarker.SoundFile = txtSoundFile.Text;
-        }
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            GetFromForm();
-            IsButton = true;
-            this.Close();
-        }
+		private void InitializeComboBox()
+		{
+			cmbMessage.DataSource = Translate.NavigationMessages;
+		}
+		#endregion
+		private void DisplayOnForm(NavigationMarker marker)
+		{
+			cmbMessage.SelectedIndex = -1; // Allow custom message.
+			cmbMessage.Text = marker.Message;
+			txtSoundFile.Text = marker.SoundFile;
+		}
+		private void GetFromForm()
+		{
+			NavigationMarker.Message = cmbMessage.Text;
+			NavigationMarker.SoundFile = txtSoundFile.Text;
+		}
+		private void btnSave_Click(object sender, EventArgs e)
+		{
+			GetFromForm();
+			IsButton = true;
+			this.Close();
+		}
 
-        private void btnDelete_Click(object sender, EventArgs e)
-        {
-            marker.Tag = null;
-            IsButton = true;
-            this.Close();
-        }
-        private void FormEditChangeMarker_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (!IsButton) marker.Tag = originalTag;
-        }
-    }
+		private void btnDelete_Click(object sender, EventArgs e)
+		{
+			marker.Tag = null;
+			IsButton = true;
+			this.Close();
+		}
+		private void FormEditChangeMarker_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (!IsButton) marker.Tag = originalTag;
+		}
+	}
 }

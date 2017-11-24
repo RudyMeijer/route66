@@ -10,22 +10,22 @@ using System.Windows.Forms;
 
 namespace Route66
 {
-    public partial class FormOptions : Form
-    {
-        public Settings Settings { get; set; }
+	public partial class FormOptions : Form
+	{
+		public Settings Settings { get; set; }
 
-        public FormOptions(Settings set)
-        {
-            InitializeComponent();
-            set.Save();
-            this.Settings = Settings.Load(propertyGrid1,set.fileName); // Set eventhandler.
-            this.propertyGrid1.SelectedObject = Settings;
-            this.propertyGrid1.HelpVisible = Settings.HelpVisible;
-        }
+		public FormOptions(Settings set)
+		{
+			InitializeComponent();
+			set.Save();
+			this.Settings = Settings.Load(propertyGrid1, set.fileName); // Set eventhandler.
+			this.propertyGrid1.SelectedObject = Settings;
+			this.propertyGrid1.HelpVisible = Settings.HelpVisible;
+		}
 
-        private void FormOptions_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            propertyGrid1.Dispose();
-        }
-    }
+		private void FormOptions_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			propertyGrid1.Dispose();
+		}
+	}
 }
