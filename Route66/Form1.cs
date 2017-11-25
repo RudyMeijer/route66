@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using GMap.NET.ObjectModel;
 using System.IO;
 using MyLib;
+using System.Diagnostics;
 
 namespace Route66
 {
@@ -144,7 +145,7 @@ namespace Route66
 		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			Settings.Save();
-			if (Route.IsChanged) SaveAsToolStripMenuItem_Click(null, null);
+			AskToSaveModifiedRoute();
 		}
 
 		#endregion
@@ -195,8 +196,7 @@ namespace Route66
 		}
 		private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (Route.IsChanged && MessageBox.Show("Save current route?", "Route is changed.", MessageBoxButtons.YesNo) == DialogResult.Yes)
-				SaveAsToolStripMenuItem_Click(null, null);
+			AskToSaveModifiedRoute();
 			openFileDialog1.InitialDirectory = Settings.RoutePath;
 			if (openFileDialog1.ShowDialog() == DialogResult.OK)
 			{
@@ -205,6 +205,13 @@ namespace Route66
 				this.Text = Title + openFileDialog1.FileName;
 			}
 		}
+
+		private void AskToSaveModifiedRoute()
+		{
+			if (Route.IsChanged && MessageBox.Show("Save current route?", "Route is changed.", MessageBoxButtons.YesNo) == DialogResult.Yes)
+				SaveToolStripMenuItem_Click(null, null);
+		}
+
 		/// <summary>
 		/// This function is called on Save, SaveAs and Form_Closed.
 		/// </summary>
@@ -250,7 +257,8 @@ namespace Route66
 		{
 			Overlay.Clear();
 			IsOnMarker = IsDragging = false;
-			this.Text = Title + "Create new route by click left mouse on map.";
+			//this.Text = Title + "Create new route by click left mouse on map.";
+			//var x = Route.FileName;
 		}
 		private void chkGpsPoints_CheckedChanged(object sender, EventArgs e)
 		{
@@ -292,6 +300,14 @@ namespace Route66
 		{
 			Key = e;
 			Console.WriteLine($"KeyUp Ctrl = {e.Control}");
+		}
+
+		private void HelpToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			//
+			// Show help page in default browser.
+			//
+			Process.Start("Explorer", "documents\\help.html");
 		}
 	}
 }
