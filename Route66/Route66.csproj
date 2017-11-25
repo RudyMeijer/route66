@@ -58,28 +58,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContracts.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="Forms\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
+    <Compile Include="Forms\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormEditNavigationMarker.cs">
+    <Compile Include="Forms\FormEditNavigationMarker.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormEditNavigationMarker.Designer.cs">
+    <Compile Include="Forms\FormEditNavigationMarker.Designer.cs">
       <DependentUpon>FormEditNavigationMarker.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormEditChangeMarker.cs">
+    <Compile Include="Forms\FormEditChangeMarker.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormEditChangeMarker.Designer.cs">
+    <Compile Include="Forms\FormEditChangeMarker.Designer.cs">
       <DependentUpon>FormEditChangeMarker.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormOptions.cs">
+    <Compile Include="Forms\FormOptions.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormOptions.Designer.cs">
+    <Compile Include="Forms\FormOptions.Designer.cs">
       <DependentUpon>FormOptions.cs</DependentUpon>
     </Compile>
     <Compile Include="Overlay.cs" />
@@ -88,16 +88,16 @@
     <Compile Include="Route.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Translate.cs" />
-    <EmbeddedResource Include="Form1.resx">
+    <EmbeddedResource Include="Forms\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormEditNavigationMarker.resx">
+    <EmbeddedResource Include="Forms\FormEditNavigationMarker.resx">
       <DependentUpon>FormEditNavigationMarker.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormEditChangeMarker.resx">
+    <EmbeddedResource Include="Forms\FormEditChangeMarker.resx">
       <DependentUpon>FormEditChangeMarker.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormOptions.resx">
+    <EmbeddedResource Include="Forms\FormOptions.resx">
       <DependentUpon>FormOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -132,7 +132,7 @@
     <Content Include="Documents\Help.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Documents\Readme.txt" />
+    <Content Include="Documents\System Requirements Document.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

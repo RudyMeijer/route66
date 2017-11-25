@@ -1,0 +1,5 @@
+﻿SRD Sytem Requirements Document
+
+1 Create route from scratch on map.
+2 Allow CRUD (Create, Update, Delete) operations on change- and navigation marker on map.
+3 Ask to save modified route when opening new route or program exit.
