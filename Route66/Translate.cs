@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using MyLib;
 namespace Route66
 {
 	internal class Translate

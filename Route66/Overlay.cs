@@ -5,6 +5,8 @@ using GMap.NET;
 using GMap.NET.WindowsForms.Markers;
 using GMap.NET.ObjectModel;
 using System.Windows.Forms;
+using MyLib;
+
 namespace Route66
 {
 	internal class Overlay
