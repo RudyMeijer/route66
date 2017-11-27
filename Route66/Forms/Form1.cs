@@ -140,7 +140,9 @@ namespace Route66
 		}
 		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			gmap.MapProvider = comboBox1.SelectedItem as GMapProvider;
+			{
+				if (comboBox1.SelectedItem != null)
+				gmap.MapProvider = comboBox1.SelectedItem as GMapProvider;
 		}
 		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
 		{
@@ -185,6 +187,22 @@ namespace Route66
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void gmap_MouseLeave(object sender, EventArgs e) => My.Status(" Ready");
+		private void gmap_KeyDown(object sender, KeyEventArgs e)
+		{
+			Console.WriteLine($"KeyDown Ctrl = {e.Control}");
+			Key = e;
+			CtrlKeyIsPressed = e.Control;
+		}
+
+		private void gmap_KeyUp(object sender, KeyEventArgs e)
+		{
+			Key = e;
+			Console.WriteLine($"KeyUp Ctrl = {e.Control}");
+		}
+		private void gmap_OnMapZoomChanged()
+		{
+			My.Status($"Zoom factor = {gmap.Zoom}");
+		}
 		#endregion
 		#region MENU ITEMS
 		private void OptionsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -284,23 +302,7 @@ namespace Route66
 			Overlay.SetTooltipOnOff(chkShowTooltip.Checked);
 		}
 		#endregion
-		private void gmap_OnMapZoomChanged()
-		{
-			My.Status($"Zoom factor = {gmap.Zoom}");
-		}
 
-		private void gmap_KeyDown(object sender, KeyEventArgs e)
-		{
-			Console.WriteLine($"KeyDown Ctrl = {e.Control}");
-			Key = e;
-			CtrlKeyIsPressed = e.Control;
-		}
-
-		private void gmap_KeyUp(object sender, KeyEventArgs e)
-		{
-			Key = e;
-			Console.WriteLine($"KeyUp Ctrl = {e.Control}");
-		}
 
 		private void HelpToolStripMenuItem_Click(object sender, EventArgs e)
 		{

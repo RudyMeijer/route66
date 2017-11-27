@@ -43,6 +43,7 @@ namespace Route66
 	/// <summary>
 	/// This class contains all properties for a blue navigationmarker: soundfile, navigation message...
 	/// </summary>
+	[Serializable]
 	public class NavigationMarker : GpsMarker
 	{
 		public NavigationMarker() { }
@@ -67,6 +68,7 @@ namespace Route66
 	/// <summary>
 	/// This class contains all properties for a green changemarker: dosing, leftWidth, rightWidth...
 	/// </summary>
+	[Serializable]
 	public class ChangeMarker : GpsMarker
 	{
 		public ChangeMarker() { }
@@ -91,6 +93,7 @@ namespace Route66
 	/// <summary>
 	/// This class contains all properties for a red GPS marker: Lng, Lat 
 	/// </summary>
+	[Serializable]
 	public class GpsMarker
 	{
 		public GpsMarker(double lng, double lat)

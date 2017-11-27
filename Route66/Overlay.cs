@@ -169,15 +169,25 @@ namespace Route66
 			}
 		}
 
+		/// <summary>
+		/// Determine current marker type: Change- or Navigation marker.
+		/// Show properties of current marker on windows form.
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
 		public bool EditMarker(KeyEventArgs key)
 		{
-			var originalTag = CurrentMarker.Tag;
+			var originalTag = CurrentMarker.Tag;// if DeepClone(); then marker is not removed from route on delete.
 			var before = (CurrentMarker.Tag != null) ? 2 : 0;
 			Form form = null;
 			if (CurrentMarker.Tag is ChangeMarker)
 				form = new FormEditChangeMarker(CurrentMarker);
 			else if (CurrentMarker.Tag is NavigationMarker)
 				form = new FormEditNavigationMarker(CurrentMarker);
+			//
+			// If user clicked on red marker.
+			// then pressing Ctrl key will edit Navigation marker.
+			//
 			else if (CurrentMarker.Tag == null) // Empty GpsMarkers contains integer id.
 				if (key != null && key.Control)
 					form = new FormEditNavigationMarker(CurrentMarker);
