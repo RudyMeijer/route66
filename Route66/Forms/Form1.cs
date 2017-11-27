@@ -140,8 +140,7 @@ namespace Route66
 		}
 		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			{
-				if (comboBox1.SelectedItem != null)
+			if (comboBox1.SelectedItem != null)
 				gmap.MapProvider = comboBox1.SelectedItem as GMapProvider;
 		}
 		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
