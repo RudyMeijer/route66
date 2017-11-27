@@ -153,7 +153,7 @@ namespace Route66
 		#region EDIT ROUTE
 		private void gmap_MouseDown(object sender, MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Left && !IsOnMarker) { Overlay.AddMarker(e.X, e.Y); Route.IsChanged = true; }
+			if (e.Button == MouseButtons.Left && !IsOnMarker) { Overlay.AddMarkers(gmap.FromLocalToLatLng(e.X, e.Y)); Route.IsChanged = true; }
 			if (e.Button == MouseButtons.Right && IsOnMarker) { Overlay.Remove(LastMarker); IsOnMarker = false; Route.IsChanged = true; }
 			if (e.Button == MouseButtons.Left && IsOnMarker && !Settings.FastDrawMode) { Overlay.SetCurrentMarker(LastMarker); }
 			if (IsOnMarker && e.Clicks == 2) { Route.IsChanged = Overlay.EditMarker(Key); }
@@ -309,6 +309,11 @@ namespace Route66
 			// Show help page in default browser.
 			//
 			Process.Start("Explorer", "documents\\help.html");
+		}
+
+		private void chkAutoRoute_CheckedChanged(object sender, EventArgs e)
+		{
+			Overlay.AutoRoute = (sender as CheckBox).Checked;
 		}
 	}
 }

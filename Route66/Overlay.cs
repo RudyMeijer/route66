@@ -6,6 +6,7 @@ using GMap.NET.WindowsForms.Markers;
 using GMap.NET.ObjectModel;
 using System.Windows.Forms;
 using MyLib;
+using GMap.NET.MapProviders;
 
 namespace Route66
 {
@@ -20,6 +21,10 @@ namespace Route66
 		private readonly GMapOverlay Red;
 		private readonly GMapOverlay Green;
 		private readonly GMapOverlay Blue;
+		//
+		// AutoRoute: if set route will be placed on road.
+		//
+		public bool AutoRoute { get; internal set; }
 
 		public Overlay(GMapControl gmap)
 		{
@@ -37,9 +42,8 @@ namespace Route66
 			Red.Routes.Add(RedRoute);
 		}
 
-		public bool AddMarker(int x, int y)
+		public bool AddMarker(PointLatLng point)
 		{
-			PointLatLng point = Map.FromLocalToLatLng(x, y);
 			var marker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
 
 			var idx = Red.Markers.IndexOf(CurrentMarker) + 1;
@@ -50,6 +54,23 @@ namespace Route66
 			Console.WriteLine($"Marker added at {marker.LocalPosition}");
 			return true;
 		}
+
+		private MapRoute AutoRouter(GMapMarker start, GMapMarker end)
+		{
+			RoutingProvider rp = Map.MapProvider as RoutingProvider;
+			if (rp == null) rp = GMapProviders.OpenStreetMap; // use OpenStreetMap if provider does not implement routing
+			return rp.GetRoute(start.Position, end.Position, false, false, 20);
+		}
+		//{
+		//GMapMarker m1 = new GMapMarker(start);
+		//m1.Shape = new CustomMarkerDemo(this, m1, "Start: " + route.Name);
+
+		//GMapMarker m2 = new GMapMarker(end);
+		//m2.Shape = new CustomMarkerDemo(this, m2, "End: " + start.ToString());
+
+		//GMapRoute mRoute = new GMapRoute(route.Points);
+		//{
+		//	mRoute.ZIndex = -1;
 		internal bool Remove(GMapMarker marker)
 		{
 			if (marker == null) return false;
@@ -105,8 +126,25 @@ namespace Route66
 		public void SetTooltipOnOff(bool on)
 		{
 			var idx = 0;
-			foreach (var item in Red.Markers) item.ToolTipText = (on) ? idx++.ToString() : "";
+			foreach (var item in Red.Markers) item.ToolTipText = (on) ? $"{idx++}" : "";
 		}
+
+		internal void AddMarkers(PointLatLng point)
+		{
+			if (AutoRoute && RedRoute.Points.Count > 0)
+			{
+				var end = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
+
+				var route = AutoRouter(CurrentMarker, end);
+				if (route != null)
+				{
+					route.Points.RemoveAt(0);
+					foreach (var p in route.Points) AddMarker(p);
+				}
+			}
+			else AddMarker(point);
+		}
+
 		public void Clear()
 		{
 			Red.Markers.Clear();
@@ -170,7 +208,7 @@ namespace Route66
 		}
 
 		/// <summary>
-		/// Determine current marker type: Change- or Navigation marker.
+		/// Determine current marker type: Change marker or Navigation marker.
 		/// Show properties of current marker on windows form.
 		/// </summary>
 		/// <param name="key"></param>

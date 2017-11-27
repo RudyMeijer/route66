@@ -48,11 +48,14 @@
 			this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.chkAutoRoute = new System.Windows.Forms.CheckBox();
+			this.chkEditRoute = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -60,6 +63,7 @@
 			this.groupBox1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
+			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// button1
@@ -85,13 +89,14 @@
 			// 
 			// splitContainer1.Panel2
 			// 
+			this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
 			this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
 			this.splitContainer1.Panel2.Controls.Add(this.txtSearchPlaces);
 			this.splitContainer1.Panel2.Controls.Add(this.label1);
 			this.splitContainer1.Panel2.Controls.Add(this.comboBox1);
 			this.splitContainer1.Panel2.Controls.Add(this.button1);
-			this.splitContainer1.Size = new System.Drawing.Size(553, 314);
-			this.splitContainer1.SplitterDistance = 445;
+			this.splitContainer1.Size = new System.Drawing.Size(570, 317);
+			this.splitContainer1.SplitterDistance = 462;
 			this.splitContainer1.TabIndex = 1;
 			// 
 			// gmap
@@ -117,7 +122,7 @@
 			this.gmap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
 			this.gmap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
 			this.gmap.ShowTileGridLines = false;
-			this.gmap.Size = new System.Drawing.Size(445, 314);
+			this.gmap.Size = new System.Drawing.Size(462, 317);
 			this.gmap.TabIndex = 0;
 			this.gmap.Zoom = 13D;
 			this.gmap.OnMarkerEnter += new GMap.NET.WindowsForms.MarkerEnter(this.gmap_OnMarkerEnter);
@@ -199,7 +204,7 @@
 			this.txtSearchPlaces.Name = "txtSearchPlaces";
 			this.txtSearchPlaces.Size = new System.Drawing.Size(45, 20);
 			this.txtSearchPlaces.TabIndex = 2;
-			this.txtSearchPlaces.Text = "Nassau";
+			this.txtSearchPlaces.Text = "Holten";
 			this.txtSearchPlaces.WordWrap = false;
 			this.txtSearchPlaces.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.textBox1_PreviewKeyDown);
 			this.txtSearchPlaces.Validated += new System.EventHandler(this.textBox1_Validated);
@@ -230,7 +235,7 @@
             this.helpToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(553, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(570, 24);
 			this.menuStrip1.TabIndex = 2;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -249,7 +254,7 @@
 			// 
 			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
 			this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-			this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
 			this.openToolStripMenuItem.Text = "Open";
 			this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
 			// 
@@ -257,21 +262,21 @@
 			// 
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
 			this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
 			this.saveToolStripMenuItem.Text = "Save";
 			this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
 			// 
 			// saveAsToolStripMenuItem
 			// 
 			this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
 			this.saveAsToolStripMenuItem.Text = "Save As...";
 			this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
 			this.exitToolStripMenuItem.Text = "Exit";
 			// 
 			// optionsToolStripMenuItem
@@ -280,6 +285,13 @@
 			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
 			this.optionsToolStripMenuItem.Text = "Options";
 			this.optionsToolStripMenuItem.Click += new System.EventHandler(this.OptionsToolStripMenuItem_Click);
+			// 
+			// helpToolStripMenuItem
+			// 
+			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+			this.helpToolStripMenuItem.Text = "Help";
+			this.helpToolStripMenuItem.Click += new System.EventHandler(this.HelpToolStripMenuItem_Click);
 			// 
 			// openFileDialog1
 			// 
@@ -291,9 +303,9 @@
 			// 
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 316);
+			this.statusStrip1.Location = new System.Drawing.Point(0, 319);
 			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(553, 22);
+			this.statusStrip1.Size = new System.Drawing.Size(570, 22);
 			this.statusStrip1.TabIndex = 3;
 			this.statusStrip1.Text = "statusStrip1";
 			// 
@@ -303,18 +315,45 @@
 			this.toolStripStatusLabel1.Size = new System.Drawing.Size(39, 17);
 			this.toolStripStatusLabel1.Text = "Ready";
 			// 
-			// helpToolStripMenuItem
+			// groupBox2
 			// 
-			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-			this.helpToolStripMenuItem.Text = "Help";
-			this.helpToolStripMenuItem.Click += new System.EventHandler(this.HelpToolStripMenuItem_Click);
+			this.groupBox2.Controls.Add(this.chkAutoRoute);
+			this.groupBox2.Controls.Add(this.chkEditRoute);
+			this.groupBox2.Location = new System.Drawing.Point(6, 209);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.Size = new System.Drawing.Size(89, 66);
+			this.groupBox2.TabIndex = 5;
+			this.groupBox2.TabStop = false;
+			this.groupBox2.Text = "Route";
+			// 
+			// chkAutoRoute
+			// 
+			this.chkAutoRoute.AutoSize = true;
+			this.chkAutoRoute.Location = new System.Drawing.Point(6, 42);
+			this.chkAutoRoute.Name = "chkAutoRoute";
+			this.chkAutoRoute.Size = new System.Drawing.Size(75, 17);
+			this.chkAutoRoute.TabIndex = 2;
+			this.chkAutoRoute.Text = "Auto route";
+			this.chkAutoRoute.UseVisualStyleBackColor = true;
+			this.chkAutoRoute.CheckedChanged += new System.EventHandler(this.chkAutoRoute_CheckedChanged);
+			// 
+			// chkEditRoute
+			// 
+			this.chkEditRoute.AutoSize = true;
+			this.chkEditRoute.Checked = true;
+			this.chkEditRoute.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chkEditRoute.Location = new System.Drawing.Point(6, 19);
+			this.chkEditRoute.Name = "chkEditRoute";
+			this.chkEditRoute.Size = new System.Drawing.Size(71, 17);
+			this.chkEditRoute.TabIndex = 1;
+			this.chkEditRoute.Text = "Edit route";
+			this.chkEditRoute.UseVisualStyleBackColor = true;
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(553, 338);
+			this.ClientSize = new System.Drawing.Size(570, 341);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.menuStrip1);
@@ -335,6 +374,8 @@
 			this.menuStrip1.PerformLayout();
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
+			this.groupBox2.ResumeLayout(false);
+			this.groupBox2.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -366,6 +407,9 @@
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.CheckBox chkAutoRoute;
+		private System.Windows.Forms.CheckBox chkEditRoute;
 	}
 }
 
