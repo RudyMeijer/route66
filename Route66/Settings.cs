@@ -144,6 +144,8 @@ public class Settings
 	public string MapProvider { get; set; }
 	[Category("Route Settings"), Description("Route edit mode: Select current marker by mouse hover instead of left mouse click.")]
 	public bool FastDrawMode { get; set; }
+	[Category("Route Settings"), Description("Draw intermediate points on route alla tom tom.")]
+	public bool AutoRoute { get; set; }
 	#endregion
 }
 

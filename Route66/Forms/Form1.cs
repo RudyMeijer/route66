@@ -97,6 +97,7 @@ namespace Route66
 			if (idx == 6) gmap.Zoom = 9;
 			comboBox1.SelectedIndex = idx;
 			gmap.Refresh();
+			Overlay.AutoRoute = Settings.AutoRoute;
 		}
 
 		private int GetIndex(string mapProvider)
@@ -153,15 +154,31 @@ namespace Route66
 		#region EDIT ROUTE
 		private void gmap_MouseDown(object sender, MouseEventArgs e)
 		{
+			//
+			// Add marker
+			//
 			if (e.Button == MouseButtons.Left && !IsOnMarker) { Overlay.AddMarkers(e.X, e.Y); Route.IsChanged = true; }
+			//
+			// Remove marker
+			//
 			if (e.Button == MouseButtons.Right && IsOnMarker) { Overlay.Remove(LastMarker); IsOnMarker = false; Route.IsChanged = true; }
+			//
+			// Select current marker 
+			//
 			if (e.Button == MouseButtons.Left && IsOnMarker && !Settings.FastDrawMode) { Overlay.SetCurrentMarker(LastMarker); }
+			//
+			// Edit marker
+			//
 			if (IsOnMarker && e.Clicks == 2) { Route.IsChanged = Overlay.EditMarker(Key); }
 		}
 		private void gmap_OnMarkerLeave(GMapMarker item)
 		{
 			if (!IsDragging) IsOnMarker = false;
 		}
+		/// <summary>
+		/// When hover over marker and fast draw mode is enabled set current marker.
+		/// </summary>
+		/// <param name="item"></param>
 		private void gmap_OnMarkerEnter(GMapMarker item)
 		{
 			if (!IsDragging)
@@ -204,13 +221,6 @@ namespace Route66
 		}
 		#endregion
 		#region MENU ITEMS
-		private void OptionsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var f = new FormOptions(Settings);
-			f.ShowDialog();
-			Settings = f.Settings;
-			InitializeSettings();
-		}
 		private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			AskToSaveModifiedRoute();
@@ -228,6 +238,13 @@ namespace Route66
 			if (Route.IsChanged && MessageBox.Show("Save current route?", "Route is changed.", MessageBoxButtons.YesNo) == DialogResult.Yes)
 				SaveToolStripMenuItem_Click(null, null);
 		}
+		private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Overlay.CopyTo(Route);
+			if (Route.IsDefaultFile) Route.SaveAs(Path.Combine(Settings.RoutePath, "Route66.xml"));
+			else Route.Save();
+			this.Text = Title + Route.FileName;
+		}
 
 		/// <summary>
 		/// This function is called on Save, SaveAs and Form_Closed.
@@ -243,17 +260,37 @@ namespace Route66
 			saveFileDialog1.Title = (sender == null) ? "Route is changed. Save changes?" : "Save As";
 			if (saveFileDialog1.ShowDialog() == DialogResult.OK)
 			{
+				if (Path.GetExtension(saveFileDialog1.FileName) != ".xml")
+				{
+					MessageBox.Show("Sorry, this function is not implemented yet.");
+					return;
+				}
 				Overlay.CopyTo(Route);
 				Route.SaveAs(saveFileDialog1.FileName);
 				this.Text = Title + Route.FileName;
 			}
 		}
-		private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
+		/// <summary>
+		/// Show configuration menu.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void OptionsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Overlay.CopyTo(Route);
-			if (Route.IsDefaultFile) Route.SaveAs(Path.Combine(Settings.RoutePath, "Route66.xml"));
-			else Route.Save();
-			this.Text = Title + Route.FileName;
+			var f = new FormOptions(Settings);
+			f.ShowDialog();
+			Settings = f.Settings;
+			InitializeSettings();
+		}
+		/// <summary>
+		/// Show help page in default browser.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		//
+		private void HelpToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("Explorer", "documents\\help.html");
 		}
 		#endregion
 		#region SEARCH PLACES
@@ -303,17 +340,5 @@ namespace Route66
 		#endregion
 
 
-		private void HelpToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			//
-			// Show help page in default browser.
-			//
-			Process.Start("Explorer", "documents\\help.html");
-		}
-
-		private void chkAutoRoute_CheckedChanged(object sender, EventArgs e)
-		{
-			Overlay.AutoRoute = (sender as CheckBox).Checked;
-		}
 	}
 }

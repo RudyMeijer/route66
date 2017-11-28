@@ -44,8 +44,9 @@ namespace Route66
 
 		public bool AddMarker(PointLatLng point)
 		{
+			//GMapMarker m1 = new GMapMarker(start);
+			//m1.Shape = new CustomMarkerDemo(this, m1, "Start: " + route.Name);
 			var marker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
-
 			var idx = Red.Markers.IndexOf(CurrentMarker) + 1;
 			CurrentMarker = marker;
 			Red.Markers.Insert(idx, marker);
@@ -59,30 +60,20 @@ namespace Route66
 		{
 			RoutingProvider rp = Map.MapProvider as RoutingProvider;
 			if (rp == null) rp = GMapProviders.OpenStreetMap; // use OpenStreetMap if provider does not implement routing
-			return rp.GetRoute(start.Position, end.Position, false, false, 20);
+			return rp.GetRoute(start.Position, end.Position, false, false, 2);
 		}
-		//{
-		//GMapMarker m1 = new GMapMarker(start);
-		//m1.Shape = new CustomMarkerDemo(this, m1, "Start: " + route.Name);
-
-		//GMapMarker m2 = new GMapMarker(end);
-		//m2.Shape = new CustomMarkerDemo(this, m2, "End: " + start.ToString());
-
-		//GMapRoute mRoute = new GMapRoute(route.Points);
-		//{
-		//	mRoute.ZIndex = -1;
 		internal bool Remove(GMapMarker marker)
 		{
 			if (marker == null) return false;
+			var idx = Red.Markers.IndexOf(marker);
 			Red.Markers.Remove(marker);
 			UpdateGreenAndBlueOverlay(Crud.Delete, marker.Tag, null);
 			RedRoute.Points.Remove(marker.Position);
 			Map.UpdateMarkerLocalPosition(marker);
 			Map.UpdateRouteLocalPosition(RedRoute);
-			marker = null;
+			if (idx > 0) CurrentMarker = Red.Markers[idx - 1];
 			return true;
 		}
-
 		//
 		// When Mouse is moved update position of:
 		//    CurrentMarker, 
@@ -129,9 +120,9 @@ namespace Route66
 			foreach (var item in Red.Markers) item.ToolTipText = (on) ? $"{idx++}" : "";
 		}
 
-		internal void AddMarkers(int x,int y)
+		internal void AddMarkers(int x, int y)
 		{
-			PointLatLng point = Map.FromLocalToLatLng(x,y);
+			PointLatLng point = Map.FromLocalToLatLng(x, y);
 			if (AutoRoute && RedRoute.Points.Count > 0)
 			{
 				var end = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
@@ -172,7 +163,7 @@ namespace Route66
 			Blue.Markers.Clear();
 			foreach (var item in route.GpsMarkers)
 			{
-				Red.Markers.Add(new GMarkerGoogle(new PointLatLng(item.Lat, item.Lng), GMarkerGoogleType.red_small));
+				Red.Markers.Add(new GMarkerGoogle(new PointLatLng(item.Lat, item.Lng), (Red.Markers.Count == 0) ? GMarkerGoogleType.green_big_go : GMarkerGoogleType.red_small));
 				//
 				// Copy green and blue tags into red markers.
 				//

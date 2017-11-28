@@ -54,7 +54,6 @@
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.chkAutoRoute = new System.Windows.Forms.CheckBox();
 			this.chkEditRoute = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -204,7 +203,7 @@
 			this.txtSearchPlaces.Name = "txtSearchPlaces";
 			this.txtSearchPlaces.Size = new System.Drawing.Size(45, 20);
 			this.txtSearchPlaces.TabIndex = 2;
-			this.txtSearchPlaces.Text = "Holten";
+			this.txtSearchPlaces.Text = "Nassau";
 			this.txtSearchPlaces.WordWrap = false;
 			this.txtSearchPlaces.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.textBox1_PreviewKeyDown);
 			this.txtSearchPlaces.Validated += new System.EventHandler(this.textBox1_Validated);
@@ -297,7 +296,7 @@
 			// 
 			this.openFileDialog1.DefaultExt = "xml";
 			this.openFileDialog1.FileName = "Route66";
-			this.openFileDialog1.Filter = "xml files|*.xml|ar3 files|*.ar3|All files|*.*";
+			this.openFileDialog1.Filter = "xml files|*.xml|ar3 files|*.ar3|gpx files|*.gpx|All files|*.*";
 			// 
 			// statusStrip1
 			// 
@@ -317,7 +316,6 @@
 			// 
 			// groupBox2
 			// 
-			this.groupBox2.Controls.Add(this.chkAutoRoute);
 			this.groupBox2.Controls.Add(this.chkEditRoute);
 			this.groupBox2.Location = new System.Drawing.Point(6, 209);
 			this.groupBox2.Name = "groupBox2";
@@ -325,17 +323,6 @@
 			this.groupBox2.TabIndex = 5;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Route";
-			// 
-			// chkAutoRoute
-			// 
-			this.chkAutoRoute.AutoSize = true;
-			this.chkAutoRoute.Location = new System.Drawing.Point(6, 42);
-			this.chkAutoRoute.Name = "chkAutoRoute";
-			this.chkAutoRoute.Size = new System.Drawing.Size(75, 17);
-			this.chkAutoRoute.TabIndex = 2;
-			this.chkAutoRoute.Text = "Auto route";
-			this.chkAutoRoute.UseVisualStyleBackColor = true;
-			this.chkAutoRoute.CheckedChanged += new System.EventHandler(this.chkAutoRoute_CheckedChanged);
 			// 
 			// chkEditRoute
 			// 
@@ -408,7 +395,6 @@
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.CheckBox chkAutoRoute;
 		private System.Windows.Forms.CheckBox chkEditRoute;
 	}
 }
