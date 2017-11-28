@@ -153,7 +153,7 @@ namespace Route66
 		#region EDIT ROUTE
 		private void gmap_MouseDown(object sender, MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Left && !IsOnMarker) { Overlay.AddMarkers(gmap.FromLocalToLatLng(e.X, e.Y)); Route.IsChanged = true; }
+			if (e.Button == MouseButtons.Left && !IsOnMarker) { Overlay.AddMarkers(e.X, e.Y); Route.IsChanged = true; }
 			if (e.Button == MouseButtons.Right && IsOnMarker) { Overlay.Remove(LastMarker); IsOnMarker = false; Route.IsChanged = true; }
 			if (e.Button == MouseButtons.Left && IsOnMarker && !Settings.FastDrawMode) { Overlay.SetCurrentMarker(LastMarker); }
 			if (IsOnMarker && e.Clicks == 2) { Route.IsChanged = Overlay.EditMarker(Key); }

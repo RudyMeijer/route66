@@ -129,8 +129,9 @@ namespace Route66
 			foreach (var item in Red.Markers) item.ToolTipText = (on) ? $"{idx++}" : "";
 		}
 
-		internal void AddMarkers(PointLatLng point)
+		internal void AddMarkers(int x,int y)
 		{
+			PointLatLng point = Map.FromLocalToLatLng(x,y);
 			if (AutoRoute && RedRoute.Points.Count > 0)
 			{
 				var end = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
@@ -277,7 +278,6 @@ namespace Route66
 					break;
 			}
 		}
-
 		private GMapMarker GetGreenMarker(GMapMarker currentMarker)
 		{
 			foreach (var item in Green.Markers) if (item.Position == currentMarker.Position) return item;
@@ -288,7 +288,6 @@ namespace Route66
 			foreach (var item in Blue.Markers) if (item.Position == currentMarker.Position) return item;
 			return null;
 		}
-
 		private void AddGreenMarker(GMapMarker currentMarker)
 		{
 			Green.Markers.Add(new GMarkerGoogle(currentMarker.Position, GMarkerGoogleType.green_small));
