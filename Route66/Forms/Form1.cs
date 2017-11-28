@@ -124,7 +124,7 @@ namespace Route66
 			comboBox1.Items.Add(WikiMapiaMapProvider.Instance);
 			comboBox1.Items.Add(BingHybridMapProvider.Instance);
 			comboBox1.Items.Add(OpenStreetMapProvider.Instance);
-			comboBox1.SelectedIndex = 0;
+			//comboBox1.SelectedIndex = 0;
 		}
 
 		private void InitializeGmap()
@@ -142,7 +142,10 @@ namespace Route66
 		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (comboBox1.SelectedItem != null)
+			{
 				gmap.MapProvider = comboBox1.SelectedItem as GMapProvider;
+				Settings.MapProvider = gmap.MapProvider.Name;
+			}
 		}
 		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
 		{
@@ -338,7 +341,5 @@ namespace Route66
 			Overlay.SetTooltipOnOff(chkShowTooltip.Checked);
 		}
 		#endregion
-
-
 	}
 }

@@ -128,7 +128,7 @@ namespace Route66
 				var end = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
 
 				var route = AutoRouter(CurrentMarker, end);
-				if (route != null)
+				if (route != null && route.Points.Count>0)
 				{
 					route.Points.RemoveAt(0);
 					foreach (var p in route.Points) AddMarker(p);
