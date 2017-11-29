@@ -186,9 +186,12 @@ namespace Route66
 		{
 			if (!IsDragging)
 			{
-				IsOnMarker = true;
-				LastMarker = item;
-				if (Settings.FastDrawMode) Overlay.SetCurrentMarker(item);
+				if (item.Overlay == gmap.Overlays[0]) // Allow red markers only!!
+				{
+					IsOnMarker = true;
+					LastMarker = item;
+					if (Settings.FastDrawMode) Overlay.SetCurrentMarker(item);
+				}
 			}
 		}
 		private void gmap_MouseMove(object sender, MouseEventArgs e)

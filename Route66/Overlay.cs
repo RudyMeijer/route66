@@ -91,11 +91,8 @@ namespace Route66
 			// Update Route point.
 			//
 			var idx = RedRoute.Points.IndexOf(CurrentMarker.Position);
-			if (idx >= 0)
-				RedRoute.Points[idx] = newPosition;
-			else
-				return false;
-			
+			RedRoute.Points[idx] = newPosition;
+
 			Map.UpdateRouteLocalPosition(RedRoute);
 			//
 			// Update current marker position.
