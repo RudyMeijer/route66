@@ -344,8 +344,14 @@ namespace Route66
 
 		private void numDosing_ValueChanged(object sender, EventArgs e)
 		{
-			var dosing = (double)(sender as NumericUpDown).Value;
-			Overlay.UpdateAllChangeMarkers(dosing);
+		}
+
+		private void button2_Click(object sender, EventArgs e)
+		{
+			var from = (double)numDosingFrom.Value;
+			var to = (double)numDosingTo.Value;
+			Overlay.UpdateAllChangeMarkers(from,to);
+
 		}
 	}
 }

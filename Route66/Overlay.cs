@@ -91,7 +91,11 @@ namespace Route66
 			// Update Route point.
 			//
 			var idx = RedRoute.Points.IndexOf(CurrentMarker.Position);
-			RedRoute.Points[idx] = newPosition;
+			if (idx >= 0)
+				RedRoute.Points[idx] = newPosition;
+			else
+				return false;
+			
 			Map.UpdateRouteLocalPosition(RedRoute);
 			//
 			// Update current marker position.
@@ -128,7 +132,7 @@ namespace Route66
 				var end = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
 
 				var route = AutoRouter(CurrentMarker, end);
-				if (route != null && route.Points.Count>0)
+				if (route != null && route.Points.Count > 0)
 				{
 					route.Points.RemoveAt(0);
 					foreach (var p in route.Points) AddMarker(p);
@@ -149,7 +153,9 @@ namespace Route66
 
 		public void SetCurrentMarker(GMapMarker item)
 		{
+			var icon = item.GetType().GetField("Type").GetValue(item);
 			CurrentMarker = item;
+			Console.WriteLine($"current marker {item.Position} {icon}");
 		}
 
 		/// <summary>
@@ -164,6 +170,7 @@ namespace Route66
 			foreach (var item in route.GpsMarkers)
 			{
 				Red.Markers.Add(new GMarkerGoogle(new PointLatLng(item.Lat, item.Lng), (Red.Markers.Count == 0) ? GMarkerGoogleType.green_big_go : GMarkerGoogleType.red_small));
+				//Red.Markers.Add(new GMarkerGoogle(new PointLatLng(item.Lat, item.Lng), (Red.Markers.Count == 0) ? GMarkerGoogleType.red_small : GMarkerGoogleType.red_small));
 				//
 				// Copy green and blue tags into red markers.
 				//
@@ -293,16 +300,21 @@ namespace Route66
 		}
 
 		/// <summary>
-		/// Update dosing value globally for all change markers.
+		/// Update all change markers with dosing <from> to dosing <to>.
+		/// if from dosing = 0 then update all change markers.
 		/// </summary>
-		/// <param name="dosing"></param>
-		internal void UpdateAllChangeMarkers(double dosing)
+		/// <param name="from"></param>
+		/// <param name="to"></param>
+		internal void UpdateAllChangeMarkers(double from, double to)
 		{
 			foreach (var item in Green.Markers)
 			{
 				var x = item.Tag as ChangeMarker;
-				x.Dosing = dosing;
-				item.ToolTipText = x.ToString();
+				if (x.Dosing == from || from == 0)
+				{
+					x.Dosing = to;
+					item.ToolTipText = x.ToString();
+				}
 			}
 		}
 	}
