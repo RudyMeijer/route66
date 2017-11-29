@@ -291,5 +291,19 @@ namespace Route66
 			Blue.Markers[Blue.Markers.Count - 1].Tag = currentMarker.Tag;
 			Blue.Markers[Blue.Markers.Count - 1].ToolTipText = currentMarker.Tag.ToString();
 		}
+
+		/// <summary>
+		/// Update dosing value globally for all change markers.
+		/// </summary>
+		/// <param name="dosing"></param>
+		internal void UpdateAllChangeMarkers(double dosing)
+		{
+			foreach (var item in Green.Markers)
+			{
+				var x = item.Tag as ChangeMarker;
+				x.Dosing = dosing;
+				item.ToolTipText = x.ToString();
+			}
+		}
 	}
 }

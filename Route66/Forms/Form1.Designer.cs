@@ -32,6 +32,8 @@
 			this.button1 = new System.Windows.Forms.Button();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.gmap = new GMap.NET.WindowsForms.GMapControl();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.chkEditRoute = new System.Windows.Forms.CheckBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.chkShowTooltip = new System.Windows.Forms.CheckBox();
 			this.chkNavPoints = new System.Windows.Forms.CheckBox();
@@ -53,16 +55,18 @@
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.chkEditRoute = new System.Windows.Forms.CheckBox();
+			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.numDosing = new System.Windows.Forms.NumericUpDown();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
+			this.groupBox2.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
-			this.groupBox2.SuspendLayout();
+			this.groupBox3.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numDosing)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// button1
@@ -79,7 +83,7 @@
 			// 
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-			this.splitContainer1.Location = new System.Drawing.Point(0, 24);
+			this.splitContainer1.Location = new System.Drawing.Point(0, 28);
 			this.splitContainer1.Name = "splitContainer1";
 			// 
 			// splitContainer1.Panel1
@@ -88,14 +92,15 @@
 			// 
 			// splitContainer1.Panel2
 			// 
+			this.splitContainer1.Panel2.Controls.Add(this.groupBox3);
 			this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
 			this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
 			this.splitContainer1.Panel2.Controls.Add(this.txtSearchPlaces);
 			this.splitContainer1.Panel2.Controls.Add(this.label1);
 			this.splitContainer1.Panel2.Controls.Add(this.comboBox1);
 			this.splitContainer1.Panel2.Controls.Add(this.button1);
-			this.splitContainer1.Size = new System.Drawing.Size(570, 317);
-			this.splitContainer1.SplitterDistance = 462;
+			this.splitContainer1.Size = new System.Drawing.Size(694, 380);
+			this.splitContainer1.SplitterDistance = 582;
 			this.splitContainer1.TabIndex = 1;
 			// 
 			// gmap
@@ -121,7 +126,7 @@
 			this.gmap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
 			this.gmap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
 			this.gmap.ShowTileGridLines = false;
-			this.gmap.Size = new System.Drawing.Size(462, 317);
+			this.gmap.Size = new System.Drawing.Size(582, 380);
 			this.gmap.TabIndex = 0;
 			this.gmap.Zoom = 13D;
 			this.gmap.OnMarkerEnter += new GMap.NET.WindowsForms.MarkerEnter(this.gmap_OnMarkerEnter);
@@ -133,6 +138,28 @@
 			this.gmap.MouseLeave += new System.EventHandler(this.gmap_MouseLeave);
 			this.gmap.MouseMove += new System.Windows.Forms.MouseEventHandler(this.gmap_MouseMove);
 			this.gmap.MouseUp += new System.Windows.Forms.MouseEventHandler(this.gmap_MouseUp);
+			// 
+			// groupBox2
+			// 
+			this.groupBox2.Controls.Add(this.chkEditRoute);
+			this.groupBox2.Location = new System.Drawing.Point(6, 209);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.Size = new System.Drawing.Size(89, 50);
+			this.groupBox2.TabIndex = 5;
+			this.groupBox2.TabStop = false;
+			this.groupBox2.Text = "Route";
+			// 
+			// chkEditRoute
+			// 
+			this.chkEditRoute.AutoSize = true;
+			this.chkEditRoute.Checked = true;
+			this.chkEditRoute.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chkEditRoute.Location = new System.Drawing.Point(6, 19);
+			this.chkEditRoute.Name = "chkEditRoute";
+			this.chkEditRoute.Size = new System.Drawing.Size(81, 19);
+			this.chkEditRoute.TabIndex = 1;
+			this.chkEditRoute.Text = "Edit route";
+			this.chkEditRoute.UseVisualStyleBackColor = true;
 			// 
 			// groupBox1
 			// 
@@ -152,7 +179,7 @@
 			this.chkShowTooltip.AutoSize = true;
 			this.chkShowTooltip.Location = new System.Drawing.Point(6, 88);
 			this.chkShowTooltip.Name = "chkShowTooltip";
-			this.chkShowTooltip.Size = new System.Drawing.Size(58, 17);
+			this.chkShowTooltip.Size = new System.Drawing.Size(66, 19);
 			this.chkShowTooltip.TabIndex = 4;
 			this.chkShowTooltip.Text = "Tooltip";
 			this.chkShowTooltip.UseVisualStyleBackColor = true;
@@ -165,7 +192,7 @@
 			this.chkNavPoints.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.chkNavPoints.Location = new System.Drawing.Point(6, 65);
 			this.chkNavPoints.Name = "chkNavPoints";
-			this.chkNavPoints.Size = new System.Drawing.Size(77, 17);
+			this.chkNavPoints.Size = new System.Drawing.Size(87, 19);
 			this.chkNavPoints.TabIndex = 3;
 			this.chkNavPoints.Text = "Navigation";
 			this.chkNavPoints.UseVisualStyleBackColor = true;
@@ -178,7 +205,7 @@
 			this.chkChangePoints.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.chkChangePoints.Location = new System.Drawing.Point(6, 42);
 			this.chkChangePoints.Name = "chkChangePoints";
-			this.chkChangePoints.Size = new System.Drawing.Size(91, 17);
+			this.chkChangePoints.Size = new System.Drawing.Size(105, 19);
 			this.chkChangePoints.TabIndex = 2;
 			this.chkChangePoints.Text = "Changepoints";
 			this.chkChangePoints.UseVisualStyleBackColor = true;
@@ -191,7 +218,7 @@
 			this.chkGpsPoints.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.chkGpsPoints.Location = new System.Drawing.Point(6, 19);
 			this.chkGpsPoints.Name = "chkGpsPoints";
-			this.chkGpsPoints.Size = new System.Drawing.Size(79, 17);
+			this.chkGpsPoints.Size = new System.Drawing.Size(90, 19);
 			this.chkGpsPoints.TabIndex = 1;
 			this.chkGpsPoints.Text = "GPS points";
 			this.chkGpsPoints.UseVisualStyleBackColor = true;
@@ -213,7 +240,7 @@
 			this.label1.AutoSize = true;
 			this.label1.Location = new System.Drawing.Point(3, 38);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(41, 13);
+			this.label1.Size = new System.Drawing.Size(46, 15);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "Search";
 			// 
@@ -228,13 +255,14 @@
 			// 
 			// menuStrip1
 			// 
+			this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
             this.optionsToolStripMenuItem,
             this.helpToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(570, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(694, 28);
 			this.menuStrip1.TabIndex = 2;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -246,14 +274,14 @@
             this.saveAsToolStripMenuItem,
             this.exitToolStripMenuItem});
 			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(37, 20);
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(44, 24);
 			this.toolStripMenuItem1.Text = "File";
 			// 
 			// openToolStripMenuItem
 			// 
 			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
 			this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-			this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+			this.openToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
 			this.openToolStripMenuItem.Text = "Open";
 			this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
 			// 
@@ -261,34 +289,34 @@
 			// 
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
 			this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
 			this.saveToolStripMenuItem.Text = "Save";
 			this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
 			// 
 			// saveAsToolStripMenuItem
 			// 
 			this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
 			this.saveAsToolStripMenuItem.Text = "Save As...";
 			this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
 			this.exitToolStripMenuItem.Text = "Exit";
 			// 
 			// optionsToolStripMenuItem
 			// 
 			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(73, 24);
 			this.optionsToolStripMenuItem.Text = "Options";
 			this.optionsToolStripMenuItem.Click += new System.EventHandler(this.OptionsToolStripMenuItem_Click);
 			// 
 			// helpToolStripMenuItem
 			// 
 			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+			this.helpToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
 			this.helpToolStripMenuItem.Text = "Help";
 			this.helpToolStripMenuItem.Click += new System.EventHandler(this.HelpToolStripMenuItem_Click);
 			// 
@@ -300,47 +328,50 @@
 			// 
 			// statusStrip1
 			// 
+			this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 319);
+			this.statusStrip1.Location = new System.Drawing.Point(0, 383);
 			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(570, 22);
+			this.statusStrip1.Size = new System.Drawing.Size(694, 25);
 			this.statusStrip1.TabIndex = 3;
 			this.statusStrip1.Text = "statusStrip1";
 			// 
 			// toolStripStatusLabel1
 			// 
 			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-			this.toolStripStatusLabel1.Size = new System.Drawing.Size(39, 17);
+			this.toolStripStatusLabel1.Size = new System.Drawing.Size(50, 20);
 			this.toolStripStatusLabel1.Text = "Ready";
 			// 
-			// groupBox2
+			// groupBox3
 			// 
-			this.groupBox2.Controls.Add(this.chkEditRoute);
-			this.groupBox2.Location = new System.Drawing.Point(6, 209);
-			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(89, 66);
-			this.groupBox2.TabIndex = 5;
-			this.groupBox2.TabStop = false;
-			this.groupBox2.Text = "Route";
+			this.groupBox3.Controls.Add(this.numDosing);
+			this.groupBox3.Location = new System.Drawing.Point(6, 265);
+			this.groupBox3.Name = "groupBox3";
+			this.groupBox3.Size = new System.Drawing.Size(89, 55);
+			this.groupBox3.TabIndex = 6;
+			this.groupBox3.TabStop = false;
+			this.groupBox3.Text = "Dosing";
 			// 
-			// chkEditRoute
+			// numDosing
 			// 
-			this.chkEditRoute.AutoSize = true;
-			this.chkEditRoute.Checked = true;
-			this.chkEditRoute.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkEditRoute.Location = new System.Drawing.Point(6, 19);
-			this.chkEditRoute.Name = "chkEditRoute";
-			this.chkEditRoute.Size = new System.Drawing.Size(71, 17);
-			this.chkEditRoute.TabIndex = 1;
-			this.chkEditRoute.Text = "Edit route";
-			this.chkEditRoute.UseVisualStyleBackColor = true;
+			this.numDosing.Location = new System.Drawing.Point(7, 20);
+			this.numDosing.Name = "numDosing";
+			this.numDosing.Size = new System.Drawing.Size(39, 20);
+			this.numDosing.TabIndex = 0;
+			this.toolTip1.SetToolTip(this.numDosing, "Update dosing globally");
+			this.numDosing.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+			this.numDosing.ValueChanged += new System.EventHandler(this.numDosing_ValueChanged);
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(570, 341);
+			this.ClientSize = new System.Drawing.Size(694, 408);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.menuStrip1);
@@ -355,14 +386,16 @@
 			this.splitContainer1.Panel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
+			this.groupBox2.ResumeLayout(false);
+			this.groupBox2.PerformLayout();
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
-			this.groupBox2.ResumeLayout(false);
-			this.groupBox2.PerformLayout();
+			this.groupBox3.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.numDosing)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -396,6 +429,8 @@
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 		private System.Windows.Forms.GroupBox groupBox2;
 		private System.Windows.Forms.CheckBox chkEditRoute;
+		private System.Windows.Forms.GroupBox groupBox3;
+		private System.Windows.Forms.NumericUpDown numDosing;
 	}
 }
 

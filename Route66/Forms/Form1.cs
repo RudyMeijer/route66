@@ -341,5 +341,11 @@ namespace Route66
 			Overlay.SetTooltipOnOff(chkShowTooltip.Checked);
 		}
 		#endregion
+
+		private void numDosing_ValueChanged(object sender, EventArgs e)
+		{
+			var dosing = (double)(sender as NumericUpDown).Value;
+			Overlay.UpdateAllChangeMarkers(dosing);
+		}
 	}
 }
