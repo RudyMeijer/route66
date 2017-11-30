@@ -69,7 +69,7 @@ namespace Route66
 			My.SetStatus(toolStripStatusLabel1);
 			Settings = Settings.Load();
 			Route = Route.Load();
-			InitializeGmap();
+			InitializeGmapProvider();
 			InitializeOverlays();
 			InitializeComboboxWithMapProviders();
 			InitializeSettings();
@@ -126,7 +126,7 @@ namespace Route66
 			//comboBox1.SelectedIndex = 0;
 		}
 
-		private void InitializeGmap()
+		private void InitializeGmapProvider()
 		{
 			//
 			// See http://www.independent-software.com/gmap-net-beginners-tutorial-maps-markers-polygons-routes-updated-for-visual-studio-2015-and-gmap-net-1-7/
@@ -190,6 +190,14 @@ namespace Route66
 					IsOnMarker = true;
 					LastMarker = item;
 					if (Settings.FastDrawMode) Overlay.SetCurrentMarker(item);
+				}
+				else if (item.Tag is NavigationMarker)
+				{
+					if (Settings.SpeechRecognition && item.Overlay.IsVisibile)
+					{
+						var tag = item.Tag as NavigationMarker;
+						My.PlaySound(tag.Message);
+					}
 				}
 			}
 		}
@@ -352,7 +360,7 @@ namespace Route66
 		{
 			var from = (double)numDosingFrom.Value;
 			var to = (double)numDosingTo.Value;
-			Overlay.UpdateAllChangeMarkers(from,to);
+			Overlay.UpdateAllChangeMarkers(from, to);
 
 		}
 

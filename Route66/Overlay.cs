@@ -156,13 +156,6 @@ namespace Route66
 			var icon = item.GetType().GetField("Type").GetValue(item);
 			CurrentMarker = item;
 			Console.WriteLine($"current marker {item.Position} {icon}");
-
-			if (CurrentMarker.Tag is NavigationMarker)
-			{
-				var sound = CurrentMarker.Tag.ToString();
-				if (Settings.SpeechRecognition)
-					My.PlaySound(sound);
-			}
 		}
 
 		/// <summary>

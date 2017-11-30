@@ -46,6 +46,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
+    <Reference Include="System.Speech" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -82,6 +83,7 @@
     <Compile Include="Forms\FormOptions.Designer.cs">
       <DependentUpon>FormOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Speech.cs" />
     <Compile Include="Overlay.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

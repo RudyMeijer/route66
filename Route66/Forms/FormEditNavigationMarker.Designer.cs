@@ -29,12 +29,12 @@
 		private void InitializeComponent()
 		{
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.btnPlay = new System.Windows.Forms.Button();
 			this.txtSoundFile = new System.Windows.Forms.TextBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.cmbMessage = new System.Windows.Forms.ComboBox();
 			this.btnRemove = new System.Windows.Forms.Button();
 			this.btnSave = new System.Windows.Forms.Button();
-			this.btnPlay = new System.Windows.Forms.Button();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
@@ -49,6 +49,16 @@
 			this.groupBox1.TabIndex = 3;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Sound file";
+			// 
+			// btnPlay
+			// 
+			this.btnPlay.Location = new System.Drawing.Point(6, 17);
+			this.btnPlay.Name = "btnPlay";
+			this.btnPlay.Size = new System.Drawing.Size(44, 23);
+			this.btnPlay.TabIndex = 1;
+			this.btnPlay.Text = "Play";
+			this.btnPlay.UseVisualStyleBackColor = true;
+			this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
 			// 
 			// txtSoundFile
 			// 
@@ -74,6 +84,7 @@
 			this.cmbMessage.Name = "cmbMessage";
 			this.cmbMessage.Size = new System.Drawing.Size(261, 21);
 			this.cmbMessage.TabIndex = 0;
+			this.cmbMessage.Validated += new System.EventHandler(this.cmbMessage_Validated);
 			// 
 			// btnRemove
 			// 
@@ -94,16 +105,6 @@
 			this.btnSave.Text = "Save";
 			this.btnSave.UseVisualStyleBackColor = true;
 			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-			// 
-			// btnPlay
-			// 
-			this.btnPlay.Location = new System.Drawing.Point(6, 17);
-			this.btnPlay.Name = "btnPlay";
-			this.btnPlay.Size = new System.Drawing.Size(44, 23);
-			this.btnPlay.TabIndex = 1;
-			this.btnPlay.Text = "Play";
-			this.btnPlay.UseVisualStyleBackColor = true;
-			this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
 			// 
 			// FormEditNavigationMarker
 			// 

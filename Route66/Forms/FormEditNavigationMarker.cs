@@ -1,6 +1,7 @@
 ﻿using GMap.NET.WindowsForms;
 using MyLib;
 using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Route66
@@ -66,8 +67,18 @@ namespace Route66
 		private void btnPlay_Click(object sender, EventArgs e)
 		{
 			if (Settings.SpeechRecognition)
-				My.PlaySound(cmbMessage.Text);
+			{
+				Speech.Play(cmbMessage.Text);
+			}
 		}
 
+		private void cmbMessage_Validated(object sender, EventArgs e)
+		{
+			if (Settings.SpeechRecognition)
+			{
+				var wavFile = Path.Combine(My.CheckPath(Settings.RoutePath.Replace("Routes", "VoiceFiles")), cmbMessage.Text) + ".wav";
+				Speech.SaveWav(cmbMessage.Text, wavFile);
+			}
+		}
 	}
 }

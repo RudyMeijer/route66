@@ -35,11 +35,11 @@ public class Settings
 
 	[Category("Route Settings"), Description("Default machine type: standard spreader.")]
 	public MachineTypes MachineType { get; set; }
-	[Category("Route Settings"), Description("Map provider: BingHybridMap, OpenStreetMap...")]
+	[Category("Route Settings"), Description("Default map provider: BingHybridMap, OpenStreetMap...")]
 	public string MapProvider { get; set; }
 	[Category("Route Settings"), Description("Route edit mode: Select current marker by mouse hover instead of left mouse click.")]
 	public bool FastDrawMode { get; set; }
-	[Category("Route Settings"), Description("Set speech recognition for navigation markers on/off.")]
+	[Category("Route Settings"), Description("Turn speech recognition on for automate translating text message.")]
 	public bool SpeechRecognition { get; set; }
 	#endregion
 	#region CONSTRUCTOR
