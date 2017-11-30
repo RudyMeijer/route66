@@ -12,6 +12,7 @@ namespace Route66
 {
 	internal class Overlay
 	{
+		#region FIELDS
 		private GMapControl Map;
 		/// <summary>
 		/// This field contains Lat,Lng coordinates of the last clicked marker.
@@ -25,7 +26,8 @@ namespace Route66
 		// AutoRoute: if set route will be placed on road.
 		//
 		public bool AutoRoute { get; internal set; }
-
+		public Settings Settings { get; }
+		#endregion
 		public Overlay(GMapControl gmap)
 		{
 			this.Map = gmap;
@@ -40,6 +42,7 @@ namespace Route66
 				Stroke = new Pen(Color.Red, 2)
 			};
 			Red.Routes.Add(RedRoute);
+			Settings = Settings.Global;
 		}
 
 		public bool AddMarker(PointLatLng point)
@@ -157,7 +160,8 @@ namespace Route66
 			if (CurrentMarker.Tag is NavigationMarker)
 			{
 				var sound = CurrentMarker.Tag.ToString();
-				My.PlaySound(sound);
+				if (Settings.SpeechRecognition)
+					My.PlaySound(sound);
 			}
 		}
 

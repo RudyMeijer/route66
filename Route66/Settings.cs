@@ -16,10 +16,31 @@ public class Settings
 	public string fileName;
 	private static Settings appSettings;
 	private static PropertyGrid _propertyGrid;
-
 	public static Settings Global { get; private set; }
-
 	private static string backupFile;
+	#endregion
+	#region PROPERTIES
+	//[Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
+	//[Editor(typeof(NumericUpDownTypeEditor), typeof(UITypeEditor)), MinMaxAttribute(0, 64255, 1)]
+	[Category("Application Settings"), Description("Show description of applicatie parameters.")]
+	public bool HelpVisible { get; set; }
+
+	[Category("Application Settings"), DescriptionAttribute("Supervisors have special rights for modifications.")]
+	public bool SupervisorMode { get; set; }
+	public static bool IsChanged { get; private set; }
+
+	[Category("Route Settings"), Description("Enter routes location. Leave empty to open last location.")]
+	[Editor(typeof(FolderNameEditor), typeof(UITypeEditor))]
+	public string RoutePath { get; set; }
+
+	[Category("Route Settings"), Description("Default machine type: standard spreader.")]
+	public MachineTypes MachineType { get; set; }
+	[Category("Route Settings"), Description("Map provider: BingHybridMap, OpenStreetMap...")]
+	public string MapProvider { get; set; }
+	[Category("Route Settings"), Description("Route edit mode: Select current marker by mouse hover instead of left mouse click.")]
+	public bool FastDrawMode { get; set; }
+	[Category("Route Settings"), Description("Set speech recognition for navigation markers on/off.")]
+	public bool SpeechRecognition { get; set; }
 	#endregion
 	#region CONSTRUCTOR
 	public Settings()
@@ -32,6 +53,7 @@ public class Settings
 		MachineType = MachineTypes.StandardSpreader;
 		MapProvider = "BingHybridMap";
 		FastDrawMode = true;
+		SpeechRecognition = true;
 	}
 	#endregion
 	#region METHODES
@@ -128,29 +150,6 @@ public class Settings
 		if (_propertyGrid != null) _propertyGrid.Refresh();
 		Save();
 	}
-	#endregion
-	#region PROPERTIES
-	//[Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
-	//[Editor(typeof(NumericUpDownTypeEditor), typeof(UITypeEditor)), MinMaxAttribute(0, 64255, 1)]
-	[Category("Application Settings"), Description("Show description of applicatie parameters.")]
-	public bool HelpVisible { get; set; }
-
-	[Category("Application Settings"), DescriptionAttribute("Supervisors have special rights for modifications.")]
-	public bool SupervisorMode { get; set; }
-	public static bool IsChanged { get; private set; }
-
-	[Category("Route Settings"), Description("Enter routes location. Leave empty to open last location.")]
-	[Editor(typeof(FolderNameEditor), typeof(UITypeEditor))]
-	public string RoutePath { get; set; }
-
-	[Category("Route Settings"), Description("Default machine type: standard spreader.")]
-	public MachineTypes MachineType { get; set; }
-	[Category("Route Settings"), Description("Map provider: BingHybridMap, OpenStreetMap...")]
-	public string MapProvider { get; set; }
-	[Category("Route Settings"), Description("Route edit mode: Select current marker by mouse hover instead of left mouse click.")]
-	public bool FastDrawMode { get; set; }
-	[Category("Route Settings"), Description("Draw intermediate points on route alla tom tom.")]
-	public bool AutoRoute { get; set; }
 	#endregion
 }
 

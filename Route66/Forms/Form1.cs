@@ -97,7 +97,6 @@ namespace Route66
 			if (idx == 6) gmap.Zoom = 9;
 			comboBox1.SelectedIndex = idx;
 			gmap.Refresh();
-			Overlay.AutoRoute = Settings.AutoRoute;
 		}
 
 		private int GetIndex(string mapProvider)
@@ -355,6 +354,11 @@ namespace Route66
 			var to = (double)numDosingTo.Value;
 			Overlay.UpdateAllChangeMarkers(from,to);
 
+		}
+
+		private void chkAutoRoute_CheckedChanged(object sender, EventArgs e)
+		{
+			Overlay.AutoRoute = (sender as CheckBox).Checked;
 		}
 	}
 }

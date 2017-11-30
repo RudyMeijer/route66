@@ -18,7 +18,7 @@ namespace Route66
 		{
 			InitializeComponent();
 			set.Save();
-			this.Settings = Settings.Load(propertyGrid1, set.fileName); // Set eventhandler.
+			this.Settings = Settings.Global;//.Load(propertyGrid1, set.fileName); // Set eventhandler.
 			this.propertyGrid1.SelectedObject = Settings;
 			this.propertyGrid1.HelpVisible = Settings.HelpVisible;
 		}

@@ -33,6 +33,10 @@
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.gmap = new GMap.NET.WindowsForms.GMapControl();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.btnChangeGlobalDosing = new System.Windows.Forms.Button();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
+			this.numDosingTo = new System.Windows.Forms.NumericUpDown();
 			this.numDosingFrom = new System.Windows.Forms.NumericUpDown();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.chkEditRoute = new System.Windows.Forms.CheckBox();
@@ -57,28 +61,25 @@
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.numDosingTo = new System.Windows.Forms.NumericUpDown();
-			this.label2 = new System.Windows.Forms.Label();
-			this.label3 = new System.Windows.Forms.Label();
-			this.button2 = new System.Windows.Forms.Button();
+			this.chkAutoRoute = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
 			this.groupBox3.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numDosingTo)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numDosingFrom)).BeginInit();
 			this.groupBox2.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numDosingTo)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// button1
 			// 
-			this.button1.Location = new System.Drawing.Point(6, 7);
+			this.button1.Location = new System.Drawing.Point(1, 7);
 			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(89, 23);
+			this.button1.Size = new System.Drawing.Size(95, 23);
 			this.button1.TabIndex = 0;
 			this.button1.Text = "Clear";
 			this.button1.UseVisualStyleBackColor = true;
@@ -104,8 +105,8 @@
 			this.splitContainer1.Panel2.Controls.Add(this.label1);
 			this.splitContainer1.Panel2.Controls.Add(this.comboBox1);
 			this.splitContainer1.Panel2.Controls.Add(this.button1);
-			this.splitContainer1.Size = new System.Drawing.Size(694, 400);
-			this.splitContainer1.SplitterDistance = 582;
+			this.splitContainer1.Size = new System.Drawing.Size(841, 471);
+			this.splitContainer1.SplitterDistance = 731;
 			this.splitContainer1.TabIndex = 1;
 			// 
 			// gmap
@@ -131,7 +132,7 @@
 			this.gmap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
 			this.gmap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
 			this.gmap.ShowTileGridLines = false;
-			this.gmap.Size = new System.Drawing.Size(582, 400);
+			this.gmap.Size = new System.Drawing.Size(731, 471);
 			this.gmap.TabIndex = 0;
 			this.gmap.Zoom = 13D;
 			this.gmap.OnMarkerEnter += new GMap.NET.WindowsForms.MarkerEnter(this.gmap_OnMarkerEnter);
@@ -146,17 +147,58 @@
 			// 
 			// groupBox3
 			// 
-			this.groupBox3.Controls.Add(this.button2);
+			this.groupBox3.Controls.Add(this.btnChangeGlobalDosing);
 			this.groupBox3.Controls.Add(this.label3);
 			this.groupBox3.Controls.Add(this.label2);
 			this.groupBox3.Controls.Add(this.numDosingTo);
 			this.groupBox3.Controls.Add(this.numDosingFrom);
-			this.groupBox3.Location = new System.Drawing.Point(6, 265);
+			this.groupBox3.Location = new System.Drawing.Point(1, 298);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(89, 103);
+			this.groupBox3.Size = new System.Drawing.Size(96, 103);
 			this.groupBox3.TabIndex = 6;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Dosing";
+			// 
+			// btnChangeGlobalDosing
+			// 
+			this.btnChangeGlobalDosing.Location = new System.Drawing.Point(6, 71);
+			this.btnChangeGlobalDosing.Name = "btnChangeGlobalDosing";
+			this.btnChangeGlobalDosing.Size = new System.Drawing.Size(77, 23);
+			this.btnChangeGlobalDosing.TabIndex = 7;
+			this.btnChangeGlobalDosing.Text = "Change";
+			this.btnChangeGlobalDosing.UseVisualStyleBackColor = true;
+			this.btnChangeGlobalDosing.Click += new System.EventHandler(this.button2_Click);
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(7, 47);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(21, 15);
+			this.label3.TabIndex = 8;
+			this.label3.Text = "To";
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(7, 21);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(36, 15);
+			this.label2.TabIndex = 7;
+			this.label2.Text = "From";
+			// 
+			// numDosingTo
+			// 
+			this.numDosingTo.Location = new System.Drawing.Point(44, 45);
+			this.numDosingTo.Name = "numDosingTo";
+			this.numDosingTo.Size = new System.Drawing.Size(39, 20);
+			this.numDosingTo.TabIndex = 1;
+			this.toolTip1.SetToolTip(this.numDosingTo, "Update dosing globally");
+			this.numDosingTo.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
 			// 
 			// numDosingFrom
 			// 
@@ -169,10 +211,11 @@
 			// 
 			// groupBox2
 			// 
+			this.groupBox2.Controls.Add(this.chkAutoRoute);
 			this.groupBox2.Controls.Add(this.chkEditRoute);
-			this.groupBox2.Location = new System.Drawing.Point(6, 209);
+			this.groupBox2.Location = new System.Drawing.Point(1, 209);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(89, 50);
+			this.groupBox2.Size = new System.Drawing.Size(96, 73);
 			this.groupBox2.TabIndex = 5;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Route";
@@ -195,9 +238,9 @@
 			this.groupBox1.Controls.Add(this.chkNavPoints);
 			this.groupBox1.Controls.Add(this.chkChangePoints);
 			this.groupBox1.Controls.Add(this.chkGpsPoints);
-			this.groupBox1.Location = new System.Drawing.Point(6, 88);
+			this.groupBox1.Location = new System.Drawing.Point(1, 88);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(89, 115);
+			this.groupBox1.Size = new System.Drawing.Size(95, 115);
 			this.groupBox1.TabIndex = 3;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Show";
@@ -254,9 +297,9 @@
 			// 
 			// txtSearchPlaces
 			// 
-			this.txtSearchPlaces.Location = new System.Drawing.Point(50, 35);
+			this.txtSearchPlaces.Location = new System.Drawing.Point(45, 35);
 			this.txtSearchPlaces.Name = "txtSearchPlaces";
-			this.txtSearchPlaces.Size = new System.Drawing.Size(45, 20);
+			this.txtSearchPlaces.Size = new System.Drawing.Size(51, 20);
 			this.txtSearchPlaces.TabIndex = 2;
 			this.txtSearchPlaces.Text = "Nassau";
 			this.txtSearchPlaces.WordWrap = false;
@@ -266,7 +309,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(3, 38);
+			this.label1.Location = new System.Drawing.Point(2, 37);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(46, 15);
 			this.label1.TabIndex = 1;
@@ -275,9 +318,9 @@
 			// comboBox1
 			// 
 			this.comboBox1.FormattingEnabled = true;
-			this.comboBox1.Location = new System.Drawing.Point(6, 61);
+			this.comboBox1.Location = new System.Drawing.Point(1, 61);
 			this.comboBox1.Name = "comboBox1";
-			this.comboBox1.Size = new System.Drawing.Size(89, 21);
+			this.comboBox1.Size = new System.Drawing.Size(95, 21);
 			this.comboBox1.TabIndex = 1;
 			this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
 			// 
@@ -290,7 +333,7 @@
             this.helpToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(694, 28);
+			this.menuStrip1.Size = new System.Drawing.Size(841, 28);
 			this.menuStrip1.TabIndex = 2;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -359,9 +402,9 @@
 			this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 403);
+			this.statusStrip1.Location = new System.Drawing.Point(0, 474);
 			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(694, 25);
+			this.statusStrip1.Size = new System.Drawing.Size(841, 25);
 			this.statusStrip1.TabIndex = 3;
 			this.statusStrip1.Text = "statusStrip1";
 			// 
@@ -371,52 +414,22 @@
 			this.toolStripStatusLabel1.Size = new System.Drawing.Size(50, 20);
 			this.toolStripStatusLabel1.Text = "Ready";
 			// 
-			// numDosingTo
+			// chkAutoRoute
 			// 
-			this.numDosingTo.Location = new System.Drawing.Point(44, 45);
-			this.numDosingTo.Name = "numDosingTo";
-			this.numDosingTo.Size = new System.Drawing.Size(39, 20);
-			this.numDosingTo.TabIndex = 1;
-			this.toolTip1.SetToolTip(this.numDosingTo, "Update dosing globally");
-			this.numDosingTo.Value = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(7, 21);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(36, 15);
-			this.label2.TabIndex = 7;
-			this.label2.Text = "From";
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(7, 47);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(21, 15);
-			this.label3.TabIndex = 8;
-			this.label3.Text = "To";
-			// 
-			// button2
-			// 
-			this.button2.Location = new System.Drawing.Point(6, 71);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(77, 23);
-			this.button2.TabIndex = 7;
-			this.button2.Text = "Change";
-			this.button2.UseVisualStyleBackColor = true;
-			this.button2.Click += new System.EventHandler(this.button2_Click);
+			this.chkAutoRoute.AutoSize = true;
+			this.chkAutoRoute.Location = new System.Drawing.Point(6, 44);
+			this.chkAutoRoute.Name = "chkAutoRoute";
+			this.chkAutoRoute.Size = new System.Drawing.Size(84, 19);
+			this.chkAutoRoute.TabIndex = 2;
+			this.chkAutoRoute.Text = "Auto route";
+			this.chkAutoRoute.UseVisualStyleBackColor = true;
+			this.chkAutoRoute.CheckedChanged += new System.EventHandler(this.chkAutoRoute_CheckedChanged);
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(694, 428);
+			this.ClientSize = new System.Drawing.Size(841, 499);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.menuStrip1);
@@ -433,6 +446,7 @@
 			this.splitContainer1.ResumeLayout(false);
 			this.groupBox3.ResumeLayout(false);
 			this.groupBox3.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numDosingTo)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numDosingFrom)).EndInit();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
@@ -442,7 +456,6 @@
 			this.menuStrip1.PerformLayout();
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numDosingTo)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -481,7 +494,8 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.NumericUpDown numDosingTo;
-		private System.Windows.Forms.Button button2;
+		private System.Windows.Forms.Button btnChangeGlobalDosing;
+		private System.Windows.Forms.CheckBox chkAutoRoute;
 	}
 }
 

@@ -65,7 +65,8 @@ namespace Route66
 
 		private void btnPlay_Click(object sender, EventArgs e)
 		{
-			My.PlaySound(cmbMessage.Text);
+			if (Settings.SpeechRecognition)
+				My.PlaySound(cmbMessage.Text);
 		}
 
 	}
