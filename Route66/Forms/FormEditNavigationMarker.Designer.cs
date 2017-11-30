@@ -34,12 +34,14 @@
 			this.cmbMessage = new System.Windows.Forms.ComboBox();
 			this.btnRemove = new System.Windows.Forms.Button();
 			this.btnSave = new System.Windows.Forms.Button();
+			this.btnPlay = new System.Windows.Forms.Button();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// groupBox1
 			// 
+			this.groupBox1.Controls.Add(this.btnPlay);
 			this.groupBox1.Controls.Add(this.txtSoundFile);
 			this.groupBox1.Location = new System.Drawing.Point(12, 65);
 			this.groupBox1.Name = "groupBox1";
@@ -50,9 +52,9 @@
 			// 
 			// txtSoundFile
 			// 
-			this.txtSoundFile.Location = new System.Drawing.Point(3, 16);
+			this.txtSoundFile.Location = new System.Drawing.Point(56, 19);
 			this.txtSoundFile.Name = "txtSoundFile";
-			this.txtSoundFile.Size = new System.Drawing.Size(261, 20);
+			this.txtSoundFile.Size = new System.Drawing.Size(204, 20);
 			this.txtSoundFile.TabIndex = 0;
 			// 
 			// groupBox2
@@ -93,6 +95,16 @@
 			this.btnSave.UseVisualStyleBackColor = true;
 			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
 			// 
+			// btnPlay
+			// 
+			this.btnPlay.Location = new System.Drawing.Point(6, 17);
+			this.btnPlay.Name = "btnPlay";
+			this.btnPlay.Size = new System.Drawing.Size(44, 23);
+			this.btnPlay.TabIndex = 1;
+			this.btnPlay.Text = "Play";
+			this.btnPlay.UseVisualStyleBackColor = true;
+			this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
+			// 
 			// FormEditNavigationMarker
 			// 
 			this.AcceptButton = this.btnSave;
@@ -123,5 +135,6 @@
 		private System.Windows.Forms.Button btnSave;
 		private System.Windows.Forms.ComboBox cmbMessage;
 		private System.Windows.Forms.TextBox txtSoundFile;
+		private System.Windows.Forms.Button btnPlay;
 	}
 }

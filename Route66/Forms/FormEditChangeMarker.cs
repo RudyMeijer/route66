@@ -19,6 +19,7 @@ namespace Route66
 		private bool IsButton;
 
 		public ChangeMarker ChangeMarker { get; set; }
+		public Settings Settings { get; private set; }
 		#endregion
 		#region CONSTRUCTOR
 		public FormEditChangeMarker(GMapMarker marker)
@@ -29,6 +30,7 @@ namespace Route66
 			if (marker.Tag == null) marker.Tag = new ChangeMarker(marker.Position);
 			ChangeMarker = marker.Tag as ChangeMarker;
 			DisplayOnForm(ChangeMarker);
+			this.Settings = Settings.Global; 
 		}
 		#endregion
 		private void DisplayOnForm(ChangeMarker changeMarker)

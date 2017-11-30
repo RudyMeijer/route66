@@ -49,7 +49,7 @@ namespace Route66
 		public NavigationMarker() { }
 		public NavigationMarker(PointLatLng position) : base(position.Lng, position.Lat)
 		{
-			SoundFile = "Soundfile.wav";
+			//SoundFile = "Soundfile.wav";
 			Message = "Turn right";
 		}
 

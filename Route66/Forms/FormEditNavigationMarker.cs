@@ -1,12 +1,6 @@
 ﻿using GMap.NET.WindowsForms;
+using MyLib;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Route66
@@ -20,6 +14,7 @@ namespace Route66
 		#endregion
 		#region PROPERTIES
 		public NavigationMarker NavigationMarker { get; set; }
+		public Settings Settings { get; private set; }
 		#endregion
 		#region CONSTRUCTOR
 		public FormEditNavigationMarker(GMapMarker marker)
@@ -31,6 +26,7 @@ namespace Route66
 			if (marker.Tag == null) marker.Tag = new NavigationMarker(marker.Position);
 			NavigationMarker = marker.Tag as NavigationMarker;
 			DisplayOnForm(NavigationMarker);
+			this.Settings = Settings.Global;
 		}
 
 		private void InitializeComboBox()
@@ -66,5 +62,11 @@ namespace Route66
 		{
 			if (!IsButton) marker.Tag = originalTag;
 		}
+
+		private void btnPlay_Click(object sender, EventArgs e)
+		{
+			My.PlaySound(cmbMessage.Text);
+		}
+
 	}
 }

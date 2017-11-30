@@ -16,6 +16,9 @@ public class Settings
 	public string fileName;
 	private static Settings appSettings;
 	private static PropertyGrid _propertyGrid;
+
+	public static Settings Global { get; private set; }
+
 	private static string backupFile;
 	#endregion
 	#region CONSTRUCTOR
@@ -56,6 +59,8 @@ public class Settings
 
 		appSettings.fileName = fileName; // allow Save().
 		_propertyGrid = propertyGrid;    // allow refresh().
+		Global = appSettings;
+
 		if (propertyGrid != null)
 		{
 			propertyGrid.SelectedObject = appSettings;
