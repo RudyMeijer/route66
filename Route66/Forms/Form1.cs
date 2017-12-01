@@ -15,6 +15,7 @@ using GMap.NET.ObjectModel;
 using System.IO;
 using MyLib;
 using System.Diagnostics;
+using System.Collections;
 
 namespace Route66
 {
@@ -43,6 +44,10 @@ namespace Route66
 		private readonly string Title;
 		private bool CtrlKeyIsPressed;
 		private KeyEventArgs Key;
+		/// <summary>
+		/// Allow remove of overlaying markers via push/pop.
+		/// </summary>
+		private Stack<GMapMarker> MarkerStack;
 
 		#endregion
 		#region CONSTRUCTOR
@@ -51,6 +56,7 @@ namespace Route66
 			InitializeComponent();
 			Title = this.Text += My.Version + " ";
 			Settings = Settings.Load();
+			MarkerStack = new Stack<GMapMarker>();
 		}
 		#endregion
 		#region PROPERTIES
@@ -58,10 +64,10 @@ namespace Route66
 		/// Application configuration loaded on startup from Settings.xml. 
 		/// </summary>
 		public Settings Settings { get; } // Never create new instance of settings.
-		/// <summary>
-		/// Route data of current route on form.
-		/// Filled during Save. 
-		/// </summary>
+										  /// <summary>
+										  /// Route data of current route on form.
+										  /// Filled during Save. 
+										  /// </summary>
 		public Route Route { get; set; }
 		#endregion
 		#region INITIALIZE
@@ -167,7 +173,7 @@ namespace Route66
 			//
 			// Remove marker
 			//
-			if (e.Button == MouseButtons.Right && IsOnMarker) { Overlay.Remove(LastMarker); IsOnMarker = false; Route.IsChanged = true; }
+			if (e.Button == MouseButtons.Right && IsOnMarker) { Overlay.Remove(LastMarker); IsOverlayed(); Route.IsChanged = true; }
 			//
 			// Select current marker 
 			//
@@ -177,10 +183,24 @@ namespace Route66
 			//
 			if (IsOnMarker && e.Clicks == 2) { Route.IsChanged = Overlay.EditMarker(Key); }
 		}
+
+		private void IsOverlayed()
+		{
+			if (MarkerStack.Count > 0) MarkerStack.Pop();
+			IsOnMarker = MarkerStack.Count > 0;
+			if (IsOnMarker)
+			{
+				LastMarker = MarkerStack.Pop();
+			}
+		}
+
 		private void gmap_OnMarkerLeave(GMapMarker item)
 		{
 			Console.WriteLine($"Leave marker {item.ToolTipText}");
-			if (!IsDragging) IsOnMarker = false;
+			if (!IsDragging)
+			{
+				IsOverlayed();
+			}
 		}
 		/// <summary>
 		/// When hover over marker and fast draw mode is enabled set current marker.
@@ -194,6 +214,7 @@ namespace Route66
 				{
 					IsOnMarker = true;
 					LastMarker = item;
+					MarkerStack.Push(item);
 					if (Settings.FastDrawMode) Overlay.SetCurrentMarker(item);
 				}
 				else if (item.Tag is NavigationMarker)
