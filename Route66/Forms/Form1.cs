@@ -50,13 +50,14 @@ namespace Route66
 		{
 			InitializeComponent();
 			Title = this.Text += My.Version + " ";
+			Settings = Settings.Load();
 		}
 		#endregion
 		#region PROPERTIES
 		/// <summary>
 		/// Application configuration loaded on startup from Settings.xml. 
 		/// </summary>
-		public Settings Settings { get; set; }
+		public Settings Settings { get; } // Never create new instance of settings.
 		/// <summary>
 		/// Route data of current route on form.
 		/// Filled during Save. 
@@ -69,12 +70,12 @@ namespace Route66
 			InitializeLogfile();
 			My.Log($"Start {Title} User {My.UserName} {My.WindowsVersion}");
 			My.SetStatus(toolStripStatusLabel1);
-			Settings = Settings.Load();
 			Route = Route.Load();
 			InitializeGmapProvider();
 			InitializeOverlays();
 			InitializeComboboxWithMapProviders();
 			InitializeSettings();
+			OpenToolStripMenuItem_Click(null, null);
 		}
 		/// <summary>
 		/// Limit maximum logfile size to 1 Mb.
@@ -98,7 +99,8 @@ namespace Route66
 			var idx = GetIndex(Settings.MapProvider);
 			if (idx == 6) gmap.Zoom = 9;
 			comboBox1.SelectedIndex = idx;
-			gmap.Refresh();
+			//gmap.Refresh();
+			chkShowTooltip.Checked = Settings.ToolTipMode;
 		}
 
 		private int GetIndex(string mapProvider)
@@ -177,6 +179,7 @@ namespace Route66
 		}
 		private void gmap_OnMarkerLeave(GMapMarker item)
 		{
+			Console.WriteLine($"Leave marker {item.ToolTipText}");
 			if (!IsDragging) IsOnMarker = false;
 		}
 		/// <summary>
@@ -195,7 +198,7 @@ namespace Route66
 				}
 				else if (item.Tag is NavigationMarker)
 				{
-					if (Settings.SpeechRecognition && item.Overlay.IsVisibile)
+					if (Settings.SpeechSyntesizer && item.Overlay.IsVisibile)
 					{
 						var tag = item.Tag as NavigationMarker;
 						My.PlaySound(tag.Message);
@@ -294,7 +297,7 @@ namespace Route66
 		{
 			var f = new FormOptions(Settings);
 			f.ShowDialog();
-			Settings = f.Settings;
+			//Settings = f.Settings; // Form.Settings point to new instance. Overlay.Settings still points to old instance!
 			InitializeSettings();
 		}
 		/// <summary>
@@ -348,11 +351,7 @@ namespace Route66
 			gmap.Refresh();
 
 		}
-		private void chkShowTooltip_CheckedChanged(object sender, EventArgs e)
-		{
-			Overlay.SetTooltipOnOff(chkShowTooltip.Checked);
-		}
-
+		private void chkShowTooltip_CheckedChanged(object sender, EventArgs e) => Settings.ToolTipMode = chkShowTooltip.Checked;
 		private void numDosing_ValueChanged(object sender, EventArgs e)
 		{
 		}

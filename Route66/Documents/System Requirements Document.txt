@@ -5,3 +5,4 @@
 3 Ask to save modified route when opening new route or program exit.
 4 When current marker is removed make previous marker current.
 5 Update dosing values globally from x -> y.
+6 On startup show file open menu.

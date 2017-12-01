@@ -8,6 +8,7 @@ using System.Drawing.Design;
 using System.Windows.Forms.Design;
 using Route66;
 using MyLib;
+using GMap.NET.WindowsForms;
 
 [Serializable()]
 public class Settings
@@ -30,7 +31,7 @@ public class Settings
 		MachineType = MachineTypes.StandardSpreader;
 		MapProvider = "BingHybridMap";
 		FastDrawMode = true;
-		SpeechRecognition = true;
+		SpeechSyntesizer = true;
 	}
 	#endregion
 	#region PROPERTIES
@@ -53,8 +54,10 @@ public class Settings
 	public string MapProvider { get; set; }
 	[Category("Route Settings"), Description("Route edit mode: Select current marker by mouse hover instead of left mouse click.")]
 	public bool FastDrawMode { get; set; }
-	[Category("Route Settings"), Description("Turn speech recognition on for automate translating text message.")]
-	public bool SpeechRecognition { get; set; }
+	[Category("Route Settings"), Description("Turn speech syntesizer on for automate translating navigation messages.")]
+	public bool SpeechSyntesizer { get; set; }
+	[Category("Route Settings"), Description("Show red marker index in tooltip.")]
+	public bool ToolTipMode { get; set; }
 	#endregion
 	#region METHODES
 	public static Settings Load(PropertyGrid propertyGrid = null, string fileName = "Settings.xml", bool autoCreate = true)
@@ -92,7 +95,7 @@ public class Settings
 		return appSettings;
 	}
 
-	static void propertygrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+	public static void propertygrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
 	{
 		var pg = s as PropertyGrid;
 		var property = e.ChangedItem;

@@ -66,7 +66,7 @@
 
 		private void btnPlay_Click(object sender, EventArgs e)
 		{
-			if (Settings.SpeechRecognition)
+			if (Settings.SpeechSyntesizer)
 			{
 				Speech.Play(cmbMessage.Text);
 			}
@@ -74,7 +74,7 @@
 
 		private void cmbMessage_Validated(object sender, EventArgs e)
 		{
-			if (Settings.SpeechRecognition)
+			if (Settings.SpeechSyntesizer)
 			{
 				var wavFile = Path.Combine(My.CheckPath(Settings.RoutePath.Replace("Routes", "VoiceFiles")), cmbMessage.Text) + ".wav";
 				Speech.SaveWav(cmbMessage.Text, wavFile);

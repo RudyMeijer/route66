@@ -51,15 +51,13 @@ namespace Route66
 		#region METHODES
 		public bool AddMarker(PointLatLng point)
 		{
-			//GMapMarker m1 = new GMapMarker(start);
-			//m1.Shape = new CustomMarkerDemo(this, m1, "Start: " + route.Name);
 			var marker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
 			var idx = Red.Markers.IndexOf(CurrentMarker) + 1;
 			CurrentMarker = marker;
 			Red.Markers.Insert(idx, marker);
 			RedRoute.Points.Insert(idx, point);
 			Map.UpdateRouteLocalPosition(RedRoute);
-			Console.WriteLine($"Marker added at {marker.LocalPosition}");
+			Console.WriteLine($"Marker {idx} added at {marker.LocalPosition}");
 			return true;
 		}
 
@@ -75,19 +73,21 @@ namespace Route66
 			var idx = Red.Markers.IndexOf(marker);
 			Red.Markers.Remove(marker);
 			UpdateGreenAndBlueOverlay(Crud.Delete, marker.Tag, null);
-			RedRoute.Points.Remove(marker.Position);
-			Map.UpdateMarkerLocalPosition(marker);
+			RedRoute.Points.RemoveAt(idx);// marker.Position);
 			Map.UpdateRouteLocalPosition(RedRoute);
 			if (idx > 0) CurrentMarker = Red.Markers[idx - 1];
 			return true;
 		}
-		//
-		// When Mouse is moved update position of:
-		//    CurrentMarker, 
-		//    Red, green and blue Markers,
-		//    RedRoute points, 
-		//    ChangeMarker, NavigationMarker instances
-		//
+		/// <summary>
+		/// When Mouse is moved update position of:
+		/// CurrentMarker, 
+		/// Red, green and blue Markers,
+		/// RedRoute points, 
+		/// ChangeMarker, NavigationMarker instances
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
 		public bool UpdateCurrentMarkerPosition(int x, int y)
 		{
 			if (CurrentMarker == null) return false;
@@ -96,8 +96,9 @@ namespace Route66
 			if (CurrentMarker.Tag is NavigationMarker) GetBlueMarker(CurrentMarker).Position = newPosition;
 			// 
 			// Update Route point.
+			// Allways use currentmarker class to find index because we can have duplicated Positions (struct)!
 			//
-			var idx = RedRoute.Points.IndexOf(CurrentMarker.Position);
+			var idx = Red.Markers.IndexOf(CurrentMarker); 
 			RedRoute.Points[idx] = newPosition;
 
 			Map.UpdateRouteLocalPosition(RedRoute);
@@ -121,11 +122,6 @@ namespace Route66
 				RedRoute.Points.Add(item.Position);
 			}
 			Map.UpdateRouteLocalPosition(RedRoute);
-		}
-		public void SetTooltipOnOff(bool on)
-		{
-			var idx = 0;
-			foreach (var item in Red.Markers) item.ToolTipText = (on) ? $"{idx++}" : "";
 		}
 
 		internal void AddMarkers(int x, int y)
@@ -158,8 +154,11 @@ namespace Route66
 		public void SetCurrentMarker(GMapMarker item)
 		{
 			var icon = item.GetType().GetField("Type").GetValue(item);
+			var idx = Red.Markers.IndexOf(item);
+			Console.WriteLine($"current marker {idx} {item.Position} {icon}");
 			CurrentMarker = item;
-			Console.WriteLine($"current marker {item.Position} {icon}");
+			item.ToolTipMode = (Settings.ToolTipMode)? MarkerTooltipMode.OnMouseOver:MarkerTooltipMode.Never;
+			item.ToolTipText = $"{idx}";
 		}
 
 		/// <summary>

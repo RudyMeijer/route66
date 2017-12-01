@@ -19,9 +19,10 @@ namespace Route66
 		{
 			InitializeComponent();
 			set.Save();
-			Settings = Settings.Load(propertyGrid1, set.fileName); // Set eventhandler.
-			propertyGrid1.SelectedObject = Settings;
-			propertyGrid1.HelpVisible = Settings.HelpVisible;
+			//Settings = Settings.Load(propertyGrid1, set.fileName); // Set eventhandler.
+			propertyGrid1.PropertyValueChanged += Settings.propertygrid_PropertyValueChanged;
+			propertyGrid1.SelectedObject = set;
+			propertyGrid1.HelpVisible = set.HelpVisible;
 		}
 		#endregion
 		#region PROPERTIES
