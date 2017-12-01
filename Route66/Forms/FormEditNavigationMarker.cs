@@ -1,21 +1,16 @@
-﻿using GMap.NET.WindowsForms;
-using MyLib;
-using System;
-using System.IO;
-using System.Windows.Forms;
-
-namespace Route66
+﻿namespace Route66
 {
+	using GMap.NET.WindowsForms;
+	using MyLib;
+	using System;
+	using System.IO;
+	using System.Windows.Forms;
 	public partial class FormEditNavigationMarker : Form
 	{
 		#region FIELDS
 		private GMapMarker marker;
 		private readonly object originalTag;
 		private bool IsButton;
-		#endregion
-		#region PROPERTIES
-		public NavigationMarker NavigationMarker { get; set; }
-		public Settings Settings { get; private set; }
 		#endregion
 		#region CONSTRUCTOR
 		public FormEditNavigationMarker(GMapMarker marker)
@@ -35,6 +30,11 @@ namespace Route66
 			cmbMessage.DataSource = Translate.NavigationMessages;
 		}
 		#endregion
+		#region PROPERTIES
+		public NavigationMarker NavigationMarker { get; set; }
+		public Settings Settings { get; private set; }
+		#endregion
+		#region METHODES
 		private void DisplayOnForm(NavigationMarker marker)
 		{
 			cmbMessage.SelectedIndex = -1; // Allow custom message.
@@ -80,5 +80,6 @@ namespace Route66
 				Speech.SaveWav(cmbMessage.Text, wavFile);
 			}
 		}
+		#endregion
 	}
 }

@@ -19,6 +19,20 @@ public class Settings
 	public static Settings Global { get; private set; }
 	private static string backupFile;
 	#endregion
+	#region CONSTRUCTOR
+	public Settings()
+	{
+		//
+		// Set Defaults.
+		//
+		HelpVisible = true;
+		RoutePath = @"C:\ProgramData\Aebi-Schmidt\AutologicRouteCreator\Routes";
+		MachineType = MachineTypes.StandardSpreader;
+		MapProvider = "BingHybridMap";
+		FastDrawMode = true;
+		SpeechRecognition = true;
+	}
+	#endregion
 	#region PROPERTIES
 	//[Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
 	//[Editor(typeof(NumericUpDownTypeEditor), typeof(UITypeEditor)), MinMaxAttribute(0, 64255, 1)]
@@ -41,20 +55,6 @@ public class Settings
 	public bool FastDrawMode { get; set; }
 	[Category("Route Settings"), Description("Turn speech recognition on for automate translating text message.")]
 	public bool SpeechRecognition { get; set; }
-	#endregion
-	#region CONSTRUCTOR
-	public Settings()
-	{
-		//
-		// Set Defaults.
-		//
-		HelpVisible = true;
-		RoutePath = @"C:\ProgramData\Aebi-Schmidt\AutologicRouteCreator\Routes";
-		MachineType = MachineTypes.StandardSpreader;
-		MapProvider = "BingHybridMap";
-		FastDrawMode = true;
-		SpeechRecognition = true;
-	}
 	#endregion
 	#region METHODES
 	public static Settings Load(PropertyGrid propertyGrid = null, string fileName = "Settings.xml", bool autoCreate = true)

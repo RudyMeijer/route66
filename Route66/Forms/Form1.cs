@@ -22,15 +22,6 @@ namespace Route66
 	{
 		#region FIELDS
 		/// <summary>
-		/// Application configuration loaded on startup from Settings.xml. 
-		/// </summary>
-		public Settings Settings { get; set; }
-		/// <summary>
-		/// Route data of current route on form.
-		/// Filled during Save. 
-		/// </summary>
-		public Route Route { get; set; }
-		/// <summary>
 		/// Contains all overlays like routes and markers.
 		/// </summary>
 		private Overlay Overlay;
@@ -60,6 +51,17 @@ namespace Route66
 			InitializeComponent();
 			Title = this.Text += My.Version + " ";
 		}
+		#endregion
+		#region PROPERTIES
+		/// <summary>
+		/// Application configuration loaded on startup from Settings.xml. 
+		/// </summary>
+		public Settings Settings { get; set; }
+		/// <summary>
+		/// Route data of current route on form.
+		/// Filled during Save. 
+		/// </summary>
+		public Route Route { get; set; }
 		#endregion
 		#region INITIALIZE
 		private void Form1_Load(object sender, EventArgs e)
@@ -350,13 +352,12 @@ namespace Route66
 		{
 			Overlay.SetTooltipOnOff(chkShowTooltip.Checked);
 		}
-		#endregion
 
 		private void numDosing_ValueChanged(object sender, EventArgs e)
 		{
 		}
 
-		private void button2_Click(object sender, EventArgs e)
+		private void btnChangeGlobalDosing_Click(object sender, EventArgs e)
 		{
 			var from = (double)numDosingFrom.Value;
 			var to = (double)numDosingTo.Value;
@@ -368,5 +369,6 @@ namespace Route66
 		{
 			Overlay.AutoRoute = (sender as CheckBox).Checked;
 		}
+		#endregion
 	}
 }

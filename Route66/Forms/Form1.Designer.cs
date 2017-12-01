@@ -39,6 +39,7 @@
 			this.numDosingTo = new System.Windows.Forms.NumericUpDown();
 			this.numDosingFrom = new System.Windows.Forms.NumericUpDown();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.chkAutoRoute = new System.Windows.Forms.CheckBox();
 			this.chkEditRoute = new System.Windows.Forms.CheckBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.chkShowTooltip = new System.Windows.Forms.CheckBox();
@@ -61,7 +62,6 @@
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.chkAutoRoute = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -106,7 +106,7 @@
 			this.splitContainer1.Panel2.Controls.Add(this.comboBox1);
 			this.splitContainer1.Panel2.Controls.Add(this.button1);
 			this.splitContainer1.Size = new System.Drawing.Size(841, 471);
-			this.splitContainer1.SplitterDistance = 731;
+			this.splitContainer1.SplitterDistance = 734;
 			this.splitContainer1.TabIndex = 1;
 			// 
 			// gmap
@@ -132,7 +132,7 @@
 			this.gmap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
 			this.gmap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
 			this.gmap.ShowTileGridLines = false;
-			this.gmap.Size = new System.Drawing.Size(731, 471);
+			this.gmap.Size = new System.Drawing.Size(734, 471);
 			this.gmap.TabIndex = 0;
 			this.gmap.Zoom = 13D;
 			this.gmap.OnMarkerEnter += new GMap.NET.WindowsForms.MarkerEnter(this.gmap_OnMarkerEnter);
@@ -167,7 +167,7 @@
 			this.btnChangeGlobalDosing.TabIndex = 7;
 			this.btnChangeGlobalDosing.Text = "Change";
 			this.btnChangeGlobalDosing.UseVisualStyleBackColor = true;
-			this.btnChangeGlobalDosing.Click += new System.EventHandler(this.button2_Click);
+			this.btnChangeGlobalDosing.Click += new System.EventHandler(this.btnChangeGlobalDosing_Click);
 			// 
 			// label3
 			// 
@@ -220,6 +220,17 @@
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Route";
 			// 
+			// chkAutoRoute
+			// 
+			this.chkAutoRoute.AutoSize = true;
+			this.chkAutoRoute.Location = new System.Drawing.Point(6, 44);
+			this.chkAutoRoute.Name = "chkAutoRoute";
+			this.chkAutoRoute.Size = new System.Drawing.Size(84, 19);
+			this.chkAutoRoute.TabIndex = 2;
+			this.chkAutoRoute.Text = "Auto route";
+			this.chkAutoRoute.UseVisualStyleBackColor = true;
+			this.chkAutoRoute.CheckedChanged += new System.EventHandler(this.chkAutoRoute_CheckedChanged);
+			// 
 			// chkEditRoute
 			// 
 			this.chkEditRoute.AutoSize = true;
@@ -238,12 +249,13 @@
 			this.groupBox1.Controls.Add(this.chkNavPoints);
 			this.groupBox1.Controls.Add(this.chkChangePoints);
 			this.groupBox1.Controls.Add(this.chkGpsPoints);
+			this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
 			this.groupBox1.Location = new System.Drawing.Point(1, 88);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(95, 115);
+			this.groupBox1.Size = new System.Drawing.Size(96, 115);
 			this.groupBox1.TabIndex = 3;
 			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Show";
+			this.groupBox1.Text = "Markers";
 			// 
 			// chkShowTooltip
 			// 
@@ -276,9 +288,9 @@
 			this.chkChangePoints.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.chkChangePoints.Location = new System.Drawing.Point(6, 42);
 			this.chkChangePoints.Name = "chkChangePoints";
-			this.chkChangePoints.Size = new System.Drawing.Size(105, 19);
+			this.chkChangePoints.Size = new System.Drawing.Size(72, 19);
 			this.chkChangePoints.TabIndex = 2;
-			this.chkChangePoints.Text = "Changepoints";
+			this.chkChangePoints.Text = "Change";
 			this.chkChangePoints.UseVisualStyleBackColor = true;
 			this.chkChangePoints.CheckedChanged += new System.EventHandler(this.chkChangePoints_CheckedChanged);
 			// 
@@ -289,9 +301,9 @@
 			this.chkGpsPoints.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.chkGpsPoints.Location = new System.Drawing.Point(6, 19);
 			this.chkGpsPoints.Name = "chkGpsPoints";
-			this.chkGpsPoints.Size = new System.Drawing.Size(90, 19);
+			this.chkGpsPoints.Size = new System.Drawing.Size(54, 19);
 			this.chkGpsPoints.TabIndex = 1;
-			this.chkGpsPoints.Text = "GPS points";
+			this.chkGpsPoints.Text = "GPS";
 			this.chkGpsPoints.UseVisualStyleBackColor = true;
 			this.chkGpsPoints.CheckedChanged += new System.EventHandler(this.chkGpsPoints_CheckedChanged);
 			// 
@@ -413,17 +425,6 @@
 			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
 			this.toolStripStatusLabel1.Size = new System.Drawing.Size(50, 20);
 			this.toolStripStatusLabel1.Text = "Ready";
-			// 
-			// chkAutoRoute
-			// 
-			this.chkAutoRoute.AutoSize = true;
-			this.chkAutoRoute.Location = new System.Drawing.Point(6, 44);
-			this.chkAutoRoute.Name = "chkAutoRoute";
-			this.chkAutoRoute.Size = new System.Drawing.Size(84, 19);
-			this.chkAutoRoute.TabIndex = 2;
-			this.chkAutoRoute.Text = "Auto route";
-			this.chkAutoRoute.UseVisualStyleBackColor = true;
-			this.chkAutoRoute.CheckedChanged += new System.EventHandler(this.chkAutoRoute_CheckedChanged);
 			// 
 			// Form1
 			// 

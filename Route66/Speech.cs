@@ -14,11 +14,13 @@ namespace Route66
 		{
 			if (synthesizer == null)
 			{
-				synthesizer = new SpeechSynthesizer();
-				synthesizer.Volume = 100;  // 0...100
-				synthesizer.Rate = -2;     // -10...10
+				synthesizer = new SpeechSynthesizer
+				{
+					Volume = 100,  // 0...100
+					Rate = -2     // -10...10
+				};
 				synthesizer.SelectVoiceByHints(VoiceGender.Female);
-				synthesizer.SpeakCompleted += Synthesizer_SpeakCompleted;
+				//synthesizer.SpeakCompleted += Synthesizer_SpeakCompleted;
 			}
 			synthesizer.SpeakAsync(text);
 		}
@@ -31,15 +33,15 @@ namespace Route66
 				synthesizer.Volume = 100;  // 0...100
 				synthesizer.Rate = -2;     // -10...10
 				synthesizer.SelectVoiceByHints(VoiceGender.Female);
-				synthesizer.SpeakCompleted += Synthesizer_SpeakCompleted;
+				//synthesizer.SpeakCompleted += Synthesizer_SpeakCompleted;
 			}
 			synthesizer.SetOutputToWaveFile(wavFile);
 			synthesizer.SpeakAsync(text);
 		}
 
-		private static void Synthesizer_SpeakCompleted(object sender, SpeakCompletedEventArgs e)
-		{
-			synthesizer.SetOutputToDefaultAudioDevice();
-		}
+		//private static void Synthesizer_SpeakCompleted(object sender, SpeakCompletedEventArgs e)
+		//{
+		//	synthesizer.SetOutputToDefaultAudioDevice();
+		//}
 	}
 }

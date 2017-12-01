@@ -12,20 +12,23 @@ namespace Route66
 {
 	public partial class FormOptions : Form
 	{
-		public Settings Settings { get; set; }
-
+		#region FIELDS
+		#endregion
+		#region CONSTRUCTOR
 		public FormOptions(Settings set)
 		{
 			InitializeComponent();
 			set.Save();
-			this.Settings = Settings.Load(propertyGrid1, set.fileName); // Set eventhandler.
-			this.propertyGrid1.SelectedObject = Settings;
-			this.propertyGrid1.HelpVisible = Settings.HelpVisible;
+			Settings = Settings.Load(propertyGrid1, set.fileName); // Set eventhandler.
+			propertyGrid1.SelectedObject = Settings;
+			propertyGrid1.HelpVisible = Settings.HelpVisible;
 		}
-
-		private void FormOptions_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			propertyGrid1.Dispose();
-		}
+		#endregion
+		#region PROPERTIES
+		public Settings Settings { get; set; }
+		#endregion
+		#region METHODES
+		private void FormOptions_FormClosing(object sender, FormClosingEventArgs e) => propertyGrid1.Dispose();
+		#endregion
 	}
 }

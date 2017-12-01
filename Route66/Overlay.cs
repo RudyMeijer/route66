@@ -22,12 +22,8 @@ namespace Route66
 		private readonly GMapOverlay Red;
 		private readonly GMapOverlay Green;
 		private readonly GMapOverlay Blue;
-		//
-		// AutoRoute: if set route will be placed on road.
-		//
-		public bool AutoRoute { get; internal set; }
-		public Settings Settings { get; }
 		#endregion
+		#region CONSTRUCTOR
 		public Overlay(GMapControl gmap)
 		{
 			this.Map = gmap;
@@ -44,7 +40,15 @@ namespace Route66
 			Red.Routes.Add(RedRoute);
 			Settings = Settings.Global;
 		}
-
+		#endregion
+		#region PROPERTIES
+		/// <summary>
+		/// True when intermediat markers will be placed on road.
+		/// </summary>
+		public bool AutoRoute { get; internal set; }
+		public Settings Settings { get; }
+		#endregion
+		#region METHODES
 		public bool AddMarker(PointLatLng point)
 		{
 			//GMapMarker m1 = new GMapMarker(start);
@@ -317,5 +321,6 @@ namespace Route66
 				}
 			}
 		}
+		#endregion
 	}
 }
