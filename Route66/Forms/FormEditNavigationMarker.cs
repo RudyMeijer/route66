@@ -66,20 +66,23 @@
 
 		private void btnPlay_Click(object sender, EventArgs e)
 		{
-			if (Settings.SpeechSyntesizer)
-			{
-				Speech.Play(cmbMessage.Text);
-			}
+			My.PlaySound(cmbMessage.Text);
 		}
 
 		private void cmbMessage_Validated(object sender, EventArgs e)
 		{
 			if (Settings.SpeechSyntesizer)
 			{
-				var wavFile = Path.Combine(My.CheckPath(Settings.RoutePath.Replace("Routes", "VoiceFiles")), cmbMessage.Text) + ".wav";
+				var wavFile = Path.Combine(My.CheckPath(Settings.RoutePath , "VoiceFiles"), My.ValidateFilename(cmbMessage.Text)) + ".wav";
 				Speech.SaveWav(cmbMessage.Text, wavFile);
 			}
+			cmbMessage_SelectedIndexChanged(null, null);
 		}
 		#endregion
+
+		private void cmbMessage_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			txtSoundFile.Text = My.ValidateFilename(cmbMessage.Text) + ".wav";
+		}
 	}
 }

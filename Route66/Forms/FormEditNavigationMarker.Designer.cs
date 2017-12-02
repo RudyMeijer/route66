@@ -41,7 +41,6 @@
 			// 
 			// groupBox1
 			// 
-			this.groupBox1.Controls.Add(this.btnPlay);
 			this.groupBox1.Controls.Add(this.txtSoundFile);
 			this.groupBox1.Location = new System.Drawing.Point(12, 65);
 			this.groupBox1.Name = "groupBox1";
@@ -52,7 +51,7 @@
 			// 
 			// btnPlay
 			// 
-			this.btnPlay.Location = new System.Drawing.Point(6, 17);
+			this.btnPlay.Location = new System.Drawing.Point(216, 16);
 			this.btnPlay.Name = "btnPlay";
 			this.btnPlay.Size = new System.Drawing.Size(44, 23);
 			this.btnPlay.TabIndex = 1;
@@ -62,13 +61,14 @@
 			// 
 			// txtSoundFile
 			// 
-			this.txtSoundFile.Location = new System.Drawing.Point(56, 19);
+			this.txtSoundFile.Location = new System.Drawing.Point(6, 19);
 			this.txtSoundFile.Name = "txtSoundFile";
-			this.txtSoundFile.Size = new System.Drawing.Size(204, 20);
+			this.txtSoundFile.Size = new System.Drawing.Size(254, 20);
 			this.txtSoundFile.TabIndex = 0;
 			// 
 			// groupBox2
 			// 
+			this.groupBox2.Controls.Add(this.btnPlay);
 			this.groupBox2.Controls.Add(this.cmbMessage);
 			this.groupBox2.Location = new System.Drawing.Point(12, 12);
 			this.groupBox2.Name = "groupBox2";
@@ -82,13 +82,14 @@
 			this.cmbMessage.FormattingEnabled = true;
 			this.cmbMessage.Location = new System.Drawing.Point(3, 16);
 			this.cmbMessage.Name = "cmbMessage";
-			this.cmbMessage.Size = new System.Drawing.Size(261, 21);
+			this.cmbMessage.Size = new System.Drawing.Size(207, 21);
 			this.cmbMessage.TabIndex = 0;
+			this.cmbMessage.SelectedIndexChanged += new System.EventHandler(this.cmbMessage_SelectedIndexChanged);
 			this.cmbMessage.Validated += new System.EventHandler(this.cmbMessage_Validated);
 			// 
 			// btnRemove
 			// 
-			this.btnRemove.Location = new System.Drawing.Point(126, 127);
+			this.btnRemove.Location = new System.Drawing.Point(116, 127);
 			this.btnRemove.Name = "btnRemove";
 			this.btnRemove.Size = new System.Drawing.Size(75, 23);
 			this.btnRemove.TabIndex = 6;
@@ -98,7 +99,7 @@
 			// 
 			// btnSave
 			// 
-			this.btnSave.Location = new System.Drawing.Point(207, 127);
+			this.btnSave.Location = new System.Drawing.Point(197, 127);
 			this.btnSave.Name = "btnSave";
 			this.btnSave.Size = new System.Drawing.Size(75, 23);
 			this.btnSave.TabIndex = 7;

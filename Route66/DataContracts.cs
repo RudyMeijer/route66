@@ -55,7 +55,7 @@ namespace Route66
 
 		public override string ToString()
 		{
-			return $"{Message} \n{SoundFile}";
+			return $"{Message}";
 		}
 		#region PROPERTIES
 		[XmlAttribute()]
