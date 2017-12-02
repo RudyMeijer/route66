@@ -167,14 +167,6 @@ namespace Route66
 		private void gmap_MouseDown(object sender, MouseEventArgs e)
 		{
 			//
-			// Add marker
-			//
-			if (e.Button == MouseButtons.Left && !IsOnMarker) { Overlay.AddMarkers(e.X, e.Y); Route.IsChanged = true; }
-			//
-			// Remove marker
-			//
-			if (e.Button == MouseButtons.Right && IsOnMarker) { Overlay.Remove(LastMarker); Pop(true); Route.IsChanged = true; }
-			//
 			// Select current marker 
 			//
 			if (e.Button == MouseButtons.Left && IsOnMarker && !Settings.FastDrawMode) { Overlay.SetCurrentMarker(LastMarker); }
@@ -182,38 +174,37 @@ namespace Route66
 			// Edit marker
 			//
 			if (IsOnMarker && e.Clicks == 2) { Route.IsChanged = Overlay.EditMarker(Key); }
+			//
+			// Check if edit route is allowed.
+			//
+			if (!chkEditRoute.Checked) return;
+			//
+			// Add marker
+			//
+			if (e.Button == MouseButtons.Left && !IsOnMarker) { Overlay.AddMarkers(e.X, e.Y); Route.IsChanged = true; }
+			//
+			// Remove marker
+			//
+			if (e.Button == MouseButtons.Right && IsOnMarker) { Overlay.Remove(LastMarker); Pop(true); Route.IsChanged = true; }
 		}
 
-		private void Pop(bool force=false)
+		private void Pop(bool force = false)
 		{
-			GMapMarker tmp = null;
-			if (force)
+			IsOnMarker = false;
+			if (MarkerStack.Count == 0) return; // Program error.
+			MarkerStack.Pop();
+			if (MarkerStack.Count > 0)
 			{
-				MarkerStack.Pop();
-				if (MarkerStack.Count > 0)
-				{
-					LastMarker = MarkerStack.Peek();
-				}
-				else
-				{
-					IsOnMarker = false;
-				}
+				LastMarker = MarkerStack.Peek();
+				IsOnMarker = true;
+				Console.WriteLine($"Peek {LastMarker.ToolTipText} {((MarkerStack.Count == 0) ? "empty" : "")}");
 			}
-			else
-			{
-				tmp = MarkerStack.Pop();
-				IsOnMarker = false;
-			}
-			if (IsOnMarker)
-				Console.WriteLine($"Peek {LastMarker.ToolTipText} {IsOnMarker}");
-			else
-				Console.WriteLine($"Pop {tmp?.ToolTipText} {IsOnMarker} stack empty");
 		}
 
 		private void gmap_OnMarkerLeave(GMapMarker item)
 		{
 			Console.WriteLine($"Leave marker {item.ToolTipText}");
-			if (!IsDragging)
+			if (!IsDragging && item.Overlay == gmap.Overlays[0])
 			{
 				Pop();
 			}
@@ -232,7 +223,7 @@ namespace Route66
 					LastMarker = item;
 					MarkerStack.Push(item);
 					if (Settings.FastDrawMode) Overlay.SetCurrentMarker(item);
-					Console.WriteLine($"Push {item.ToolTipText}");
+					//Console.WriteLine($"Push {item.ToolTipText}");
 				}
 				else if (item.Tag is NavigationMarker)
 				{
@@ -367,6 +358,7 @@ namespace Route66
 		{
 			Overlay.Clear();
 			IsOnMarker = IsDragging = false;
+			MarkerStack.Clear();
 			//this.Text = Title + "Create new route by click left mouse on map.";
 			//var x = Route.FileName;
 		}

@@ -69,9 +69,10 @@ namespace Route66
 		}
 		internal bool Remove(GMapMarker marker)
 		{
-			if (marker == null) return false;
+			//if (marker == null) return false;
 			var idx = Red.Markers.IndexOf(marker);
 			Console.WriteLine($"Remove marker {idx}");
+			if (idx == -1) return false; // Program error.
 			Red.Markers.Remove(marker);
 			UpdateGreenAndBlueOverlay(Crud.Delete, marker.Tag, null);
 			RedRoute.Points.RemoveAt(idx);// marker.Position);
