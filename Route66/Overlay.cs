@@ -71,6 +71,7 @@ namespace Route66
 		{
 			if (marker == null) return false;
 			var idx = Red.Markers.IndexOf(marker);
+			Console.WriteLine($"Remove marker {idx}");
 			Red.Markers.Remove(marker);
 			UpdateGreenAndBlueOverlay(Crud.Delete, marker.Tag, null);
 			RedRoute.Points.RemoveAt(idx);// marker.Position);

@@ -173,7 +173,7 @@ namespace Route66
 			//
 			// Remove marker
 			//
-			if (e.Button == MouseButtons.Right && IsOnMarker) { Overlay.Remove(LastMarker); IsOverlayed(); Route.IsChanged = true; }
+			if (e.Button == MouseButtons.Right && IsOnMarker) { Overlay.Remove(LastMarker); Pop(true); Route.IsChanged = true; }
 			//
 			// Select current marker 
 			//
@@ -184,14 +184,30 @@ namespace Route66
 			if (IsOnMarker && e.Clicks == 2) { Route.IsChanged = Overlay.EditMarker(Key); }
 		}
 
-		private void IsOverlayed()
+		private void Pop(bool force=false)
 		{
-			if (MarkerStack.Count > 0) MarkerStack.Pop();
-			IsOnMarker = MarkerStack.Count > 0;
-			if (IsOnMarker)
+			GMapMarker tmp = null;
+			if (force)
 			{
-				LastMarker = MarkerStack.Pop();
+				MarkerStack.Pop();
+				if (MarkerStack.Count > 0)
+				{
+					LastMarker = MarkerStack.Peek();
+				}
+				else
+				{
+					IsOnMarker = false;
+				}
 			}
+			else
+			{
+				tmp = MarkerStack.Pop();
+				IsOnMarker = false;
+			}
+			if (IsOnMarker)
+				Console.WriteLine($"Peek {LastMarker.ToolTipText} {IsOnMarker}");
+			else
+				Console.WriteLine($"Pop {tmp?.ToolTipText} {IsOnMarker} stack empty");
 		}
 
 		private void gmap_OnMarkerLeave(GMapMarker item)
@@ -199,7 +215,7 @@ namespace Route66
 			Console.WriteLine($"Leave marker {item.ToolTipText}");
 			if (!IsDragging)
 			{
-				IsOverlayed();
+				Pop();
 			}
 		}
 		/// <summary>
@@ -216,6 +232,7 @@ namespace Route66
 					LastMarker = item;
 					MarkerStack.Push(item);
 					if (Settings.FastDrawMode) Overlay.SetCurrentMarker(item);
+					Console.WriteLine($"Push {item.ToolTipText}");
 				}
 				else if (item.Tag is NavigationMarker)
 				{
