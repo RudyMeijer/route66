@@ -218,6 +218,7 @@ namespace Route66
 		/// <param name="item"></param>
 		private void gmap_OnMarkerEnter(GMapMarker item)
 		{
+			Console.WriteLine("Push "+ item.ToolTipText);
 			MarkerStack.Push(item);
 			if (!IsDragging)
 			{

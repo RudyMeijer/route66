@@ -158,7 +158,7 @@ namespace Route66
 		{
 			var icon = item.GetType().GetField("Type").GetValue(item);
 			var idx = Red.Markers.IndexOf(item);
-			Console.WriteLine($"Push current marker {idx} {item.Position} {icon}");
+			Console.WriteLine($"current marker {idx} {item.Position} {icon}");
 			CurrentMarker = item;
 			item.ToolTipMode = (Settings.ToolTipMode)? MarkerTooltipMode.OnMouseOver:MarkerTooltipMode.Never;
 			item.ToolTipText = $"{idx}";

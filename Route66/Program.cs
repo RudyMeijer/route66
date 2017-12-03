@@ -1,5 +1,6 @@
 ﻿using MyLib;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,7 +16,8 @@ namespace Route66
 		[STAThread]
 		static void Main()
 		{
-			TestReflection();
+			TestStack();
+			//TestReflection();
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			try
@@ -28,6 +30,17 @@ namespace Route66
 				My.Log(msg);
 				MessageBox.Show(msg, "Sometimes you have luck sometimes not. Please send file Route.log to Rudy.");
 			}
+		}
+
+		private static void TestStack()
+		{
+			var stack = new Stack();
+			stack.Push(1);
+			stack.Push(2);
+			stack.Push(3);
+
+			stack.Pop();
+			var x = stack.Peek();
 		}
 
 		private static void TestReflection()
