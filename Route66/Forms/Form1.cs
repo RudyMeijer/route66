@@ -177,7 +177,7 @@ namespace Route66
 			//
 			// Add marker
 			//
-			else if (e.Button == MouseButtons.Left && !IsOnMarker && IsEditRoute()) { Overlay.AddMarkers(e.X, e.Y); Route.IsChanged = true; }
+			else if (e.Button == MouseButtons.Left && !IsOnMarker && IsEditRoute()) { Overlay.AddMarker(e.X, e.Y); Route.IsChanged = true; }
 			//
 			// Remove marker
 			//
@@ -193,20 +193,21 @@ namespace Route66
 
 		private void Pop(bool force = false)
 		{
+			Console.Write($"Pop {LastMarker.ToolTipText} Leave marker");
 			IsOnMarker = false;
-			if (MarkerStack.Count == 0) return; // Program error.
+			if (MarkerStack.Count == 0) return; // Marker is dropped onto other marker.
 			MarkerStack.Pop();
 			if (MarkerStack.Count > 0)
 			{
 				LastMarker = MarkerStack.Peek();
 				IsOnMarker = true;
-				Console.WriteLine($"Peek {LastMarker.ToolTipText}");
+				Console.WriteLine($" Peek {LastMarker.ToolTipText}");
 			}
+			else Console.WriteLine();
 		}
 		private void gmap_OnMarkerLeave(GMapMarker item)
 		{
-			Console.WriteLine($"Leave marker {item.ToolTipText}");
-			if (!IsDragging && item.Overlay == gmap.Overlays[0])
+			//if (!IsDragging && item.Overlay == gmap.Overlays[0])
 			{
 				Pop();
 			}
@@ -217,15 +218,14 @@ namespace Route66
 		/// <param name="item"></param>
 		private void gmap_OnMarkerEnter(GMapMarker item)
 		{
+			MarkerStack.Push(item);
 			if (!IsDragging)
 			{
 				if (item.Overlay == gmap.Overlays[0]) // Allow red markers only!!
 				{
 					IsOnMarker = true;
 					LastMarker = item;
-					MarkerStack.Push(item);
 					if (Settings.FastDrawMode) Overlay.SetCurrentMarker(item);
-					//Console.WriteLine($"Push {item.ToolTipText}");
 				}
 				else if (item.Tag is NavigationMarker)
 				{
@@ -241,11 +241,16 @@ namespace Route66
 		{
 			if (e.Button == MouseButtons.Left && IsOnMarker && IsEditRoute())
 			{
+				if (!IsDragging) Console.WriteLine("start dragging " + LastMarker.ToolTipText);
 				Route.IsChanged = IsDragging = true;
 				Overlay.UpdateCurrentMarkerPosition(e.X, e.Y);
 			}
 		}
-		private void gmap_MouseUp(object sender, MouseEventArgs e) => IsDragging = false;
+		private void gmap_MouseUp(object sender, MouseEventArgs e)
+		{
+			if (IsDragging) Console.WriteLine("stop dragging " + LastMarker?.ToolTipText);
+			IsDragging = false;
+		}
 		#endregion
 		#region MAP ZOOM KEYS
 		/// <summary>

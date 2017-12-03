@@ -127,7 +127,7 @@ namespace Route66
 			Map.UpdateRouteLocalPosition(RedRoute);
 		}
 
-		internal void AddMarkers(int x, int y)
+		internal void AddMarker(int x, int y)
 		{
 			PointLatLng point = Map.FromLocalToLatLng(x, y);
 			if (AutoRoute && RedRoute.Points.Count > 0)
@@ -158,7 +158,7 @@ namespace Route66
 		{
 			var icon = item.GetType().GetField("Type").GetValue(item);
 			var idx = Red.Markers.IndexOf(item);
-			Console.WriteLine($"current marker {idx} {item.Position} {icon}");
+			Console.WriteLine($"Push current marker {idx} {item.Position} {icon}");
 			CurrentMarker = item;
 			item.ToolTipMode = (Settings.ToolTipMode)? MarkerTooltipMode.OnMouseOver:MarkerTooltipMode.Never;
 			item.ToolTipText = $"{idx}";
