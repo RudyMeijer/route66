@@ -57,12 +57,13 @@ namespace Route66
 			Red.Markers.Insert(idx, marker);
 			RedRoute.Points.Insert(idx, point);
 			Map.UpdateRouteLocalPosition(RedRoute);
-			Console.WriteLine($"Marker {idx} added at {marker.LocalPosition}");
+			Console.WriteLine($"Marker {idx} added at {marker.Position}");
 			return true;
 		}
 
 		private MapRoute AutoRouter(GMapMarker start, GMapMarker end)
 		{
+			Console.WriteLine($"Autoroute start {start.Position}, stop {end.Position}");
 			RoutingProvider rp = Map.MapProvider as RoutingProvider;
 			if (rp == null) rp = GMapProviders.OpenStreetMap; // use OpenStreetMap if provider does not implement routing
 			return rp.GetRoute(start.Position, end.Position, false, false, 2);

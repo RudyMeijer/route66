@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this.button1 = new System.Windows.Forms.Button();
+			this.btnClear = new System.Windows.Forms.Button();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.gmap = new GMap.NET.WindowsForms.GMapControl();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -75,15 +75,15 @@
 			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// button1
+			// btnClear
 			// 
-			this.button1.Location = new System.Drawing.Point(1, 7);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(95, 23);
-			this.button1.TabIndex = 0;
-			this.button1.Text = "Clear";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.button1_Click);
+			this.btnClear.Location = new System.Drawing.Point(1, 7);
+			this.btnClear.Name = "btnClear";
+			this.btnClear.Size = new System.Drawing.Size(95, 23);
+			this.btnClear.TabIndex = 0;
+			this.btnClear.Text = "Clear";
+			this.btnClear.UseVisualStyleBackColor = true;
+			this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
 			// 
 			// splitContainer1
 			// 
@@ -104,7 +104,7 @@
 			this.splitContainer1.Panel2.Controls.Add(this.txtSearchPlaces);
 			this.splitContainer1.Panel2.Controls.Add(this.label1);
 			this.splitContainer1.Panel2.Controls.Add(this.comboBox1);
-			this.splitContainer1.Panel2.Controls.Add(this.button1);
+			this.splitContainer1.Panel2.Controls.Add(this.btnClear);
 			this.splitContainer1.Size = new System.Drawing.Size(841, 471);
 			this.splitContainer1.SplitterDistance = 734;
 			this.splitContainer1.TabIndex = 1;
@@ -464,7 +464,7 @@
 
 		#endregion
 
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button btnClear;
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private GMap.NET.WindowsForms.GMapControl gmap;
 		private System.Windows.Forms.ComboBox comboBox1;

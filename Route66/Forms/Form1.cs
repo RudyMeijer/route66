@@ -56,7 +56,6 @@ namespace Route66
 			InitializeComponent();
 			Title = this.Text += My.Version + " ";
 			Settings = Settings.Load();
-			MarkerStack = new Stack<GMapMarker>();
 		}
 		#endregion
 		#region PROPERTIES
@@ -81,6 +80,7 @@ namespace Route66
 			InitializeOverlays();
 			InitializeComboboxWithMapProviders();
 			InitializeSettings();
+			MarkerStack = new Stack<GMapMarker>();
 			OpenToolStripMenuItem_Click(null, null);
 		}
 		/// <summary>
@@ -167,25 +167,28 @@ namespace Route66
 		private void gmap_MouseDown(object sender, MouseEventArgs e)
 		{
 			//
-			// Select current marker 
+			// Select marker 
 			//
 			if (e.Button == MouseButtons.Left && IsOnMarker && !Settings.FastDrawMode) { Overlay.SetCurrentMarker(LastMarker); }
 			//
 			// Edit marker
 			//
-			if (IsOnMarker && e.Clicks == 2) { Route.IsChanged = Overlay.EditMarker(Key); }
-			//
-			// Check if edit route is allowed.
-			//
-			if (!chkEditRoute.Checked) return;
+			else if (e.Button == MouseButtons.Left && IsOnMarker && e.Clicks == 2) { Route.IsChanged = Overlay.EditMarker(Key); }
 			//
 			// Add marker
 			//
-			if (e.Button == MouseButtons.Left && !IsOnMarker) { Overlay.AddMarkers(e.X, e.Y); Route.IsChanged = true; }
+			else if (e.Button == MouseButtons.Left && !IsOnMarker && IsEditRoute()) { Overlay.AddMarkers(e.X, e.Y); Route.IsChanged = true; }
 			//
 			// Remove marker
 			//
-			if (e.Button == MouseButtons.Right && IsOnMarker) { Overlay.Remove(LastMarker); Pop(true); Route.IsChanged = true; }
+			else if (e.Button == MouseButtons.Right && IsOnMarker && IsEditRoute()) { Overlay.Remove(LastMarker); Pop(true); Route.IsChanged = true; }
+		}
+
+		private bool IsEditRoute()
+		{
+			if (chkEditRoute.Checked) return true;
+			MessageBox.Show($"Please enable edit route on the right side.", $"Dear mr {My.UserName}");
+			return false;
 		}
 
 		private void Pop(bool force = false)
@@ -197,10 +200,9 @@ namespace Route66
 			{
 				LastMarker = MarkerStack.Peek();
 				IsOnMarker = true;
-				Console.WriteLine($"Peek {LastMarker.ToolTipText} {((MarkerStack.Count == 0) ? "empty" : "")}");
+				Console.WriteLine($"Peek {LastMarker.ToolTipText}");
 			}
 		}
-
 		private void gmap_OnMarkerLeave(GMapMarker item)
 		{
 			Console.WriteLine($"Leave marker {item.ToolTipText}");
@@ -237,13 +239,15 @@ namespace Route66
 		}
 		private void gmap_MouseMove(object sender, MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Left && IsOnMarker)
+			if (e.Button == MouseButtons.Left && IsOnMarker && IsEditRoute())
 			{
 				Route.IsChanged = IsDragging = true;
 				Overlay.UpdateCurrentMarkerPosition(e.X, e.Y);
 			}
 		}
 		private void gmap_MouseUp(object sender, MouseEventArgs e) => IsDragging = false;
+		#endregion
+		#region MAP ZOOM KEYS
 		/// <summary>
 		/// Clear status bar when mouse leaves the map.
 		/// </summary>
@@ -256,7 +260,6 @@ namespace Route66
 			Key = e;
 			CtrlKeyIsPressed = e.Control;
 		}
-
 		private void gmap_KeyUp(object sender, KeyEventArgs e)
 		{
 			Key = e;
@@ -279,7 +282,6 @@ namespace Route66
 				this.Text = Title + openFileDialog1.FileName;
 			}
 		}
-
 		private void AskToSaveModifiedRoute()
 		{
 			if (Route.IsChanged && MessageBox.Show("Save current route?", "Route is changed.", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -292,7 +294,6 @@ namespace Route66
 			else Route.Save();
 			this.Text = Title + Route.FileName;
 		}
-
 		/// <summary>
 		/// This function is called on Save, SaveAs and Form_Closed.
 		/// </summary>
@@ -354,7 +355,7 @@ namespace Route66
 		}
 		#endregion
 		#region RIGHT PANE
-		private void button1_Click(object sender, EventArgs e)
+		private void btnClear_Click(object sender, EventArgs e)
 		{
 			Overlay.Clear();
 			IsOnMarker = IsDragging = false;
