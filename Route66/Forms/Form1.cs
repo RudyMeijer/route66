@@ -283,6 +283,11 @@ namespace Route66
 			openFileDialog1.InitialDirectory = Settings.RoutePath;
 			if (openFileDialog1.ShowDialog() == DialogResult.OK)
 			{
+				if (Path.GetExtension(openFileDialog1.FileName) != ".xml")
+				{
+					MessageBox.Show("Sorry, this function is not implemented yet.",$"Deer mr {My.UserName}");
+					return;
+				}
 				Route = Route.Load(openFileDialog1.FileName);
 				Overlay.Load(Route);
 				this.Text = Title + openFileDialog1.FileName;
@@ -316,7 +321,7 @@ namespace Route66
 			{
 				if (Path.GetExtension(saveFileDialog1.FileName) != ".xml")
 				{
-					MessageBox.Show("Sorry, this function is not implemented yet.");
+					MessageBox.Show("Sorry, this function is not implemented yet.", $"Deer mr {My.UserName}");
 					return;
 				}
 				Overlay.CopyTo(Route);
