@@ -16,7 +16,7 @@ namespace Route66
 		[STAThread]
 		static void Main()
 		{
-			TestStack();
+			//TestStack();
 			//TestReflection();
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);

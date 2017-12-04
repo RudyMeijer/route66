@@ -47,7 +47,7 @@ namespace Route66
 		/// <summary>
 		/// Allow remove of overlaying markers via push/pop.
 		/// </summary>
-		private Stack<GMapMarker> MarkerStack;
+		private HashSet<GMapMarker> MarkerHash;
 
 		#endregion
 		#region CONSTRUCTOR
@@ -80,7 +80,7 @@ namespace Route66
 			InitializeOverlays();
 			InitializeComboboxWithMapProviders();
 			InitializeSettings();
-			MarkerStack = new Stack<GMapMarker>();
+			MarkerHash = new HashSet<GMapMarker>();
 			OpenToolStripMenuItem_Click(null, null);
 		}
 		/// <summary>
@@ -195,13 +195,13 @@ namespace Route66
 		{
 			Console.Write($"Pop {LastMarker.ToolTipText} Leave marker");
 			IsOnMarker = false;
-			if (MarkerStack.Count == 0) return; // Marker is dropped onto other marker.
-			MarkerStack.Pop();
-			if (MarkerStack.Count > 0)
+			if (MarkerHash.Count == 0) return; // Marker is dropped onto other marker.
+			MarkerHash.Remove(LastMarker);
+			if (MarkerHash.Count > 0)
 			{
-				LastMarker = MarkerStack.Peek();
+				LastMarker = MarkerHash.ElementAt(MarkerHash.Count-1);
 				IsOnMarker = true;
-				Console.WriteLine($" Peek {LastMarker.ToolTipText}");
+				Console.WriteLine($" Peek {LastMarker.ToolTipText} count {MarkerHash.Count}");
 			}
 			else Console.WriteLine();
 		}
@@ -218,8 +218,8 @@ namespace Route66
 		/// <param name="item"></param>
 		private void gmap_OnMarkerEnter(GMapMarker item)
 		{
-			Console.WriteLine("Push "+ item.ToolTipText);
-			MarkerStack.Push(item);
+			Console.Write("Push ");
+			MarkerHash.Add(item);
 			if (!IsDragging)
 			{
 				if (item.Overlay == gmap.Overlays[0]) // Allow red markers only!!
@@ -365,7 +365,7 @@ namespace Route66
 		{
 			Overlay.Clear();
 			IsOnMarker = IsDragging = false;
-			MarkerStack.Clear();
+			MarkerHash.Clear();
 			//this.Text = Title + "Create new route by click left mouse on map.";
 			//var x = Route.FileName;
 		}
