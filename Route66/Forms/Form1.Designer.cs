@@ -77,9 +77,10 @@
 			// 
 			// btnClear
 			// 
-			this.btnClear.Location = new System.Drawing.Point(1, 7);
+			this.btnClear.Location = new System.Drawing.Point(1, 9);
+			this.btnClear.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.btnClear.Name = "btnClear";
-			this.btnClear.Size = new System.Drawing.Size(95, 23);
+			this.btnClear.Size = new System.Drawing.Size(127, 28);
 			this.btnClear.TabIndex = 0;
 			this.btnClear.Text = "Clear";
 			this.btnClear.UseVisualStyleBackColor = true;
@@ -90,6 +91,7 @@
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
 			this.splitContainer1.Location = new System.Drawing.Point(0, 28);
+			this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.splitContainer1.Name = "splitContainer1";
 			// 
 			// splitContainer1.Panel1
@@ -105,8 +107,9 @@
 			this.splitContainer1.Panel2.Controls.Add(this.label1);
 			this.splitContainer1.Panel2.Controls.Add(this.comboBox1);
 			this.splitContainer1.Panel2.Controls.Add(this.btnClear);
-			this.splitContainer1.Size = new System.Drawing.Size(841, 471);
-			this.splitContainer1.SplitterDistance = 734;
+			this.splitContainer1.Size = new System.Drawing.Size(1121, 586);
+			this.splitContainer1.SplitterDistance = 1013;
+			this.splitContainer1.SplitterWidth = 5;
 			this.splitContainer1.TabIndex = 1;
 			// 
 			// gmap
@@ -119,6 +122,7 @@
 			this.gmap.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
 			this.gmap.LevelsKeepInMemmory = 5;
 			this.gmap.Location = new System.Drawing.Point(0, 0);
+			this.gmap.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.gmap.MarkersEnabled = true;
 			this.gmap.MaxZoom = 20;
 			this.gmap.MinZoom = 2;
@@ -132,7 +136,7 @@
 			this.gmap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
 			this.gmap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
 			this.gmap.ShowTileGridLines = false;
-			this.gmap.Size = new System.Drawing.Size(734, 471);
+			this.gmap.Size = new System.Drawing.Size(1013, 586);
 			this.gmap.TabIndex = 0;
 			this.gmap.Zoom = 13D;
 			this.gmap.OnMarkerEnter += new GMap.NET.WindowsForms.MarkerEnter(this.gmap_OnMarkerEnter);
@@ -152,18 +156,21 @@
 			this.groupBox3.Controls.Add(this.label2);
 			this.groupBox3.Controls.Add(this.numDosingTo);
 			this.groupBox3.Controls.Add(this.numDosingFrom);
-			this.groupBox3.Location = new System.Drawing.Point(1, 298);
+			this.groupBox3.Location = new System.Drawing.Point(1, 367);
+			this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(96, 103);
+			this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.groupBox3.Size = new System.Drawing.Size(128, 127);
 			this.groupBox3.TabIndex = 6;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Dosing";
 			// 
 			// btnChangeGlobalDosing
 			// 
-			this.btnChangeGlobalDosing.Location = new System.Drawing.Point(6, 71);
+			this.btnChangeGlobalDosing.Location = new System.Drawing.Point(8, 87);
+			this.btnChangeGlobalDosing.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.btnChangeGlobalDosing.Name = "btnChangeGlobalDosing";
-			this.btnChangeGlobalDosing.Size = new System.Drawing.Size(77, 23);
+			this.btnChangeGlobalDosing.Size = new System.Drawing.Size(103, 28);
 			this.btnChangeGlobalDosing.TabIndex = 7;
 			this.btnChangeGlobalDosing.Text = "Change";
 			this.btnChangeGlobalDosing.UseVisualStyleBackColor = true;
@@ -172,26 +179,29 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(7, 47);
+			this.label3.Location = new System.Drawing.Point(9, 58);
+			this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(21, 15);
+			this.label3.Size = new System.Drawing.Size(25, 17);
 			this.label3.TabIndex = 8;
 			this.label3.Text = "To";
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(7, 21);
+			this.label2.Location = new System.Drawing.Point(9, 26);
+			this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(36, 15);
+			this.label2.Size = new System.Drawing.Size(40, 17);
 			this.label2.TabIndex = 7;
 			this.label2.Text = "From";
 			// 
 			// numDosingTo
 			// 
-			this.numDosingTo.Location = new System.Drawing.Point(44, 45);
+			this.numDosingTo.Location = new System.Drawing.Point(59, 55);
+			this.numDosingTo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.numDosingTo.Name = "numDosingTo";
-			this.numDosingTo.Size = new System.Drawing.Size(39, 20);
+			this.numDosingTo.Size = new System.Drawing.Size(52, 22);
 			this.numDosingTo.TabIndex = 1;
 			this.toolTip1.SetToolTip(this.numDosingTo, "Update dosing globally");
 			this.numDosingTo.Value = new decimal(new int[] {
@@ -202,9 +212,10 @@
 			// 
 			// numDosingFrom
 			// 
-			this.numDosingFrom.Location = new System.Drawing.Point(44, 19);
+			this.numDosingFrom.Location = new System.Drawing.Point(59, 23);
+			this.numDosingFrom.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.numDosingFrom.Name = "numDosingFrom";
-			this.numDosingFrom.Size = new System.Drawing.Size(39, 20);
+			this.numDosingFrom.Size = new System.Drawing.Size(52, 22);
 			this.numDosingFrom.TabIndex = 0;
 			this.toolTip1.SetToolTip(this.numDosingFrom, "Update dosing globally");
 			this.numDosingFrom.ValueChanged += new System.EventHandler(this.numDosing_ValueChanged);
@@ -213,9 +224,11 @@
 			// 
 			this.groupBox2.Controls.Add(this.chkAutoRoute);
 			this.groupBox2.Controls.Add(this.chkEditRoute);
-			this.groupBox2.Location = new System.Drawing.Point(1, 209);
+			this.groupBox2.Location = new System.Drawing.Point(1, 257);
+			this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(96, 73);
+			this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.groupBox2.Size = new System.Drawing.Size(128, 90);
 			this.groupBox2.TabIndex = 5;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Route";
@@ -223,9 +236,10 @@
 			// chkAutoRoute
 			// 
 			this.chkAutoRoute.AutoSize = true;
-			this.chkAutoRoute.Location = new System.Drawing.Point(6, 44);
+			this.chkAutoRoute.Location = new System.Drawing.Point(8, 54);
+			this.chkAutoRoute.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.chkAutoRoute.Name = "chkAutoRoute";
-			this.chkAutoRoute.Size = new System.Drawing.Size(84, 19);
+			this.chkAutoRoute.Size = new System.Drawing.Size(96, 21);
 			this.chkAutoRoute.TabIndex = 2;
 			this.chkAutoRoute.Text = "Auto route";
 			this.chkAutoRoute.UseVisualStyleBackColor = true;
@@ -234,11 +248,10 @@
 			// chkEditRoute
 			// 
 			this.chkEditRoute.AutoSize = true;
-			this.chkEditRoute.Checked = true;
-			this.chkEditRoute.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkEditRoute.Location = new System.Drawing.Point(6, 19);
+			this.chkEditRoute.Location = new System.Drawing.Point(8, 23);
+			this.chkEditRoute.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.chkEditRoute.Name = "chkEditRoute";
-			this.chkEditRoute.Size = new System.Drawing.Size(81, 19);
+			this.chkEditRoute.Size = new System.Drawing.Size(91, 21);
 			this.chkEditRoute.TabIndex = 1;
 			this.chkEditRoute.Text = "Edit route";
 			this.chkEditRoute.UseVisualStyleBackColor = true;
@@ -250,9 +263,11 @@
 			this.groupBox1.Controls.Add(this.chkChangePoints);
 			this.groupBox1.Controls.Add(this.chkGpsPoints);
 			this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.groupBox1.Location = new System.Drawing.Point(1, 88);
+			this.groupBox1.Location = new System.Drawing.Point(1, 108);
+			this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(96, 115);
+			this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.groupBox1.Size = new System.Drawing.Size(128, 142);
 			this.groupBox1.TabIndex = 3;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Markers";
@@ -260,9 +275,10 @@
 			// chkShowTooltip
 			// 
 			this.chkShowTooltip.AutoSize = true;
-			this.chkShowTooltip.Location = new System.Drawing.Point(6, 88);
+			this.chkShowTooltip.Location = new System.Drawing.Point(8, 108);
+			this.chkShowTooltip.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.chkShowTooltip.Name = "chkShowTooltip";
-			this.chkShowTooltip.Size = new System.Drawing.Size(66, 19);
+			this.chkShowTooltip.Size = new System.Drawing.Size(73, 21);
 			this.chkShowTooltip.TabIndex = 4;
 			this.chkShowTooltip.Text = "Tooltip";
 			this.chkShowTooltip.UseVisualStyleBackColor = true;
@@ -273,9 +289,10 @@
 			this.chkNavPoints.AutoSize = true;
 			this.chkNavPoints.Checked = true;
 			this.chkNavPoints.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkNavPoints.Location = new System.Drawing.Point(6, 65);
+			this.chkNavPoints.Location = new System.Drawing.Point(8, 80);
+			this.chkNavPoints.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.chkNavPoints.Name = "chkNavPoints";
-			this.chkNavPoints.Size = new System.Drawing.Size(87, 19);
+			this.chkNavPoints.Size = new System.Drawing.Size(97, 21);
 			this.chkNavPoints.TabIndex = 3;
 			this.chkNavPoints.Text = "Navigation";
 			this.chkNavPoints.UseVisualStyleBackColor = true;
@@ -286,9 +303,10 @@
 			this.chkChangePoints.AutoSize = true;
 			this.chkChangePoints.Checked = true;
 			this.chkChangePoints.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkChangePoints.Location = new System.Drawing.Point(6, 42);
+			this.chkChangePoints.Location = new System.Drawing.Point(8, 52);
+			this.chkChangePoints.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.chkChangePoints.Name = "chkChangePoints";
-			this.chkChangePoints.Size = new System.Drawing.Size(72, 19);
+			this.chkChangePoints.Size = new System.Drawing.Size(79, 21);
 			this.chkChangePoints.TabIndex = 2;
 			this.chkChangePoints.Text = "Change";
 			this.chkChangePoints.UseVisualStyleBackColor = true;
@@ -299,9 +317,10 @@
 			this.chkGpsPoints.AutoSize = true;
 			this.chkGpsPoints.Checked = true;
 			this.chkGpsPoints.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkGpsPoints.Location = new System.Drawing.Point(6, 19);
+			this.chkGpsPoints.Location = new System.Drawing.Point(8, 23);
+			this.chkGpsPoints.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.chkGpsPoints.Name = "chkGpsPoints";
-			this.chkGpsPoints.Size = new System.Drawing.Size(54, 19);
+			this.chkGpsPoints.Size = new System.Drawing.Size(59, 21);
 			this.chkGpsPoints.TabIndex = 1;
 			this.chkGpsPoints.Text = "GPS";
 			this.chkGpsPoints.UseVisualStyleBackColor = true;
@@ -309,9 +328,10 @@
 			// 
 			// txtSearchPlaces
 			// 
-			this.txtSearchPlaces.Location = new System.Drawing.Point(45, 35);
+			this.txtSearchPlaces.Location = new System.Drawing.Point(60, 43);
+			this.txtSearchPlaces.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.txtSearchPlaces.Name = "txtSearchPlaces";
-			this.txtSearchPlaces.Size = new System.Drawing.Size(51, 20);
+			this.txtSearchPlaces.Size = new System.Drawing.Size(67, 22);
 			this.txtSearchPlaces.TabIndex = 2;
 			this.txtSearchPlaces.Text = "Nassau";
 			this.txtSearchPlaces.WordWrap = false;
@@ -321,18 +341,20 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(2, 37);
+			this.label1.Location = new System.Drawing.Point(3, 46);
+			this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(46, 15);
+			this.label1.Size = new System.Drawing.Size(53, 17);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "Search";
 			// 
 			// comboBox1
 			// 
 			this.comboBox1.FormattingEnabled = true;
-			this.comboBox1.Location = new System.Drawing.Point(1, 61);
+			this.comboBox1.Location = new System.Drawing.Point(1, 75);
+			this.comboBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.comboBox1.Name = "comboBox1";
-			this.comboBox1.Size = new System.Drawing.Size(95, 21);
+			this.comboBox1.Size = new System.Drawing.Size(125, 24);
 			this.comboBox1.TabIndex = 1;
 			this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
 			// 
@@ -345,7 +367,8 @@
             this.helpToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(841, 28);
+			this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
+			this.menuStrip1.Size = new System.Drawing.Size(1121, 28);
 			this.menuStrip1.TabIndex = 2;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -414,9 +437,10 @@
 			this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 474);
+			this.statusStrip1.Location = new System.Drawing.Point(0, 589);
 			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(841, 25);
+			this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
+			this.statusStrip1.Size = new System.Drawing.Size(1121, 25);
 			this.statusStrip1.TabIndex = 3;
 			this.statusStrip1.Text = "statusStrip1";
 			// 
@@ -428,13 +452,14 @@
 			// 
 			// Form1
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(841, 499);
+			this.ClientSize = new System.Drawing.Size(1121, 614);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.menuStrip1);
 			this.MainMenuStrip = this.menuStrip1;
+			this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.Name = "Form1";
 			this.Text = "Route66";
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;

@@ -137,4 +137,9 @@
     <Content Include="Documents\System Requirements Document.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy  /y/s/m  $(targetDir)* P:\route66\Develop\
+rem xcopy  /y/s  $(targetDir)*.dll  P:\route66\Develop\
+</PostBuildEvent>
+  </PropertyGroup>
 </Project>

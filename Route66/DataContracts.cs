@@ -49,8 +49,8 @@ namespace Route66
 		public NavigationMarker() { }
 		public NavigationMarker(PointLatLng position) : base(position.Lng, position.Lat)
 		{
-			//SoundFile = "Soundfile.wav";
 			Message = "Turn right";
+			SoundFile = "Turn right.wav";
 		}
 
 		public override string ToString()

@@ -19,7 +19,7 @@ using System.Collections;
 
 namespace Route66
 {
-	public partial class Form1 : Form
+	public  partial class Form1 : Form
 	{
 		#region FIELDS
 		/// <summary>
@@ -70,7 +70,7 @@ namespace Route66
 		public Route Route { get; set; }
 		#endregion
 		#region INITIALIZE
-		private void Form1_Load(object sender, EventArgs e)
+		private  void Form1_Load(object sender, EventArgs e)
 		{
 			InitializeLogfile();
 			My.Log($"Start {Title} User {My.UserName} {My.WindowsVersion}");
@@ -81,7 +81,7 @@ namespace Route66
 			InitializeComboboxWithMapProviders();
 			InitializeSettings();
 			MarkerHash = new HashSet<GMapMarker>();
-			OpenToolStripMenuItem_Click(null, null);
+			if (Settings.SupervisorMode) OpenToolStripMenuItem_Click(null, null);
 		}
 		/// <summary>
 		/// Limit maximum logfile size to 1 Mb.
@@ -262,7 +262,7 @@ namespace Route66
 		private void gmap_MouseLeave(object sender, EventArgs e) => My.Status(" Ready");
 		private void gmap_KeyDown(object sender, KeyEventArgs e)
 		{
-			Console.WriteLine($"KeyDown Ctrl = {e.Control}");
+			Console.WriteLine($"KeyDown = {e.KeyCode}");
 			Key = e;
 			CtrlKeyIsPressed = e.Control;
 		}

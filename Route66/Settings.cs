@@ -101,7 +101,7 @@ public class Settings
 		var property = e.ChangedItem;
 		if (property.Label == "SupervisorMode")
 		{
-			if (appSettings.SupervisorMode) appSettings.SupervisorMode = (Prompt.ShowDialog("Enter Supervisor password:", _propertyGrid.ParentForm.Text) == "Rudy" + DateTime.Now.Minute.ToString("00"));
+			if (appSettings.SupervisorMode) appSettings.SupervisorMode = (Prompt.ShowDialog("Enter Supervisor password:",  (s as PropertyGrid).ParentForm.Text) == "Rudy" + DateTime.Now.Minute.ToString("00"));
 			else appSettings.SaveAs(appSettings.fileName); //Save SuperVisor = false;
 		}
 		My.Log($"User {My.UserName} changed application setting {property.Label} from {e.OldValue} to {property.Value}.");

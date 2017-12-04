@@ -66,7 +66,7 @@ namespace Route66
 			Console.WriteLine($"Autoroute start {start.Position}, stop {end.Position}");
 			RoutingProvider rp = Map.MapProvider as RoutingProvider;
 			if (rp == null) rp = GMapProviders.OpenStreetMap; // use OpenStreetMap if provider does not implement routing
-			return rp.GetRoute(start.Position, end.Position, false, false, 2);
+			return  rp.GetRoute(start.Position, end.Position, false, false, 2);
 		}
 		internal bool Remove(GMapMarker marker)
 		{

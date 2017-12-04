@@ -28,6 +28,7 @@
 		private void InitializeComboBox()
 		{
 			cmbMessage.DataSource = Translate.NavigationMessages;
+			//cmbMessage_SelectedIndexChanged(null, null);
 		}
 		#endregion
 		#region PROPERTIES
