@@ -62,5 +62,25 @@ namespace Route66
 		{
 			if (!IsButton) marker.Tag = originalTag;
 		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+		}
+
+		private void checkBox1_CheckedChanged(object sender, EventArgs e)
+		{
+			grpAction.Visible = (sender as CheckBox).Checked;
+		}
+
+		private void checkBox2_CheckedChanged(object sender, EventArgs e)
+		{
+			var c= sender as CheckBox;
+			c.Text = (c.Checked) ? "ON" : "OFF";
+		}
+
+		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+		{
+
+		}
 	}
 }
