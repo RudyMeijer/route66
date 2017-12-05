@@ -316,9 +316,9 @@ namespace Route66
 			foreach (var item in Green.Markers)
 			{
 				var x = item.Tag as ChangeMarker;
-				if (x.Dosing == from || from == 0)
+				if (x.Dosage == from || from == 0)
 				{
-					x.Dosing = to;
+					x.Dosage = to;
 					item.ToolTipText = x.ToString();
 				}
 			}

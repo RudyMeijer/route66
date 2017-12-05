@@ -74,20 +74,35 @@ namespace Route66
 		public ChangeMarker() { }
 		public ChangeMarker(PointLatLng position) : base(position.Lng, position.Lat)
 		{
-			Dosing = 20.0;
-			WidthLeft = 1.0;
-			WidthRight = 1.0;
+			Dosage = 20.0;
+			SpreadingWidthLeft = 1.0;
+			SpreadingWidthRight = 1.0;
 		}
 		public override string ToString()
 		{
-			return $"Dosing {Dosing}\nWidthLeft {WidthLeft}\nWidthRight {WidthRight}";
+			return $"Dosing {Dosage}\nWidthLeft {SpreadingWidthLeft}\nWidthRight {SpreadingWidthRight}";
 		}
-		[XmlAttribute()]
-		public double Dosing { get; set; }
-		[XmlAttribute()]
-		public double WidthLeft { get; set; }
-		[XmlAttribute()]
-		public double WidthRight { get; set; }
+		#region ROW1
+		[XmlAttribute]public bool SpreadingOnOff { get; set; }
+		[XmlAttribute]public bool DualWidthOnOff { get; set; }
+		[XmlAttribute]public bool SprayingOnOff { get; set; }
+		[XmlAttribute]public bool ModeOnOff { get; set; }
+		[XmlAttribute]public bool PumpOnOff { get; set; }
+		#endregion
+		#region ROW2
+		[XmlAttribute]public double Dosage { get; set; }
+		[XmlAttribute]public bool MaxOnOff { get; set; }
+		[XmlAttribute]public bool SecMatOnOff { get; set; }
+		[XmlAttribute]public double SecLiquid { get; set; }
+		[XmlAttribute]public double SecDosage { get; set; }
+		[XmlAttribute]public bool HopperOnOff { get; set; }
+		#endregion
+		#region ROW3
+		[XmlAttribute]public double SpreadingWidthLeft { get; set; }
+		[XmlAttribute]public double SpreadingWidthRight { get; set; }
+		[XmlAttribute]public double SprayingWidthLeft { get; set; }
+		[XmlAttribute]public double SprayingWidthRight { get; set; }
+		#endregion
 	}
 
 	/// <summary>

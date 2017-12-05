@@ -6,3 +6,4 @@
 4 When current marker is removed make previous marker current.
 5 Update dosing values globally from x -> y.
 6 On startup show file open menu.
+7 Add changemarker edit form according http://confluence.ash.ads.org/display/PROD/Routecreator+ES#space-menu-link-content
