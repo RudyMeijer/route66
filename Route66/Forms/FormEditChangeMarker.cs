@@ -21,7 +21,6 @@ namespace Route66
 		public ChangeMarker ChangeMarker { get; set; }
 		public Settings Settings { get; private set; }
 
-		private readonly MachineTypes MachineType;
 		#endregion
 		#region CONSTRUCTOR
 		public FormEditChangeMarker(GMapMarker marker)
@@ -33,8 +32,7 @@ namespace Route66
 			ChangeMarker = marker.Tag as ChangeMarker;
 			DisplayOnForm(ChangeMarker);
 			Settings = Settings.Global;
-			MachineType = Settings.MachineType;
-			InitializeFormLayout(MachineType);
+			InitializeFormLayout(Settings.MachineType);
 		}
 
 		private void InitializeFormLayout(MachineTypes machineType)
@@ -76,11 +74,9 @@ namespace Route66
 			// Row 3
 			numSpreadingWidthLeft.Value = (decimal)cm.SpreadingWidthLeft;
 			numSpreadingWidthRight.Value = (decimal)cm.SpreadingWidthRight;
-			lblSpreadingTotalWidth.Text = $"{numSpreadingWidthLeft.Value + numSpreadingWidthRight.Value} m";
 
 			numSprayingWidthLeft.Value = (decimal)cm.SprayingWidthLeft;
 			numSprayingWidthRight.Value = (decimal)cm.SprayingWidthRight;
-			lblSprayingTotalWidth.Text = $"{numSprayingWidthLeft.Value + numSprayingWidthRight.Value} m";
 		}
 		private void GetFromForm(ChangeMarker cm)
 		{
@@ -122,24 +118,29 @@ namespace Route66
 			if (!IsButton) marker.Tag = originalTag;
 		}
 
-		private void button1_Click(object sender, EventArgs e)
+		//private void button1_Click(object sender, EventArgs e)
+		//{
+		//}
+
+		//private void checkBox1_CheckedChanged(object sender, EventArgs e)
+		//{
+		//	grpAction.Visible = (sender as CheckBox).Checked;
+		//}
+
+		//private void checkBox2_CheckedChanged(object sender, EventArgs e)
+		//{
+		//	var c = sender as CheckBox;
+		//	c.Text = (c.Checked) ? "ON" : "OFF";
+		//}
+
+		private void numSpreadingWidthLeft_ValueChanged(object sender, EventArgs e)
 		{
+			lblSpreadingTotalWidth.Text = $"{numSpreadingWidthLeft.Value + numSpreadingWidthRight.Value} m";
 		}
 
-		private void checkBox1_CheckedChanged(object sender, EventArgs e)
+		private void numSprayingWidthLeft_ValueChanged(object sender, EventArgs e)
 		{
-			grpAction.Visible = (sender as CheckBox).Checked;
-		}
-
-		private void checkBox2_CheckedChanged(object sender, EventArgs e)
-		{
-			var c = sender as CheckBox;
-			c.Text = (c.Checked) ? "ON" : "OFF";
-		}
-
-		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-		{
-
+			lblSprayingTotalWidth.Text = $"{numSprayingWidthLeft.Value + numSprayingWidthRight.Value} m";
 		}
 	}
 }
