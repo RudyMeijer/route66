@@ -105,7 +105,7 @@
 			// btnRemove
 			// 
 			this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnRemove.Location = new System.Drawing.Point(451, 347);
+			this.btnRemove.Location = new System.Drawing.Point(273, 251);
 			this.btnRemove.Margin = new System.Windows.Forms.Padding(4);
 			this.btnRemove.Name = "btnRemove";
 			this.btnRemove.Size = new System.Drawing.Size(100, 28);
@@ -117,7 +117,7 @@
 			// btnSave
 			// 
 			this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnSave.Location = new System.Drawing.Point(559, 347);
+			this.btnSave.Location = new System.Drawing.Point(381, 251);
 			this.btnSave.Margin = new System.Windows.Forms.Padding(4);
 			this.btnSave.Name = "btnSave";
 			this.btnSave.Size = new System.Drawing.Size(100, 28);
@@ -140,7 +140,7 @@
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(668, 315);
+			this.tabControl1.Size = new System.Drawing.Size(490, 315);
 			this.tabControl1.TabIndex = 8;
 			// 
 			// tabPage3
@@ -150,7 +150,7 @@
 			this.tabPage3.Controls.Add(this.grpAction);
 			this.tabPage3.Location = new System.Drawing.Point(4, 4);
 			this.tabPage3.Name = "tabPage3";
-			this.tabPage3.Size = new System.Drawing.Size(660, 286);
+			this.tabPage3.Size = new System.Drawing.Size(482, 286);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "tabPage3";
 			this.tabPage3.UseVisualStyleBackColor = true;
@@ -158,27 +158,27 @@
 			// flowLayoutPanel3
 			// 
 			this.flowLayoutPanel3.Controls.Add(this.lblMargeRow2);
+			this.flowLayoutPanel3.Controls.Add(this.groupBox2);
 			this.flowLayoutPanel3.Controls.Add(this.grpMax);
 			this.flowLayoutPanel3.Controls.Add(this.grpSecMat);
-			this.flowLayoutPanel3.Controls.Add(this.groupBox2);
 			this.flowLayoutPanel3.Controls.Add(this.grpSecLiquid);
 			this.flowLayoutPanel3.Controls.Add(this.grpSecDosage);
 			this.flowLayoutPanel3.Controls.Add(this.grpHopper);
 			this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Top;
 			this.flowLayoutPanel3.Location = new System.Drawing.Point(0, 56);
 			this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-			this.flowLayoutPanel3.Size = new System.Drawing.Size(660, 73);
+			this.flowLayoutPanel3.Size = new System.Drawing.Size(482, 73);
 			this.flowLayoutPanel3.TabIndex = 1;
 			// 
 			// groupBox2
 			// 
 			this.groupBox2.Controls.Add(this.numDosing);
 			this.groupBox2.Controls.Add(this.label3);
-			this.groupBox2.Location = new System.Drawing.Point(193, 4);
+			this.groupBox2.Location = new System.Drawing.Point(135, 4);
 			this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-			this.groupBox2.Size = new System.Drawing.Size(127, 58);
+			this.groupBox2.Size = new System.Drawing.Size(120, 58);
 			this.groupBox2.TabIndex = 8;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Dosage";
@@ -215,7 +215,7 @@
 			// grpMax
 			// 
 			this.grpMax.Controls.Add(this.chkMax);
-			this.grpMax.Location = new System.Drawing.Point(32, 3);
+			this.grpMax.Location = new System.Drawing.Point(262, 3);
 			this.grpMax.Name = "grpMax";
 			this.grpMax.Size = new System.Drawing.Size(70, 59);
 			this.grpMax.TabIndex = 9;
@@ -235,7 +235,7 @@
 			// grpSecMat
 			// 
 			this.grpSecMat.Controls.Add(this.chkSecMat);
-			this.grpSecMat.Location = new System.Drawing.Point(108, 3);
+			this.grpSecMat.Location = new System.Drawing.Point(338, 3);
 			this.grpSecMat.Name = "grpSecMat";
 			this.grpSecMat.Size = new System.Drawing.Size(78, 59);
 			this.grpSecMat.TabIndex = 11;
@@ -256,7 +256,7 @@
 			// 
 			this.grpSecLiquid.Controls.Add(this.label5);
 			this.grpSecLiquid.Controls.Add(this.numericUpDown5);
-			this.grpSecLiquid.Location = new System.Drawing.Point(327, 3);
+			this.grpSecLiquid.Location = new System.Drawing.Point(3, 69);
 			this.grpSecLiquid.Name = "grpSecLiquid";
 			this.grpSecLiquid.Size = new System.Drawing.Size(100, 59);
 			this.grpSecLiquid.TabIndex = 12;
@@ -297,7 +297,7 @@
 			this.grpAction.Dock = System.Windows.Forms.DockStyle.Top;
 			this.grpAction.Location = new System.Drawing.Point(0, 0);
 			this.grpAction.Name = "grpAction";
-			this.grpAction.Size = new System.Drawing.Size(660, 56);
+			this.grpAction.Size = new System.Drawing.Size(482, 56);
 			this.grpAction.TabIndex = 0;
 			this.grpAction.TabStop = false;
 			this.grpAction.Text = "Action";
@@ -313,20 +313,20 @@
 			this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
 			this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 18);
 			this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-			this.flowLayoutPanel2.Size = new System.Drawing.Size(654, 26);
+			this.flowLayoutPanel2.Size = new System.Drawing.Size(476, 26);
 			this.flowLayoutPanel2.TabIndex = 0;
 			// 
 			// lblMargeRow1
 			// 
 			this.lblMargeRow1.Location = new System.Drawing.Point(3, 0);
 			this.lblMargeRow1.Name = "lblMargeRow1";
-			this.lblMargeRow1.Size = new System.Drawing.Size(80, 24);
+			this.lblMargeRow1.Size = new System.Drawing.Size(159, 24);
 			this.lblMargeRow1.TabIndex = 0;
 			// 
 			// chkSpreading
 			// 
 			this.chkSpreading.AutoSize = true;
-			this.chkSpreading.Location = new System.Drawing.Point(89, 3);
+			this.chkSpreading.Location = new System.Drawing.Point(168, 3);
 			this.chkSpreading.Name = "chkSpreading";
 			this.chkSpreading.Size = new System.Drawing.Size(95, 21);
 			this.chkSpreading.TabIndex = 0;
@@ -337,7 +337,7 @@
 			// chkDualWidth
 			// 
 			this.chkDualWidth.AutoSize = true;
-			this.chkDualWidth.Location = new System.Drawing.Point(190, 3);
+			this.chkDualWidth.Location = new System.Drawing.Point(269, 3);
 			this.chkDualWidth.Name = "chkDualWidth";
 			this.chkDualWidth.Size = new System.Drawing.Size(95, 21);
 			this.chkDualWidth.TabIndex = 2;
@@ -348,7 +348,7 @@
 			// chkSpraying
 			// 
 			this.chkSpraying.AutoSize = true;
-			this.chkSpraying.Location = new System.Drawing.Point(291, 3);
+			this.chkSpraying.Location = new System.Drawing.Point(370, 3);
 			this.chkSpraying.Name = "chkSpraying";
 			this.chkSpraying.Size = new System.Drawing.Size(86, 21);
 			this.chkSpraying.TabIndex = 1;
@@ -413,7 +413,7 @@
 			// chkMode
 			// 
 			this.chkMode.AutoSize = true;
-			this.chkMode.Location = new System.Drawing.Point(383, 3);
+			this.chkMode.Location = new System.Drawing.Point(3, 30);
 			this.chkMode.Name = "chkMode";
 			this.chkMode.Size = new System.Drawing.Size(65, 21);
 			this.chkMode.TabIndex = 3;
@@ -424,7 +424,7 @@
 			// chkPump
 			// 
 			this.chkPump.AutoSize = true;
-			this.chkPump.Location = new System.Drawing.Point(454, 3);
+			this.chkPump.Location = new System.Drawing.Point(74, 30);
 			this.chkPump.Name = "chkPump";
 			this.chkPump.Size = new System.Drawing.Size(66, 21);
 			this.chkPump.TabIndex = 4;
@@ -436,7 +436,7 @@
 			// 
 			this.grpSecDosage.Controls.Add(this.label4);
 			this.grpSecDosage.Controls.Add(this.numericUpDown1);
-			this.grpSecDosage.Location = new System.Drawing.Point(433, 3);
+			this.grpSecDosage.Location = new System.Drawing.Point(109, 69);
 			this.grpSecDosage.Name = "grpSecDosage";
 			this.grpSecDosage.Size = new System.Drawing.Size(116, 59);
 			this.grpSecDosage.TabIndex = 13;
@@ -474,7 +474,7 @@
 			// grpHopper
 			// 
 			this.grpHopper.Controls.Add(this.checkBox1);
-			this.grpHopper.Location = new System.Drawing.Point(555, 3);
+			this.grpHopper.Location = new System.Drawing.Point(231, 69);
 			this.grpHopper.Name = "grpHopper";
 			this.grpHopper.Size = new System.Drawing.Size(70, 59);
 			this.grpHopper.TabIndex = 14;
@@ -499,7 +499,7 @@
 			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 129);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(660, 118);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(482, 118);
 			this.flowLayoutPanel1.TabIndex = 2;
 			// 
 			// grpSpreadingWidth
@@ -510,7 +510,7 @@
 			this.grpSpreadingWidth.Controls.Add(this.label9);
 			this.grpSpreadingWidth.Controls.Add(this.label8);
 			this.grpSpreadingWidth.Controls.Add(this.label6);
-			this.grpSpreadingWidth.Location = new System.Drawing.Point(132, 3);
+			this.grpSpreadingWidth.Location = new System.Drawing.Point(160, 3);
 			this.grpSpreadingWidth.Name = "grpSpreadingWidth";
 			this.grpSpreadingWidth.Size = new System.Drawing.Size(154, 115);
 			this.grpSpreadingWidth.TabIndex = 0;
@@ -594,7 +594,7 @@
 			// 
 			this.lblMargeRow3.Location = new System.Drawing.Point(3, 0);
 			this.lblMargeRow3.Name = "lblMargeRow3";
-			this.lblMargeRow3.Size = new System.Drawing.Size(123, 118);
+			this.lblMargeRow3.Size = new System.Drawing.Size(151, 118);
 			this.lblMargeRow3.TabIndex = 1;
 			// 
 			// groupBox3
@@ -605,7 +605,7 @@
 			this.groupBox3.Controls.Add(this.label10);
 			this.groupBox3.Controls.Add(this.label11);
 			this.groupBox3.Controls.Add(this.label12);
-			this.groupBox3.Location = new System.Drawing.Point(292, 3);
+			this.groupBox3.Location = new System.Drawing.Point(320, 3);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(154, 115);
 			this.groupBox3.TabIndex = 13;
@@ -689,7 +689,7 @@
 			// 
 			this.lblMargeRow2.Location = new System.Drawing.Point(3, 0);
 			this.lblMargeRow2.Name = "lblMargeRow2";
-			this.lblMargeRow2.Size = new System.Drawing.Size(23, 62);
+			this.lblMargeRow2.Size = new System.Drawing.Size(125, 62);
 			this.lblMargeRow2.TabIndex = 15;
 			// 
 			// FormEditChangeMarker
@@ -697,7 +697,7 @@
 			this.AcceptButton = this.btnSave;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(668, 388);
+			this.ClientSize = new System.Drawing.Size(490, 292);
 			this.Controls.Add(this.btnSave);
 			this.Controls.Add(this.btnRemove);
 			this.Controls.Add(this.tabControl1);
