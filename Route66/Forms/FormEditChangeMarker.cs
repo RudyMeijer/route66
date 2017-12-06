@@ -142,5 +142,11 @@ namespace Route66
 		{
 			lblSprayingTotalWidth.Text = $"{numSprayingWidthLeft.Value + numSprayingWidthRight.Value} m";
 		}
+
+		private void chkMaxOnOff_CheckedChanged(object sender, EventArgs e)
+		{
+			var c = (sender as CheckBox);
+			c.Text = (c.Checked) ? "ON" : "OFF";
+		}
 	}
 }

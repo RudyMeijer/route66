@@ -83,25 +83,28 @@ namespace Route66
 			return $"Dosing {Dosage}\nWidthLeft {SpreadingWidthLeft}\nWidthRight {SpreadingWidthRight}";
 		}
 		#region ROW1
-		[XmlAttribute]public bool SpreadingOnOff { get; set; }
-		[XmlAttribute]public bool DualWidthOnOff { get; set; }
-		[XmlAttribute]public bool SprayingOnOff { get; set; }
-		[XmlAttribute]public bool ModeOnOff { get; set; }
-		[XmlAttribute]public bool PumpOnOff { get; set; }
+		[XmlAttribute("Spreading")]public bool SpreadingOnOff { get; set; }
+		[XmlAttribute("DualWidth")]public bool DualWidthOnOff { get; set; }
+		[XmlAttribute("Spraying")] public bool SprayingOnOff { get; set; }
+		[XmlAttribute("Mode")]public bool ModeOnOff { get; set; }
+		[XmlAttribute("Pump")]public bool PumpOnOff { get; set; }
 		#endregion
 		#region ROW2
-		[XmlAttribute]public double Dosage { get; set; }
-		[XmlAttribute]public bool MaxOnOff { get; set; }
-		[XmlAttribute]public bool SecMatOnOff { get; set; }
-		[XmlAttribute]public double SecLiquid { get; set; }
-		[XmlAttribute]public double SecDosage { get; set; }
-		[XmlAttribute]public bool HopperOnOff { get; set; }
+		//
+		// Remove get;set to promote fields in xmlfile.
+		//
+		[XmlAttribute("Dosage")] public double Dosage;
+		[XmlAttribute("Max")]public bool MaxOnOff { get; set; }
+		[XmlAttribute("SecMat")]public bool SecMatOnOff { get; set; }
+		[XmlAttribute("Liquid")]public double SecLiquid { get; set; }
+		[XmlAttribute("SecDosage")]public double SecDosage { get; set; }
+		[XmlAttribute("Hopper")]public bool HopperOnOff { get; set; }
 		#endregion
 		#region ROW3
-		[XmlAttribute]public double SpreadingWidthLeft { get; set; }
-		[XmlAttribute]public double SpreadingWidthRight { get; set; }
-		[XmlAttribute]public double SprayingWidthLeft { get; set; }
-		[XmlAttribute]public double SprayingWidthRight { get; set; }
+		[XmlAttribute("WidthLeft")] public double SpreadingWidthLeft;
+		[XmlAttribute("WidthRight")] public double SpreadingWidthRight;
+		[XmlAttribute("SprayLeft")] public double SprayingWidthLeft { get; set; }
+		[XmlAttribute("SprayRight")] public double SprayingWidthRight { get; set; }
 		#endregion
 	}
 

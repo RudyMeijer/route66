@@ -41,13 +41,6 @@
 			this.label9 = new System.Windows.Forms.Label();
 			this.label8 = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
-			this.grpSprayingWidth = new System.Windows.Forms.GroupBox();
-			this.numSprayingWidthLeft = new System.Windows.Forms.NumericUpDown();
-			this.numSprayingWidthRight = new System.Windows.Forms.NumericUpDown();
-			this.lblSprayingTotalWidth = new System.Windows.Forms.Label();
-			this.label10 = new System.Windows.Forms.Label();
-			this.label11 = new System.Windows.Forms.Label();
-			this.label12 = new System.Windows.Forms.Label();
 			this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
 			this.lblMargeRow2 = new System.Windows.Forms.Label();
 			this.grpDosage = new System.Windows.Forms.GroupBox();
@@ -74,15 +67,19 @@
 			this.chkMode = new System.Windows.Forms.CheckBox();
 			this.chkPump = new System.Windows.Forms.CheckBox();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
+			this.grpSprayingWidth = new System.Windows.Forms.GroupBox();
+			this.numSprayingWidthLeft = new System.Windows.Forms.NumericUpDown();
+			this.numSprayingWidthRight = new System.Windows.Forms.NumericUpDown();
+			this.lblSprayingTotalWidth = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
+			this.label7 = new System.Windows.Forms.Label();
+			this.label10 = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.tabPage3.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
 			this.grpSpreadingWidth.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numSpreadingWidthLeft)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numSpreadingWidthRight)).BeginInit();
-			this.grpSprayingWidth.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numSprayingWidthLeft)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numSprayingWidthRight)).BeginInit();
 			this.flowLayoutPanel3.SuspendLayout();
 			this.grpDosage.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numDosage)).BeginInit();
@@ -95,15 +92,18 @@
 			this.grpHopper.SuspendLayout();
 			this.grpAction.SuspendLayout();
 			this.flowLayoutPanel2.SuspendLayout();
+			this.grpSprayingWidth.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numSprayingWidthLeft)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numSprayingWidthRight)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// btnRemove
 			// 
 			this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnRemove.Location = new System.Drawing.Point(361, 227);
+			this.btnRemove.Location = new System.Drawing.Point(255, 212);
 			this.btnRemove.Margin = new System.Windows.Forms.Padding(4);
 			this.btnRemove.Name = "btnRemove";
-			this.btnRemove.Size = new System.Drawing.Size(100, 28);
+			this.btnRemove.Size = new System.Drawing.Size(87, 28);
 			this.btnRemove.TabIndex = 6;
 			this.btnRemove.Text = "Remove";
 			this.btnRemove.UseVisualStyleBackColor = true;
@@ -112,10 +112,10 @@
 			// btnSave
 			// 
 			this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnSave.Location = new System.Drawing.Point(469, 227);
+			this.btnSave.Location = new System.Drawing.Point(352, 212);
 			this.btnSave.Margin = new System.Windows.Forms.Padding(4);
 			this.btnSave.Name = "btnSave";
-			this.btnSave.Size = new System.Drawing.Size(100, 28);
+			this.btnSave.Size = new System.Drawing.Size(87, 28);
 			this.btnSave.TabIndex = 7;
 			this.btnSave.Text = "Save";
 			this.btnSave.UseVisualStyleBackColor = true;
@@ -130,7 +130,7 @@
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(578, 315);
+			this.tabControl1.Size = new System.Drawing.Size(449, 315);
 			this.tabControl1.TabIndex = 8;
 			// 
 			// tabPage3
@@ -140,7 +140,7 @@
 			this.tabPage3.Controls.Add(this.grpAction);
 			this.tabPage3.Location = new System.Drawing.Point(4, 4);
 			this.tabPage3.Name = "tabPage3";
-			this.tabPage3.Size = new System.Drawing.Size(570, 286);
+			this.tabPage3.Size = new System.Drawing.Size(441, 286);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "tabPage3";
 			this.tabPage3.UseVisualStyleBackColor = true;
@@ -151,9 +151,9 @@
 			this.flowLayoutPanel1.Controls.Add(this.grpSpreadingWidth);
 			this.flowLayoutPanel1.Controls.Add(this.grpSprayingWidth);
 			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 129);
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 110);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(570, 94);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(441, 136);
 			this.flowLayoutPanel1.TabIndex = 2;
 			// 
 			// lblMargeRow3
@@ -171,9 +171,10 @@
 			this.grpSpreadingWidth.Controls.Add(this.label9);
 			this.grpSpreadingWidth.Controls.Add(this.label8);
 			this.grpSpreadingWidth.Controls.Add(this.label6);
+			this.grpSpreadingWidth.ForeColor = System.Drawing.Color.Blue;
 			this.grpSpreadingWidth.Location = new System.Drawing.Point(144, 3);
 			this.grpSpreadingWidth.Name = "grpSpreadingWidth";
-			this.grpSpreadingWidth.Size = new System.Drawing.Size(154, 115);
+			this.grpSpreadingWidth.Size = new System.Drawing.Size(154, 82);
 			this.grpSpreadingWidth.TabIndex = 0;
 			this.grpSpreadingWidth.TabStop = false;
 			this.grpSpreadingWidth.Text = "Spreading width";
@@ -182,7 +183,7 @@
 			// numSpreadingWidthLeft
 			// 
 			this.numSpreadingWidthLeft.DecimalPlaces = 1;
-			this.numSpreadingWidthLeft.Location = new System.Drawing.Point(13, 39);
+			this.numSpreadingWidthLeft.Location = new System.Drawing.Point(12, 39);
 			this.numSpreadingWidthLeft.Margin = new System.Windows.Forms.Padding(4);
 			this.numSpreadingWidthLeft.Maximum = new decimal(new int[] {
             10,
@@ -190,7 +191,7 @@
             0,
             0});
 			this.numSpreadingWidthLeft.Name = "numSpreadingWidthLeft";
-			this.numSpreadingWidthLeft.Size = new System.Drawing.Size(53, 22);
+			this.numSpreadingWidthLeft.Size = new System.Drawing.Size(54, 22);
 			this.numSpreadingWidthLeft.TabIndex = 7;
 			this.numSpreadingWidthLeft.Value = new decimal(new int[] {
             10,
@@ -202,7 +203,7 @@
 			// numSpreadingWidthRight
 			// 
 			this.numSpreadingWidthRight.DecimalPlaces = 1;
-			this.numSpreadingWidthRight.Location = new System.Drawing.Point(82, 39);
+			this.numSpreadingWidthRight.Location = new System.Drawing.Point(83, 39);
 			this.numSpreadingWidthRight.Margin = new System.Windows.Forms.Padding(4);
 			this.numSpreadingWidthRight.Maximum = new decimal(new int[] {
             10,
@@ -210,7 +211,7 @@
             0,
             0});
 			this.numSpreadingWidthRight.Name = "numSpreadingWidthRight";
-			this.numSpreadingWidthRight.Size = new System.Drawing.Size(53, 22);
+			this.numSpreadingWidthRight.Size = new System.Drawing.Size(54, 22);
 			this.numSpreadingWidthRight.TabIndex = 10;
 			this.numSpreadingWidthRight.Value = new decimal(new int[] {
             10,
@@ -222,6 +223,7 @@
 			// lblSpreadingTotalWidth
 			// 
 			this.lblSpreadingTotalWidth.AutoSize = true;
+			this.lblSpreadingTotalWidth.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
 			this.lblSpreadingTotalWidth.Location = new System.Drawing.Point(56, 17);
 			this.lblSpreadingTotalWidth.Name = "lblSpreadingTotalWidth";
 			this.lblSpreadingTotalWidth.Size = new System.Drawing.Size(39, 17);
@@ -239,6 +241,7 @@
 			// label8
 			// 
 			this.label8.AutoSize = true;
+			this.label8.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
 			this.label8.Location = new System.Drawing.Point(91, 65);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(41, 17);
@@ -248,102 +251,12 @@
 			// label6
 			// 
 			this.label6.AutoSize = true;
+			this.label6.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
 			this.label6.Location = new System.Drawing.Point(20, 65);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(32, 17);
 			this.label6.TabIndex = 8;
 			this.label6.Text = "Left";
-			// 
-			// grpSprayingWidth
-			// 
-			this.grpSprayingWidth.Controls.Add(this.numSprayingWidthLeft);
-			this.grpSprayingWidth.Controls.Add(this.numSprayingWidthRight);
-			this.grpSprayingWidth.Controls.Add(this.lblSprayingTotalWidth);
-			this.grpSprayingWidth.Controls.Add(this.label10);
-			this.grpSprayingWidth.Controls.Add(this.label11);
-			this.grpSprayingWidth.Controls.Add(this.label12);
-			this.grpSprayingWidth.Location = new System.Drawing.Point(304, 3);
-			this.grpSprayingWidth.Name = "grpSprayingWidth";
-			this.grpSprayingWidth.Size = new System.Drawing.Size(154, 115);
-			this.grpSprayingWidth.TabIndex = 13;
-			this.grpSprayingWidth.TabStop = false;
-			this.grpSprayingWidth.Text = "Spraying width";
-			this.grpSprayingWidth.Visible = false;
-			// 
-			// numSprayingWidthLeft
-			// 
-			this.numSprayingWidthLeft.DecimalPlaces = 1;
-			this.numSprayingWidthLeft.Location = new System.Drawing.Point(14, 59);
-			this.numSprayingWidthLeft.Margin = new System.Windows.Forms.Padding(4);
-			this.numSprayingWidthLeft.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-			this.numSprayingWidthLeft.Name = "numSprayingWidthLeft";
-			this.numSprayingWidthLeft.Size = new System.Drawing.Size(53, 22);
-			this.numSprayingWidthLeft.TabIndex = 7;
-			this.numSprayingWidthLeft.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-			this.numSprayingWidthLeft.ValueChanged += new System.EventHandler(this.numSprayingWidthLeft_ValueChanged);
-			// 
-			// numSprayingWidthRight
-			// 
-			this.numSprayingWidthRight.DecimalPlaces = 1;
-			this.numSprayingWidthRight.Location = new System.Drawing.Point(82, 59);
-			this.numSprayingWidthRight.Margin = new System.Windows.Forms.Padding(4);
-			this.numSprayingWidthRight.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-			this.numSprayingWidthRight.Name = "numSprayingWidthRight";
-			this.numSprayingWidthRight.Size = new System.Drawing.Size(53, 22);
-			this.numSprayingWidthRight.TabIndex = 10;
-			this.numSprayingWidthRight.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-			this.numSprayingWidthRight.ValueChanged += new System.EventHandler(this.numSprayingWidthLeft_ValueChanged);
-			// 
-			// lblSprayingTotalWidth
-			// 
-			this.lblSprayingTotalWidth.AutoSize = true;
-			this.lblSprayingTotalWidth.Location = new System.Drawing.Point(56, 31);
-			this.lblSprayingTotalWidth.Name = "lblSprayingTotalWidth";
-			this.lblSprayingTotalWidth.Size = new System.Drawing.Size(39, 17);
-			this.lblSprayingTotalWidth.TabIndex = 9;
-			this.lblSprayingTotalWidth.Text = "20 m";
-			// 
-			// label10
-			// 
-			this.label10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.label10.Location = new System.Drawing.Point(39, 42);
-			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(66, 38);
-			this.label10.TabIndex = 12;
-			// 
-			// label11
-			// 
-			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(91, 85);
-			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(41, 17);
-			this.label11.TabIndex = 11;
-			this.label11.Text = "Right";
-			// 
-			// label12
-			// 
-			this.label12.AutoSize = true;
-			this.label12.Location = new System.Drawing.Point(18, 85);
-			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(32, 17);
-			this.label12.TabIndex = 8;
-			this.label12.Text = "Left";
 			// 
 			// flowLayoutPanel3
 			// 
@@ -355,9 +268,9 @@
 			this.flowLayoutPanel3.Controls.Add(this.grpSecDosage);
 			this.flowLayoutPanel3.Controls.Add(this.grpHopper);
 			this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Top;
-			this.flowLayoutPanel3.Location = new System.Drawing.Point(0, 56);
+			this.flowLayoutPanel3.Location = new System.Drawing.Point(0, 50);
 			this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-			this.flowLayoutPanel3.Size = new System.Drawing.Size(570, 73);
+			this.flowLayoutPanel3.Size = new System.Drawing.Size(441, 60);
 			this.flowLayoutPanel3.TabIndex = 1;
 			// 
 			// lblMargeRow2
@@ -371,11 +284,12 @@
 			// 
 			this.grpDosage.Controls.Add(this.numDosage);
 			this.grpDosage.Controls.Add(this.label3);
+			this.grpDosage.ForeColor = System.Drawing.Color.Blue;
 			this.grpDosage.Location = new System.Drawing.Point(99, 4);
 			this.grpDosage.Margin = new System.Windows.Forms.Padding(4);
 			this.grpDosage.Name = "grpDosage";
 			this.grpDosage.Padding = new System.Windows.Forms.Padding(4);
-			this.grpDosage.Size = new System.Drawing.Size(129, 58);
+			this.grpDosage.Size = new System.Drawing.Size(120, 58);
 			this.grpDosage.TabIndex = 8;
 			this.grpDosage.TabStop = false;
 			this.grpDosage.Text = "Dosage";
@@ -384,7 +298,7 @@
 			// numDosage
 			// 
 			this.numDosage.DecimalPlaces = 1;
-			this.numDosage.Location = new System.Drawing.Point(0, 21);
+			this.numDosage.Location = new System.Drawing.Point(8, 22);
 			this.numDosage.Margin = new System.Windows.Forms.Padding(4);
 			this.numDosage.Maximum = new decimal(new int[] {
             90,
@@ -403,7 +317,8 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(56, 23);
+			this.label3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			this.label3.Location = new System.Drawing.Point(64, 24);
 			this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(48, 17);
@@ -413,9 +328,10 @@
 			// grpMax
 			// 
 			this.grpMax.Controls.Add(this.chkMaxOnOff);
-			this.grpMax.Location = new System.Drawing.Point(235, 3);
+			this.grpMax.ForeColor = System.Drawing.Color.Blue;
+			this.grpMax.Location = new System.Drawing.Point(226, 3);
 			this.grpMax.Name = "grpMax";
-			this.grpMax.Size = new System.Drawing.Size(70, 59);
+			this.grpMax.Size = new System.Drawing.Size(70, 58);
 			this.grpMax.TabIndex = 9;
 			this.grpMax.TabStop = false;
 			this.grpMax.Text = "Max";
@@ -424,19 +340,22 @@
 			// chkMaxOnOff
 			// 
 			this.chkMaxOnOff.AutoSize = true;
+			this.chkMaxOnOff.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
 			this.chkMaxOnOff.Location = new System.Drawing.Point(6, 24);
 			this.chkMaxOnOff.Name = "chkMaxOnOff";
 			this.chkMaxOnOff.Size = new System.Drawing.Size(57, 21);
 			this.chkMaxOnOff.TabIndex = 10;
 			this.chkMaxOnOff.Text = "OFF";
 			this.chkMaxOnOff.UseVisualStyleBackColor = true;
+			this.chkMaxOnOff.CheckedChanged += new System.EventHandler(this.chkMaxOnOff_CheckedChanged);
 			// 
 			// grpSecMat
 			// 
 			this.grpSecMat.Controls.Add(this.chkSecMatOnOff);
-			this.grpSecMat.Location = new System.Drawing.Point(311, 3);
+			this.grpSecMat.ForeColor = System.Drawing.Color.Blue;
+			this.grpSecMat.Location = new System.Drawing.Point(302, 3);
 			this.grpSecMat.Name = "grpSecMat";
-			this.grpSecMat.Size = new System.Drawing.Size(78, 59);
+			this.grpSecMat.Size = new System.Drawing.Size(78, 58);
 			this.grpSecMat.TabIndex = 11;
 			this.grpSecMat.TabStop = false;
 			this.grpSecMat.Text = "SecMat";
@@ -445,18 +364,21 @@
 			// chkSecMatOnOff
 			// 
 			this.chkSecMatOnOff.AutoSize = true;
+			this.chkSecMatOnOff.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
 			this.chkSecMatOnOff.Location = new System.Drawing.Point(6, 24);
 			this.chkSecMatOnOff.Name = "chkSecMatOnOff";
 			this.chkSecMatOnOff.Size = new System.Drawing.Size(51, 21);
 			this.chkSecMatOnOff.TabIndex = 10;
 			this.chkSecMatOnOff.Text = "ON";
 			this.chkSecMatOnOff.UseVisualStyleBackColor = true;
+			this.chkSecMatOnOff.CheckedChanged += new System.EventHandler(this.chkMaxOnOff_CheckedChanged);
 			// 
 			// grpSecLiquid
 			// 
 			this.grpSecLiquid.Controls.Add(this.label5);
 			this.grpSecLiquid.Controls.Add(this.numSecLiquid);
-			this.grpSecLiquid.Location = new System.Drawing.Point(395, 3);
+			this.grpSecLiquid.ForeColor = System.Drawing.Color.Blue;
+			this.grpSecLiquid.Location = new System.Drawing.Point(3, 69);
 			this.grpSecLiquid.Name = "grpSecLiquid";
 			this.grpSecLiquid.Size = new System.Drawing.Size(100, 59);
 			this.grpSecLiquid.TabIndex = 12;
@@ -467,6 +389,7 @@
 			// label5
 			// 
 			this.label5.AutoSize = true;
+			this.label5.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
 			this.label5.Location = new System.Drawing.Point(69, 24);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(20, 17);
@@ -496,7 +419,8 @@
 			// 
 			this.grpSecDosage.Controls.Add(this.label4);
 			this.grpSecDosage.Controls.Add(this.numSecDosage);
-			this.grpSecDosage.Location = new System.Drawing.Point(3, 69);
+			this.grpSecDosage.ForeColor = System.Drawing.Color.Blue;
+			this.grpSecDosage.Location = new System.Drawing.Point(109, 69);
 			this.grpSecDosage.Name = "grpSecDosage";
 			this.grpSecDosage.Size = new System.Drawing.Size(116, 59);
 			this.grpSecDosage.TabIndex = 13;
@@ -507,6 +431,7 @@
 			// label4
 			// 
 			this.label4.AutoSize = true;
+			this.label4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
 			this.label4.Location = new System.Drawing.Point(66, 25);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(44, 17);
@@ -535,7 +460,8 @@
 			// grpHopper
 			// 
 			this.grpHopper.Controls.Add(this.chkHopperOnOff);
-			this.grpHopper.Location = new System.Drawing.Point(125, 69);
+			this.grpHopper.ForeColor = System.Drawing.Color.Blue;
+			this.grpHopper.Location = new System.Drawing.Point(231, 69);
 			this.grpHopper.Name = "grpHopper";
 			this.grpHopper.Size = new System.Drawing.Size(70, 59);
 			this.grpHopper.TabIndex = 14;
@@ -546,20 +472,23 @@
 			// chkHopperOnOff
 			// 
 			this.chkHopperOnOff.AutoSize = true;
+			this.chkHopperOnOff.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
 			this.chkHopperOnOff.Location = new System.Drawing.Point(6, 24);
 			this.chkHopperOnOff.Name = "chkHopperOnOff";
 			this.chkHopperOnOff.Size = new System.Drawing.Size(57, 21);
 			this.chkHopperOnOff.TabIndex = 10;
 			this.chkHopperOnOff.Text = "OFF";
 			this.chkHopperOnOff.UseVisualStyleBackColor = true;
+			this.chkHopperOnOff.CheckedChanged += new System.EventHandler(this.chkMaxOnOff_CheckedChanged);
 			// 
 			// grpAction
 			// 
 			this.grpAction.Controls.Add(this.flowLayoutPanel2);
 			this.grpAction.Dock = System.Windows.Forms.DockStyle.Top;
+			this.grpAction.ForeColor = System.Drawing.Color.Blue;
 			this.grpAction.Location = new System.Drawing.Point(0, 0);
 			this.grpAction.Name = "grpAction";
-			this.grpAction.Size = new System.Drawing.Size(570, 56);
+			this.grpAction.Size = new System.Drawing.Size(441, 50);
 			this.grpAction.TabIndex = 0;
 			this.grpAction.TabStop = false;
 			this.grpAction.Text = "Action";
@@ -575,7 +504,7 @@
 			this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
 			this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 18);
 			this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-			this.flowLayoutPanel2.Size = new System.Drawing.Size(564, 26);
+			this.flowLayoutPanel2.Size = new System.Drawing.Size(435, 26);
 			this.flowLayoutPanel2.TabIndex = 0;
 			// 
 			// lblMargeRow1
@@ -588,6 +517,7 @@
 			// chkSpreading
 			// 
 			this.chkSpreading.AutoSize = true;
+			this.chkSpreading.ForeColor = System.Drawing.Color.Blue;
 			this.chkSpreading.Location = new System.Drawing.Point(168, 3);
 			this.chkSpreading.Name = "chkSpreading";
 			this.chkSpreading.Size = new System.Drawing.Size(95, 21);
@@ -600,6 +530,7 @@
 			// chkDualWidth
 			// 
 			this.chkDualWidth.AutoSize = true;
+			this.chkDualWidth.ForeColor = System.Drawing.Color.Blue;
 			this.chkDualWidth.Location = new System.Drawing.Point(269, 3);
 			this.chkDualWidth.Name = "chkDualWidth";
 			this.chkDualWidth.Size = new System.Drawing.Size(95, 21);
@@ -612,7 +543,8 @@
 			// chkSpraying
 			// 
 			this.chkSpraying.AutoSize = true;
-			this.chkSpraying.Location = new System.Drawing.Point(370, 3);
+			this.chkSpraying.ForeColor = System.Drawing.Color.Blue;
+			this.chkSpraying.Location = new System.Drawing.Point(3, 30);
 			this.chkSpraying.Name = "chkSpraying";
 			this.chkSpraying.Size = new System.Drawing.Size(86, 21);
 			this.chkSpraying.TabIndex = 1;
@@ -624,7 +556,8 @@
 			// chkMode
 			// 
 			this.chkMode.AutoSize = true;
-			this.chkMode.Location = new System.Drawing.Point(462, 3);
+			this.chkMode.ForeColor = System.Drawing.Color.Blue;
+			this.chkMode.Location = new System.Drawing.Point(95, 30);
 			this.chkMode.Name = "chkMode";
 			this.chkMode.Size = new System.Drawing.Size(65, 21);
 			this.chkMode.TabIndex = 3;
@@ -636,7 +569,8 @@
 			// chkPump
 			// 
 			this.chkPump.AutoSize = true;
-			this.chkPump.Location = new System.Drawing.Point(3, 30);
+			this.chkPump.ForeColor = System.Drawing.Color.Blue;
+			this.chkPump.Location = new System.Drawing.Point(166, 30);
 			this.chkPump.Name = "chkPump";
 			this.chkPump.Size = new System.Drawing.Size(66, 21);
 			this.chkPump.TabIndex = 4;
@@ -649,17 +583,110 @@
 			// 
 			this.tabPage4.Location = new System.Drawing.Point(4, 4);
 			this.tabPage4.Name = "tabPage4";
-			this.tabPage4.Size = new System.Drawing.Size(436, 286);
+			this.tabPage4.Size = new System.Drawing.Size(570, 286);
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "tabPage4";
 			this.tabPage4.UseVisualStyleBackColor = true;
+			// 
+			// grpSprayingWidth
+			// 
+			this.grpSprayingWidth.Controls.Add(this.numSprayingWidthLeft);
+			this.grpSprayingWidth.Controls.Add(this.numSprayingWidthRight);
+			this.grpSprayingWidth.Controls.Add(this.lblSprayingTotalWidth);
+			this.grpSprayingWidth.Controls.Add(this.label2);
+			this.grpSprayingWidth.Controls.Add(this.label7);
+			this.grpSprayingWidth.Controls.Add(this.label10);
+			this.grpSprayingWidth.ForeColor = System.Drawing.Color.Blue;
+			this.grpSprayingWidth.Location = new System.Drawing.Point(3, 121);
+			this.grpSprayingWidth.Name = "grpSprayingWidth";
+			this.grpSprayingWidth.Size = new System.Drawing.Size(154, 82);
+			this.grpSprayingWidth.TabIndex = 13;
+			this.grpSprayingWidth.TabStop = false;
+			this.grpSprayingWidth.Text = "Spraying width";
+			this.grpSprayingWidth.Visible = false;
+			// 
+			// numSprayingWidthLeft
+			// 
+			this.numSprayingWidthLeft.DecimalPlaces = 1;
+			this.numSprayingWidthLeft.Location = new System.Drawing.Point(13, 39);
+			this.numSprayingWidthLeft.Margin = new System.Windows.Forms.Padding(4);
+			this.numSprayingWidthLeft.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+			this.numSprayingWidthLeft.Name = "numSprayingWidthLeft";
+			this.numSprayingWidthLeft.Size = new System.Drawing.Size(53, 22);
+			this.numSprayingWidthLeft.TabIndex = 7;
+			this.numSprayingWidthLeft.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+			// 
+			// numSprayingWidthRight
+			// 
+			this.numSprayingWidthRight.DecimalPlaces = 1;
+			this.numSprayingWidthRight.Location = new System.Drawing.Point(82, 39);
+			this.numSprayingWidthRight.Margin = new System.Windows.Forms.Padding(4);
+			this.numSprayingWidthRight.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+			this.numSprayingWidthRight.Name = "numSprayingWidthRight";
+			this.numSprayingWidthRight.Size = new System.Drawing.Size(53, 22);
+			this.numSprayingWidthRight.TabIndex = 10;
+			this.numSprayingWidthRight.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+			// 
+			// lblSprayingTotalWidth
+			// 
+			this.lblSprayingTotalWidth.AutoSize = true;
+			this.lblSprayingTotalWidth.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			this.lblSprayingTotalWidth.Location = new System.Drawing.Point(56, 17);
+			this.lblSprayingTotalWidth.Name = "lblSprayingTotalWidth";
+			this.lblSprayingTotalWidth.Size = new System.Drawing.Size(39, 17);
+			this.lblSprayingTotalWidth.TabIndex = 9;
+			this.lblSprayingTotalWidth.Text = "20 m";
+			// 
+			// label2
+			// 
+			this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label2.Location = new System.Drawing.Point(39, 28);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(66, 23);
+			this.label2.TabIndex = 12;
+			// 
+			// label7
+			// 
+			this.label7.AutoSize = true;
+			this.label7.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			this.label7.Location = new System.Drawing.Point(91, 65);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(41, 17);
+			this.label7.TabIndex = 11;
+			this.label7.Text = "Right";
+			// 
+			// label10
+			// 
+			this.label10.AutoSize = true;
+			this.label10.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			this.label10.Location = new System.Drawing.Point(20, 65);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(32, 17);
+			this.label10.TabIndex = 8;
+			this.label10.Text = "Left";
 			// 
 			// FormEditChangeMarker
 			// 
 			this.AcceptButton = this.btnSave;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(578, 268);
+			this.ClientSize = new System.Drawing.Size(449, 253);
 			this.Controls.Add(this.btnSave);
 			this.Controls.Add(this.btnRemove);
 			this.Controls.Add(this.tabControl1);
@@ -677,10 +704,6 @@
 			this.grpSpreadingWidth.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numSpreadingWidthLeft)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numSpreadingWidthRight)).EndInit();
-			this.grpSprayingWidth.ResumeLayout(false);
-			this.grpSprayingWidth.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numSprayingWidthLeft)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numSprayingWidthRight)).EndInit();
 			this.flowLayoutPanel3.ResumeLayout(false);
 			this.grpDosage.ResumeLayout(false);
 			this.grpDosage.PerformLayout();
@@ -700,6 +723,10 @@
 			this.grpAction.ResumeLayout(false);
 			this.flowLayoutPanel2.ResumeLayout(false);
 			this.flowLayoutPanel2.PerformLayout();
+			this.grpSprayingWidth.ResumeLayout(false);
+			this.grpSprayingWidth.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numSprayingWidthLeft)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numSprayingWidthRight)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -738,18 +765,18 @@
 		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.GroupBox grpSprayingWidth;
-		private System.Windows.Forms.NumericUpDown numSprayingWidthLeft;
-		private System.Windows.Forms.NumericUpDown numSprayingWidthRight;
-		private System.Windows.Forms.Label lblSprayingTotalWidth;
-		private System.Windows.Forms.Label label10;
-		private System.Windows.Forms.Label label11;
-		private System.Windows.Forms.Label label12;
 		private System.Windows.Forms.Label lblMargeRow2;
 		private System.Windows.Forms.GroupBox grpSecDosage;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.NumericUpDown numSecDosage;
 		private System.Windows.Forms.GroupBox grpHopper;
 		private System.Windows.Forms.CheckBox chkHopperOnOff;
+		private System.Windows.Forms.GroupBox grpSprayingWidth;
+		private System.Windows.Forms.NumericUpDown numSprayingWidthLeft;
+		private System.Windows.Forms.NumericUpDown numSprayingWidthRight;
+		private System.Windows.Forms.Label lblSprayingTotalWidth;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.Label label10;
 	}
 }
