@@ -146,6 +146,7 @@ namespace Route66
 		private void chkMaxOnOff_CheckedChanged(object sender, EventArgs e)
 		{
 			var c = (sender as CheckBox);
+			var n = c.Name;
 			c.Text = (c.Checked) ? "ON" : "OFF";
 		}
 	}
