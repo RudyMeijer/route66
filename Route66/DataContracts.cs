@@ -98,7 +98,8 @@ namespace Route66
 		[XmlAttribute("SecMat")]public bool SecMatOnOff { get; set; }
 		[XmlAttribute("Liquid")]public double SecLiquid { get; set; }
 		[XmlAttribute("SecDosage")]public double SecDosage { get; set; }
-		[XmlAttribute("Hopper")]public bool HopperOnOff { get; set; }
+		[XmlAttribute("Hopper1")]public bool Hopper1OnOff { get; set; }
+		[XmlAttribute("Hopper2")]public bool Hopper2OnOff { get; set; }
 		#endregion
 		#region ROW3
 		[XmlAttribute("WidthLeft")] public double SpreadingWidthLeft;

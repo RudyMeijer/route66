@@ -31,5 +31,10 @@ namespace Route66
 		#region METHODES
 		private void FormOptions_FormClosing(object sender, FormClosingEventArgs e) => propertyGrid1.Dispose();
 		#endregion
+
+		private void btnOk_Click(object sender, EventArgs e)
+		{
+			this.Close();
+		}
 	}
 }

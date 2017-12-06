@@ -30,32 +30,55 @@ namespace Route66
 			originalTag = marker.Tag;
 			if (marker.Tag == null) marker.Tag = new ChangeMarker(marker.Position);
 			ChangeMarker = marker.Tag as ChangeMarker;
-			DisplayOnForm(ChangeMarker);
 			Settings = Settings.Global;
-			InitializeFormLayout(Settings.MachineType);
+			this.Text += $" {Settings.MachineType}";
 		}
 
+		private void FormEditChangeMarker_Load(object sender, EventArgs e)
+		{
+			InitializeFormLayout(Settings.MachineType);
+			DisplayOnForm(ChangeMarker);
+		}
 		private void InitializeFormLayout(MachineTypes machineType)
 		{
 			bool IsSprayer = machineType == MachineTypes.Sprayer;
 			// Row 1
 			chkSpreading.Visible = !IsSprayer;
 			chkDualWidth.Visible = false;
-			chkSpraying.Visible = IsSprayer;
+			chkSpraying.Visible = machineType == MachineTypes.WspDosage || machineType == MachineTypes.RspDosage || IsSprayer;
 			chkMode.Visible = false;
 			chkPump.Visible = false;
 			// Row 2
 			grpDosage.Visible = !IsSprayer;
 			grpMax.Visible = true;
 			grpSecMat.Visible = !IsSprayer;
-			grpSecLiquid.Visible = machineType == MachineTypes.WspDosage || machineType == MachineTypes.RspDosage || IsSprayer;
-			grpSecDosage.Visible = grpSecLiquid.Visible;
+			grpSecLiquid.Visible = machineType == MachineTypes.WspPercentage || machineType == MachineTypes.RspPercentage;
+			grpSecDosage.Visible = chkSpraying.Visible;
 			grpHopper.Visible = machineType == MachineTypes.Dst;
 			// Row 3
 			grpSpreadingWidth.Visible = !IsSprayer;
-			grpSprayingWidth.Visible = IsSprayer;
+			grpSprayingWidth.Visible = machineType == MachineTypes.WspDosage || IsSprayer;
+			FormEditChangeMarker_Resize(null, null);
+		}
+
+		private int SetLeftMargin(FlowLayoutPanel flowLayoutPanel)
+		{
+			var width = 0;
+			var marge = 8;
+			foreach (var item in flowLayoutPanel.Controls)
+			{
+				//if (item is GroupBox && (item as GroupBox).Visible )
+					if ((item as Control).Visible && !(item is Label))
+					width += (item as Control).Width + marge;
+			}
+			return (flowLayoutPanel.Width - marge - width) / 2;
 		}
 		#endregion
+		/// <summary>
+		/// This methode displays Changemarker (xml) onto the form.
+		/// If this methode changes then also update methode GetFromForm!
+		/// </summary>
+		/// <param name="cm"></param>
 		private void DisplayOnForm(ChangeMarker cm)
 		{
 			// Row 1
@@ -70,7 +93,8 @@ namespace Route66
 			chkSecMatOnOff.Checked = cm.SecMatOnOff;
 			numSecLiquid.Value = (decimal)cm.SecLiquid;
 			numSecDosage.Value = (decimal)cm.SecDosage;
-			chkHopperOnOff.Checked = cm.HopperOnOff;
+			chkHopper1OnOff.Checked = cm.Hopper1OnOff;
+			chkHopper2OnOff.Checked = cm.Hopper2OnOff;
 			// Row 3
 			numSpreadingWidthLeft.Value = (decimal)cm.SpreadingWidthLeft;
 			numSpreadingWidthRight.Value = (decimal)cm.SpreadingWidthRight;
@@ -78,6 +102,10 @@ namespace Route66
 			numSprayingWidthLeft.Value = (decimal)cm.SprayingWidthLeft;
 			numSprayingWidthRight.Value = (decimal)cm.SprayingWidthRight;
 		}
+		/// <summary>
+		/// This methode is the complement of previous methode DisplayOnForm.
+		/// </summary>
+		/// <param name="cm"></param>
 		private void GetFromForm(ChangeMarker cm)
 		{
 			// Row 1
@@ -92,7 +120,8 @@ namespace Route66
 			cm.SecMatOnOff = chkSecMatOnOff.Checked;
 			cm.SecLiquid = (double)numSecLiquid.Value;
 			cm.SecDosage = (double)numSecDosage.Value;
-			cm.HopperOnOff = chkHopperOnOff.Checked;
+			cm.Hopper1OnOff = chkHopper1OnOff.Checked;
+			cm.Hopper2OnOff = chkHopper2OnOff.Checked;
 			// Row 3
 			cm.SpreadingWidthLeft = (double)numSpreadingWidthLeft.Value;
 			cm.SpreadingWidthRight = (double)numSpreadingWidthRight.Value;
@@ -149,5 +178,26 @@ namespace Route66
 			var n = c.Name;
 			c.Text = (c.Checked) ? "ON" : "OFF";
 		}
+
+		private void chkSpreading_CheckedChanged(object sender, EventArgs e)
+		{
+			var on = (sender as CheckBox).Checked;
+			grpDosage.Enabled = on;
+			grpSecMat.Enabled = on;
+			grpSecLiquid.Enabled = on;
+			grpSecDosage.Enabled = on;
+			grpHopper.Enabled = on;
+			grpSpreadingWidth.Enabled = on;
+			grpSprayingWidth.Enabled = on;
+		}
+
+		private void FormEditChangeMarker_Resize(object sender, EventArgs e)
+		{
+			lblMargeRow1.Width = SetLeftMargin(flowLayoutPanel1);
+			lblMargeRow2.Width = SetLeftMargin(flowLayoutPanel2);
+			lblMargeRow3.Width = SetLeftMargin(flowLayoutPanel3);
+			Console.WriteLine($"marge2 = {lblMargeRow2.Width}");
+		}
+
 	}
 }
