@@ -131,6 +131,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Documents\Exclude.txt" />
     <Content Include="Documents\Help.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -138,8 +139,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy  /y/s/m  $(targetDir)* P:\route66\Develop\
-rem xcopy  /y/s  $(targetDir)*.dll  P:\route66\Develop\
+    <PostBuildEvent>xcopy  /y/s/e  $(targetDir)* P:\route66\Develop\  /exclude:$(ProjectDir)\documents\exclude.txt
+rem xcopy  /y/s/m  $(targetDir)*.dll  P:\route66\Develop\
+
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

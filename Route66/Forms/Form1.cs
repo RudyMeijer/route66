@@ -273,7 +273,7 @@ namespace Route66
 		}
 		private void gmap_OnMapZoomChanged()
 		{
-			My.Status($"Zoom factor = {gmap.Zoom}");
+			My.Status($" Zoom factor = {gmap.Zoom}");
 		}
 		#endregion
 		#region MENU ITEMS
