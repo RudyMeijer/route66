@@ -102,7 +102,7 @@
 			// btnRemove
 			// 
 			this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnRemove.Location = new System.Drawing.Point(623, 212);
+			this.btnRemove.Location = new System.Drawing.Point(298, 212);
 			this.btnRemove.Margin = new System.Windows.Forms.Padding(4);
 			this.btnRemove.Name = "btnRemove";
 			this.btnRemove.Size = new System.Drawing.Size(87, 28);
@@ -114,7 +114,7 @@
 			// btnSave
 			// 
 			this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnSave.Location = new System.Drawing.Point(720, 212);
+			this.btnSave.Location = new System.Drawing.Point(395, 212);
 			this.btnSave.Margin = new System.Windows.Forms.Padding(4);
 			this.btnSave.Name = "btnSave";
 			this.btnSave.Size = new System.Drawing.Size(87, 28);
@@ -132,7 +132,7 @@
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(817, 315);
+			this.tabControl1.Size = new System.Drawing.Size(492, 315);
 			this.tabControl1.TabIndex = 8;
 			// 
 			// tabPage3
@@ -142,7 +142,7 @@
 			this.tabPage3.Controls.Add(this.grpAction);
 			this.tabPage3.Location = new System.Drawing.Point(4, 4);
 			this.tabPage3.Name = "tabPage3";
-			this.tabPage3.Size = new System.Drawing.Size(809, 286);
+			this.tabPage3.Size = new System.Drawing.Size(484, 286);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "tabPage3";
 			this.tabPage3.UseVisualStyleBackColor = true;
@@ -155,7 +155,7 @@
 			this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Top;
 			this.flowLayoutPanel3.Location = new System.Drawing.Point(0, 110);
 			this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-			this.flowLayoutPanel3.Size = new System.Drawing.Size(809, 136);
+			this.flowLayoutPanel3.Size = new System.Drawing.Size(484, 136);
 			this.flowLayoutPanel3.TabIndex = 2;
 			this.flowLayoutPanel3.WrapContents = false;
 			// 
@@ -368,7 +368,7 @@
 			this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
 			this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 50);
 			this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-			this.flowLayoutPanel2.Size = new System.Drawing.Size(809, 60);
+			this.flowLayoutPanel2.Size = new System.Drawing.Size(484, 60);
 			this.flowLayoutPanel2.TabIndex = 1;
 			this.flowLayoutPanel2.WrapContents = false;
 			// 
@@ -617,7 +617,7 @@
 			this.grpAction.ForeColor = System.Drawing.Color.Blue;
 			this.grpAction.Location = new System.Drawing.Point(0, 0);
 			this.grpAction.Name = "grpAction";
-			this.grpAction.Size = new System.Drawing.Size(809, 50);
+			this.grpAction.Size = new System.Drawing.Size(484, 50);
 			this.grpAction.TabIndex = 0;
 			this.grpAction.TabStop = false;
 			this.grpAction.Text = "Action";
@@ -633,7 +633,7 @@
 			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 18);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(803, 26);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(478, 26);
 			this.flowLayoutPanel1.TabIndex = 0;
 			this.flowLayoutPanel1.WrapContents = false;
 			// 
@@ -724,7 +724,7 @@
 			this.AcceptButton = this.btnSave;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(817, 253);
+			this.ClientSize = new System.Drawing.Size(492, 253);
 			this.Controls.Add(this.btnSave);
 			this.Controls.Add(this.btnRemove);
 			this.Controls.Add(this.tabControl1);

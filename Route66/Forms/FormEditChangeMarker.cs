@@ -58,6 +58,7 @@ namespace Route66
 			// Row 3
 			grpSpreadingWidth.Visible = !IsSprayer;
 			grpSprayingWidth.Visible = machineType == MachineTypes.WspDosage || IsSprayer;
+			// Center visible controls.
 			FormEditChangeMarker_Resize(null, null);
 		}
 
