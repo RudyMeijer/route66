@@ -132,6 +132,10 @@ namespace Route66
 		public double Lng { get; set; }
 		[XmlAttribute()]
 		public double Lat { get; set; }
+		public override string ToString()
+		{
+			return $"Lat {Lat} Lng {Lng}";
+		}
 	}
 	#endregion
 }

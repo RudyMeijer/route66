@@ -42,11 +42,15 @@ namespace Route66
 					route = new XmlSerializer(typeof(Route)).Deserialize(reader) as Route;
 				}
 			}
-			catch (Exception exception)
+			catch (Exception ee)
 			{
-				if (!IsDefaultFile && MessageBox.Show(exception.Message + "\nWould you like to load default route?", "Loading route.", MessageBoxButtons.YesNo) == DialogResult.No)
+				if (!IsDefaultFile)
 				{
-					Environment.Exit(1);
+					My.Log($"{ee} ");
+					if (ee.InnerException != null)
+						MessageBox.Show($"{ee.InnerException.Message}", "Loading route.");
+					else
+						MessageBox.Show($"{ee.Message}", "Loading route.");
 				}
 			}
 			route.FileName = fileName;

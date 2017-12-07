@@ -101,7 +101,7 @@
 			// btnOk
 			// 
 			this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnOk.Location = new System.Drawing.Point(450, 240);
+			this.btnOk.Location = new System.Drawing.Point(450, 201);
 			this.btnOk.Margin = new System.Windows.Forms.Padding(4);
 			this.btnOk.Name = "btnOk";
 			this.btnOk.Size = new System.Drawing.Size(87, 28);
@@ -689,7 +689,7 @@
 			// btnRemove
 			// 
 			this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btnRemove.Location = new System.Drawing.Point(12, 240);
+			this.btnRemove.Location = new System.Drawing.Point(12, 201);
 			this.btnRemove.Name = "btnRemove";
 			this.btnRemove.Size = new System.Drawing.Size(87, 28);
 			this.btnRemove.TabIndex = 9;
@@ -702,7 +702,7 @@
 			this.AcceptButton = this.btnOk;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(550, 281);
+			this.ClientSize = new System.Drawing.Size(550, 242);
 			this.Controls.Add(this.btnOk);
 			this.Controls.Add(this.btnRemove);
 			this.Controls.Add(this.tabControl1);

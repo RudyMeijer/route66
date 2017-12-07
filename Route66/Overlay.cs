@@ -67,7 +67,7 @@ namespace Route66
 		/// CurrentMarker, 
 		/// Red, green and blue Markers,
 		/// RedRoute points, 
-		/// ChangeMarker, NavigationMarker instances
+		/// ChangeMarker and NavigationMarker instances
 		/// </summary>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
@@ -82,7 +82,7 @@ namespace Route66
 			// Update Route point.
 			// Allways use currentmarker class to find index because we can have duplicated Positions (struct)!
 			//
-			var idx = Red.Markers.IndexOf(CurrentMarker); 
+			var idx = Red.Markers.IndexOf(CurrentMarker);
 			RedRoute.Points[idx] = newPosition;
 
 			Map.UpdateRouteLocalPosition(RedRoute);
@@ -98,7 +98,10 @@ namespace Route66
 			}
 			return true;
 		}
-		private void UpdateRoute()
+		/// <summary>
+		/// Create overlay route from red markers.
+		/// </summary>
+		private void CreateOverlayRoute()
 		{
 			RedRoute.Points.Clear();
 			foreach (var item in Red.Markers)
@@ -138,7 +141,7 @@ namespace Route66
 			var idx = Red.Markers.IndexOf(item);
 			Console.WriteLine($"current marker {idx} {item.Position} {icon}");
 			CurrentMarker = item;
-			item.ToolTipMode = (Settings.ToolTipMode)? MarkerTooltipMode.OnMouseOver:MarkerTooltipMode.Never;
+			item.ToolTipMode = (Settings.ToolTipMode) ? MarkerTooltipMode.OnMouseOver : MarkerTooltipMode.Never;
 			item.ToolTipText = $"{idx}";
 		}
 		/// <summary>
@@ -150,26 +153,26 @@ namespace Route66
 			Red.Markers.Clear();
 			Green.Markers.Clear();
 			Blue.Markers.Clear();
-			foreach (var item in route.GpsMarkers)
+			foreach (var red in route.GpsMarkers)
 			{
-				Red.Markers.Add(new GMarkerGoogle(new PointLatLng(item.Lat, item.Lng), (Red.Markers.Count == 0) ? GMarkerGoogleType.green_big_go : GMarkerGoogleType.red_small));
-				//Red.Markers.Add(new GMarkerGoogle(new PointLatLng(item.Lat, item.Lng), (Red.Markers.Count == 0) ? GMarkerGoogleType.red_small : GMarkerGoogleType.red_small));
+				var cm = new GMarkerGoogle(new PointLatLng(red.Lat, red.Lng), (Red.Markers.Count == 0) ? GMarkerGoogleType.green_big_go : GMarkerGoogleType.red_small);
+				Red.Markers.Add(cm);
 				//
 				// Copy green and blue tags into red markers.
 				//
-				var cm = Red.Markers[Red.Markers.Count - 1];
-				foreach (var green in route.ChangeMarkers) if (green.Lat == item.Lat && green.Lng == item.Lng)
+				//var cm = Red.Markers[Red.Markers.Count - 1];
+				foreach (var green in route.ChangeMarkers) if (green.Lat == red.Lat && green.Lng == red.Lng)
 					{
 						cm.Tag = green;
 						AddGreenMarker(cm);
 					}
-				foreach (var blue in route.NavigationMarkers) if (blue.Lat == item.Lat && blue.Lng == item.Lng)
+				foreach (var blue in route.NavigationMarkers) if (blue.Lat == red.Lat && blue.Lng == red.Lng)
 					{
 						cm.Tag = blue;
 						AddBlueMarker(cm);
 					}
 			}
-			UpdateRoute();
+			CreateOverlayRoute();
 			Map.ZoomAndCenterRoute(RedRoute);
 		}
 		/// <summary>
@@ -199,19 +202,15 @@ namespace Route66
 			var originalTag = CurrentMarker.Tag;// if DeepClone(); then marker is not removed from route on delete.
 			var before = (CurrentMarker.Tag != null) ? 2 : 0;
 			Form form = null;
-			if (CurrentMarker.Tag is ChangeMarker)
-				form = new FormEditChangeMarker(CurrentMarker);
-			else if (CurrentMarker.Tag is NavigationMarker)
-				form = new FormEditNavigationMarker(CurrentMarker);
+			if (CurrentMarker.Tag is ChangeMarker) form = new FormEditChangeMarker(CurrentMarker);
+			else if (CurrentMarker.Tag is NavigationMarker) form = new FormEditNavigationMarker(CurrentMarker);
 			//
 			// If user clicked on red marker.
 			// then pressing Ctrl key will edit Navigation marker.
 			//
-			else if (CurrentMarker.Tag == null) // Empty GpsMarkers contains integer id.
-				if (key != null && key.Control)
-					form = new FormEditNavigationMarker(CurrentMarker);
-				else
-					form = new FormEditChangeMarker(CurrentMarker);
+			else if (CurrentMarker.Tag == null)
+				if (key != null && key.Control) form = new FormEditNavigationMarker(CurrentMarker);
+				else form = new FormEditChangeMarker(CurrentMarker);
 			else My.Log($"Error during edit Tag {CurrentMarker.Tag}");
 
 			form.ShowDialog();
