@@ -49,25 +49,6 @@ namespace Route66
 		public Settings Settings { get; }
 		#endregion
 		#region METHODES
-		public bool AddMarker(PointLatLng point)
-		{
-			var marker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
-			var idx = Red.Markers.IndexOf(CurrentMarker) + 1;
-			CurrentMarker = marker;
-			Red.Markers.Insert(idx, marker);
-			RedRoute.Points.Insert(idx, point);
-			Map.UpdateRouteLocalPosition(RedRoute);
-			Console.WriteLine($"Marker {idx} added at {marker.Position}");
-			return true;
-		}
-
-		private MapRoute AutoRouter(GMapMarker start, GMapMarker end)
-		{
-			Console.WriteLine($"Autoroute start {start.Position}, stop {end.Position}");
-			RoutingProvider rp = Map.MapProvider as RoutingProvider;
-			if (rp == null) rp = GMapProviders.OpenStreetMap; // use OpenStreetMap if provider does not implement routing
-			return  rp.GetRoute(start.Position, end.Position, false, false, 2);
-		}
 		internal bool Remove(GMapMarker marker)
 		{
 			//if (marker == null) return false;
@@ -117,7 +98,7 @@ namespace Route66
 			}
 			return true;
 		}
-		public void UpdateRoute()
+		private void UpdateRoute()
 		{
 			RedRoute.Points.Clear();
 			foreach (var item in Red.Markers)
@@ -126,7 +107,6 @@ namespace Route66
 			}
 			Map.UpdateRouteLocalPosition(RedRoute);
 		}
-
 		internal void AddMarker(int x, int y)
 		{
 			PointLatLng point = Map.FromLocalToLatLng(x, y);
@@ -143,7 +123,6 @@ namespace Route66
 			}
 			else AddMarker(point);
 		}
-
 		public void Clear()
 		{
 			Red.Markers.Clear();
@@ -153,7 +132,6 @@ namespace Route66
 			Map.UpdateRouteLocalPosition(RedRoute);
 			CurrentMarker = null;
 		}
-
 		public void SetCurrentMarker(GMapMarker item)
 		{
 			var icon = item.GetType().GetField("Type").GetValue(item);
@@ -163,7 +141,6 @@ namespace Route66
 			item.ToolTipMode = (Settings.ToolTipMode)? MarkerTooltipMode.OnMouseOver:MarkerTooltipMode.Never;
 			item.ToolTipText = $"{idx}";
 		}
-
 		/// <summary>
 		/// Copy Route class into overlays.
 		/// </summary>
@@ -211,7 +188,6 @@ namespace Route66
 				if (item.Tag is NavigationMarker) route.NavigationMarkers.Add(item.Tag as NavigationMarker);
 			}
 		}
-
 		/// <summary>
 		/// Determine current marker type: Change marker or Navigation marker.
 		/// Show properties of current marker on windows form.
@@ -304,13 +280,30 @@ namespace Route66
 			Blue.Markers[Blue.Markers.Count - 1].Tag = currentMarker.Tag;
 			Blue.Markers[Blue.Markers.Count - 1].ToolTipText = currentMarker.Tag.ToString();
 		}
-
 		/// <summary>
-		/// Update all change markers with dosing <from> to dosing <to>.
-		/// if from dosing = 0 then update all change markers.
+		/// Update all change markers with dosage <from> to dosage <to>.
+		/// if from dosage = 0 then update all change markers.
 		/// </summary>
 		/// <param name="from"></param>
 		/// <param name="to"></param>
+		private bool AddMarker(PointLatLng point)
+		{
+			var marker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
+			var idx = Red.Markers.IndexOf(CurrentMarker) + 1;
+			CurrentMarker = marker;
+			Red.Markers.Insert(idx, marker);
+			RedRoute.Points.Insert(idx, point);
+			Map.UpdateRouteLocalPosition(RedRoute);
+			Console.WriteLine($"Marker {idx} added at {marker.Position}");
+			return true;
+		}
+		private MapRoute AutoRouter(GMapMarker start, GMapMarker end)
+		{
+			Console.WriteLine($"Autoroute start {start.Position}, stop {end.Position}");
+			RoutingProvider rp = Map.MapProvider as RoutingProvider;
+			if (rp == null) rp = GMapProviders.OpenStreetMap; // use OpenStreetMap if provider does not implement routing
+			return rp.GetRoute(start.Position, end.Position, false, false, 2);
+		}
 		internal void UpdateAllChangeMarkers(double from, double to)
 		{
 			foreach (var item in Green.Markers)

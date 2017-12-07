@@ -18,9 +18,6 @@ namespace Route66
 		RspDosage,
 		Sprayer,
 		Dst,
-		RspDstPercentage,
-		WspDstPercentage,
-		StreetWasher
 	}
 	public enum NavigationMessages
 	{
@@ -36,6 +33,12 @@ namespace Route66
 		TAKE_RAMP_LEFT,
 		TAKE_RAMP_RIGHT,
 		ENTER_BIKE_LANE,
+		BEGIN_BREAK,
+		END_BREAK,
+		ENTER_LANE_1,
+		ENTER_LANE_2,
+		ENTER_LANE_3,
+		ENTER_LANE_4,
 		TURN_RIGHT_INTO_BIKE_LANE,
 		TURN_LEFT_INTO_BIKE_LANE,
 	}
@@ -66,7 +69,7 @@ namespace Route66
 	}
 
 	/// <summary>
-	/// This class contains all properties for a green changemarker: dosing, leftWidth, rightWidth...
+	/// This class contains all properties for a green changemarker: dosage, leftWidth, rightWidth...
 	/// </summary>
 	[Serializable]
 	public class ChangeMarker : GpsMarker
@@ -77,16 +80,16 @@ namespace Route66
 			Dosage = 20.0;
 			SpreadingWidthLeft = 1.0;
 			SpreadingWidthRight = 1.0;
+			SpreadingOnOff = true;
 		}
 		public override string ToString()
 		{
-			return $"Dosing {Dosage}\nWidthLeft {SpreadingWidthLeft}\nWidthRight {SpreadingWidthRight}";
+			return $"Dosage {Dosage} g\nLeft {SpreadingWidthLeft} m\nRight {SpreadingWidthRight} m";
 		}
 		#region ROW1
 		[XmlAttribute("Spreading")]public bool SpreadingOnOff { get; set; }
 		[XmlAttribute("DualWidth")]public bool DualWidthOnOff { get; set; }
 		[XmlAttribute("Spraying")] public bool SprayingOnOff { get; set; }
-		[XmlAttribute("Mode")]public bool ModeOnOff { get; set; }
 		[XmlAttribute("Pump")]public bool PumpOnOff { get; set; }
 		#endregion
 		#region ROW2
@@ -97,7 +100,7 @@ namespace Route66
 		[XmlAttribute("Max")]public bool MaxOnOff { get; set; }
 		[XmlAttribute("SecMat")]public bool SecMatOnOff { get; set; }
 		[XmlAttribute("Liquid")]public double SecLiquid { get; set; }
-		[XmlAttribute("SecDosage")]public double SecDosage { get; set; }
+		[XmlAttribute("DosageLiquid")]public double DosageLiquid { get; set; }
 		[XmlAttribute("Hopper1")]public bool Hopper1OnOff { get; set; }
 		[XmlAttribute("Hopper2")]public bool Hopper2OnOff { get; set; }
 		#endregion

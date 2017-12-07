@@ -4,6 +4,6 @@
 2 Allow CRUD (Create, Update, Delete) operations on change- and navigation marker on map.
 3 Ask to save modified route when opening new route or program exit.
 4 When current marker is removed make previous marker current.
-5 Update dosing values globally from x -> y.
+5 Update dosage values globally from x -> y.
 6 On startup show file open menu.
 7 Add changemarker edit form according http://confluence.ash.ads.org/display/PROD/Routecreator+ES#space-menu-link-content

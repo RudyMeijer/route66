@@ -39,21 +39,27 @@ namespace Route66
 			InitializeFormLayout(Settings.MachineType);
 			DisplayOnForm(ChangeMarker);
 		}
+		#endregion
+		/// <summary>
+		/// Determine which fields must be shown according machineType.
+		/// 
+		/// See http://confluence.ash.ads.org/pages/resumedraft.action?draftId=12451841&draftShareId=4fe65ae2-5191-4570-9e32-ad841719fd5c
+		/// </summary>
+		/// <param name="machineType"></param>
 		private void InitializeFormLayout(MachineTypes machineType)
 		{
 			bool IsSprayer = machineType == MachineTypes.Sprayer;
 			// Row 1
 			chkSpreading.Visible = !IsSprayer;
-			chkDualWidth.Visible = false;
+			chkDualWidth.Visible = machineType == MachineTypes.WspDosage;
 			chkSpraying.Visible = machineType == MachineTypes.WspDosage || machineType == MachineTypes.RspDosage || IsSprayer;
-			chkMode.Visible = false;
 			chkPump.Visible = false;
 			// Row 2
 			grpDosage.Visible = !IsSprayer;
 			grpMax.Visible = true;
 			grpSecMat.Visible = !IsSprayer;
-			grpSecLiquid.Visible = machineType == MachineTypes.WspPercentage || machineType == MachineTypes.RspPercentage;
-			grpSecDosage.Visible = chkSpraying.Visible;
+			grpSecLiquid.Visible = machineType == MachineTypes.WspPercentage || machineType == MachineTypes.RspPercentage || machineType == MachineTypes.WspDosage || machineType == MachineTypes.RspDosage;
+			grpDosageLiquid.Visible = chkSpraying.Visible;
 			grpHopper.Visible = machineType == MachineTypes.Dst;
 			// Row 3
 			grpSpreadingWidth.Visible = !IsSprayer;
@@ -61,7 +67,6 @@ namespace Route66
 			// Center visible controls.
 			FormEditChangeMarker_Resize(null, null);
 		}
-
 		private int SetLeftMargin(FlowLayoutPanel flowLayoutPanel)
 		{
 			var width = 0;
@@ -74,7 +79,6 @@ namespace Route66
 			}
 			return (flowLayoutPanel.Width - marge - width) / 2;
 		}
-		#endregion
 		/// <summary>
 		/// This methode displays Changemarker (xml) onto the form.
 		/// If this methode changes then also update methode GetFromForm!
@@ -86,14 +90,13 @@ namespace Route66
 			chkSpreading.Checked = cm.SpreadingOnOff;
 			chkDualWidth.Checked = cm.DualWidthOnOff;
 			chkSpraying.Checked = cm.SprayingOnOff;
-			chkMode.Checked = cm.ModeOnOff;
 			chkPump.Checked = cm.PumpOnOff;
 			// Row 2
 			numDosage.Value = (decimal)cm.Dosage;
 			chkMaxOnOff.Checked = cm.MaxOnOff;
 			chkSecMatOnOff.Checked = cm.SecMatOnOff;
 			numSecLiquid.Value = (decimal)cm.SecLiquid;
-			numSecDosage.Value = (decimal)cm.SecDosage;
+			numDosageLiquid.Value = (decimal)cm.DosageLiquid;
 			chkHopper1OnOff.Checked = cm.Hopper1OnOff;
 			chkHopper2OnOff.Checked = cm.Hopper2OnOff;
 			// Row 3
@@ -113,14 +116,13 @@ namespace Route66
 			cm.SpreadingOnOff = chkSpreading.Checked;
 			cm.DualWidthOnOff = chkDualWidth.Checked;
 			cm.SprayingOnOff = chkSpraying.Checked;
-			cm.ModeOnOff = chkMode.Checked;
 			cm.PumpOnOff = chkPump.Checked;
 			// Row 2
 			cm.Dosage = (double)numDosage.Value;
 			cm.MaxOnOff = chkMaxOnOff.Checked;
 			cm.SecMatOnOff = chkSecMatOnOff.Checked;
 			cm.SecLiquid = (double)numSecLiquid.Value;
-			cm.SecDosage = (double)numSecDosage.Value;
+			cm.DosageLiquid = (double)numDosageLiquid.Value;
 			cm.Hopper1OnOff = chkHopper1OnOff.Checked;
 			cm.Hopper2OnOff = chkHopper2OnOff.Checked;
 			// Row 3
@@ -136,8 +138,7 @@ namespace Route66
 			IsButton = true;
 			this.Close();
 		}
-
-		private void btnDelete_Click(object sender, EventArgs e)
+		private void btnRemove_Click(object sender, EventArgs e)
 		{
 			marker.Tag = null;
 			IsButton = true;
@@ -148,27 +149,17 @@ namespace Route66
 			if (!IsButton) marker.Tag = originalTag;
 		}
 
-		//private void button1_Click(object sender, EventArgs e)
-		//{
-		//}
-
-		//private void checkBox1_CheckedChanged(object sender, EventArgs e)
-		//{
-		//	grpAction.Visible = (sender as CheckBox).Checked;
-		//}
-
-		//private void checkBox2_CheckedChanged(object sender, EventArgs e)
-		//{
-		//	var c = sender as CheckBox;
-		//	c.Text = (c.Checked) ? "ON" : "OFF";
-		//}
-
-		private void numSpreadingWidthLeft_ValueChanged(object sender, EventArgs e)
+		private void numSpreadingWidthLeftRight_ValueChanged(object sender, EventArgs e)
 		{
 			lblSpreadingTotalWidth.Text = $"{numSpreadingWidthLeft.Value + numSpreadingWidthRight.Value} m";
+			if (chkDualWidth.Enabled && !chkDualWidth.Checked)
+			{
+				numSprayingWidthLeft.Value = numSpreadingWidthLeft.Value;
+				numSprayingWidthRight.Value = numSpreadingWidthRight.Value;
+			}
 		}
 
-		private void numSprayingWidthLeft_ValueChanged(object sender, EventArgs e)
+		private void numSprayingWidthLeftRight_ValueChanged(object sender, EventArgs e)
 		{
 			lblSprayingTotalWidth.Text = $"{numSprayingWidthLeft.Value + numSprayingWidthRight.Value} m";
 		}
@@ -180,25 +171,46 @@ namespace Route66
 			c.Text = (c.Checked) ? "ON" : "OFF";
 		}
 
-		private void chkSpreading_CheckedChanged(object sender, EventArgs e)
-		{
-			var on = (sender as CheckBox).Checked;
-			grpDosage.Enabled = on;
-			grpSecMat.Enabled = on;
-			grpSecLiquid.Enabled = on;
-			grpSecDosage.Enabled = on;
-			grpHopper.Enabled = on;
-			grpSpreadingWidth.Enabled = on;
-			grpSprayingWidth.Enabled = on;
-		}
-
 		private void FormEditChangeMarker_Resize(object sender, EventArgs e)
 		{
 			lblMargeRow1.Width = SetLeftMargin(flowLayoutPanel1);
 			lblMargeRow2.Width = SetLeftMargin(flowLayoutPanel2);
 			lblMargeRow3.Width = SetLeftMargin(flowLayoutPanel3);
-			Console.WriteLine($"marge2 = {lblMargeRow2.Width}");
+		}
+		#region ENABLE DISABLE FIELDS
+		private void chkSpreading_CheckedChanged(object sender, EventArgs e)
+		{
+			var on = (sender as CheckBox).Checked;
+			grpDosage.Enabled = on;
+			grpSecMat.Enabled = on;
+			grpSecLiquid.Enabled = on && chkSecMatOnOff.Checked;
+			grpHopper.Enabled = on;
+			grpSpreadingWidth.Enabled = on;
+			chkDualWidth.Enabled = on && chkSpraying.Checked == true;
+			// Make Spreading and Spraying mutual exclusieve on RspDosage.
+			if (on && Settings.MachineType == MachineTypes.RspDosage) chkSpraying.Checked = false;
+		}
+		private void chkSpraying_CheckedChanged(object sender, EventArgs e)
+		{
+			var on = (sender as CheckBox).Checked;
+			grpDosageLiquid.Enabled = on;
+			grpSprayingWidth.Enabled = on;
+			chkDualWidth.Enabled = on && chkSpreading.Checked == true;
+			// Make Spreading and Spraying mutual exclusieve on RspDosage.
+			if (on && Settings.MachineType == MachineTypes.RspDosage) chkSpreading.Checked = false;
 		}
 
+		private void chkSecMatOnOff_CheckedChanged(object sender, EventArgs e)
+		{
+			chkMaxOnOff_CheckedChanged(sender, e);
+			var on = (sender as CheckBox).Checked;
+			grpSecLiquid.Enabled = on;
+		}
+
+		private void chkDualWidth_CheckedChanged(object sender, EventArgs e)
+		{
+			grpSprayingWidth.Enabled = chkDualWidth.Checked;
+		}
+		#endregion
 	}
 }

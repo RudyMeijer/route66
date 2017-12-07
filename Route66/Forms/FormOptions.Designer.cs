@@ -36,17 +36,18 @@
 			// 
 			this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
-			this.propertyGrid1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.propertyGrid1.Margin = new System.Windows.Forms.Padding(4);
 			this.propertyGrid1.Name = "propertyGrid1";
-			this.propertyGrid1.Size = new System.Drawing.Size(633, 279);
+			this.propertyGrid1.Size = new System.Drawing.Size(491, 300);
 			this.propertyGrid1.TabIndex = 0;
 			this.propertyGrid1.ToolbarVisible = false;
 			// 
 			// btnOk
 			// 
-			this.btnOk.Location = new System.Drawing.Point(546, 244);
+			this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnOk.Location = new System.Drawing.Point(429, 258);
 			this.btnOk.Name = "btnOk";
-			this.btnOk.Size = new System.Drawing.Size(75, 23);
+			this.btnOk.Size = new System.Drawing.Size(50, 30);
 			this.btnOk.TabIndex = 1;
 			this.btnOk.Text = "Ok";
 			this.btnOk.UseVisualStyleBackColor = true;
@@ -57,10 +58,10 @@
 			this.AcceptButton = this.btnOk;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(633, 279);
+			this.ClientSize = new System.Drawing.Size(491, 300);
 			this.Controls.Add(this.btnOk);
 			this.Controls.Add(this.propertyGrid1);
-			this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.Margin = new System.Windows.Forms.Padding(4);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "FormOptions";
