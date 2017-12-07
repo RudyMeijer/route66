@@ -394,10 +394,6 @@ namespace Route66
 
 		}
 		private void chkShowTooltip_CheckedChanged(object sender, EventArgs e) => Settings.ToolTipMode = chkShowTooltip.Checked;
-		private void numDosing_ValueChanged(object sender, EventArgs e)
-		{
-		}
-
 		private void btnChangeGlobalDosing_Click(object sender, EventArgs e)
 		{
 			var from = (double)numDosingFrom.Value;

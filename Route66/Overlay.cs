@@ -88,8 +88,9 @@ namespace Route66
 			Map.UpdateRouteLocalPosition(RedRoute);
 			//
 			// Update current marker position.
+			// Red marker will implicit be updated.
 			//
-			foreach (var item in Red.Markers) if (item == CurrentMarker) item.Position = newPosition;
+			//Red.Markers[idx].Position = newPosition;
 			CurrentMarker.Position = newPosition;
 			if (CurrentMarker.Tag != null)
 			{
@@ -155,26 +156,47 @@ namespace Route66
 			Blue.Markers.Clear();
 			foreach (var red in route.GpsMarkers)
 			{
-				var cm = new GMarkerGoogle(new PointLatLng(red.Lat, red.Lng), (Red.Markers.Count == 0) ? GMarkerGoogleType.green_big_go : GMarkerGoogleType.red_small);
-				Red.Markers.Add(cm);
-				//
-				// Copy green and blue tags into red markers.
-				//
-				//var cm = Red.Markers[Red.Markers.Count - 1];
-				foreach (var green in route.ChangeMarkers) if (green.Lat == red.Lat && green.Lng == red.Lng)
-					{
-						cm.Tag = green;
-						AddGreenMarker(cm);
-					}
-				foreach (var blue in route.NavigationMarkers) if (blue.Lat == red.Lat && blue.Lng == red.Lng)
-					{
-						cm.Tag = blue;
-						AddBlueMarker(cm);
-					}
+				Red.Markers.Add(new GMarkerGoogle(new PointLatLng(red.Lat, red.Lng), (Red.Markers.Count == 0) ? GMarkerGoogleType.green_big_go : GMarkerGoogleType.red_small));
 			}
+			//
+			// Copy green and blue tags into red markers.
+			//
+			foreach (var item in route.ChangeMarkers)
+			{
+				var rm = FindRedMarker(item);
+				if (rm != null)
+				{
+					rm.Tag = item;
+					AddGreenMarker(rm);
+				}
+				else My.Status($"Green marker {item} not found in red markers list.");
+			}
+			foreach (var item in route.NavigationMarkers)
+			{
+				var rm = FindRedMarker(item);
+				if (rm != null)
+				{
+					rm.Tag = item;
+					AddBlueMarker(rm);
+				}
+				else My.Status($"Blue marker {item} not found in red markers list.");
+			}
+			//foreach (var blue in route.NavigationMarkers) if (blue.Lat == red.Lat && blue.Lng == red.Lng)
+			//	{
+			//		cm.Tag = blue;
+			//		AddBlueMarker(cm);
+			//	}
 			CreateOverlayRoute();
 			Map.ZoomAndCenterRoute(RedRoute);
 		}
+
+		private GMapMarker FindRedMarker(GpsMarker m)// todo performance test.
+		{
+			var pos = new PointLatLng(m.Lat, m.Lng);
+			foreach (var item in Red.Markers) if (item.Position == pos) return item;
+			return null;
+		}
+
 		/// <summary>
 		/// Copy overlays into Route class.
 		/// </summary>

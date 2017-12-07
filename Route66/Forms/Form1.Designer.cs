@@ -218,7 +218,6 @@
 			this.numDosingFrom.Size = new System.Drawing.Size(52, 22);
 			this.numDosingFrom.TabIndex = 0;
 			this.toolTip1.SetToolTip(this.numDosingFrom, "Update dosage globally");
-			this.numDosingFrom.ValueChanged += new System.EventHandler(this.numDosing_ValueChanged);
 			// 
 			// groupBox2
 			// 
