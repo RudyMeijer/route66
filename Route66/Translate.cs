@@ -13,7 +13,7 @@ namespace Route66
 				var list = new List<string>();
 				if (navigationMessages == null)
 				{
-					foreach (var item in Enum.GetNames(typeof(Route66.NavigationMessages)))
+					foreach (var item in Enum.GetNames(typeof(NavigationMessages)))
 					{
 						list.Add(My.PascalCase(item));
 						//list.Add("Turn left");

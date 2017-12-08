@@ -166,23 +166,28 @@ namespace Route66
 		#region EDIT ROUTE
 		private void gmap_MouseDown(object sender, MouseEventArgs e)
 		{
-			//
-			// Select marker 
-			//
-			if (e.Button == MouseButtons.Left && IsOnMarker && !Settings.FastDrawMode) { Overlay.SetCurrentMarker(LastMarker); }
-			//
-			// Edit marker
-			//
-			if (e.Button == MouseButtons.Left && IsOnMarker && e.Clicks == 2) { Route.IsChanged = Overlay.EditMarker(Key); }
-			//
-			// Add marker
-			//
-			if (e.Button == MouseButtons.Left && !IsOnMarker && IsEditRoute()) { Overlay.AddMarker(e.X, e.Y); Route.IsChanged = true; }
-			//
-			// Remove marker
-			//
-			if (e.Button == MouseButtons.Right && IsOnMarker && IsEditRoute()) { LastMarker = Overlay.Remove(LastMarker); Pop(true); Route.IsChanged = true; }
-			Console.WriteLine($"LastMarker {LastMarker.ToolTipText} IsOnMarker={IsOnMarker}, IsDragging={IsDragging}, Key={Key?.KeyCode}");
+			try
+			{
+				//
+				// Select marker 
+				//
+				if (e.Button == MouseButtons.Left && IsOnMarker && !Settings.FastDrawMode) { Overlay.SetCurrentMarker(LastMarker); }
+				//
+				// Edit marker
+				//
+				if (e.Button == MouseButtons.Left && IsOnMarker && e.Clicks == 2) { Route.IsChanged = Overlay.EditMarker(Key); }
+				//
+				// Add marker
+				//
+				if (e.Button == MouseButtons.Left && !IsOnMarker && IsEditRoute()) { Overlay.AddMarker(e.X, e.Y); Route.IsChanged = true; }
+				//
+				// Remove marker
+				//
+				if (e.Button == MouseButtons.Right && IsOnMarker && IsEditRoute()) { LastMarker = Overlay.Remove(LastMarker); Pop(true); Route.IsChanged = true; }
+
+				Console.WriteLine($"MouseDown LastMarker {LastMarker?.ToolTipText} IsOnMarker={IsOnMarker}, IsDragging={IsDragging}, Key={Key?.KeyCode}");
+			}
+			catch (Exception ee) { My.Status($"Error MouseDown {ee}"); }
 		}
 
 		private bool IsEditRoute()
@@ -208,6 +213,7 @@ namespace Route66
 		}
 		private void gmap_OnMarkerLeave(GMapMarker item)
 		{
+			Console.Write($"\nOnLeave {item.ToolTipText}");
 			if (!IsDragging)// && item.Overlay == gmap.Overlays[0])
 			{
 				Pop();
@@ -219,7 +225,7 @@ namespace Route66
 		/// <param name="item"></param>
 		private void gmap_OnMarkerEnter(GMapMarker item)
 		{
-			//Console.Write("gmap_OnMarkerEnter");
+			Console.Write($"OnEnter {item.ToolTipText} ");
 			//MarkerHash.Add(item);
 			if (!IsDragging)
 			{
@@ -233,7 +239,7 @@ namespace Route66
 				}
 				else if (item.Tag is NavigationMarker)
 				{
-					if (Settings.SpeechSyntesizer && item.Overlay.IsVisibile)
+					if (Settings.SpeechSyntesizer)
 					{
 						var tag = item.Tag as NavigationMarker;
 						My.PlaySound(tag.Message);
@@ -244,6 +250,7 @@ namespace Route66
 
 		private void gmap_MouseMove(object sender, MouseEventArgs e)
 		{
+			//Console.Write("-");
 			if (e.Button == MouseButtons.Left && IsOnMarker && IsEditRoute())
 			{
 				if (!IsDragging) Console.WriteLine("start dragging " + LastMarker.ToolTipText);
@@ -375,6 +382,7 @@ namespace Route66
 			Overlay.Clear();
 			IsOnMarker = IsDragging = false;
 			MarkerHash.Clear();
+			LastMarker = null;
 			//this.Text = Title + "Create new route by click left mouse on map.";
 			//var x = Route.FileName;
 		}
@@ -406,7 +414,7 @@ namespace Route66
 			if (res > 0)
 				My.Status($"Dosage of {res} Changemarkers successfull updated from {from} to {to}.");
 			else
-				My.Status($"No Changemarkers found with dosage {from}.",Color.Red);
+				My.Status($"No Changemarkers found with dosage {from}.", Color.Red);
 
 		}
 

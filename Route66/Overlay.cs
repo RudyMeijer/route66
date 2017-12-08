@@ -182,7 +182,7 @@ namespace Route66
 				if (rm != null)
 				{
 					rm.Tag = item;
-					AddGreenMarker(rm);
+					AddOverlayGreenMarker(rm);
 				}
 				else My.Status($"Green marker {item} not found in red markers list.");
 			}
@@ -192,15 +192,14 @@ namespace Route66
 				if (rm != null)
 				{
 					rm.Tag = item;
-					AddBlueMarker(rm);
+					AddOverlayBlueMarker(rm);
 				}
 				else My.Status($"Blue marker {item} not found in red markers list.");
 			}
-			//foreach (var blue in route.NavigationMarkers) if (blue.Lat == red.Lat && blue.Lng == red.Lng)
-			//	{
-			//		cm.Tag = blue;
-			//		AddBlueMarker(cm);
-			//	}
+			//
+			// Set currentMarker to last point. (Autorouter enabled and leftmouse on empty map)
+			//
+			CurrentMarker = Red.Markers[Red.Markers.Count - 1];
 			CreateOverlayRoute();
 			Map.ZoomAndCenterRoute(RedRoute);
 		}
@@ -272,8 +271,8 @@ namespace Route66
 				case Crud.None:
 					break;
 				case Crud.Create:
-					if (tag is ChangeMarker) AddGreenMarker(CurrentMarker);
-					if (tag is NavigationMarker) AddBlueMarker(CurrentMarker);
+					if (tag is ChangeMarker) AddOverlayGreenMarker(CurrentMarker);
+					if (tag is NavigationMarker) AddOverlayBlueMarker(CurrentMarker);
 					break;
 				case Crud.Delete:
 					if (origin is ChangeMarker) foreach (var item in Green.Markers) if (item.Tag == origin)
@@ -304,13 +303,13 @@ namespace Route66
 			foreach (var item in Blue.Markers) if (item.Position == currentMarker.Position) return item;
 			return null;
 		}
-		private void AddGreenMarker(GMapMarker currentMarker)
+		private void AddOverlayGreenMarker(GMapMarker currentMarker)
 		{
 			Green.Markers.Add(new GMarkerGoogle(currentMarker.Position, GMarkerGoogleType.green_small));
 			Green.Markers[Green.Markers.Count - 1].Tag = currentMarker.Tag;
 			Green.Markers[Green.Markers.Count - 1].ToolTipText = currentMarker.Tag.ToString();
 		}
-		private void AddBlueMarker(GMapMarker currentMarker)
+		private void AddOverlayBlueMarker(GMapMarker currentMarker)
 		{
 			Blue.Markers.Add(new GMarkerGoogle(currentMarker.Position, GMarkerGoogleType.blue_small));
 			Blue.Markers[Blue.Markers.Count - 1].Tag = currentMarker.Tag;
