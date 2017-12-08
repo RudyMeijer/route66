@@ -49,18 +49,24 @@ namespace Route66
 		public Settings Settings { get; }
 		#endregion
 		#region METHODES
-		internal bool Remove(GMapMarker marker)
+		internal GMapMarker Remove(GMapMarker marker)
 		{
 			//if (marker == null) return false;
 			var idx = Red.Markers.IndexOf(marker);
 			Console.WriteLine($"Remove marker {idx}");
-			if (idx == -1) return false; // Program error.
-			Red.Markers.Remove(marker);
-			UpdateGreenAndBlueOverlay(Crud.Delete, marker.Tag, null);
-			RedRoute.Points.RemoveAt(idx);// marker.Position);
-			Map.UpdateRouteLocalPosition(RedRoute);
-			if (idx > 0) CurrentMarker = Red.Markers[idx - 1];
-			return true;
+			if (idx >=0)
+			{
+				Red.Markers.Remove(marker);
+				UpdateGreenAndBlueOverlay(Crud.Delete, marker.Tag, null);
+				RedRoute.Points.RemoveAt(idx);
+				Map.UpdateRouteLocalPosition(RedRoute);
+				if (idx > 0)
+				{
+					CurrentMarker = Red.Markers[idx - 1];
+				}
+			}
+			else My.Status($"Error in Remove marker {marker?.ToolTipText}");
+			return CurrentMarker;
 		}
 		/// <summary>
 		/// When Mouse is moved update position of:
@@ -136,14 +142,23 @@ namespace Route66
 			Map.UpdateRouteLocalPosition(RedRoute);
 			CurrentMarker = null;
 		}
+		public void SetTooltip(GMapMarker item)
+		{
+			var idx = Red.Markers.IndexOf(item);
+			item.ToolTipMode = (Settings.ToolTipMode) ? MarkerTooltipMode.OnMouseOver : MarkerTooltipMode.Never;
+			item.ToolTipText = $"{idx}";
+		}
+
 		public void SetCurrentMarker(GMapMarker item)
 		{
 			var icon = item.GetType().GetField("Type").GetValue(item);
 			var idx = Red.Markers.IndexOf(item);
 			Console.WriteLine($"current marker {idx} {item.Position} {icon}");
-			CurrentMarker = item;
-			item.ToolTipMode = (Settings.ToolTipMode) ? MarkerTooltipMode.OnMouseOver : MarkerTooltipMode.Never;
-			item.ToolTipText = $"{idx}";
+			if (idx >= 0)
+			{
+				CurrentMarker = item;
+			}
+			else My.Status($"Error in SetCurrentMarker {item.ToolTipText}");
 		}
 		/// <summary>
 		/// Copy Route class into overlays.
@@ -325,8 +340,9 @@ namespace Route66
 			if (rp == null) rp = GMapProviders.OpenStreetMap; // use OpenStreetMap if provider does not implement routing
 			return rp.GetRoute(start.Position, end.Position, false, false, 2);
 		}
-		internal void UpdateAllChangeMarkers(double from, double to)
+		internal int UpdateAllChangeMarkers(double from, double to)
 		{
+			var cnt = 0;
 			foreach (var item in Green.Markers)
 			{
 				var x = item.Tag as ChangeMarker;
@@ -334,8 +350,10 @@ namespace Route66
 				{
 					x.Dosage = to;
 					item.ToolTipText = x.ToString();
+					++cnt;
 				}
 			}
+			return cnt;
 		}
 		#endregion
 	}

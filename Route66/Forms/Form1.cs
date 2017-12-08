@@ -19,7 +19,7 @@ using System.Collections;
 
 namespace Route66
 {
-	public  partial class Form1 : Form
+	public partial class Form1 : Form
 	{
 		#region FIELDS
 		/// <summary>
@@ -70,7 +70,7 @@ namespace Route66
 		public Route Route { get; set; }
 		#endregion
 		#region INITIALIZE
-		private  void Form1_Load(object sender, EventArgs e)
+		private void Form1_Load(object sender, EventArgs e)
 		{
 			InitializeLogfile();
 			My.Log($"Start {Title} User {My.UserName} {My.WindowsVersion}");
@@ -173,15 +173,16 @@ namespace Route66
 			//
 			// Edit marker
 			//
-			else if (e.Button == MouseButtons.Left && IsOnMarker && e.Clicks == 2) { Route.IsChanged = Overlay.EditMarker(Key); }
+			if (e.Button == MouseButtons.Left && IsOnMarker && e.Clicks == 2) { Route.IsChanged = Overlay.EditMarker(Key); }
 			//
 			// Add marker
 			//
-			else if (e.Button == MouseButtons.Left && !IsOnMarker && IsEditRoute()) { Overlay.AddMarker(e.X, e.Y); Route.IsChanged = true; }
+			if (e.Button == MouseButtons.Left && !IsOnMarker && IsEditRoute()) { Overlay.AddMarker(e.X, e.Y); Route.IsChanged = true; }
 			//
 			// Remove marker
 			//
-			else if (e.Button == MouseButtons.Right && IsOnMarker && IsEditRoute()) { Overlay.Remove(LastMarker); Pop(true); Route.IsChanged = true; }
+			if (e.Button == MouseButtons.Right && IsOnMarker && IsEditRoute()) { LastMarker = Overlay.Remove(LastMarker); Pop(true); Route.IsChanged = true; }
+			Console.WriteLine($"LastMarker {LastMarker.ToolTipText} IsOnMarker={IsOnMarker}, IsDragging={IsDragging}, Key={Key?.KeyCode}");
 		}
 
 		private bool IsEditRoute()
@@ -193,21 +194,21 @@ namespace Route66
 
 		private void Pop(bool force = false)
 		{
-			Console.Write($"Pop {LastMarker.ToolTipText} Leave marker");
+			//Console.Write($"Pop {LastMarker.ToolTipText} Leave marker");
 			IsOnMarker = false;
-			if (MarkerHash.Count == 0) return; // Marker is dropped onto other marker.
-			MarkerHash.Remove(LastMarker);
-			if (MarkerHash.Count > 0)
-			{
-				LastMarker = MarkerHash.ElementAt(MarkerHash.Count-1);
-				IsOnMarker = true;
-				Console.WriteLine($" Peek {LastMarker.ToolTipText} count {MarkerHash.Count}");
-			}
-			else Console.WriteLine();
+			//if (MarkerHash.Count == 0) return; // Marker is dropped onto other marker.
+			//MarkerHash.Remove(LastMarker);
+			//if (MarkerHash.Count > 0)
+			//{
+			//	LastMarker = MarkerHash.ElementAt(MarkerHash.Count - 1);
+			//	IsOnMarker = true;
+			//	Console.WriteLine($" Peek {LastMarker.ToolTipText} count {MarkerHash.Count}");
+			//}
+			//else Console.WriteLine();
 		}
 		private void gmap_OnMarkerLeave(GMapMarker item)
 		{
-			//if (!IsDragging && item.Overlay == gmap.Overlays[0])
+			if (!IsDragging)// && item.Overlay == gmap.Overlays[0])
 			{
 				Pop();
 			}
@@ -218,15 +219,17 @@ namespace Route66
 		/// <param name="item"></param>
 		private void gmap_OnMarkerEnter(GMapMarker item)
 		{
-			Console.Write("Push ");
-			MarkerHash.Add(item);
+			//Console.Write("gmap_OnMarkerEnter");
+			//MarkerHash.Add(item);
 			if (!IsDragging)
 			{
 				if (item.Overlay == gmap.Overlays[0]) // Allow red markers only!!
 				{
 					IsOnMarker = true;
 					LastMarker = item;
+					Overlay.SetTooltip(item);
 					if (Settings.FastDrawMode) Overlay.SetCurrentMarker(item);
+					Console.WriteLine($"LastMarker {LastMarker.ToolTipText} IsOnMarker={IsOnMarker}, IsDragging={IsDragging}, Key={Key?.KeyCode}");
 				}
 				else if (item.Tag is NavigationMarker)
 				{
@@ -238,6 +241,7 @@ namespace Route66
 				}
 			}
 		}
+
 		private void gmap_MouseMove(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Left && IsOnMarker && IsEditRoute())
@@ -285,7 +289,7 @@ namespace Route66
 			{
 				if (Path.GetExtension(openFileDialog1.FileName) != ".xml")
 				{
-					MessageBox.Show("Sorry, this function is not implemented yet.",$"Deer mr {My.UserName}");
+					MessageBox.Show("Sorry, this function is not implemented yet.", $"Deer mr {My.UserName}");
 					return;
 				}
 				Route = Route.Load(openFileDialog1.FileName);
@@ -398,7 +402,11 @@ namespace Route66
 		{
 			var from = (double)numDosingFrom.Value;
 			var to = (double)numDosingTo.Value;
-			Overlay.UpdateAllChangeMarkers(from, to);
+			var res = Overlay.UpdateAllChangeMarkers(from, to);
+			if (res > 0)
+				My.Status($"Dosage of {res} Changemarkers successfull updated from {from} to {to}.");
+			else
+				My.Status($"No Changemarkers found with dosage {from}.",Color.Red);
 
 		}
 

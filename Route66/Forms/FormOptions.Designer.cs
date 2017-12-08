@@ -45,7 +45,7 @@
 			// btnOk
 			// 
 			this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnOk.Location = new System.Drawing.Point(429, 258);
+			this.btnOk.Location = new System.Drawing.Point(433, 265);
 			this.btnOk.Name = "btnOk";
 			this.btnOk.Size = new System.Drawing.Size(50, 30);
 			this.btnOk.TabIndex = 1;

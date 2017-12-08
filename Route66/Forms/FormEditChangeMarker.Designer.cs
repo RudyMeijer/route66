@@ -386,7 +386,6 @@
 			// 
 			// numDosage
 			// 
-			this.numDosage.DecimalPlaces = 1;
 			this.numDosage.Location = new System.Drawing.Point(8, 22);
 			this.numDosage.Margin = new System.Windows.Forms.Padding(4);
 			this.numDosage.Maximum = new decimal(new int[] {
@@ -531,9 +530,13 @@
 			// 
 			// numDosageLiquid
 			// 
-			this.numDosageLiquid.DecimalPlaces = 1;
 			this.numDosageLiquid.Location = new System.Drawing.Point(7, 23);
 			this.numDosageLiquid.Margin = new System.Windows.Forms.Padding(4);
+			this.numDosageLiquid.Maximum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            0});
 			this.numDosageLiquid.Name = "numDosageLiquid";
 			this.numDosageLiquid.Size = new System.Drawing.Size(59, 22);
 			this.numDosageLiquid.TabIndex = 7;
