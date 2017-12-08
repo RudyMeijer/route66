@@ -154,18 +154,8 @@ namespace Route66
 			{
 				gmap.MapProvider = comboBox1.SelectedItem as GMapProvider;
 				Settings.MapProvider = gmap.MapProvider.Name;
-				//EnableDisableAutoRoute();
 			}
 		}
-		///// <summary>
-		///// Enable autoroute only for providers which support routing.
-		///// </summary>
-		//private void EnableDisableAutoRoute()
-		//{
-		//	var providers = new String[] { "BingMap", "OpenCycleMap", "WikiMapiaMap" , "OpenStreetMap" };
-		//	chkAutoRoute.Enabled = providers.Contains(gmap.MapProvider.Name);
-		//	if (!chkAutoRoute.Enabled && chkAutoRoute.Checked) chkAutoRoute.Checked = false;
-		//}
 
 		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
 		{
@@ -224,7 +214,7 @@ namespace Route66
 		}
 		private void gmap_OnMarkerLeave(GMapMarker item)
 		{
-			Console.Write($"\nOnLeave {item.ToolTipText}");
+			Console.WriteLine($"\nOnLeave {item.ToolTipText}");
 			if (!IsDragging)// && item.Overlay == gmap.Overlays[0])
 			{
 				Pop();
