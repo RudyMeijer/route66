@@ -54,7 +54,7 @@ namespace Route66
 			//if (marker == null) return false;
 			var idx = Red.Markers.IndexOf(marker);
 			Console.WriteLine($"Remove marker {idx}");
-			if (idx >=0)
+			if (idx >= 0)
 			{
 				Red.Markers.Remove(marker);
 				UpdateGreenAndBlueOverlay(Crud.Delete, marker.Tag, null);
@@ -335,8 +335,9 @@ namespace Route66
 		private MapRoute AutoRouter(GMapMarker start, GMapMarker end)
 		{
 			Console.WriteLine($"Autoroute start {start.Position}, stop {end.Position}");
-			RoutingProvider rp = Map.MapProvider as RoutingProvider;
-			if (rp == null) rp = GMapProviders.OpenStreetMap; // use OpenStreetMap if provider does not implement routing
+			//RoutingProvider rp = Map.MapProvider as RoutingProvider;
+			//if (rp == null)
+			RoutingProvider rp = GMapProviders.OpenStreetMap; // use OpenStreetMap if provider does not implement routing
 			return rp.GetRoute(start.Position, end.Position, false, false, 2);
 		}
 		internal int UpdateAllChangeMarkers(double from, double to)
