@@ -142,7 +142,7 @@ namespace Route66
 			Map.UpdateRouteLocalPosition(RedRoute);
 			CurrentMarker = null;
 		}
-		public void SetTooltip(GMapMarker item)
+		public void SetRedTooltip(GMapMarker item)
 		{
 			var idx = Red.Markers.IndexOf(item);
 			item.ToolTipMode = (Settings.ToolTipMode) ? MarkerTooltipMode.OnMouseOver : MarkerTooltipMode.Never;
@@ -153,7 +153,7 @@ namespace Route66
 		{
 			var icon = item.GetType().GetField("Type").GetValue(item);
 			var idx = Red.Markers.IndexOf(item);
-			Console.WriteLine($"current marker {idx} {item.Position} {icon}");
+			Console.WriteLine($"CurrentMarker {idx} {item.Position} {icon}");
 			if (idx >= 0)
 			{
 				CurrentMarker = item;

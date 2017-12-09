@@ -334,8 +334,8 @@
 			this.txtSearchPlaces.TabIndex = 2;
 			this.txtSearchPlaces.Text = "Nassau";
 			this.txtSearchPlaces.WordWrap = false;
-			this.txtSearchPlaces.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.textBox1_PreviewKeyDown);
-			this.txtSearchPlaces.Validated += new System.EventHandler(this.textBox1_Validated);
+			this.txtSearchPlaces.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.txtSearch_PreviewKeyDown);
+			this.txtSearchPlaces.Validated += new System.EventHandler(this.txtSearch_Validated);
 			// 
 			// label1
 			// 

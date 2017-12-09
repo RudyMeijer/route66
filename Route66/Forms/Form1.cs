@@ -38,6 +38,8 @@ namespace Route66
 		/// Last marker entered with mouse.
 		/// </summary>
 		private GMapMarker LastMarker;
+		private int cnt;
+
 		/// <summary>
 		/// Title shown on top of form.
 		/// </summary>
@@ -184,11 +186,11 @@ namespace Route66
 				//
 				// Remove marker
 				//
-				if (e.Button == MouseButtons.Right && IsOnMarker && IsEditRoute()) { LastMarker = Overlay.Remove(LastMarker); Pop(true); Route.IsChanged = true; }
+				if (e.Button == MouseButtons.Right && IsOnMarker && IsEditRoute()) { LastMarker = Overlay.Remove(LastMarker); Pop(LastMarker); Route.IsChanged = true; }
 
-				Console.WriteLine($"MouseDown LastMarker {LastMarker?.ToolTipText} IsOnMarker={IsOnMarker}, IsDragging={IsDragging}, Key={Key?.KeyCode}");
+				Console.WriteLine($"MouseDown cnt={cnt} LastMarker {LastMarker?.ToolTipText} IsOnMarker={IsOnMarker}, IsDragging={IsDragging}, Key={Key?.KeyCode}");
 			}
-			catch (Exception ee) { My.Status($"Error MouseDown {ee}"); }
+			catch (Exception ee) { My.Status($"{ee}"); }
 		}
 
 		private bool IsEditRoute()
@@ -198,10 +200,17 @@ namespace Route66
 			return false;
 		}
 
-		private void Pop(bool force = false)
+		private void Pop(GMapMarker marker = null)
 		{
 			//Console.Write($"Pop {LastMarker.ToolTipText} Leave marker");
-			IsOnMarker = false;
+
+			if (marker != null)
+			{
+				--cnt;
+				if (marker.Tag != null) --cnt;
+			}
+			if (cnt < 0) { cnt = 0; My.Status("Error Counter reset."); }
+			if (cnt == 0) IsOnMarker = false;
 			//if (MarkerHash.Count == 0) return; // Marker is dropped onto other marker.
 			//MarkerHash.Remove(LastMarker);
 			//if (MarkerHash.Count > 0)
@@ -212,21 +221,14 @@ namespace Route66
 			//}
 			//else Console.WriteLine();
 		}
-		private void gmap_OnMarkerLeave(GMapMarker item)
-		{
-			Console.WriteLine($"\nOnLeave {item.ToolTipText}");
-			if (!IsDragging)// && item.Overlay == gmap.Overlays[0])
-			{
-				Pop();
-			}
-		}
 		/// <summary>
 		/// When hover over marker and fast draw mode is enabled set current marker.
 		/// </summary>
 		/// <param name="item"></param>
 		private void gmap_OnMarkerEnter(GMapMarker item)
 		{
-			Console.Write($"OnEnter {item.ToolTipText} ");
+			Console.WriteLine($"{++cnt} Enter {item.Overlay.Id} Last {item.ToolTipText?.Replace('\n', ' ')}");
+			//if (item.ToolTipText[0] == 'D') Console.WriteLine();
 			//MarkerHash.Add(item);
 			if (!IsDragging)
 			{
@@ -234,9 +236,9 @@ namespace Route66
 				{
 					IsOnMarker = true;
 					LastMarker = item;
-					Overlay.SetTooltip(item);
+					Overlay.SetRedTooltip(item);
 					if (Settings.FastDrawMode) Overlay.SetCurrentMarker(item);
-					Console.WriteLine($"LastMarker {LastMarker.ToolTipText} IsOnMarker={IsOnMarker}, IsDragging={IsDragging}, Key={Key?.KeyCode}");
+					//Console.WriteLine($"LastMarker {LastMarker.ToolTipText} IsOnMarker=T, IsDragging=F, Key={Key?.KeyCode}");
 				}
 				else if (item.Tag is NavigationMarker)
 				{
@@ -246,6 +248,14 @@ namespace Route66
 						My.PlaySound(tag.Message);
 					}
 				}
+			}
+		}
+		private void gmap_OnMarkerLeave(GMapMarker item)
+		{
+			Console.WriteLine($"{--cnt} Leave {item.Overlay.Id} {item.ToolTipText?.Replace('\n', ' ')}");
+			if (!IsDragging)// && item.Overlay == gmap.Overlays[0])
+			{
+				Pop();//
 			}
 		}
 
@@ -271,7 +281,11 @@ namespace Route66
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void gmap_MouseLeave(object sender, EventArgs e) => My.Status(" Ready");
+		private void gmap_MouseLeave(object sender, EventArgs e)
+		{
+			Console.WriteLine("gmap_MouseLeave");
+			My.Status(" Ready");
+		}
 		private void gmap_KeyDown(object sender, KeyEventArgs e)
 		{
 			Console.WriteLine($"KeyDown = {e.KeyCode}");
@@ -365,27 +379,27 @@ namespace Route66
 		}
 		#endregion
 		#region SEARCH PLACES
-		private void textBox1_Validated(object sender, EventArgs e)
+		private void txtSearch_Validated(object sender, EventArgs e)
 		{
 			if (gmap.MapProvider == BingHybridMapProvider.Instance) comboBox1.SelectedItem = OpenStreetMapProvider.Instance;
 			gmap.Zoom = 14;
 			gmap.SetPositionByKeywords(txtSearchPlaces.Text);
 		}
 
-		private void textBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+		private void txtSearch_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
 		{
-			if (e.KeyCode == Keys.Enter) textBox1_Validated(null, null);
+			if (e.KeyCode == Keys.Enter) txtSearch_Validated(null, null);
 		}
 		#endregion
 		#region RIGHT PANE
 		private void btnClear_Click(object sender, EventArgs e)
 		{
+			Console.WriteLine("btnClear_Click");
 			Overlay.Clear();
 			IsOnMarker = IsDragging = false;
 			MarkerHash.Clear();
 			LastMarker = null;
-			//this.Text = Title + "Create new route by click left mouse on map.";
-			//var x = Route.FileName;
+			cnt = 0;
 		}
 		private void chkGpsPoints_CheckedChanged(object sender, EventArgs e)
 		{
