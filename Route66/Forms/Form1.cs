@@ -38,6 +38,11 @@ namespace Route66
 		/// Last marker entered with mouse.
 		/// </summary>
 		private GMapMarker LastMarker;
+		/// <summary>
+		/// Counter: (equal to pointcloud.Count)
+		/// Increment when Red marker is entered.
+		/// Decrement when Red marker is leaved.
+		/// </summary>
 		private int cnt;
 
 		/// <summary>
@@ -47,9 +52,10 @@ namespace Route66
 		private bool CtrlKeyIsPressed;
 		private KeyEventArgs Key;
 		/// <summary>
+		/// This list contains a pointcloud of markers which are partial overlay eachother (when zoomed out all markers are in the pointcloud)
 		/// Allow remove of overlaying markers via push/pop.
 		/// </summary>
-		private HashSet<GMapMarker> MarkerHash;
+		private List<GMapMarker> PointCloud;
 
 		#endregion
 		#region CONSTRUCTOR
@@ -82,7 +88,7 @@ namespace Route66
 			InitializeOverlays();
 			InitializeComboboxWithMapProviders();
 			InitializeSettings();
-			MarkerHash = new HashSet<GMapMarker>();
+			PointCloud = new List<GMapMarker>();
 			if (Settings.SupervisorMode) OpenToolStripMenuItem_Click(null, null);
 		}
 		/// <summary>
@@ -107,8 +113,8 @@ namespace Route66
 			var idx = GetIndex(Settings.MapProvider);
 			if (idx == 6) gmap.Zoom = 9;
 			comboBox1.SelectedIndex = idx;
-			//gmap.Refresh();
 			chkShowTooltip.Checked = Settings.ToolTipMode;
+			if (Settings.SupervisorMode) chkEditRoute.Checked = true;
 		}
 
 		private int GetIndex(string mapProvider)
@@ -171,6 +177,7 @@ namespace Route66
 		{
 			try
 			{
+				Console.WriteLine($"MouseClick{e.Button} cnt={cnt} LastMarker {LastMarker?.ToolTipText} IsOnMarker={IsOnMarker}, IsDragging={IsDragging}, Key={Key?.KeyCode}");
 				//
 				// Select marker 
 				//
@@ -186,12 +193,18 @@ namespace Route66
 				//
 				// Remove marker
 				//
-				if (e.Button == MouseButtons.Right && IsOnMarker && IsEditRoute()) { LastMarker = Overlay.Remove(LastMarker); Pop(LastMarker); Route.IsChanged = true; }
+				if (e.Button == MouseButtons.Right && IsOnMarker && IsEditRoute())
+				{
+					Pop(LastMarker, true);
+					LastMarker= Overlay.Remove(LastMarker);
+					FindLastMarker();
+					Route.IsChanged = true;
+				}
 
-				Console.WriteLine($"MouseDown cnt={cnt} LastMarker {LastMarker?.ToolTipText} IsOnMarker={IsOnMarker}, IsDragging={IsDragging}, Key={Key?.KeyCode}");
 			}
 			catch (Exception ee) { My.Status($"{ee}"); }
 		}
+
 
 		private bool IsEditRoute()
 		{
@@ -200,26 +213,38 @@ namespace Route66
 			return false;
 		}
 
-		private void Pop(GMapMarker marker = null)
+		private void Push(GMapMarker item)
 		{
-			//Console.Write($"Pop {LastMarker.ToolTipText} Leave marker");
+			++cnt;
+			PointCloud.Add(item);
+		}
 
-			if (marker != null)
-			{
-				--cnt;
-				if (marker.Tag != null) --cnt;
-			}
+		private void Pop(GMapMarker marker, bool findLast=false)
+		{
+			--cnt;
+			PointCloud.Remove(marker);
 			if (cnt < 0) { cnt = 0; My.Status("Error Counter reset."); }
 			if (cnt == 0) IsOnMarker = false;
-			//if (MarkerHash.Count == 0) return; // Marker is dropped onto other marker.
-			//MarkerHash.Remove(LastMarker);
-			//if (MarkerHash.Count > 0)
-			//{
-			//	LastMarker = MarkerHash.ElementAt(MarkerHash.Count - 1);
-			//	IsOnMarker = true;
-			//	Console.WriteLine($" Peek {LastMarker.ToolTipText} count {MarkerHash.Count}");
-			//}
-			//else Console.WriteLine();
+		}
+		/// <summary>
+		/// Find LastMarker:
+		/// 1) Navigation markers.
+		/// 2) Change markers.
+		/// 3) Gps markers (highest first).
+		/// </summary>
+		private void FindLastMarker()
+		{
+			if (PointCloud.Count > 0)
+			{
+				var nav = PointCloud.FirstOrDefault(item => item.Tag is NavigationMarker);
+				if (nav != null)
+				{
+					LastMarker = nav;
+					Console.WriteLine($"Lastmarker {nav.ToolTipText} {nav.Tag}");
+				}
+				else Console.WriteLine($"no lastmarker found. ListCount={PointCloud.Count}");
+			}
+
 		}
 		/// <summary>
 		/// When hover over marker and fast draw mode is enabled set current marker.
@@ -227,38 +252,35 @@ namespace Route66
 		/// <param name="item"></param>
 		private void gmap_OnMarkerEnter(GMapMarker item)
 		{
-			Console.WriteLine($"{++cnt} Enter {item.Overlay.Id} Last {item.ToolTipText?.Replace('\n', ' ')}");
-			//if (item.ToolTipText[0] == 'D') Console.WriteLine();
-			//MarkerHash.Add(item);
-			if (!IsDragging)
+			if (IsGpsMarker(item))
 			{
-				if (item.Overlay == gmap.Overlays[0]) // Allow red markers only!!
+				Console.WriteLine($"{cnt + 1} Enter {item.Overlay.Id} Last {item.ToolTipText?.Replace('\n', ' ')}");
+				Push(item);
+				if (!IsDragging)
 				{
 					IsOnMarker = true;
 					LastMarker = item;
 					Overlay.SetRedTooltip(item);
 					if (Settings.FastDrawMode) Overlay.SetCurrentMarker(item);
-					//Console.WriteLine($"LastMarker {LastMarker.ToolTipText} IsOnMarker=T, IsDragging=F, Key={Key?.KeyCode}");
 				}
-				else if (item.Tag is NavigationMarker)
-				{
-					if (Settings.SpeechSyntesizer)
-					{
-						var tag = item.Tag as NavigationMarker;
-						My.PlaySound(tag.Message);
-					}
-				}
+			}
+			else if (IsNavigationMarker(item) && Settings.SpeechSyntesizer)
+			{
+				My.PlaySound((item.Tag as NavigationMarker).Message);
 			}
 		}
 		private void gmap_OnMarkerLeave(GMapMarker item)
 		{
-			Console.WriteLine($"{--cnt} Leave {item.Overlay.Id} {item.ToolTipText?.Replace('\n', ' ')}");
-			if (!IsDragging)// && item.Overlay == gmap.Overlays[0])
+			if (IsGpsMarker(item))
 			{
-				Pop();//
+				Console.WriteLine($"{cnt - 1} Leave {item.Overlay.Id} {item.ToolTipText?.Replace('\n', ' ')}");
+				Pop(item);
 			}
 		}
 
+		private bool IsChangeMarker(GMapMarker item) => item.Overlay.Id == "Change points";
+		private bool IsNavigationMarker(GMapMarker item) => item.Overlay.Id == "Navigation points";
+		private bool IsGpsMarker(GMapMarker item) => item.Overlay.Id == "Gps points";
 		private void gmap_MouseMove(object sender, MouseEventArgs e)
 		{
 			//Console.Write("-");
@@ -397,9 +419,10 @@ namespace Route66
 			Console.WriteLine("btnClear_Click");
 			Overlay.Clear();
 			IsOnMarker = IsDragging = false;
-			MarkerHash.Clear();
+			PointCloud.Clear();
 			LastMarker = null;
 			cnt = 0;
+			PointCloud.Clear();
 		}
 		private void chkGpsPoints_CheckedChanged(object sender, EventArgs e)
 		{
@@ -432,11 +455,15 @@ namespace Route66
 				My.Status($"No Changemarkers found with dosage {from}.", Color.Red);
 
 		}
-
 		private void chkAutoRoute_CheckedChanged(object sender, EventArgs e)
 		{
 			Overlay.AutoRoute = (sender as CheckBox).Checked;
 		}
 		#endregion
+
+		private void gmap_OnMarkerClick(GMapMarker item, MouseEventArgs e)
+		{
+			Console.WriteLine($"gmap_OnMarkerClick{e.Button} {item.ToolTipText}");
+		}
 	}
 }
