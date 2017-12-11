@@ -48,7 +48,7 @@ namespace Route66
 				{
 					My.Log($"{ee} ");
 					if (ee.InnerException != null)
-						MessageBox.Show($"{ee.InnerException.Message}", "Loading route.");
+						MessageBox.Show($"{ee.InnerException.Message}", ee.Message);
 					else
 						MessageBox.Show($"{ee.Message}", "Loading route.");
 				}

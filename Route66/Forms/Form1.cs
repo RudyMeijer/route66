@@ -38,7 +38,8 @@ namespace Route66
 		private bool CtrlKeyIsPressed;
 		private KeyEventArgs Key;
 		/// <summary>
-		/// This list contains a pointcloud of markers which are partial overlay eachother (when zoomed out all markers are in the pointcloud)
+		/// This list contains markers which are overlapping eachother.
+		/// When zoomed out all markers are in the pointcloud.
 		/// Allow remove of overlaying markers via push/pop.
 		/// </summary>
 		private List<GMapMarker> PointCloud;
@@ -162,7 +163,7 @@ namespace Route66
 			try
 			{
 				Console.WriteLine($"MouseDown{e.Button} pointCloud={PointCloud.Count} IsOnMarker={IsOnMarker}, IsDragging={IsDragging}");
-				if (e.Button == MouseButtons.Left && !IsOnMarker && IsEditMode()) { Overlay.AddMarker(e.X, e.Y);  }
+				if (e.Button == MouseButtons.Left && !IsOnMarker && IsEditMode()) { Overlay.AddMarker(e.X, e.Y); }
 			}
 			catch (Exception ee) { My.Status($"Error {ee}"); }
 		}
@@ -185,13 +186,25 @@ namespace Route66
 				if (!IsGpsMarker(item)) return;
 				Console.WriteLine($"gmap_OnMarkerClick{e.Button} {item.ToolTipText}");
 				if (e.Button == MouseButtons.Left) { Overlay.SetCurrentMarker(item); }
-				if (e.Button == MouseButtons.Right && IsEditMode())
-				{
-					Overlay.Remove(PointCloud);
-				}
-
+				if (e.Button == MouseButtons.Right && IsEditMode()) Overlay.Remove(Pop(PointCloud));
 			}
 			catch (Exception ee) { My.Status($"Error {ee}"); }
+		}
+		private GMapMarker Pop(List<GMapMarker> pointCloud)
+		{
+			int max = -1;
+			GMapMarker marker = null;
+			foreach (var x in pointCloud)
+			{
+				var n = int.Parse(x.ToolTipText);
+				if (n > max)
+				{
+					max = n;
+					marker = x;
+				}
+			}
+			pointCloud.Remove(marker);
+			return marker;
 		}
 
 		private bool IsEditMode()
@@ -289,7 +302,7 @@ namespace Route66
 					MessageBox.Show("Sorry, this function is not implemented yet.", $"Deer mr {My.UserName}");
 					return;
 				}
-				Overlay.OpenRoute(openFileDialog1.FileName);
+				if (!Overlay.OpenRoute(openFileDialog1.FileName)) My.Status($"Error This file contains no Gps markers.");
 				this.Text = Title + openFileDialog1.FileName;
 			}
 		}
@@ -299,7 +312,7 @@ namespace Route66
 				SaveToolStripMenuItem_Click(null, null);
 		}
 		private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
-		{			
+		{
 			this.Text = Title + Overlay.Save();
 		}
 		private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)

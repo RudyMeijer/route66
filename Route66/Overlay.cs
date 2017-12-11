@@ -58,15 +58,14 @@ namespace Route66
 		public Route Route { get; set; }
 		public MachineTypes MachineType
 		{
-			get => Route.MachineType; 
-			set => Route.MachineType = value; 
+			get => Route.MachineType;
+			set => Route.MachineType = value;
 		}
 		public bool IsChanged { get => Route.IsChanged; }
 		#endregion
 		#region METHODES
-		internal void Remove(List<GMapMarker> pointCloud)
+		internal void Remove(GMapMarker marker)
 		{
-			var marker = TopMost(pointCloud);
 			var idx = Red.Markers.IndexOf(marker);
 			Console.WriteLine($"Remove marker {idx}");
 			if (idx >= 0)
@@ -174,23 +173,6 @@ namespace Route66
 			CurrentMarker = item;
 		}
 
-		internal GMapMarker TopMost(List<GMapMarker> pointCloud)
-		{
-			int max = -1;
-			GMapMarker marker = null;
-			foreach (var x in pointCloud)
-			{
-				var n = int.Parse(x.ToolTipText);
-				if (n > max)
-				{
-					max = n;
-					marker = x;
-				}
-			}
-			pointCloud.Remove(marker);
-			return marker;
-		}
-
 		private GMapMarker FindRedMarker(GpsMarker m)// todo performance test.
 		{
 			var pos = new PointLatLng(m.Lat, m.Lng);
@@ -267,11 +249,14 @@ namespace Route66
 		}
 
 		#region OPEN SAVE CONVERT ROUTE
-		internal void OpenRoute(string fileName)
+		internal bool OpenRoute(string fileName)
 		{
+			Clear();
 			Route = Route.Load(fileName);
+			if (Route.GpsMarkers.Count == 0) return false;
 			ConvertRoute(Route);
 			LoadOverlay(Route);
+			return true;
 		}
 
 		private void ConvertRoute(Route route)
@@ -337,7 +322,7 @@ namespace Route66
 			//
 			// Set currentMarker to last point. (Autorouter enabled and leftmouse on empty map)
 			//
-			CurrentMarker = Red.Markers[Red.Markers.Count - 1];
+			SetCurrentMarker(Red.Markers[Red.Markers.Count - 1]);
 			CreateOverlayRoute();
 			gmap.ZoomAndCenterRoute(RedRoute);
 		}
@@ -371,15 +356,17 @@ namespace Route66
 		}
 		private void AddOverlayGreenMarker(GMapMarker currentMarker)
 		{
-			Green.Markers.Add(new GMarkerGoogle(currentMarker.Position, GMarkerGoogleType.green_small));
-			Green.Markers[Green.Markers.Count - 1].Tag = currentMarker.Tag;
-			Green.Markers[Green.Markers.Count - 1].ToolTipText = currentMarker.Tag.ToString();
+			var marker = new GMarkerGoogle(currentMarker.Position, GMarkerGoogleType.green_small);
+			marker.Tag = currentMarker.Tag;
+			marker.ToolTipText = currentMarker.Tag.ToString();
+			Green.Markers.Add(marker);
 		}
 		private void AddOverlayBlueMarker(GMapMarker currentMarker)
 		{
-			Blue.Markers.Add(new GMarkerGoogle(currentMarker.Position, GMarkerGoogleType.blue_small));
-			Blue.Markers[Blue.Markers.Count - 1].Tag = currentMarker.Tag;
-			Blue.Markers[Blue.Markers.Count - 1].ToolTipText = currentMarker.Tag.ToString();
+			var marker = new GMarkerGoogle(currentMarker.Position, GMarkerGoogleType.blue_small);
+			marker.Tag = currentMarker.Tag;
+			marker.ToolTipText = currentMarker.Tag.ToString();
+			Blue.Markers.Add(marker);
 		}
 		/// <summary>
 		/// Update all change markers with dosage <from> to dosage <to>.
