@@ -30,20 +30,6 @@ namespace Route66
 		/// Moving while Leftmouse button pressed.
 		/// </summary>
 		private bool IsDragging;
-		/// <summary>
-		/// Mouse is on a Marker.
-		/// </summary>
-		private bool IsOnMarker;
-		/// <summary>
-		/// Last marker entered with mouse.
-		/// </summary>
-		private GMapMarker LastMarker;
-		/// <summary>
-		/// Counter: (equal to pointcloud.Count)
-		/// Increment when Red marker is entered.
-		/// Decrement when Red marker is leaved.
-		/// </summary>
-		private int cnt;
 
 		/// <summary>
 		/// Title shown on top of form.
@@ -68,14 +54,21 @@ namespace Route66
 		#endregion
 		#region PROPERTIES
 		/// <summary>
-		/// Application configuration loaded on startup from Settings.xml. 
+		/// Application configuration loaded on startup from Settings.xml.
+		/// Never create new instance of settings.
 		/// </summary>
-		public Settings Settings { get; } // Never create new instance of settings.
-										  /// <summary>
-										  /// Route data of current route on form.
-										  /// Filled during Save. 
-										  /// </summary>
+		public Settings Settings { get; }
+		/// <summary>
+		/// Route data of current route on form.
+		/// Filled during Save. 
+		/// </summary>
 		public Route Route { get; set; }
+		/// <summary>
+		/// Mouse is on a Marker.
+		/// Increment when Red marker is entered.
+		/// Decrement when Red marker is leaved.
+		/// </summary>
+		public bool IsOnMarker { get => PointCloud.Count > 0; }
 		#endregion
 		#region INITIALIZE
 		private void Form1_Load(object sender, EventArgs e)
@@ -89,7 +82,7 @@ namespace Route66
 			InitializeComboboxWithMapProviders();
 			InitializeSettings();
 			PointCloud = new List<GMapMarker>();
-			if (Settings.SupervisorMode) OpenToolStripMenuItem_Click(null, null);
+			//if (Settings.SupervisorMode) OpenToolStripMenuItem_Click(null, null);
 		}
 		/// <summary>
 		/// Limit maximum logfile size to 1 Mb.
@@ -173,78 +166,51 @@ namespace Route66
 
 		#endregion
 		#region EDIT ROUTE
+		/// <summary>
+		/// Add marker
+		/// </summary>
 		private void gmap_MouseDown(object sender, MouseEventArgs e)
 		{
 			try
 			{
-				Console.WriteLine($"MouseClick{e.Button} cnt={cnt} LastMarker {LastMarker?.ToolTipText} IsOnMarker={IsOnMarker}, IsDragging={IsDragging}, Key={Key?.KeyCode}");
-				//
-				// Select marker 
-				//
-				if (e.Button == MouseButtons.Left && IsOnMarker && !Settings.FastDrawMode) { Overlay.SetCurrentMarker(LastMarker); }
-				//
-				// Edit marker
-				//
-				if (e.Button == MouseButtons.Left && IsOnMarker && e.Clicks == 2) { Route.IsChanged = Overlay.EditMarker(Key); }
-				//
-				// Add marker
-				//
-				if (e.Button == MouseButtons.Left && !IsOnMarker && IsEditRoute()) { Overlay.AddMarker(e.X, e.Y); Route.IsChanged = true; }
-				//
-				// Remove marker
-				//
-				if (e.Button == MouseButtons.Right && IsOnMarker && IsEditRoute())
+				Console.WriteLine($"MouseDown{e.Button} pointCloud={PointCloud.Count} IsOnMarker={IsOnMarker}, IsDragging={IsDragging}, Key={Key?.KeyCode}");
+				if (e.Button == MouseButtons.Left && !IsOnMarker && IsEditMode()) { Overlay.AddMarker(e.X, e.Y); Route.IsChanged = true; }
+			}
+			catch (Exception ee) { My.Status($"Error {ee}"); }
+		}
+		/// <summary>
+		/// Select or Remove marker 
+		/// </summary>
+		private void gmap_OnMarkerClick(GMapMarker item, MouseEventArgs e)
+		{
+			try
+			{
+				if (!IsGpsMarker(item)) return;
+				Console.WriteLine($"gmap_OnMarkerClick{e.Button} {item.ToolTipText}");
+				if (e.Button == MouseButtons.Left) { Overlay.SetCurrentMarker(item); }
+				if (e.Button == MouseButtons.Right && IsEditMode())
 				{
-					Pop(LastMarker, true);
-					LastMarker= Overlay.Remove(LastMarker);
-					FindLastMarker();
+					Overlay.Remove(PointCloud);
 					Route.IsChanged = true;
 				}
 
 			}
-			catch (Exception ee) { My.Status($"{ee}"); }
+			catch (Exception ee) { My.Status($"Error {ee}"); }
+		}
+		/// <summary>
+		/// Edit marker
+		/// </summary>
+		private void gmap_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left) { Route.IsChanged = Overlay.EditMarker(Key); }
+			if (e.Button == MouseButtons.Right) My.Status($"Info: CurrentMarker={Overlay.CurrentMarker?.ToolTipText} IsOnMarker={IsOnMarker}, pointCount={PointCloud.Count}, ");
 		}
 
-
-		private bool IsEditRoute()
+		private bool IsEditMode()
 		{
 			if (chkEditRoute.Checked) return true;
 			MessageBox.Show($"Please enable edit route on the right side.", $"Dear mr {My.UserName}");
 			return false;
-		}
-
-		private void Push(GMapMarker item)
-		{
-			++cnt;
-			PointCloud.Add(item);
-		}
-
-		private void Pop(GMapMarker marker, bool findLast=false)
-		{
-			--cnt;
-			PointCloud.Remove(marker);
-			if (cnt < 0) { cnt = 0; My.Status("Error Counter reset."); }
-			if (cnt == 0) IsOnMarker = false;
-		}
-		/// <summary>
-		/// Find LastMarker:
-		/// 1) Navigation markers.
-		/// 2) Change markers.
-		/// 3) Gps markers (highest first).
-		/// </summary>
-		private void FindLastMarker()
-		{
-			if (PointCloud.Count > 0)
-			{
-				var nav = PointCloud.FirstOrDefault(item => item.Tag is NavigationMarker);
-				if (nav != null)
-				{
-					LastMarker = nav;
-					Console.WriteLine($"Lastmarker {nav.ToolTipText} {nav.Tag}");
-				}
-				else Console.WriteLine($"no lastmarker found. ListCount={PointCloud.Count}");
-			}
-
 		}
 		/// <summary>
 		/// When hover over marker and fast draw mode is enabled set current marker.
@@ -254,15 +220,10 @@ namespace Route66
 		{
 			if (IsGpsMarker(item))
 			{
-				Console.WriteLine($"{cnt + 1} Enter {item.Overlay.Id} Last {item.ToolTipText?.Replace('\n', ' ')}");
-				Push(item);
-				if (!IsDragging)
-				{
-					IsOnMarker = true;
-					LastMarker = item;
-					Overlay.SetRedTooltip(item);
-					if (Settings.FastDrawMode) Overlay.SetCurrentMarker(item);
-				}
+				PointCloud.Add(item);
+				Overlay.SetRedTooltip(item);
+				Console.WriteLine($"{PointCloud.Count} Enter {item.Overlay.Id} {item.ToolTipText}");
+				if (!IsDragging && Settings.FastDrawMode) Overlay.SetCurrentMarker(item);
 			}
 			else if (IsNavigationMarker(item) && Settings.SpeechSyntesizer)
 			{
@@ -273,27 +234,31 @@ namespace Route66
 		{
 			if (IsGpsMarker(item))
 			{
-				Console.WriteLine($"{cnt - 1} Leave {item.Overlay.Id} {item.ToolTipText?.Replace('\n', ' ')}");
-				Pop(item);
+				PointCloud.Remove(item);
+				Console.WriteLine($"{PointCloud.Count} Leave {item.ToolTipText}");
 			}
 		}
-
+		#region MARKER OVERLAYTYPES
 		private bool IsChangeMarker(GMapMarker item) => item.Overlay.Id == "Change points";
 		private bool IsNavigationMarker(GMapMarker item) => item.Overlay.Id == "Navigation points";
 		private bool IsGpsMarker(GMapMarker item) => item.Overlay.Id == "Gps points";
+		#endregion
+		/// <summary>
+		/// Drag marker
+		/// </summary>
 		private void gmap_MouseMove(object sender, MouseEventArgs e)
 		{
-			//Console.Write("-");
-			if (e.Button == MouseButtons.Left && IsOnMarker && IsEditRoute())
+			if (e.Button == MouseButtons.Left && IsOnMarker && IsEditMode())
 			{
-				if (!IsDragging) Console.WriteLine("start dragging " + LastMarker.ToolTipText);
+				if (!IsDragging) Console.WriteLine("start dragging ");
+				Overlay.SetCurrentMarker(PointCloud[0]);
 				Route.IsChanged = IsDragging = true;
 				Overlay.UpdateCurrentMarkerPosition(e.X, e.Y);
 			}
 		}
 		private void gmap_MouseUp(object sender, MouseEventArgs e)
 		{
-			if (IsDragging) Console.WriteLine("stop dragging " + LastMarker?.ToolTipText);
+			if (IsDragging) Console.WriteLine("stop dragging ");
 			IsDragging = false;
 		}
 		#endregion
@@ -418,10 +383,6 @@ namespace Route66
 		{
 			Console.WriteLine("btnClear_Click");
 			Overlay.Clear();
-			IsOnMarker = IsDragging = false;
-			PointCloud.Clear();
-			LastMarker = null;
-			cnt = 0;
 			PointCloud.Clear();
 		}
 		private void chkGpsPoints_CheckedChanged(object sender, EventArgs e)
@@ -460,10 +421,5 @@ namespace Route66
 			Overlay.AutoRoute = (sender as CheckBox).Checked;
 		}
 		#endregion
-
-		private void gmap_OnMarkerClick(GMapMarker item, MouseEventArgs e)
-		{
-			Console.WriteLine($"gmap_OnMarkerClick{e.Button} {item.ToolTipText}");
-		}
 	}
 }
