@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Route xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MachineType>StandardSpreader</MachineType>
+  <Version>1.0</Version>
+  <GpsMarkers>
+    <GpsMarker Lng="-77.2998046876" ="24.923804001418247" />
+    <GpsMarker Lng="-77.20367431640625" Lat="24.966140159912953" />
+    <GpsMarker Lng="-77.1295166015625" Lat="24.993526387488942" />
+  </GpsMarkers>
+  <ChangeMarkers />
+  <NavigationMarkers />
+</Route>

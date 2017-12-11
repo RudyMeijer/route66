@@ -1,5 +1,6 @@
-﻿Save and Open empty xml file. -> Status: This file doesn't contain Gps markers.
-Open or prepare file "Green marker not found in red marker list.xml". -> Status: Green marker not found in red marker list.
+﻿Open or prepare empty.xml. -> Status: This file doesn't contain Gps markers.
+Open or prepare Green marker not found in red marker list.xml. -> Status: Green marker not found in red marker list.
+Open or prepare Invalid.xml. -> Status: There is an error in XML document (6, 37). ---> System.Xml.XmlException: Name cannot begin with the '=' character, hexadecimal value 0x3D. Line 6, position 37.
 Create 2 markers, Drag M0 onto M1, Delete marker without leaving other marker.
 Create 2 markers, Drag M0 onto M1, Leave and reenter markers, drag M0 outside M1 and delete M0 immediatly.
 Create 10 markers, zoom out until 1 pointcloud is seen. delte all markers without leaving pointcloud.
