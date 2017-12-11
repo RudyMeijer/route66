@@ -167,6 +167,15 @@ namespace Route66
 			catch (Exception ee) { My.Status($"Error {ee}"); }
 		}
 		/// <summary>
+		/// Edit marker
+		/// </summary>
+		private void gmap_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			chkChangePoints.Checked = chkNavPoints.Checked = true;
+			if (e.Button == MouseButtons.Left) { Overlay.EditMarker(Key); }
+			if (e.Button == MouseButtons.Right) My.Status($"Info: CurrentMarker={Overlay.CurrentMarker?.ToolTipText} IsOnMarker={IsOnMarker}, pointCount={PointCloud.Count}, ");
+		}
+		/// <summary>
 		/// Select or Remove marker 
 		/// </summary>
 		private void gmap_OnMarkerClick(GMapMarker item, MouseEventArgs e)
@@ -183,14 +192,6 @@ namespace Route66
 
 			}
 			catch (Exception ee) { My.Status($"Error {ee}"); }
-		}
-		/// <summary>
-		/// Edit marker
-		/// </summary>
-		private void gmap_MouseDoubleClick(object sender, MouseEventArgs e)
-		{
-			if (e.Button == MouseButtons.Left) { Overlay.EditMarker(Key); }
-			if (e.Button == MouseButtons.Right) My.Status($"Info: CurrentMarker={Overlay.CurrentMarker?.ToolTipText} IsOnMarker={IsOnMarker}, pointCount={PointCloud.Count}, ");
 		}
 
 		private bool IsEditMode()
@@ -225,7 +226,7 @@ namespace Route66
 				Console.WriteLine($"{PointCloud.Count} Leave {item.ToolTipText}");
 			}
 		}
-		#region MARKER OVERLAYTYPES
+		#region MARKER OVERLAY TYPES
 		private bool IsChangeMarker(GMapMarker item) => item.Overlay.Id == "Change points";
 		private bool IsNavigationMarker(GMapMarker item) => item.Overlay.Id == "Navigation points";
 		private bool IsGpsMarker(GMapMarker item) => item.Overlay.Id == "Gps points";
@@ -404,7 +405,7 @@ namespace Route66
 		}
 		private void chkAutoRoute_CheckedChanged(object sender, EventArgs e)
 		{
-			Overlay.AutoRoute = (sender as CheckBox).Checked;
+			Overlay.IsAutoRoute = (sender as CheckBox).Checked;
 		}
 		#endregion
 	}

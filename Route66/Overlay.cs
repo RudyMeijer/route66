@@ -49,7 +49,7 @@ namespace Route66
 		/// <summary>
 		/// True when intermediat markers will be placed on road.
 		/// </summary>
-		public bool AutoRoute { get; internal set; }
+		public bool IsAutoRoute { get; internal set; }
 		public Settings Settings { get; }
 		/// <summary>
 		/// Route data of current route on form.
@@ -136,7 +136,7 @@ namespace Route66
 		internal void AddMarker(int x, int y)
 		{
 			PointLatLng point = gmap.FromLocalToLatLng(x, y);
-			if (AutoRoute && RedRoute.Points.Count > 0)
+			if (IsAutoRoute && RedRoute.Points.Count > 0)
 			{
 				var end = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
 
@@ -266,7 +266,7 @@ namespace Route66
 			}
 		}
 
-		#region OPEN SAVE CONVERT
+		#region OPEN SAVE CONVERT ROUTE
 		internal void OpenRoute(string fileName)
 		{
 			Route = Route.Load(fileName);
