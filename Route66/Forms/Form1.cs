@@ -173,7 +173,7 @@ namespace Route66
 		{
 			try
 			{
-				Console.WriteLine($"MouseDown{e.Button} pointCloud={PointCloud.Count} IsOnMarker={IsOnMarker}, IsDragging={IsDragging}, Key={Key?.KeyCode}");
+				Console.WriteLine($"MouseDown{e.Button} pointCloud={PointCloud.Count} IsOnMarker={IsOnMarker}, IsDragging={IsDragging}");
 				if (e.Button == MouseButtons.Left && !IsOnMarker && IsEditMode()) { Overlay.AddMarker(e.X, e.Y); Route.IsChanged = true; }
 			}
 			catch (Exception ee) { My.Status($"Error {ee}"); }
