@@ -59,11 +59,6 @@ namespace Route66
 		/// </summary>
 		public Settings Settings { get; }
 		/// <summary>
-		/// Route data of current route on form.
-		/// Filled during Save. 
-		/// </summary>
-		public Route Route { get; set; }
-		/// <summary>
 		/// Mouse is on a Marker.
 		/// Increment when Red marker is entered.
 		/// Decrement when Red marker is leaved.
@@ -76,13 +71,12 @@ namespace Route66
 			InitializeLogfile();
 			My.Log($"Start {Title} User {My.UserName} {My.WindowsVersion}");
 			My.SetStatus(toolStripStatusLabel1);
-			Route = Route.Load();
 			InitializeGmapProvider();
 			InitializeOverlays();
 			InitializeComboboxWithMapProviders();
 			InitializeSettings();
 			PointCloud = new List<GMapMarker>();
-			//if (Settings.SupervisorMode) OpenToolStripMenuItem_Click(null, null);
+			if (Settings.SupervisorMode) OpenToolStripMenuItem_Click(null, null);
 		}
 		/// <summary>
 		/// Limit maximum logfile size to 1 Mb.
@@ -102,7 +96,7 @@ namespace Route66
 		}
 		private void InitializeSettings()
 		{
-			Route.MachineType = Settings.MachineType;
+			Overlay.MachineType = Settings.MachineType;
 			var idx = GetIndex(Settings.MapProvider);
 			if (idx == 6) gmap.Zoom = 9;
 			comboBox1.SelectedIndex = idx;
@@ -158,12 +152,6 @@ namespace Route66
 			}
 		}
 
-		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
-		{
-			Settings.Save();
-			AskToSaveModifiedRoute();
-		}
-
 		#endregion
 		#region EDIT ROUTE
 		/// <summary>
@@ -174,7 +162,7 @@ namespace Route66
 			try
 			{
 				Console.WriteLine($"MouseDown{e.Button} pointCloud={PointCloud.Count} IsOnMarker={IsOnMarker}, IsDragging={IsDragging}");
-				if (e.Button == MouseButtons.Left && !IsOnMarker && IsEditMode()) { Overlay.AddMarker(e.X, e.Y); Route.IsChanged = true; }
+				if (e.Button == MouseButtons.Left && !IsOnMarker && IsEditMode()) { Overlay.AddMarker(e.X, e.Y);  }
 			}
 			catch (Exception ee) { My.Status($"Error {ee}"); }
 		}
@@ -191,7 +179,6 @@ namespace Route66
 				if (e.Button == MouseButtons.Right && IsEditMode())
 				{
 					Overlay.Remove(PointCloud);
-					Route.IsChanged = true;
 				}
 
 			}
@@ -202,7 +189,7 @@ namespace Route66
 		/// </summary>
 		private void gmap_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Left) { Route.IsChanged = Overlay.EditMarker(Key); }
+			if (e.Button == MouseButtons.Left) { Overlay.EditMarker(Key); }
 			if (e.Button == MouseButtons.Right) My.Status($"Info: CurrentMarker={Overlay.CurrentMarker?.ToolTipText} IsOnMarker={IsOnMarker}, pointCount={PointCloud.Count}, ");
 		}
 
@@ -252,7 +239,7 @@ namespace Route66
 			{
 				if (!IsDragging) Console.WriteLine("start dragging ");
 				Overlay.SetCurrentMarker(PointCloud[0]);
-				Route.IsChanged = IsDragging = true;
+				IsDragging = true;
 				Overlay.UpdateCurrentMarkerPosition(e.X, e.Y);
 			}
 		}
@@ -301,28 +288,19 @@ namespace Route66
 					MessageBox.Show("Sorry, this function is not implemented yet.", $"Deer mr {My.UserName}");
 					return;
 				}
-				Route = Route.Load(openFileDialog1.FileName);
-				Overlay.Load(Route);
+				Overlay.OpenRoute(openFileDialog1.FileName);
 				this.Text = Title + openFileDialog1.FileName;
 			}
 		}
 		private void AskToSaveModifiedRoute()
 		{
-			if (Route.IsChanged && MessageBox.Show("Save current route?", "Route is changed.", MessageBoxButtons.YesNo) == DialogResult.Yes)
+			if (Overlay.IsChanged && MessageBox.Show("Save current route?", "Route is changed.", MessageBoxButtons.YesNo) == DialogResult.Yes)
 				SaveToolStripMenuItem_Click(null, null);
 		}
 		private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			Overlay.CopyTo(Route);
-			if (Route.IsDefaultFile) Route.SaveAs(Path.Combine(Settings.RoutePath, "Route66.xml"));
-			else Route.Save();
-			this.Text = Title + Route.FileName;
+		{			
+			this.Text = Title + Overlay.Save();
 		}
-		/// <summary>
-		/// This function is called on Save, SaveAs and Form_Closed.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
 		private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			saveFileDialog1.InitialDirectory = openFileDialog1.InitialDirectory;
@@ -337,11 +315,20 @@ namespace Route66
 					MessageBox.Show("Sorry, this function is not implemented yet.", $"Deer mr {My.UserName}");
 					return;
 				}
-				Overlay.CopyTo(Route);
-				Route.SaveAs(saveFileDialog1.FileName);
-				this.Text = Title + Route.FileName;
+				Overlay.SaveAs(saveFileDialog1.FileName);
+				this.Text = Title + saveFileDialog1.FileName;
 			}
 		}
+		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Close();
+		}
+		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			Settings.Save();
+			AskToSaveModifiedRoute();
+		}
+
 		/// <summary>
 		/// Show configuration menu.
 		/// </summary>
@@ -359,7 +346,6 @@ namespace Route66
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		//
 		private void HelpToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Process.Start("Explorer", "documents\\help.html");

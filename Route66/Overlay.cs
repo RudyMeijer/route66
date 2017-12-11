@@ -9,6 +9,7 @@ using MyLib;
 using GMap.NET.MapProviders;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 namespace Route66
 {
@@ -17,7 +18,7 @@ namespace Route66
 		#region FIELDS
 		private GMapControl gmap;
 		/// <summary>
-		/// This field contains Lat,Lng coordinates of the last clicked marker.
+		/// This field contains Lat,Lng coordinates of the last clicked red marker.
 		/// </summary>
 		public GMapMarker CurrentMarker;
 		private readonly GMapRoute RedRoute;
@@ -41,6 +42,7 @@ namespace Route66
 			};
 			Red.Routes.Add(RedRoute);
 			Settings = Settings.Global;
+			Route = Route.Load();
 		}
 		#endregion
 		#region PROPERTIES
@@ -49,6 +51,17 @@ namespace Route66
 		/// </summary>
 		public bool AutoRoute { get; internal set; }
 		public Settings Settings { get; }
+		/// <summary>
+		/// Route data of current route on form.
+		/// Filled during Save. 
+		/// </summary>
+		public Route Route { get; set; }
+		public MachineTypes MachineType
+		{
+			get => Route.MachineType; 
+			set => Route.MachineType = value; 
+		}
+		public bool IsChanged { get => Route.IsChanged; }
 		#endregion
 		#region METHODES
 		internal void Remove(List<GMapMarker> pointCloud)
@@ -68,6 +81,7 @@ namespace Route66
 				}
 			}
 			else My.Status($"Error in Remove marker {marker?.ToolTipText}");
+			Route.IsChanged = true;
 		}
 		/// <summary>
 		/// When Mouse is moved update position of:
@@ -104,6 +118,7 @@ namespace Route66
 				(CurrentMarker.Tag as GpsMarker).Lat = newPosition.Lat;
 				(CurrentMarker.Tag as GpsMarker).Lng = newPosition.Lng;
 			}
+			Route.IsChanged = true;
 			return true;
 		}
 		/// <summary>
@@ -134,6 +149,7 @@ namespace Route66
 			}
 			else AddMarker(point);
 			SetRedTooltip(CurrentMarker); // Not nessesarry but nice 4 debugging.
+			Route.IsChanged = true;
 		}
 		public void Clear()
 		{
@@ -157,11 +173,138 @@ namespace Route66
 			Console.WriteLine($"CurrentMarker {item.ToolTipText}");
 			CurrentMarker = item;
 		}
+
+		internal GMapMarker TopMost(List<GMapMarker> pointCloud)
+		{
+			int max = -1;
+			GMapMarker marker = null;
+			foreach (var x in pointCloud)
+			{
+				var n = int.Parse(x.ToolTipText);
+				if (n > max)
+				{
+					max = n;
+					marker = x;
+				}
+			}
+			pointCloud.Remove(marker);
+			return marker;
+		}
+
+		private GMapMarker FindRedMarker(GpsMarker m)// todo performance test.
+		{
+			var pos = new PointLatLng(m.Lat, m.Lng);
+			foreach (var item in Red.Markers) if (item.Position == pos) return item;
+			return null;
+		}
+
+		/// <summary>
+		/// Determine current marker type: Change marker or Navigation marker.
+		/// Show properties of current marker on windows form.
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		public bool EditMarker(KeyEventArgs key)
+		{
+			var originalTag = CurrentMarker.Tag;// if DeepClone(); then marker is not removed from route on delete.
+			var before = (CurrentMarker.Tag != null) ? 2 : 0;
+			Form form = null;
+			if (CurrentMarker.Tag is ChangeMarker) form = new FormEditChangeMarker(CurrentMarker);
+			else if (CurrentMarker.Tag is NavigationMarker) form = new FormEditNavigationMarker(CurrentMarker);
+			//
+			// If user clicked on red marker.
+			// then pressing Ctrl key will edit Navigation marker.
+			//
+			else if (CurrentMarker.Tag == null)
+				if (key != null && key.Control) form = new FormEditNavigationMarker(CurrentMarker);
+				else form = new FormEditChangeMarker(CurrentMarker);
+			else My.Log($"Error during edit Tag {CurrentMarker.Tag}");
+
+			form.ShowDialog();
+			//
+			// Determine CRUD operation (Create, Update or Delete).
+			// 0= No operation, 1 = Create, 2 = Delete, 3 = Update.
+			//
+			var after = (CurrentMarker.Tag != null) ? 1 : 0;
+			var crud = (Crud)before + after;
+
+			UpdateGreenAndBlueOverlay(crud, originalTag, CurrentMarker.Tag);
+			Route.IsChanged = crud != Crud.None;
+			return true;
+		}
+		private enum Crud { None, Create, Delete, Update }
+		private void UpdateGreenAndBlueOverlay(Crud crud, object origin, object tag)
+		{
+			if (tag != null) Console.WriteLine($"{crud} {tag.ToString().Replace('\n', ' ')}");
+			else if (origin != null) Console.WriteLine($"{crud} {origin.ToString().Replace('\n', ' ')}");
+
+			switch (crud)
+			{
+				case Crud.None:
+					break;
+				case Crud.Create:
+					if (tag is ChangeMarker) AddOverlayGreenMarker(CurrentMarker);
+					if (tag is NavigationMarker) AddOverlayBlueMarker(CurrentMarker);
+					break;
+				case Crud.Delete:
+					if (origin is ChangeMarker) foreach (var item in Green.Markers) if (item.Tag == origin)
+							{
+								Green.Markers.Remove(item); return;
+							}
+					if (origin is NavigationMarker) foreach (var item in Blue.Markers) if (item.Tag == origin)
+							{
+								Blue.Markers.Remove(item); return;
+							}
+					break;
+				case Crud.Update:
+					if (tag is ChangeMarker) GetGreenMarker(CurrentMarker).ToolTipText = $"{tag}";
+					if (tag is NavigationMarker) GetBlueMarker(CurrentMarker).ToolTipText = $"{tag}";
+					break;
+				default:
+					My.Log($"Error crud operation {crud}");
+					break;
+			}
+		}
+
+		#region OPEN SAVE CONVERT
+		internal void OpenRoute(string fileName)
+		{
+			Route = Route.Load(fileName);
+			ConvertRoute(Route);
+			LoadOverlay(Route);
+		}
+
+		private void ConvertRoute(Route route)
+		{
+			if (Route.MachineType != Settings.MachineType)
+			{
+				//
+				// Todo convert route.
+				//
+				My.Status($"Route converted from {route.MachineType} to {Settings.MachineType}.");
+				route.MachineType = Settings.MachineType;
+				route.IsChanged = true;
+			}
+		}
+
+		internal string Save()
+		{
+			var fileName = (Route.IsDefaultFile) ? Path.Combine(Settings.RoutePath, "Route66.xml") : Route.FileName;
+			SaveAs(fileName);
+			return fileName;
+		}
+
+		internal void SaveAs(string fileName)
+		{
+			CopyOverlayTo(Route);
+			Route.SaveAs(fileName);
+		}
+
 		/// <summary>
 		/// Copy Route class into overlays.
 		/// </summary>
 		/// <param name="route"></param>
-		public void Load(Route route)
+		private void LoadOverlay(Route route)
 		{
 			Clear();
 			foreach (var red in route.GpsMarkers)
@@ -199,40 +342,11 @@ namespace Route66
 			gmap.ZoomAndCenterRoute(RedRoute);
 		}
 
-		internal GMapMarker TopMost(List<GMapMarker> pointCloud)
-		{
-			int max = -1;
-			GMapMarker marker = null;
-			foreach (var x in pointCloud)
-			{
-				var n = int.Parse(x.ToolTipText);
-				if (n > max)
-				{
-					max = n;
-					marker = x;
-				}
-			}
-			pointCloud.Remove(marker);
-			return marker;
-		}
-
-		public int selector(char arg)
-		{
-			return 0;
-		}
-
-		private GMapMarker FindRedMarker(GpsMarker m)// todo performance test.
-		{
-			var pos = new PointLatLng(m.Lat, m.Lng);
-			foreach (var item in Red.Markers) if (item.Position == pos) return item;
-			return null;
-		}
-
 		/// <summary>
 		/// Copy overlays into Route class.
 		/// </summary>
 		/// <param name="route"></param>
-		public void CopyTo(Route route)
+		private void CopyOverlayTo(Route route)
 		{
 			route.GpsMarkers.Clear();
 			route.ChangeMarkers.Clear();
@@ -244,72 +358,7 @@ namespace Route66
 				if (item.Tag is NavigationMarker) route.NavigationMarkers.Add(item.Tag as NavigationMarker);
 			}
 		}
-		/// <summary>
-		/// Determine current marker type: Change marker or Navigation marker.
-		/// Show properties of current marker on windows form.
-		/// </summary>
-		/// <param name="key"></param>
-		/// <returns></returns>
-		public bool EditMarker(KeyEventArgs key)
-		{
-			var originalTag = CurrentMarker.Tag;// if DeepClone(); then marker is not removed from route on delete.
-			var before = (CurrentMarker.Tag != null) ? 2 : 0;
-			Form form = null;
-			if (CurrentMarker.Tag is ChangeMarker) form = new FormEditChangeMarker(CurrentMarker);
-			else if (CurrentMarker.Tag is NavigationMarker) form = new FormEditNavigationMarker(CurrentMarker);
-			//
-			// If user clicked on red marker.
-			// then pressing Ctrl key will edit Navigation marker.
-			//
-			else if (CurrentMarker.Tag == null)
-				if (key != null && key.Control) form = new FormEditNavigationMarker(CurrentMarker);
-				else form = new FormEditChangeMarker(CurrentMarker);
-			else My.Log($"Error during edit Tag {CurrentMarker.Tag}");
-
-			form.ShowDialog();
-			//
-			// Determine CRUD operation (Create, Update or Delete).
-			// 0= No operation, 1 = Create, 2 = Delete, 3 = Update.
-			//
-			var after = (CurrentMarker.Tag != null) ? 1 : 0;
-			var crud = (Crud)before + after;
-
-			UpdateGreenAndBlueOverlay(crud, originalTag, CurrentMarker.Tag);
-			return crud != Crud.None;
-		}
-		private enum Crud { None, Create, Delete, Update }
-		private void UpdateGreenAndBlueOverlay(Crud crud, object origin, object tag)
-		{
-			if (tag != null) Console.WriteLine($"{crud} {tag.ToString().Replace('\n', ' ')}");
-			else if (origin != null) Console.WriteLine($"{crud} {origin.ToString().Replace('\n', ' ')}");
-
-			switch (crud)
-			{
-				case Crud.None:
-					break;
-				case Crud.Create:
-					if (tag is ChangeMarker) AddOverlayGreenMarker(CurrentMarker);
-					if (tag is NavigationMarker) AddOverlayBlueMarker(CurrentMarker);
-					break;
-				case Crud.Delete:
-					if (origin is ChangeMarker) foreach (var item in Green.Markers) if (item.Tag == origin)
-							{
-								Green.Markers.Remove(item); return;
-							}
-					if (origin is NavigationMarker) foreach (var item in Blue.Markers) if (item.Tag == origin)
-							{
-								Blue.Markers.Remove(item); return;
-							}
-					break;
-				case Crud.Update:
-					if (tag is ChangeMarker) GetGreenMarker(CurrentMarker).ToolTipText = $"{tag}";
-					if (tag is NavigationMarker) GetBlueMarker(CurrentMarker).ToolTipText = $"{tag}";
-					break;
-				default:
-					My.Log($"Error crud operation {crud}");
-					break;
-			}
-		}
+		#endregion
 		private GMapMarker GetGreenMarker(GMapMarker currentMarker)
 		{
 			foreach (var item in Green.Markers) if (item.Position == currentMarker.Position) return item;

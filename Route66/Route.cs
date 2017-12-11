@@ -77,6 +77,10 @@ namespace Route66
 				throw new Exception(e.ToString());
 			}
 		}
+		public override string ToString()
+		{
+			return $"Version {Version}, Type {MachineType} ";
+		}
 		#endregion
 		#region PROPERTIES
 		public MachineTypes MachineType { get; set; }
