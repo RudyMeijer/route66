@@ -35,11 +35,13 @@
 			this.gmap = new GMap.NET.WindowsForms.GMapControl();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.btnClear = new System.Windows.Forms.Button();
+			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
 			this.statusStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// menuStrip1
@@ -80,6 +82,7 @@
 			// 
 			// splitContainer1.Panel2
 			// 
+			this.splitContainer1.Panel2.Controls.Add(this.numericUpDown1);
 			this.splitContainer1.Panel2.Controls.Add(this.textBox1);
 			this.splitContainer1.Panel2.Controls.Add(this.btnClear);
 			this.splitContainer1.Size = new System.Drawing.Size(867, 476);
@@ -125,6 +128,7 @@
 			this.textBox1.Size = new System.Drawing.Size(100, 22);
 			this.textBox1.TabIndex = 1;
 			this.textBox1.Text = "Vletgaarsmaten";
+			this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
 			this.textBox1.Validated += new System.EventHandler(this.textBox1_Validated);
 			// 
 			// btnClear
@@ -136,6 +140,23 @@
 			this.btnClear.Text = "Clear";
 			this.btnClear.UseVisualStyleBackColor = true;
 			this.btnClear.Click += new System.EventHandler(this.button1_Click);
+			// 
+			// numericUpDown1
+			// 
+			this.numericUpDown1.Increment = new decimal(new int[] {
+            45,
+            0,
+            0,
+            0});
+			this.numericUpDown1.Location = new System.Drawing.Point(26, 144);
+			this.numericUpDown1.Maximum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+			this.numericUpDown1.Name = "numericUpDown1";
+			this.numericUpDown1.Size = new System.Drawing.Size(48, 22);
+			this.numericUpDown1.TabIndex = 3;
 			// 
 			// Form1
 			// 
@@ -155,6 +176,7 @@
 			this.splitContainer1.Panel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -169,6 +191,7 @@
 		private System.Windows.Forms.Button btnClear;
 		private System.Windows.Forms.TextBox textBox1;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+		private System.Windows.Forms.NumericUpDown numericUpDown1;
 	}
 }
 

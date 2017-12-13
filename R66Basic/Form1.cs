@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GMap.NET.ObjectModel;
+using R66Basic.Properties;
 
 namespace R66Basic
 {
@@ -39,6 +40,9 @@ namespace R66Basic
 			RedRoute = new GMapRoute("RedRoute");
 			RedRoute.Stroke = new Pen(Color.Red,2);
 			Red.Routes.Add(RedRoute);
+			textBox1_Validated(null, null);
+			this.Width = 600 + splitContainer1.Panel2.Width + 29;
+			this.Height = 400 + menuStrip1.Height + statusStrip1.Height + 39;
 		}
 
 		private void button1_Click(object sender, EventArgs e)
@@ -72,15 +76,10 @@ namespace R66Basic
 			if (e.Button == MouseButtons.Right) RemoveMarker(item);
 		}
 
-		private void textBox1_Validated(object sender, EventArgs e)
-		{
-			gmap.Zoom = 15;
-			gmap.SetPositionByKeywords(textBox1.Text);
-		}
 
 		private void gmap_OnMarkerEnter(GMapMarker item)
 		{
-			item.ToolTipText = $"{item.Overlay.Markers.IndexOf(item)}";
+			//item.ToolTipText = $"{item.Overlay.Markers.IndexOf(item)}";
 			Console.WriteLine($"{DateTime.Now} gmap_OnMarkerEnter {item.ToolTipText} pointcloud {PointCloud.Count+1}");
 			PointCloud.Add(item);
 
@@ -96,11 +95,14 @@ namespace R66Basic
 		{
 			Console.WriteLine($"{DateTime.Now} AddMarker ({e.X},{e.Y})");
 			PointLatLng point = gmap.FromLocalToLatLng(e.X, e.Y);
-			var marker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
-			Red.Markers.Add(marker);
-			RedRoute.Points.Add(point);
-			marker.ToolTipText = $"{marker.Overlay.Markers.Count-1}";
-			gmap.UpdateRouteLocalPosition(RedRoute);
+			//var marker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
+			var marker1 = new GmarkerRotate(point, Resources.arrow3);
+			marker1.Rotation = (float)numericUpDown1.Value;
+			Red.Markers.Add(marker1);
+			//Red.Markers.Add(marker);
+			//RedRoute.Points.Add(point);
+			//marker.ToolTipText = $"{marker.Overlay.Markers.Count-1}";
+			//gmap.UpdateRouteLocalPosition(RedRoute);
 		}
 		private void RemoveMarker(GMapMarker item)
 		{
@@ -108,6 +110,17 @@ namespace R66Basic
 			RedRoute.Points.Remove(item.Position);
 			gmap.UpdateRouteLocalPosition(RedRoute);
 			PointCloud.Remove(item);
+		}
+
+		private void textBox1_Validated(object sender, EventArgs e)
+		{
+			gmap.Zoom = 15;
+			gmap.SetPositionByKeywords(textBox1.Text);
+		}
+
+		private void textBox1_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter) this.Validate();
 		}
 	}
 }
