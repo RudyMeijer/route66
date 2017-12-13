@@ -144,7 +144,7 @@
 			// numericUpDown1
 			// 
 			this.numericUpDown1.Increment = new decimal(new int[] {
-            45,
+            10,
             0,
             0,
             0});

@@ -62,6 +62,7 @@
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.chkCurrent = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -108,7 +109,7 @@
 			this.splitContainer1.Panel2.Controls.Add(this.comboBox1);
 			this.splitContainer1.Panel2.Controls.Add(this.btnClear);
 			this.splitContainer1.Size = new System.Drawing.Size(1121, 586);
-			this.splitContainer1.SplitterDistance = 1009;
+			this.splitContainer1.SplitterDistance = 998;
 			this.splitContainer1.SplitterWidth = 5;
 			this.splitContainer1.TabIndex = 1;
 			// 
@@ -136,7 +137,7 @@
 			this.gmap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
 			this.gmap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
 			this.gmap.ShowTileGridLines = false;
-			this.gmap.Size = new System.Drawing.Size(1009, 586);
+			this.gmap.Size = new System.Drawing.Size(998, 586);
 			this.gmap.TabIndex = 0;
 			this.gmap.Zoom = 13D;
 			this.gmap.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.gmap_OnMarkerClick);
@@ -158,7 +159,7 @@
 			this.groupBox3.Controls.Add(this.label2);
 			this.groupBox3.Controls.Add(this.numDosingTo);
 			this.groupBox3.Controls.Add(this.numDosingFrom);
-			this.groupBox3.Location = new System.Drawing.Point(1, 367);
+			this.groupBox3.Location = new System.Drawing.Point(1, 402);
 			this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
@@ -225,7 +226,7 @@
 			// 
 			this.groupBox2.Controls.Add(this.chkAutoRoute);
 			this.groupBox2.Controls.Add(this.chkEditRoute);
-			this.groupBox2.Location = new System.Drawing.Point(1, 257);
+			this.groupBox2.Location = new System.Drawing.Point(1, 292);
 			this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
@@ -259,6 +260,7 @@
 			// 
 			// groupBox1
 			// 
+			this.groupBox1.Controls.Add(this.chkCurrent);
 			this.groupBox1.Controls.Add(this.chkShowTooltip);
 			this.groupBox1.Controls.Add(this.chkNavPoints);
 			this.groupBox1.Controls.Add(this.chkChangePoints);
@@ -268,7 +270,7 @@
 			this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-			this.groupBox1.Size = new System.Drawing.Size(128, 142);
+			this.groupBox1.Size = new System.Drawing.Size(128, 176);
 			this.groupBox1.TabIndex = 3;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Markers";
@@ -276,7 +278,7 @@
 			// chkShowTooltip
 			// 
 			this.chkShowTooltip.AutoSize = true;
-			this.chkShowTooltip.Location = new System.Drawing.Point(8, 108);
+			this.chkShowTooltip.Location = new System.Drawing.Point(8, 138);
 			this.chkShowTooltip.Margin = new System.Windows.Forms.Padding(4);
 			this.chkShowTooltip.Name = "chkShowTooltip";
 			this.chkShowTooltip.Size = new System.Drawing.Size(73, 21);
@@ -388,7 +390,7 @@
 			// 
 			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
 			this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-			this.openToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+			this.openToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
 			this.openToolStripMenuItem.Text = "Open";
 			this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
 			// 
@@ -396,21 +398,21 @@
 			// 
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
 			this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
 			this.saveToolStripMenuItem.Text = "Save";
 			this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
 			// 
 			// saveAsToolStripMenuItem
 			// 
 			this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
 			this.saveAsToolStripMenuItem.Text = "Save As...";
 			this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
 			this.exitToolStripMenuItem.Text = "Exit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
@@ -451,6 +453,19 @@
 			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
 			this.toolStripStatusLabel1.Size = new System.Drawing.Size(50, 20);
 			this.toolStripStatusLabel1.Text = "Ready";
+			// 
+			// chkCurrent
+			// 
+			this.chkCurrent.AutoSize = true;
+			this.chkCurrent.Checked = true;
+			this.chkCurrent.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chkCurrent.Location = new System.Drawing.Point(8, 109);
+			this.chkCurrent.Margin = new System.Windows.Forms.Padding(4);
+			this.chkCurrent.Name = "chkCurrent";
+			this.chkCurrent.Size = new System.Drawing.Size(77, 21);
+			this.chkCurrent.TabIndex = 5;
+			this.chkCurrent.Text = "Current";
+			this.chkCurrent.UseVisualStyleBackColor = true;
 			// 
 			// Form1
 			// 
@@ -524,6 +539,7 @@
 		private System.Windows.Forms.NumericUpDown numDosingTo;
 		private System.Windows.Forms.Button btnChangeGlobalDosing;
 		private System.Windows.Forms.CheckBox chkAutoRoute;
+		private System.Windows.Forms.CheckBox chkCurrent;
 	}
 }
 

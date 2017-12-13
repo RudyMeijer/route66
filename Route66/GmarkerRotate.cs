@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GMap.NET;
 using GMap.NET.WindowsForms;
+using Route66.Properties;
 using System.Drawing;
 
 namespace R66Basic

@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Route66", "Route66\Route66.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My", "..\My\My\My.csproj", "{02B95A35-AA86-49EE-B9A2-85BED81A189A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "R66Basic", "R66Basic\R66Basic.csproj", "{DD1A2852-E41F-45CC-B994-4FAB090D3635}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{02B95A35-AA86-49EE-B9A2-85BED81A189A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02B95A35-AA86-49EE-B9A2-85BED81A189A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02B95A35-AA86-49EE-B9A2-85BED81A189A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DD1A2852-E41F-45CC-B994-4FAB090D3635}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DD1A2852-E41F-45CC-B994-4FAB090D3635}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DD1A2852-E41F-45CC-B994-4FAB090D3635}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DD1A2852-E41F-45CC-B994-4FAB090D3635}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

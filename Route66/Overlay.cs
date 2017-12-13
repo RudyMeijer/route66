@@ -171,6 +171,8 @@ namespace Route66
 		{
 			Console.WriteLine($"CurrentMarker {item.ToolTipText}");
 			CurrentMarker = item;
+			//if (Settings.CurrentMarker) ShowCurrentMarker();
+
 		}
 
 		private GMapMarker FindRedMarker(GpsMarker m)// todo performance test.

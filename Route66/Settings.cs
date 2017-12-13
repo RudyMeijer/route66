@@ -32,6 +32,7 @@ public class Settings
 		MapProvider = "BingHybridMap";
 		FastDrawMode = true;
 		SpeechSyntesizer = true;
+		CurrentMarker = true;
 	}
 	#endregion
 	#region PROPERTIES
@@ -58,6 +59,8 @@ public class Settings
 	public bool SpeechSyntesizer { get; set; }
 	[Category("Route Settings"), Description("Show red marker index in tooltip.")]
 	public bool ToolTipMode { get; set; }
+	[Category("Route Settings"), Description("Show current marker as blue arrow.")]
+	public bool CurrentMarker { get; set; }
 	#endregion
 	#region METHODES
 	public static Settings Load(PropertyGrid propertyGrid = null, string fileName = "Settings.xml", bool autoCreate = true)
@@ -78,8 +81,9 @@ public class Settings
 		catch (Exception ex)
 		{
 			My.Log($"Error loading appsettings {ex} trying restore backup.");
+			MessageBox.Show(ex.Message,"Error during loading settings.");
 			if (File.Exists(backupFile)) File.Copy(backupFile, fileName, true);
-			Environment.Exit(1);
+			//Environment.Exit(1);
 		}
 
 		appSettings.fileName = fileName; // allow Save().

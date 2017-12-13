@@ -95,14 +95,14 @@ namespace R66Basic
 		{
 			Console.WriteLine($"{DateTime.Now} AddMarker ({e.X},{e.Y})");
 			PointLatLng point = gmap.FromLocalToLatLng(e.X, e.Y);
-			//var marker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
+			var marker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
 			var marker1 = new GmarkerRotate(point, Resources.arrow3);
-			marker1.Rotation = (float)numericUpDown1.Value;
+			marker1.Angle = (float)numericUpDown1.Value;
 			Red.Markers.Add(marker1);
-			//Red.Markers.Add(marker);
-			//RedRoute.Points.Add(point);
-			//marker.ToolTipText = $"{marker.Overlay.Markers.Count-1}";
-			//gmap.UpdateRouteLocalPosition(RedRoute);
+			Red.Markers.Add(marker);
+			RedRoute.Points.Add(point);
+			marker.ToolTipText = $"{marker.Overlay.Markers.Count-1}";
+			gmap.UpdateRouteLocalPosition(RedRoute);
 		}
 		private void RemoveMarker(GMapMarker item)
 		{
