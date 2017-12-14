@@ -103,6 +103,7 @@ namespace Route66
 			comboBox1.SelectedIndex = idx;
 			chkShowTooltip.Checked = Settings.ToolTipMode;
 			if (Settings.SupervisorMode) chkEditRoute.Checked = true;
+			chkCurrentMarker.Checked = Settings.CurrentMarker;
 		}
 
 		private int GetIndex(string mapProvider)
@@ -279,11 +280,15 @@ namespace Route66
 			Console.WriteLine($"KeyDown = {e.KeyCode}");
 			Key = e;
 			CtrlKeyIsPressed = e.Control;
+			if (Key.KeyCode == Keys.Up) Overlay.SetArrowMarker(true);
+			if (Key.KeyCode == Keys.Down) Overlay.SetArrowMarker(false);
 		}
 		private void gmap_KeyUp(object sender, KeyEventArgs e)
 		{
+			Console.WriteLine($"KeyUp = {e.KeyCode}");
 			Key = e;
-			Console.WriteLine($"KeyUp Ctrl = {e.Control}");
+			if (Key.KeyCode == Keys.Up) Overlay.SetArrowMarker(true);
+			if (Key.KeyCode == Keys.Down) Overlay.SetArrowMarker(false);
 		}
 		private void gmap_OnMapZoomChanged()
 		{
@@ -421,5 +426,39 @@ namespace Route66
 			Overlay.IsAutoRoute = (sender as CheckBox).Checked;
 		}
 		#endregion
+
+		private void chkCurrent_CheckedChanged(object sender, EventArgs e)
+		{
+			Settings.CurrentMarker = (sender as CheckBox).Checked;
+			gmap.Overlays[3].IsVisibile = Settings.CurrentMarker;
+		}
+
+		private void gmap_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			Console.WriteLine($"keychar={e.KeyChar}");
+		}
+
+		private void Form1_KeyDown(object sender, KeyEventArgs e)
+		{
+			Console.WriteLine($"Form1_KeyDown {e.KeyCode}" );
+		}
+
+		private void Form1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+		{
+			Console.WriteLine($"Form1_PreviewKeyDown {e.KeyCode}");
+
+		}
+		protected override void OnKeyDown(KeyEventArgs e)
+		{
+			Console.WriteLine($"override KeyDown {e.KeyCode}");
+			base.OnKeyDown(e);
+			switch (e.KeyCode)
+			{
+				case Keys.Up:
+
+				default:
+					break;
+			}
+		}
 	}
 }

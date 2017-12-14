@@ -122,5 +122,10 @@ namespace R66Basic
 		{
 			if (e.KeyCode == Keys.Enter) this.Validate();
 		}
+
+		private void gmap_KeyDown(object sender, KeyEventArgs e)
+		{
+			Console.WriteLine($"gmap_KeyDown {e.KeyCode}");
+		}
 	}
 }

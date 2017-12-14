@@ -33,9 +33,9 @@
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.gmap = new GMap.NET.WindowsForms.GMapControl();
+			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.btnClear = new System.Windows.Forms.Button();
-			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
 			this.statusStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -118,8 +118,26 @@
 			this.gmap.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.gmap_OnMarkerClick);
 			this.gmap.OnMarkerEnter += new GMap.NET.WindowsForms.MarkerEnter(this.gmap_OnMarkerEnter);
 			this.gmap.OnMarkerLeave += new GMap.NET.WindowsForms.MarkerLeave(this.gmap_OnMarkerLeave);
+			this.gmap.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gmap_KeyDown);
 			this.gmap.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.gmap_MouseDoubleClick);
 			this.gmap.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gmap_MouseDown);
+			// 
+			// numericUpDown1
+			// 
+			this.numericUpDown1.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+			this.numericUpDown1.Location = new System.Drawing.Point(26, 144);
+			this.numericUpDown1.Maximum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+			this.numericUpDown1.Name = "numericUpDown1";
+			this.numericUpDown1.Size = new System.Drawing.Size(48, 22);
+			this.numericUpDown1.TabIndex = 3;
 			// 
 			// textBox1
 			// 
@@ -140,23 +158,6 @@
 			this.btnClear.Text = "Clear";
 			this.btnClear.UseVisualStyleBackColor = true;
 			this.btnClear.Click += new System.EventHandler(this.button1_Click);
-			// 
-			// numericUpDown1
-			// 
-			this.numericUpDown1.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-			this.numericUpDown1.Location = new System.Drawing.Point(26, 144);
-			this.numericUpDown1.Maximum = new decimal(new int[] {
-            360,
-            0,
-            0,
-            0});
-			this.numericUpDown1.Name = "numericUpDown1";
-			this.numericUpDown1.Size = new System.Drawing.Size(48, 22);
-			this.numericUpDown1.TabIndex = 3;
 			// 
 			// Form1
 			// 

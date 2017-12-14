@@ -25,6 +25,7 @@ namespace Route66
 		private readonly GMapOverlay Red;
 		private readonly GMapOverlay Green;
 		private readonly GMapOverlay Blue;
+		private readonly GmarkerRotate ArrowMarker;
 		#endregion
 		#region CONSTRUCTOR
 		public Overlay(GMapControl gmap)
@@ -33,9 +34,12 @@ namespace Route66
 			gmap.Overlays.Add(new GMapOverlay("Gps points"));
 			gmap.Overlays.Add(new GMapOverlay("Change points"));
 			gmap.Overlays.Add(new GMapOverlay("Navigation points"));
+			gmap.Overlays.Add(new GMapOverlay("Arrow marker"));
 			Red = gmap.Overlays[0];
 			Green = gmap.Overlays[1];
 			Blue = gmap.Overlays[2];
+			ArrowMarker = new GmarkerRotate(new PointLatLng(1, 1), Properties.Resources.arrow3);
+			gmap.Overlays[3].Markers.Add(ArrowMarker);
 			RedRoute = new GMapRoute("routes")
 			{
 				Stroke = new Pen(Color.Red, 2)
@@ -74,10 +78,7 @@ namespace Route66
 				UpdateGreenAndBlueOverlay(Crud.Delete, marker.Tag, null);
 				RedRoute.Points.RemoveAt(idx);
 				gmap.UpdateRouteLocalPosition(RedRoute);
-				if (idx > 0)
-				{
-					CurrentMarker = Red.Markers[idx - 1];
-				}
+				SetCurrentMarker((idx > 0) ? Red.Markers[idx - 1] : null);
 			}
 			else My.Status($"Error in Remove marker {marker?.ToolTipText}");
 			Route.IsChanged = true;
@@ -118,6 +119,10 @@ namespace Route66
 				(CurrentMarker.Tag as GpsMarker).Lng = newPosition.Lng;
 			}
 			Route.IsChanged = true;
+			//
+			// Update arrowmarker.
+			//
+			ArrowMarker.Position = newPosition;
 			return true;
 		}
 		/// <summary>
@@ -148,17 +153,19 @@ namespace Route66
 			}
 			else AddMarker(point);
 			SetRedTooltip(CurrentMarker); // Not nessesarry but nice 4 debugging.
+			ShowCurrentMarker();
 			Route.IsChanged = true;
 		}
 		public void Clear()
 		{
 			foreach (var overlay in gmap.Overlays)
 			{
+				if (overlay.Id.Contains("Arrow marker")) continue;
 				overlay.Markers.Clear();
 				foreach (var route in overlay.Routes) route.Clear();
 			}
 			gmap.UpdateRouteLocalPosition(RedRoute);
-			CurrentMarker = null;
+			SetCurrentMarker(null);
 		}
 		public void SetRedTooltip(GMapMarker item)
 		{
@@ -169,10 +176,15 @@ namespace Route66
 
 		public void SetCurrentMarker(GMapMarker item)
 		{
-			Console.WriteLine($"CurrentMarker {item.ToolTipText}");
+			Console.WriteLine($"CurrentMarker {item?.ToolTipText}");
 			CurrentMarker = item;
-			//if (Settings.CurrentMarker) ShowCurrentMarker();
+			ShowCurrentMarker();
+		}
 
+		private void ShowCurrentMarker()
+		{
+			ArrowMarker.IsVisible = CurrentMarker != null;
+			if (ArrowMarker.IsVisible) ArrowMarker.Position = CurrentMarker.Position;
 		}
 
 		private GMapMarker FindRedMarker(GpsMarker m)// todo performance test.
@@ -272,6 +284,24 @@ namespace Route66
 				route.MachineType = Settings.MachineType;
 				route.IsChanged = true;
 			}
+		}
+
+		internal void SetArrowMarker(bool forward)
+		{
+			var idx = Red.Markers.IndexOf(CurrentMarker);
+			if (idx >= 0)
+			{
+				idx += (forward) ? 1 : -1;
+				idx = InRange(idx, 0, Red.Markers.Count - 1);
+				SetCurrentMarker(Red.Markers[idx]);
+			}
+		}
+
+		private int InRange(int val, int min, int max)
+		{
+			if (val < min) return min;
+			if (val > max) return max;
+			return val;
 		}
 
 		internal string Save()

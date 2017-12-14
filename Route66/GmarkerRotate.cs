@@ -8,7 +8,7 @@ using GMap.NET.WindowsForms;
 using Route66.Properties;
 using System.Drawing;
 
-namespace R66Basic
+namespace Route66
 {
 	class GmarkerRotate : GMapMarker
 	{
@@ -20,7 +20,7 @@ namespace R66Basic
 			this.bitmap = bitmap;
 			Size = new Size(30, 30);
 			Offset = new Point(-Size.Width / 2 , -Size.Height / 2 );
-			ToolTipText = $"hallo";
+			//ToolTipText = $"hallo";
 		}
 		public override void OnRender(Graphics g)
 		{
@@ -28,6 +28,7 @@ namespace R66Basic
 		}
 		private Bitmap RotateImage(Bitmap bmp, float angle)
 		{
+			Console.WriteLine("rotate bitmap");
 			Bitmap rotatedImage = new Bitmap(bmp.Width, bmp.Height);
 			using (Graphics g = Graphics.FromImage(rotatedImage))
 			{
