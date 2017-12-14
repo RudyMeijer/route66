@@ -174,7 +174,7 @@ namespace Route66
 		private void gmap_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
 			chkChangePoints.Checked = chkNavPoints.Checked = true;
-			if (e.Button == MouseButtons.Left) { Overlay.EditMarker(Key); }
+			if (e.Button == MouseButtons.Left) { Overlay.EditMarker(CtrlKeyIsPressed); }
 			if (e.Button == MouseButtons.Right) My.Status($"Info: CurrentMarker={Overlay.CurrentMarker?.ToolTipText} IsOnMarker={IsOnMarker}, pointCount={PointCloud.Count}, ");
 		}
 		/// <summary>
@@ -282,7 +282,9 @@ namespace Route66
 			CtrlKeyIsPressed = e.Control;
 			if (Key.KeyCode == Keys.Up) Overlay.SetArrowMarker(true);
 			if (Key.KeyCode == Keys.Down) Overlay.SetArrowMarker(false);
-			if (Key.KeyCode == Keys.Delete && IsEditMode()) Overlay.RemoveCurrentMarker();
+			if (Key.KeyCode == Keys.Delete && IsEditMode()) {  PointCloud.Remove(Overlay.CurrentMarker); Overlay.RemoveCurrentMarker();}
+			if (Key.KeyCode == Keys.C) Overlay.EditMarker(false);
+			if (Key.KeyCode == Keys.N) Overlay.EditMarker(true);
 		}
 		private void gmap_KeyUp(object sender, KeyEventArgs e)
 		{

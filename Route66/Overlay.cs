@@ -184,7 +184,26 @@ namespace Route66
 		private void ShowCurrentMarker()
 		{
 			ArrowMarker.IsVisible = CurrentMarker != null;
-			if (ArrowMarker.IsVisible) ArrowMarker.Position = CurrentMarker.Position;
+			if (CurrentMarker != null)
+			{
+				ArrowMarker.Position = CurrentMarker.Position;
+				ArrowMarker.Angle = Angle(CurrentMarker);
+			}
+		}
+
+		private float Angle(GMapMarker currentMarker)
+		{
+			var angle = 0d;
+			var idx = Red.Markers.IndexOf(currentMarker);
+			const double DEG = 180 / Math.PI;
+			if (idx > 0)
+			{
+				var previousMarker = Red.Markers[idx - 1];
+				var dx = currentMarker.LocalPosition.X - previousMarker.LocalPosition.X;
+				var dy = currentMarker.LocalPosition.Y - previousMarker.LocalPosition.Y;
+				angle = Math.Atan2(dy, dx) * DEG;
+			}
+			return (float)angle;
 		}
 
 		private GMapMarker FindRedMarker(GpsMarker m)// todo performance test.
@@ -200,19 +219,15 @@ namespace Route66
 		/// </summary>
 		/// <param name="key"></param>
 		/// <returns></returns>
-		public bool EditMarker(KeyEventArgs key)
+		public bool EditMarker(bool IsNavigationMarker)
 		{
 			var originalTag = CurrentMarker.Tag;// if DeepClone(); then marker is not removed from route on delete.
 			var before = (CurrentMarker.Tag != null) ? 2 : 0;
 			Form form = null;
 			if (CurrentMarker.Tag is ChangeMarker) form = new FormEditChangeMarker(CurrentMarker);
 			else if (CurrentMarker.Tag is NavigationMarker) form = new FormEditNavigationMarker(CurrentMarker);
-			//
-			// If user clicked on red marker.
-			// then pressing Ctrl key will edit Navigation marker.
-			//
 			else if (CurrentMarker.Tag == null)
-				if (key != null && key.Control) form = new FormEditNavigationMarker(CurrentMarker);
+				if (IsNavigationMarker) form = new FormEditNavigationMarker(CurrentMarker);
 				else form = new FormEditChangeMarker(CurrentMarker);
 			else My.Log($"Error during edit Tag {CurrentMarker.Tag}");
 
@@ -288,7 +303,7 @@ namespace Route66
 
 		internal void RemoveCurrentMarker()
 		{
-			if (CurrentMarker!=null) Remove(CurrentMarker);
+			if (CurrentMarker != null) Remove(CurrentMarker);
 		}
 
 		internal void SetArrowMarker(bool forward)
