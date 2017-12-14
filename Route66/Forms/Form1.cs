@@ -282,6 +282,7 @@ namespace Route66
 			CtrlKeyIsPressed = e.Control;
 			if (Key.KeyCode == Keys.Up) Overlay.SetArrowMarker(true);
 			if (Key.KeyCode == Keys.Down) Overlay.SetArrowMarker(false);
+			if (Key.KeyCode == Keys.Delete && IsEditMode()) Overlay.RemoveCurrentMarker();
 		}
 		private void gmap_KeyUp(object sender, KeyEventArgs e)
 		{

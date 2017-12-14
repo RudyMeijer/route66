@@ -286,6 +286,11 @@ namespace Route66
 			}
 		}
 
+		internal void RemoveCurrentMarker()
+		{
+			if (CurrentMarker!=null) Remove(CurrentMarker);
+		}
+
 		internal void SetArrowMarker(bool forward)
 		{
 			var idx = Red.Markers.IndexOf(CurrentMarker);
