@@ -281,6 +281,7 @@ namespace Route66
 			Console.WriteLine($"KeyDown = {e.KeyCode}");
 			Key = e;
 			CtrlKeyIsPressed = e.Control;
+			if (Overlay.CurrentMarker == null) return;
 			if (Key.KeyCode == Keys.Up) Overlay.SetArrowMarker(true);
 			if (Key.KeyCode == Keys.Down) Overlay.SetArrowMarker(false);
 			if (Key.KeyCode == Keys.Delete && IsEditMode()) {  PointCloud.Remove(Overlay.CurrentMarker); Overlay.RemoveCurrentMarker();}
@@ -426,10 +427,10 @@ namespace Route66
 			var to = (double)numDosingTo.Value;
 			var res = Overlay.UpdateAllChangeMarkers(from, to);
 			if (res > 0)
-				My.Status($"Dosage of {res} Changemarkers successfull updated from {from} to {to}.");
+				My.Status($"Dosage of {res} Changemarkers successfull updated from {from} to {to} gr/m2.");
 			else
 				My.Status($"No Changemarkers found with dosage {from}.", Color.Red);
-
+			numDosingFrom.Value = numDosingTo.Value;
 		}
 		private void chkAutoRoute_CheckedChanged(object sender, EventArgs e)
 		{

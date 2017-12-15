@@ -142,9 +142,13 @@ namespace Route66
 			PointLatLng point = gmap.FromLocalToLatLng(x, y);
 			if (IsAutoRoute && RedRoute.Points.Count > 0)
 			{
+				if (CurrentMarker != Red.Markers.Last() &&
+					MessageBox.Show($"Are you sure to insert route at current marker?", "Current marker in not at end of route.",MessageBoxButtons.YesNo) == DialogResult.No) return;
 				var end = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
-
+				My.Status($"Moment. Autoroute started at {CurrentMarker.ToolTipText}, stop {end.Position}");
+				Application.DoEvents();
 				var route = AutoRouter(CurrentMarker, end);
+				My.Status("Ready");
 				if (route != null && route.Points.Count > 0)
 				{
 					route.Points.RemoveAt(0);
@@ -454,9 +458,6 @@ namespace Route66
 		}
 		private MapRoute AutoRouter(GMapMarker start, GMapMarker end)
 		{
-			Console.WriteLine($"Autoroute start {start.Position}, stop {end.Position}");
-			//RoutingProvider rp = Map.MapProvider as RoutingProvider;
-			//if (rp == null)
 			RoutingProvider rp = GMapProviders.OpenStreetMap; // use OpenStreetMap if provider does not implement routing
 			return rp.GetRoute(start.Position, end.Position, false, false, 2);
 		}
