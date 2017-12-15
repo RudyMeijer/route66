@@ -199,14 +199,14 @@ namespace Route66
 			//
 			// If last marker then use same angele of previous marker.
 			//
-			if (idx == Red.Markers.Count-1 && idx > 0)
+			if (idx == Red.Markers.Count - 1 && idx > 0)
 			{
 				idx -= 1;
 				currentMarker = Red.Markers[idx];
 			}
-			if (idx < Red.Markers.Count-1)
+			if (idx < Red.Markers.Count - 1)
 			{
-				var nextMarker = Red.Markers[idx+1];
+				var nextMarker = Red.Markers[idx + 1];
 				var dy = nextMarker.LocalPosition.Y - currentMarker.LocalPosition.Y;
 				var dx = nextMarker.LocalPosition.X - currentMarker.LocalPosition.X;
 				//
@@ -235,6 +235,7 @@ namespace Route66
 		/// <returns></returns>
 		public bool EditMarker(bool IsNavigationMarker)
 		{
+			if (CurrentMarker == null) return false;
 			var originalTag = CurrentMarker.Tag;// if DeepClone(); then marker is not removed from route on delete.
 			var before = (CurrentMarker.Tag != null) ? 2 : 0;
 			Form form = null;

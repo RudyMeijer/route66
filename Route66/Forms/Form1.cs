@@ -348,6 +348,7 @@ namespace Route66
 		}
 		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
 		{
+			My.Log($"{Title} stopped by user {My.UserName}.");
 			Settings.Save();
 			AskToSaveModifiedRoute();
 		}
