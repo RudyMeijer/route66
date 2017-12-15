@@ -196,11 +196,25 @@ namespace Route66
 			var angle = 0d;
 			var idx = Red.Markers.IndexOf(currentMarker);
 			const double DEG = 180 / Math.PI;
-			if (idx > 0)
+			//
+			// If last marker then use same angele of previous marker.
+			//
+			if (idx == Red.Markers.Count-1 && idx > 0)
 			{
-				var previousMarker = Red.Markers[idx - 1];
-				var dx = currentMarker.LocalPosition.X - previousMarker.LocalPosition.X;
-				var dy = currentMarker.LocalPosition.Y - previousMarker.LocalPosition.Y;
+				idx -= 1;
+				currentMarker = Red.Markers[idx];
+			}
+			if (idx < Red.Markers.Count-1)
+			{
+				var nextMarker = Red.Markers[idx+1];
+				var dy = nextMarker.LocalPosition.Y - currentMarker.LocalPosition.Y;
+				var dx = nextMarker.LocalPosition.X - currentMarker.LocalPosition.X;
+				//
+				// Compensate for Starting Marker size.
+				//
+				if (idx == 0) dy += currentMarker.Offset.Y - nextMarker.Offset.Y;
+				if (idx == 0) dx += currentMarker.Offset.X - nextMarker.Offset.X;
+
 				angle = Math.Atan2(dy, dx) * DEG;
 			}
 			return (float)angle;

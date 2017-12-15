@@ -250,6 +250,7 @@ namespace Route66
 		/// </summary>
 		private void gmap_MouseMove(object sender, MouseEventArgs e)
 		{
+			//Console.WriteLine($"gmap_MouseMove ({e.X},{e.Y})");
 			if (e.Button == MouseButtons.Left && IsOnMarker && IsEditMode())
 			{
 				if (!IsDragging) Console.WriteLine("start dragging ");
@@ -400,6 +401,11 @@ namespace Route66
 				item.IsVisible = chkGpsPoints.Checked;
 			}
 			gmap.Refresh();
+			//
+			// Disable edit route when Gps marker are not shown.
+			//
+			chkEditRoute.Enabled = chkGpsPoints.Checked;
+			if (!chkGpsPoints.Checked) chkEditRoute.Checked = false;
 		}
 		private void chkChangePoints_CheckedChanged(object sender, EventArgs e)
 		{
@@ -428,40 +434,11 @@ namespace Route66
 		{
 			Overlay.IsAutoRoute = (sender as CheckBox).Checked;
 		}
-		#endregion
-
 		private void chkCurrent_CheckedChanged(object sender, EventArgs e)
 		{
 			Settings.CurrentMarker = (sender as CheckBox).Checked;
 			gmap.Overlays[3].IsVisibile = Settings.CurrentMarker;
 		}
-
-		private void gmap_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			Console.WriteLine($"keychar={e.KeyChar}");
-		}
-
-		private void Form1_KeyDown(object sender, KeyEventArgs e)
-		{
-			Console.WriteLine($"Form1_KeyDown {e.KeyCode}" );
-		}
-
-		private void Form1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-		{
-			Console.WriteLine($"Form1_PreviewKeyDown {e.KeyCode}");
-
-		}
-		protected override void OnKeyDown(KeyEventArgs e)
-		{
-			Console.WriteLine($"override KeyDown {e.KeyCode}");
-			base.OnKeyDown(e);
-			switch (e.KeyCode)
-			{
-				case Keys.Up:
-
-				default:
-					break;
-			}
-		}
+		#endregion
 	}
 }

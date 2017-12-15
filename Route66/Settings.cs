@@ -48,18 +48,17 @@ public class Settings
 	[Category("Route Settings"), Description("Enter routes location. Leave empty to open last location.")]
 	[Editor(typeof(FolderNameEditor), typeof(UITypeEditor))]
 	public string RoutePath { get; set; }
-
+	[Category("Route Settings"), Description("Turn speech syntesizer on for automate translating navigation messages.")]
+	public bool SpeechSyntesizer { get; set; }
 	[Category("Route Settings"), Description("Default machine type: standard spreader.")]
 	public MachineTypes MachineType { get; set; }
 	[Category("Route Settings"), Description("Default map provider: BingHybridMap, OpenStreetMap...")]
 	public string MapProvider { get; set; }
 	[Category("Route Settings"), Description("Route edit mode: Select current marker by mouse hover instead of left mouse click.")]
 	public bool FastDrawMode { get; set; }
-	[Category("Route Settings"), Description("Turn speech syntesizer on for automate translating navigation messages.")]
-	public bool SpeechSyntesizer { get; set; }
-	[Category("Route Settings"), Description("Show red marker index in tooltip.")]
+	[Category("Markers"), Description("Show red marker index in tooltip.")]
 	public bool ToolTipMode { get; set; }
-	[Category("Route Settings"), Description("Show current marker as blue arrow.")]
+	[Category("Markers"), Description("Show current marker as blue arrow.")]
 	public bool CurrentMarker { get; set; }
 	#endregion
 	#region METHODES
