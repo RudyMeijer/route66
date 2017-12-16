@@ -185,7 +185,7 @@ namespace Route66
 			}
 			else AddMarker(point);
 			SetRedTooltip(CurrentMarker); // Not nessesarry but nice 4 debugging.
-			ShowArrowMarker();
+			ShowArrowMarker(CurrentMarker);
 			Route.IsChanged = true;
 		}
 		public void Clear()
@@ -223,26 +223,26 @@ namespace Route66
 				CurrentMarker = FindRedMarker(item.Tag as GpsMarker);
 			
 			Console.WriteLine($"Set CurrentMarker {CurrentMarker?.Overlay.Id} {GetIndex(CurrentMarker)}");
-			ShowArrowMarker();
+			ShowArrowMarker(item);
 		}
 
-		private void ShowArrowMarker()
+		private void ShowArrowMarker(GMapMarker item)
 		{
-			ArrowMarker.IsVisible = CurrentMarker != null;
-			if (CurrentMarker != null)
+			ArrowMarker.IsVisible = item != null;
+			if (item != null)
 			{
-				ArrowMarker.Position = CurrentMarker.Position;
-				ArrowMarker.Angle = Angle(CurrentMarker);
+				ArrowMarker.Position = item.Position;
+				ArrowMarker.Angle = Angle(item);
 			}
 		}
 
 		private float Angle(GMapMarker currentMarker)
 		{
 			var angle = 0d;
-			var idx = Red.Markers.IndexOf(currentMarker);
+			var idx = Red.Markers.IndexOf(CurrentMarker); // when noGPS currentMarker (ChangeMarker) return -1 
 			const double DEG = 180 / Math.PI;
 			//
-			// If last marker then use same angele of previous marker.
+			// If last marker then use angele of previous marker.
 			//
 			if (idx == Red.Markers.Count - 1 && idx > 0)
 			{
