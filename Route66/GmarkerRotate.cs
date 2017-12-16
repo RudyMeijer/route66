@@ -28,7 +28,7 @@ namespace Route66
 		}
 		private Bitmap RotateImage(Bitmap bmp, float angle)
 		{
-			Console.WriteLine("rotate bitmap");
+			//Console.WriteLine("rotate bitmap");
 			Bitmap rotatedImage = new Bitmap(bmp.Width, bmp.Height);
 			using (Graphics g = Graphics.FromImage(rotatedImage))
 			{

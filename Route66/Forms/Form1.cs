@@ -30,7 +30,6 @@ namespace Route66
 		/// Moving while Leftmouse button pressed.
 		/// </summary>
 		private bool IsDragging;
-
 		/// <summary>
 		/// Title shown on top of form.
 		/// </summary>
@@ -64,7 +63,7 @@ namespace Route66
 		/// Increment when Red marker is entered.
 		/// Decrement when Red marker is leaved.
 		/// </summary>
-		public bool IsOnMarker { get => PointCloud.Count > 0; }
+		private bool IsOnMarker { get => PointCloud.Count > 0; }
 		#endregion
 		#region INITIALIZE
 		private void Form1_Load(object sender, EventArgs e)
@@ -163,8 +162,30 @@ namespace Route66
 		{
 			try
 			{
-				Console.WriteLine($"MouseDown{e.Button} pointCloud={PointCloud.Count} IsOnMarker={IsOnMarker}, IsDragging={IsDragging}");
+				Console.WriteLine($"MouseDown {e.Button} pointCloud={PointCloud.Count} IsOnMarker={IsOnMarker}, IsDragging={IsDragging}");
 				if (e.Button == MouseButtons.Left && !IsOnMarker && IsEditMode()) { Overlay.AddMarker(e.X, e.Y); }
+			}
+			catch (Exception ee) { My.Status($"Error {ee}"); }
+		}
+		/// <summary>
+		/// Select or Remove marker 
+		/// </summary>
+		private void gmap_OnMarkerClick(GMapMarker item, MouseEventArgs e)
+		{
+			try
+			{
+				Console.WriteLine($"gmap_OnMarkerClick {e.Button} {item.Overlay.Id} {Overlay.GetIndex(item)}={item.ToolTipText.Replace('\n', ' ')}, IsMouseOver={item.IsMouseOver}");
+				if (e.Button == MouseButtons.Left) { Overlay.SetCurrentMarker(item); }
+				//if (e.Button == MouseButtons.Right && Overlay.IsGpsMarker(item) && IsEditMode()) Overlay.Remove(Pop(PointCloud));
+				if (e.Button == MouseButtons.Right)
+				{
+					if (Overlay.IsGpsMarker(item))
+					{
+						if (PointCloud.Count > 0 && IsEditMode()) Overlay.Remove(Pop(PointCloud));
+					}
+					else
+						Overlay.Remove(item);
+				}
 			}
 			catch (Exception ee) { My.Status($"Error {ee}"); }
 		}
@@ -174,30 +195,16 @@ namespace Route66
 		private void gmap_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
 			chkChangePoints.Checked = chkNavPoints.Checked = true;
-			if (e.Button == MouseButtons.Left) { Overlay.EditMarker(CtrlKeyIsPressed); }
+			if (e.Button == MouseButtons.Left && IsOnMarker) { Overlay.EditMarker(CtrlKeyIsPressed); }
 			if (e.Button == MouseButtons.Right) My.Status($"Info: CurrentMarker={Overlay.CurrentMarker?.ToolTipText} IsOnMarker={IsOnMarker}, pointCount={PointCloud.Count}, ");
-		}
-		/// <summary>
-		/// Select or Remove marker 
-		/// </summary>
-		private void gmap_OnMarkerClick(GMapMarker item, MouseEventArgs e)
-		{
-			try
-			{
-				if (!IsGpsMarker(item)) return;
-				Console.WriteLine($"gmap_OnMarkerClick{e.Button} {item.ToolTipText}");
-				if (e.Button == MouseButtons.Left) { Overlay.SetCurrentMarker(item); }
-				if (e.Button == MouseButtons.Right && IsEditMode()) Overlay.Remove(Pop(PointCloud));
-			}
-			catch (Exception ee) { My.Status($"Error {ee}"); }
 		}
 		private GMapMarker Pop(List<GMapMarker> pointCloud)
 		{
-			int max = -1;
+			int max = -2;
 			GMapMarker marker = null;
 			foreach (var x in pointCloud)
 			{
-				var n = int.Parse(x.ToolTipText);
+				var n = Overlay.GetIndex(x);// int.Parse(x.ToolTipText);
 				if (n > max)
 				{
 					max = n;
@@ -220,42 +227,37 @@ namespace Route66
 		/// <param name="item"></param>
 		private void gmap_OnMarkerEnter(GMapMarker item)
 		{
-			if (IsGpsMarker(item))
+			Overlay.SetRedTooltip(item);
+			Console.WriteLine($"{PointCloud.Count} Enter {item.Overlay.Id} {item.ToolTipText?.Replace('\n', ' ')}");
+			if (Overlay.IsGpsMarker(item) || !chkGpsPoints.Checked)
 			{
 				PointCloud.Add(item);
-				Overlay.SetRedTooltip(item);
-				Console.WriteLine($"{PointCloud.Count} Enter {item.Overlay.Id} {item.ToolTipText}");
 				if (!IsDragging && Settings.FastDrawMode) Overlay.SetCurrentMarker(item);
 			}
-			else if (IsNavigationMarker(item) && Settings.SpeechSyntesizer)
+			else if (Overlay.IsNavigationMarker(item) && Settings.SpeechSyntesizer)
 			{
 				My.PlaySound((item.Tag as NavigationMarker).Message);
 			}
 		}
 		private void gmap_OnMarkerLeave(GMapMarker item)
 		{
-			if (IsGpsMarker(item))
+			if (Overlay.IsGpsMarker(item) || !chkGpsPoints.Checked)
 			{
 				PointCloud.Remove(item);
-				Console.WriteLine($"{PointCloud.Count} Leave {item.ToolTipText}");
+				//Console.WriteLine($"{PointCloud.Count} Leave {item.ToolTipText}");
 			}
 		}
-		#region MARKER OVERLAY TYPES
-		private bool IsChangeMarker(GMapMarker item) => item.Overlay.Id == "Change points";
-		private bool IsNavigationMarker(GMapMarker item) => item.Overlay.Id == "Navigation points";
-		private bool IsGpsMarker(GMapMarker item) => item.Overlay.Id == "Gps points";
-		#endregion
 		/// <summary>
 		/// Drag marker
 		/// </summary>
 		private void gmap_MouseMove(object sender, MouseEventArgs e)
 		{
 			//Console.WriteLine($"gmap_MouseMove ({e.X},{e.Y})");
-			if (e.Button == MouseButtons.Left && IsOnMarker && IsEditMode())
+			if (e.Button == MouseButtons.Left && IsOnMarker && chkEditRoute.Checked)
 			{
 				if (!IsDragging) Console.WriteLine("start dragging ");
-				Overlay.SetCurrentMarker(PointCloud[0]);
 				IsDragging = true;
+				Overlay.SetCurrentMarker(PointCloud[0]);
 				Overlay.UpdateCurrentMarkerPosition(e.X, e.Y);
 			}
 		}
@@ -273,7 +275,8 @@ namespace Route66
 		/// <param name="e"></param>
 		private void gmap_MouseLeave(object sender, EventArgs e)
 		{
-			Console.WriteLine("gmap_MouseLeave");
+			//Console.WriteLine("gmap_MouseLeave");
+			PointCloud.Clear();
 			My.Status(" Ready");
 		}
 		private void gmap_KeyDown(object sender, KeyEventArgs e)
@@ -284,14 +287,14 @@ namespace Route66
 			if (Overlay.CurrentMarker == null) return;
 			if (Key.KeyCode == Keys.Up) Overlay.SetArrowMarker(true);
 			if (Key.KeyCode == Keys.Down) Overlay.SetArrowMarker(false);
-			if (Key.KeyCode == Keys.Delete && IsEditMode()) {  PointCloud.Remove(Overlay.CurrentMarker); Overlay.RemoveCurrentMarker();}
+			if (Key.KeyCode == Keys.Delete && IsEditMode()) { PointCloud.Remove(Overlay.CurrentMarker); Overlay.RemoveCurrentMarker(); }
 			if (Key.KeyCode == Keys.C) Overlay.EditMarker(false);
 			if (Key.KeyCode == Keys.N) Overlay.EditMarker(true);
 		}
 		private void gmap_KeyUp(object sender, KeyEventArgs e)
 		{
 			Console.WriteLine($"KeyUp = {e.KeyCode}");
-			Key = e;
+			Key = e; CtrlKeyIsPressed = false;
 			if (Key.KeyCode == Keys.Up) Overlay.SetArrowMarker(true);
 			if (Key.KeyCode == Keys.Down) Overlay.SetArrowMarker(false);
 		}
@@ -406,8 +409,8 @@ namespace Route66
 			//
 			// Disable edit route when Gps marker are not shown.
 			//
-			chkEditRoute.Enabled = chkGpsPoints.Checked;
-			if (!chkGpsPoints.Checked) chkEditRoute.Checked = false;
+			//chkEditRoute.Enabled = chkGpsPoints.Checked;
+			//if (!chkGpsPoints.Checked) chkEditRoute.Checked = false;
 		}
 		private void chkChangePoints_CheckedChanged(object sender, EventArgs e)
 		{

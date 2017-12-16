@@ -147,7 +147,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy  /y/s/e/a/m  $(targetDir)* P:\route66\Develop\  /exclude:$(ProjectDir)\documents\exclude.txt
+    <PostBuildEvent>rem xcopy  /y/s/e/a/m  $(targetDir)* P:\route66\Develop\  /exclude:$(ProjectDir)\documents\exclude.txt
 rem xcopy  /y/s/m  $(targetDir)*.dll  P:\route66\Develop\
 
 </PostBuildEvent>
