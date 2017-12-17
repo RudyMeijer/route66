@@ -305,8 +305,10 @@ namespace Route66
 		#region MENU ITEMS
 		private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			var IsSubroute = sender is string;
 			AskToSaveModifiedRoute();
 			openFileDialog1.InitialDirectory = Settings.RoutePath;
+			openFileDialog1.Title = (IsSubroute) ? "Add subroute" : "Open route";
 			if (openFileDialog1.ShowDialog() == DialogResult.OK)
 			{
 				if (Path.GetExtension(openFileDialog1.FileName) != ".xml")
@@ -314,8 +316,17 @@ namespace Route66
 					MessageBox.Show("Sorry, this function is not implemented yet.", $"Deer mr {My.UserName}");
 					return;
 				}
-				if (!Overlay.OpenRoute(openFileDialog1.FileName)) My.Status($"Error This file contains no Gps markers.");
+				if (!Overlay.OpenRoute(openFileDialog1.FileName, IsSubroute)) My.Status($"Error This file contains no Gps markers.");
 				this.Text = Title + openFileDialog1.FileName;
+			}
+		}
+		private void AddtoolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var idx = Overlay.GetIndex(Overlay.CurrentMarker);
+			if (idx == -1) { MessageBox.Show("Please open a mainroute first.", $"Dear mr {My.UserName}:"); return; }
+			if (MessageBox.Show($"Do you want to insert subroute at current Gps marker {idx}?", "Route66", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+			{
+				OpenToolStripMenuItem_Click("SubRoute", null);
 			}
 		}
 		private void AskToSaveModifiedRoute()
@@ -439,5 +450,6 @@ namespace Route66
 			gmap.Overlays[3].IsVisibile = Settings.ArrowMarker;
 		}
 		#endregion
+
 	}
 }

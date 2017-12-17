@@ -343,9 +343,9 @@ namespace Route66
 		}
 
 		#region OPEN SAVE CONVERT ROUTE
-		internal bool OpenRoute(string fileName)
+		internal bool OpenRoute(string fileName, bool IsSubroute = false)
 		{
-			Clear();
+			if (!IsSubroute) Clear();
 			Route = Route.Load(fileName);
 			if (Route.GpsMarkers.Count == 0) return false;
 			ConvertRoute(Route);
@@ -411,7 +411,8 @@ namespace Route66
 		{
 			foreach (var red in route.GpsMarkers)
 			{
-				Red.Markers.Add(new GMarkerGoogle(new PointLatLng(red.Lat, red.Lng), (Red.Markers.Count == 0) ? GMarkerGoogleType.green_big_go : GMarkerGoogleType.red_small));
+				AddMarker(new PointLatLng( red.Lat, red.Lng));
+				//Red.Markers.Add(new GMarkerGoogle(new PointLatLng(red.Lat, red.Lng), (Red.Markers.Count == 0) ? GMarkerGoogleType.green_big_go : GMarkerGoogleType.red_small));
 			}
 			//
 			// Copy green and blue tags into red markers.
@@ -494,7 +495,7 @@ namespace Route66
 		/// <param name="to"></param>
 		private bool AddMarker(PointLatLng point)
 		{
-			var marker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
+			var marker = new GMarkerGoogle(point, (Red.Markers.Count == 0) ? GMarkerGoogleType.green_big_go : GMarkerGoogleType.red_small); //GMarkerGoogleType.red_small);
 			var idx = GetIndex(CurrentMarker) + 1;
 			CurrentMarker = marker;
 			Red.Markers.Insert(idx, marker);
