@@ -5,5 +5,5 @@ Create 2 markers, Drag M0 onto M1, Delete marker without leaving other marker.
 Create 2 markers, Drag M0 onto M1, Leave and reenter markers, drag M0 outside M1 and delete M0 immediatly.
 Create 10 markers, zoom out until 1 pointcloud is seen. delte all markers without leaving pointcloud.
 Autoroute = ON, draw route so that M3 is exact on M1. Add ChangeMarker to M3. save file as double marker.xml.
-Reopen double marker.xml and drag M3 away from M1. check if Changemarkewr is still on M3.
-Add Changemarker on (GPS , Edit) = (0,1,2,3)
+Open double marker.xml and drag M3 away from M1. check if Changemarker is still on M3.
+for (GPS , Edit) = (00,01,10,11) Add Changemarker on 

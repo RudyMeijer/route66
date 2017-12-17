@@ -202,6 +202,12 @@ namespace Route66
 			}
 		}
 
+		public override string ToString()
+		{
+			var info = $"Current marker={CurrentMarker?.Overlay.Id} {GetIndex(CurrentMarker)}, Tag={CurrentMarker?.Tag}, Total distance={RedRoute.Distance:f3} km.";
+			return info;
+		}
+
 		public void SetCurrentMarker(GMapMarker item)
 		{
 			//
@@ -229,7 +235,7 @@ namespace Route66
 		private float Angle(GMapMarker currentMarker)
 		{
 			var angle = 0d;
-			var idx = Red.Markers.IndexOf(CurrentMarker); // when noGPS currentMarker (ChangeMarker) return -1 
+			var idx = GetIndex(CurrentMarker); // when noGPS currentMarker (= ChangeMarker) return -1 
 			const double DEG = 180 / Math.PI;
 			//
 			// If last marker then use angele of previous marker.
@@ -239,12 +245,15 @@ namespace Route66
 				idx -= 1;
 				currentMarker = Red.Markers[idx];
 			}
+			//
+			// Compute dy and dx.
+			//
 			if (idx < Red.Markers.Count - 1)
 			{
 				var nextMarker = Red.Markers[idx + 1];
 				var dy = nextMarker.LocalPosition.Y - currentMarker.LocalPosition.Y;
 				var dx = nextMarker.LocalPosition.X - currentMarker.LocalPosition.X;
-				Console.WriteLine($"nextmarker={nextMarker.LocalPosition} currentmarker={currentMarker.LocalPosition}");
+				Console.WriteLine($"Angle: nextmarker={nextMarker.LocalPosition} currentmarker={currentMarker.LocalPosition}");
 				//
 				// Compensate for Starting Marker size.
 				//
@@ -364,12 +373,13 @@ namespace Route66
 
 		internal void SetArrowMarker(bool forward)
 		{
-			var idx = Red.Markers.IndexOf(CurrentMarker);
+			var idx = GetIndex(CurrentMarker);
 			if (idx >= 0)
 			{
 				idx += (forward) ? 1 : -1;
 				idx = InRange(idx, 0, Red.Markers.Count - 1);
 				SetCurrentMarker(Red.Markers[idx]);
+				if (idx == Red.Markers.Count - 1) My.Status($"End of route. Gps marker {idx}.");
 			}
 		}
 
@@ -399,7 +409,6 @@ namespace Route66
 		/// <param name="route"></param>
 		private void LoadOverlay(Route route)
 		{
-			//Clear();
 			foreach (var red in route.GpsMarkers)
 			{
 				Red.Markers.Add(new GMarkerGoogle(new PointLatLng(red.Lat, red.Lng), (Red.Markers.Count == 0) ? GMarkerGoogleType.green_big_go : GMarkerGoogleType.red_small));
@@ -486,7 +495,7 @@ namespace Route66
 		private bool AddMarker(PointLatLng point)
 		{
 			var marker = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
-			var idx = Red.Markers.IndexOf(CurrentMarker) + 1;
+			var idx = GetIndex(CurrentMarker) + 1;
 			CurrentMarker = marker;
 			Red.Markers.Insert(idx, marker);
 			RedRoute.Points.Insert(idx, point);

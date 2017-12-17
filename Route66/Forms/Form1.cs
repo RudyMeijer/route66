@@ -174,9 +174,8 @@ namespace Route66
 		{
 			try
 			{
-				Console.WriteLine($"gmap_OnMarkerClick {e.Button} {item.Overlay.Id} {Overlay.GetIndex(item)}={item.ToolTipText.Replace('\n', ' ')}, IsMouseOver={item.IsMouseOver}");
+				Console.WriteLine($"gmap_OnMarkerClick {e.Button} {item.Overlay.Id} {Overlay.GetIndex(item)}={item.ToolTipText?.Replace('\n', ' ')}, IsMouseOver={item.IsMouseOver}");
 				if (e.Button == MouseButtons.Left) { Overlay.SetCurrentMarker(item); }
-				//if (e.Button == MouseButtons.Right && Overlay.IsGpsMarker(item) && IsEditMode()) Overlay.Remove(Pop(PointCloud));
 				if (e.Button == MouseButtons.Right)
 				{
 					if (Overlay.IsGpsMarker(item))
@@ -196,7 +195,7 @@ namespace Route66
 		{
 			chkChangePoints.Checked = chkNavPoints.Checked = true;
 			if (e.Button == MouseButtons.Left && IsOnMarker) { Overlay.EditMarker(CtrlKeyIsPressed); }
-			if (e.Button == MouseButtons.Right) My.Status($"Info: CurrentMarker={Overlay.CurrentMarker?.ToolTipText} IsOnMarker={IsOnMarker}, pointCount={PointCloud.Count}, ");
+			if (e.Button == MouseButtons.Right) My.Status($"Info: {Overlay}, pointCount={PointCloud.Count}");
 		}
 		private GMapMarker Pop(List<GMapMarker> pointCloud)
 		{
