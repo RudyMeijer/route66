@@ -102,7 +102,7 @@ namespace Route66
 			comboBox1.SelectedIndex = idx;
 			chkShowTooltip.Checked = Settings.ToolTipMode;
 			if (Settings.SupervisorMode) chkEditRoute.Checked = true;
-			chkCurrentMarker.Checked = Settings.CurrentMarker;
+			chkArrowMarker.Checked = Settings.ArrowMarker;
 		}
 
 		private int GetIndex(string mapProvider)
@@ -406,11 +406,6 @@ namespace Route66
 				item.IsVisible = chkGpsPoints.Checked;
 			}
 			gmap.Refresh();
-			//
-			// Disable edit route when Gps marker are not shown.
-			//
-			//chkEditRoute.Enabled = chkGpsPoints.Checked;
-			//if (!chkGpsPoints.Checked) chkEditRoute.Checked = false;
 		}
 		private void chkChangePoints_CheckedChanged(object sender, EventArgs e)
 		{
@@ -439,10 +434,10 @@ namespace Route66
 		{
 			Overlay.IsAutoRoute = (sender as CheckBox).Checked;
 		}
-		private void chkCurrent_CheckedChanged(object sender, EventArgs e)
+		private void chkArrowMarker_CheckedChanged(object sender, EventArgs e)
 		{
-			Settings.CurrentMarker = (sender as CheckBox).Checked;
-			gmap.Overlays[3].IsVisibile = Settings.CurrentMarker;
+			Settings.ArrowMarker = (sender as CheckBox).Checked;
+			gmap.Overlays[3].IsVisibile = Settings.ArrowMarker;
 		}
 		#endregion
 	}

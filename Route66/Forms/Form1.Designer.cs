@@ -42,7 +42,7 @@
 			this.chkAutoRoute = new System.Windows.Forms.CheckBox();
 			this.chkEditRoute = new System.Windows.Forms.CheckBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.chkCurrentMarker = new System.Windows.Forms.CheckBox();
+			this.chkArrowMarker = new System.Windows.Forms.CheckBox();
 			this.chkShowTooltip = new System.Windows.Forms.CheckBox();
 			this.chkNavPoints = new System.Windows.Forms.CheckBox();
 			this.chkChangePoints = new System.Windows.Forms.CheckBox();
@@ -109,7 +109,7 @@
 			this.splitContainer1.Panel2.Controls.Add(this.comboBox1);
 			this.splitContainer1.Panel2.Controls.Add(this.btnClear);
 			this.splitContainer1.Size = new System.Drawing.Size(1121, 586);
-			this.splitContainer1.SplitterDistance = 994;
+			this.splitContainer1.SplitterDistance = 993;
 			this.splitContainer1.SplitterWidth = 5;
 			this.splitContainer1.TabIndex = 1;
 			// 
@@ -137,7 +137,7 @@
 			this.gmap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
 			this.gmap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
 			this.gmap.ShowTileGridLines = false;
-			this.gmap.Size = new System.Drawing.Size(994, 586);
+			this.gmap.Size = new System.Drawing.Size(993, 586);
 			this.gmap.TabIndex = 0;
 			this.gmap.Zoom = 13D;
 			this.gmap.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.gmap_OnMarkerClick);
@@ -260,7 +260,7 @@
 			// 
 			// groupBox1
 			// 
-			this.groupBox1.Controls.Add(this.chkCurrentMarker);
+			this.groupBox1.Controls.Add(this.chkArrowMarker);
 			this.groupBox1.Controls.Add(this.chkShowTooltip);
 			this.groupBox1.Controls.Add(this.chkNavPoints);
 			this.groupBox1.Controls.Add(this.chkChangePoints);
@@ -275,17 +275,17 @@
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Markers";
 			// 
-			// chkCurrentMarker
+			// chkArrowMarker
 			// 
-			this.chkCurrentMarker.AutoSize = true;
-			this.chkCurrentMarker.Location = new System.Drawing.Point(8, 109);
-			this.chkCurrentMarker.Margin = new System.Windows.Forms.Padding(4);
-			this.chkCurrentMarker.Name = "chkCurrentMarker";
-			this.chkCurrentMarker.Size = new System.Drawing.Size(77, 21);
-			this.chkCurrentMarker.TabIndex = 5;
-			this.chkCurrentMarker.Text = "Current";
-			this.chkCurrentMarker.UseVisualStyleBackColor = true;
-			this.chkCurrentMarker.CheckedChanged += new System.EventHandler(this.chkCurrent_CheckedChanged);
+			this.chkArrowMarker.AutoSize = true;
+			this.chkArrowMarker.Location = new System.Drawing.Point(8, 109);
+			this.chkArrowMarker.Margin = new System.Windows.Forms.Padding(4);
+			this.chkArrowMarker.Name = "chkArrowMarker";
+			this.chkArrowMarker.Size = new System.Drawing.Size(66, 21);
+			this.chkArrowMarker.TabIndex = 5;
+			this.chkArrowMarker.Text = "Arrow";
+			this.chkArrowMarker.UseVisualStyleBackColor = true;
+			this.chkArrowMarker.CheckedChanged += new System.EventHandler(this.chkArrowMarker_CheckedChanged);
 			// 
 			// chkShowTooltip
 			// 
@@ -538,7 +538,7 @@
 		private System.Windows.Forms.NumericUpDown numDosingTo;
 		private System.Windows.Forms.Button btnChangeGlobalDosing;
 		private System.Windows.Forms.CheckBox chkAutoRoute;
-		private System.Windows.Forms.CheckBox chkCurrentMarker;
+		private System.Windows.Forms.CheckBox chkArrowMarker;
 	}
 }
 

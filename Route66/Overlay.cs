@@ -122,18 +122,8 @@ namespace Route66
 			// Update Route point.
 			// Allways use currentmarker class to find index because we can have duplicated Positions (struct)!
 			//
-			//if (IsGpsMarker(CurrentMarker))
-			//{
 			var idx = GetIndex(CurrentMarker);
 			RedRoute.Points[idx] = newPosition;
-			//}
-			//else
-			//{
-			//	var rm = FindRedMarker(CurrentMarker.Tag as GpsMarker);
-			//	rm.Position = newPosition;
-			//	var idx = GetIndex(rm);
-			//	RedRoute.Points[idx] = newPosition;
-			//}
 			gmap.UpdateRouteLocalPosition(RedRoute);
 			//
 			// Update current marker position.
@@ -215,7 +205,7 @@ namespace Route66
 		public void SetCurrentMarker(GMapMarker item)
 		{
 			//
-			// Always use red marker. unittest: Set NOGPS drag green marker.
+			// Always use red marker. unittest: Set NOGPS and drag green marker.
 			//
 			if (item==null ||IsGpsMarker(item))
 				CurrentMarker = item;

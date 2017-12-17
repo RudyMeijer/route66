@@ -32,7 +32,7 @@ public class Settings
 		MapProvider = "BingHybridMap";
 		FastDrawMode = true;
 		SpeechSyntesizer = true;
-		CurrentMarker = true;
+		ArrowMarker = true;
 	}
 	#endregion
 	#region PROPERTIES
@@ -59,7 +59,7 @@ public class Settings
 	[Category("Markers"), Description("Show red marker index in tooltip.")]
 	public bool ToolTipMode { get; set; }
 	[Category("Markers"), Description("Show current marker as blue arrow.")]
-	public bool CurrentMarker { get; set; }
+	public bool ArrowMarker { get; set; }
 	#endregion
 	#region METHODES
 	public static Settings Load(PropertyGrid propertyGrid = null, string fileName = "Settings.xml", bool autoCreate = true)
