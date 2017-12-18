@@ -33,6 +33,7 @@ public class Settings
 		FastDrawMode = true;
 		SpeechSyntesizer = true;
 		ArrowMarker = true;
+		ToolTipMode = true;
 	}
 	#endregion
 	#region PROPERTIES

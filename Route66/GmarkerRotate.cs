@@ -25,6 +25,9 @@ namespace Route66
 		public override void OnRender(Graphics g)
 		{
 			g.DrawImage(RotateImage(bitmap, Angle), LocalPosition.X, LocalPosition.Y, Size.Width, Size.Height);
+			//g.DrawEllipse(Pens.Red, -5, -5, 10, 10);
+			//MyLib.My.Status($"g.clipbounds { g.ClipBounds.Location}");
+			//Route66.Overlay.ClipBounds = g.ClipBounds;
 		}
 		private Bitmap RotateImage(Bitmap bmp, float angle)
 		{

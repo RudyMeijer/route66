@@ -227,7 +227,7 @@ namespace Route66
 		private void gmap_OnMarkerEnter(GMapMarker item)
 		{
 			Overlay.SetRedTooltip(item);
-			Console.WriteLine($"{PointCloud.Count} Enter {item.Overlay.Id} {item.ToolTipText?.Replace('\n', ' ')}");
+			Console.WriteLine($"{PointCloud.Count} Enter {Overlay}");
 			if (Overlay.IsGpsMarker(item) || !chkGpsPoints.Checked)
 			{
 				PointCloud.Add(item);

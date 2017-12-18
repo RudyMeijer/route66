@@ -21,6 +21,7 @@ namespace Route66
 		/// This field contains Lat,Lng coordinates of the last clicked red marker.
 		/// </summary>
 		public GMapMarker CurrentMarker;
+		//internal static RectangleF ClipBounds;
 		private readonly GMapRoute RedRoute;
 		private readonly GMapOverlay Red;
 		private readonly GMapOverlay Green;
@@ -76,7 +77,7 @@ namespace Route66
 			var idx = GetIndex(marker);
 			if (idx >= 0)
 			{
-			Console.WriteLine($"Remove marker {marker.Overlay.Id} {marker.Tag} {idx}");
+				Console.WriteLine($"Remove marker {marker.Overlay.Id} {marker.Tag} {idx}");
 				Red.Markers.Remove(marker);
 				RedRoute.Points.RemoveAt(idx);
 				gmap.UpdateRouteLocalPosition(RedRoute);
@@ -105,7 +106,11 @@ namespace Route66
 		public bool UpdateCurrentMarkerPosition(int x, int y)
 		{
 			if (CurrentMarker == null) return false;
-			var newPosition = gmap.FromLocalToLatLng(x, y);
+			//var m = new Point();
+			//m.X = x + (int)ClipBounds.Location.X - CurrentMarker.LocalPosition.X;
+			//m.Y = y + (int)ClipBounds.Location.Y - CurrentMarker.LocalPosition.Y;
+			//My.Status($" mouseOffset={m}, Current marker={CurrentMarker.LocalPosition}, clipbounds={ClipBounds.Location}");
+			var newPosition = gmap.FromLocalToLatLng(x, y + 11);
 			//
 			// Use Gps marker.
 			//
@@ -213,12 +218,13 @@ namespace Route66
 			//
 			// Always use red marker. unittest: Set NOGPS and drag green marker.
 			//
-			if (item==null ||IsGpsMarker(item))
+			if (item == null || IsGpsMarker(item))
 				CurrentMarker = item;
 			else
 				CurrentMarker = FindRedMarker(item.Tag as GpsMarker);
-			
-			Console.WriteLine($"Set CurrentMarker {CurrentMarker?.Overlay.Id} {GetIndex(CurrentMarker)}");
+
+			Console.WriteLine($"Set CurrentMarker {CurrentMarker?.Overlay.Id} {GetIndex(CurrentMarker)} at {CurrentMarker?.LocalPosition}");
+			//My.Status($" Set CurrentMarker {CurrentMarker?.Overlay.Id} {GetIndex(CurrentMarker)} at {CurrentMarker?.LocalPosition}");
 			ShowArrowMarker(item);
 		}
 
@@ -411,7 +417,7 @@ namespace Route66
 		{
 			foreach (var red in route.GpsMarkers)
 			{
-				AddMarker(new PointLatLng( red.Lat, red.Lng));
+				AddMarker(new PointLatLng(red.Lat, red.Lng));
 				//Red.Markers.Add(new GMarkerGoogle(new PointLatLng(red.Lat, red.Lng), (Red.Markers.Count == 0) ? GMarkerGoogleType.green_big_go : GMarkerGoogleType.red_small));
 			}
 			//
@@ -419,7 +425,7 @@ namespace Route66
 			//
 			foreach (var item in route.ChangeMarkers)
 			{
-				var rm = FindRedMarker(item.Lat,item.Lng);
+				var rm = FindRedMarker(item.Lat, item.Lng);
 				if (rm != null)
 				{
 					rm.Tag = item;
