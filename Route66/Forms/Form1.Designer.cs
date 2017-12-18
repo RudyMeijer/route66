@@ -54,6 +54,7 @@
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.AddtoolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,7 +64,6 @@
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.AddtoolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -110,7 +110,7 @@
 			this.splitContainer1.Panel2.Controls.Add(this.comboBox1);
 			this.splitContainer1.Panel2.Controls.Add(this.btnClear);
 			this.splitContainer1.Size = new System.Drawing.Size(1121, 586);
-			this.splitContainer1.SplitterDistance = 992;
+			this.splitContainer1.SplitterDistance = 991;
 			this.splitContainer1.SplitterWidth = 5;
 			this.splitContainer1.TabIndex = 1;
 			// 
@@ -138,7 +138,7 @@
 			this.gmap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
 			this.gmap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
 			this.gmap.ShowTileGridLines = false;
-			this.gmap.Size = new System.Drawing.Size(992, 586);
+			this.gmap.Size = new System.Drawing.Size(991, 586);
 			this.gmap.TabIndex = 0;
 			this.gmap.Zoom = 13D;
 			this.gmap.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.gmap_OnMarkerClick);
@@ -408,6 +408,14 @@
 			this.openToolStripMenuItem.Text = "Open";
 			this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
 			// 
+			// AddtoolStripMenuItem
+			// 
+			this.AddtoolStripMenuItem.Name = "AddtoolStripMenuItem";
+			this.AddtoolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+			this.AddtoolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+			this.AddtoolStripMenuItem.Text = "Add";
+			this.AddtoolStripMenuItem.Click += new System.EventHandler(this.AddtoolStripMenuItem_Click);
+			// 
 			// saveToolStripMenuItem
 			// 
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
@@ -468,14 +476,6 @@
 			this.toolStripStatusLabel1.Size = new System.Drawing.Size(50, 20);
 			this.toolStripStatusLabel1.Text = "Ready";
 			// 
-			// AddtoolStripMenuItem
-			// 
-			this.AddtoolStripMenuItem.Name = "AddtoolStripMenuItem";
-			this.AddtoolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-			this.AddtoolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-			this.AddtoolStripMenuItem.Text = "Add";
-			this.AddtoolStripMenuItem.Click += new System.EventHandler(this.AddtoolStripMenuItem_Click);
-			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -489,7 +489,7 @@
 			this.Name = "Form1";
 			this.Text = "Route66";
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
 			this.Load += new System.EventHandler(this.Form1_Load);
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);

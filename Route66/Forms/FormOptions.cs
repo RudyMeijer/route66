@@ -12,8 +12,6 @@ namespace Route66
 {
 	public partial class FormOptions : Form
 	{
-		#region FIELDS
-		#endregion
 		#region CONSTRUCTOR
 		public FormOptions(Settings set)
 		{
@@ -30,11 +28,10 @@ namespace Route66
 		#endregion
 		#region METHODES
 		private void FormOptions_FormClosing(object sender, FormClosingEventArgs e) => propertyGrid1.Dispose();
-		#endregion
-
 		private void btnOk_Click(object sender, EventArgs e)
 		{
 			this.Close();
 		}
+		#endregion
 	}
 }

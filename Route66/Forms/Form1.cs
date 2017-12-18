@@ -299,6 +299,7 @@ namespace Route66
 		}
 		private void gmap_OnMapZoomChanged()
 		{
+			if (toolStripStatusLabel1.Text.StartsWith("Ready"))
 			My.Status($" Zoom factor = {gmap.Zoom}");
 		}
 		#endregion
@@ -311,13 +312,23 @@ namespace Route66
 			openFileDialog1.Title = (IsSubroute) ? "Add subroute" : "Open route";
 			if (openFileDialog1.ShowDialog() == DialogResult.OK)
 			{
+				var originalFilename = Overlay.Route.FileName;
+				My.Log($"{openFileDialog1.Title} {openFileDialog1.FileName } {((IsSubroute) ? " at " + Overlay : "")}");
 				if (Path.GetExtension(openFileDialog1.FileName) != ".xml")
 				{
 					MessageBox.Show("Sorry, this function is not implemented yet.", $"Deer mr {My.UserName}");
 					return;
 				}
 				if (!Overlay.OpenRoute(openFileDialog1.FileName, IsSubroute)) My.Status($"Error This file contains no Gps markers.");
-				this.Text = Title + openFileDialog1.FileName;
+				//
+				// If subroute is loaded then keep original filename.
+				//
+				if (IsSubroute)
+				{
+					My.Status($"Subroute {openFileDialog1.FileName} Succesfully added.");
+					Overlay.Route.FileName = originalFilename;
+				}
+				this.Text = Title + Overlay.Route.FileName;
 			}
 		}
 		private void AddtoolStripMenuItem_Click(object sender, EventArgs e)
@@ -329,10 +340,15 @@ namespace Route66
 				OpenToolStripMenuItem_Click("SubRoute", null);
 			}
 		}
-		private void AskToSaveModifiedRoute()
+		private bool AskToSaveModifiedRoute()
 		{
-			if (Overlay.IsChanged && MessageBox.Show("Save current route?", "Route is changed.", MessageBoxButtons.YesNo) == DialogResult.Yes)
-				SaveToolStripMenuItem_Click(null, null);
+			if (Overlay.IsChanged)
+			{
+				var res = MessageBox.Show("Save current route?", "Route is changed.", MessageBoxButtons.YesNoCancel);
+				if (res == DialogResult.Yes) SaveToolStripMenuItem_Click(null, null);
+				return res == DialogResult.Cancel; 
+			}
+			return false;
 		}
 		private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -360,11 +376,12 @@ namespace Route66
 		{
 			Close();
 		}
-		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+
+		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			My.Log($"{Title} stopped by user {My.UserName}.");
+			My.Log($"{Title} closed by user {My.UserName}.");
 			Settings.Save();
-			AskToSaveModifiedRoute();
+			e.Cancel = AskToSaveModifiedRoute();
 		}
 
 		/// <summary>
@@ -405,7 +422,7 @@ namespace Route66
 		#region RIGHT PANE
 		private void btnClear_Click(object sender, EventArgs e)
 		{
-			Console.WriteLine("btnClear_Click");
+			My.Status($"Clear Route {Overlay.Route}.");
 			Overlay.Clear();
 			PointCloud.Clear();
 		}
@@ -450,6 +467,5 @@ namespace Route66
 			gmap.Overlays[3].IsVisibile = Settings.ArrowMarker;
 		}
 		#endregion
-
 	}
 }

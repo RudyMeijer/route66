@@ -32,7 +32,6 @@ namespace Route66
 		#region METHODES
 		public static Route Load(string fileName = "Route66.xml")
 		{
-			My.Log($"Open route {fileName }");
 			IsDefaultFile = (fileName == "Route66.xml");
 			route = new Route();
 			try
@@ -69,7 +68,7 @@ namespace Route66
 				using (StreamWriter writer = new StreamWriter(fileName)) serializer.Serialize(writer, this);
 				route.FileName = fileName;
 				IsDefaultFile = (fileName == "Route66.xml");
-				My.Status($"Route saved to {fileName}");
+				My.Status($"Route saved to {this}");
 				IsChanged = false;
 			}
 			catch (Exception e)
@@ -79,7 +78,7 @@ namespace Route66
 		}
 		public override string ToString()
 		{
-			return $"Version {Version}, Type {MachineType} ";
+			return $"{FileName} Version {Version}, Type {MachineType}";
 		}
 		#endregion
 		#region PROPERTIES
