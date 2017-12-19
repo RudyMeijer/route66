@@ -57,9 +57,9 @@ public class Settings
 	public string MapProvider { get; set; }
 	[Category("Route Settings"), Description("Route edit mode: Select current marker by mouse hover instead of left mouse click.")]
 	public bool FastDrawMode { get; set; }
-	[Category("Markers"), Description("Show red marker index in tooltip.")]
+	[Category("Route Settings"), Description("Show red marker index in tooltip.")]
 	public bool ToolTipMode { get; set; }
-	[Category("Markers"), Description("Show current marker as blue arrow.")]
+	[Category("Route Settings"), Description("Show current marker as blue arrow.")]
 	public bool ArrowMarker { get; set; }
 	#endregion
 	#region METHODES

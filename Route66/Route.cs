@@ -78,7 +78,7 @@ namespace Route66
 		}
 		public override string ToString()
 		{
-			return $"{FileName} Version {Version}, Type {MachineType}";
+			return $"{FileName} V{Version}, Type {MachineType}";
 		}
 		#endregion
 		#region PROPERTIES

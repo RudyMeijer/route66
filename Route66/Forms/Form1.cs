@@ -37,9 +37,10 @@ namespace Route66
 		private bool CtrlKeyIsPressed;
 		private KeyEventArgs Key;
 		/// <summary>
-		/// This list contains markers which are overlapping eachother.
+		/// Pointcloud contains a list of markers which are overlapping eachother.
 		/// When zoomed out all markers are in the pointcloud.
 		/// Allow remove of overlaying markers via push/pop.
+		/// Function: remove markers in a pointcloud with right-click.
 		/// </summary>
 		private List<GMapMarker> PointCloud;
 
@@ -328,7 +329,7 @@ namespace Route66
 					My.Status($"Subroute {openFileDialog1.FileName} Succesfully added.");
 					Overlay.Route.FileName = originalFilename;
 				}
-				this.Text = Title + Overlay.Route.FileName;
+				this.Text = Title + Overlay.Route;
 			}
 		}
 		private void AddtoolStripMenuItem_Click(object sender, EventArgs e)

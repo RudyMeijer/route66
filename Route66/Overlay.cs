@@ -165,8 +165,8 @@ namespace Route66
 
 				var route = AutoRouter(CurrentMarker, end);
 
-				My.Status("Ready");
-				if (route.Points.Count > 0)
+				My.Status((route == null) ? "Please check your internet connection." : "Ready");
+				if (route?.Points.Count > 0)
 				{
 					route.Points.RemoveAt(0);
 					foreach (var p in route.Points) AddMarker(p);
