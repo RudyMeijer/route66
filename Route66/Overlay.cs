@@ -73,24 +73,26 @@ namespace Route66
 		#region METHODES
 		internal void Remove(GMapMarker marker)
 		{
-			var idx = GetIndex(marker);
+			var idx = GetIndexRed(marker);
 			if (idx >= 0)
 			{
-				Console.WriteLine($"Remove marker {marker.Overlay.Id} {marker.Tag} {idx}");
+				Console.WriteLine($"Remove marker {marker.Info()}");
 				Red.Markers.Remove(marker);
 				RedRoute.Points.RemoveAt(idx);
 				gmap.UpdateRouteLocalPosition(RedRoute);
-				SetCurrentMarker((idx > 0) ? Red.Markers[idx - 1] : null);
+				if (idx > 0)
+					SetCurrentMarker(Red.Markers[idx - 1]);
+				else if (Red.Markers.Count > 0)
+					SetCurrentMarker(Red.Markers[idx]);
+				else
+					SetCurrentMarker(null);
 				Route.IsChanged = true;
 			}
 			UpdateGreenAndBlueOverlay(Crud.Delete, marker.Tag, null);
 			//
 			// When Change- or Navigation marker is deleted then remove Gpspoint tag.
 			//
-			if (!IsGpsMarker(marker))
-			{
-				FindRedMarker(marker.Tag as GpsMarker).Tag = null;
-			}
+			if (!IsGpsMarker(marker)) FindRedMarker(marker.Tag as GpsMarker).Tag = null;
 		}
 		/// <summary>
 		/// When Mouse is moved update position of:
@@ -105,7 +107,7 @@ namespace Route66
 		public bool UpdateCurrentMarkerPosition(int x, int y)
 		{
 			if (CurrentMarker == null) return false;
-			var newPosition = gmap.FromLocalToLatLng(x, y + 11);
+			var newPosition = gmap.FromLocalToLatLng(x, y);/// +11
 			//
 			// Use Gps marker.
 			//
@@ -117,7 +119,7 @@ namespace Route66
 			// Update Route point.
 			// Allways use currentmarker class to find index because we can have duplicated Positions (struct)!
 			//
-			var idx = GetIndex(CurrentMarker);
+			var idx = GetIndexRed(CurrentMarker);
 			RedRoute.Points[idx] = newPosition;
 			gmap.UpdateRouteLocalPosition(RedRoute);
 			//
@@ -150,7 +152,7 @@ namespace Route66
 			}
 			gmap.UpdateRouteLocalPosition(RedRoute);
 		}
-		internal void AddMarker(int x, int y)
+		internal GMapMarker AddMarker(int x, int y)
 		{
 			PointLatLng point = gmap.FromLocalToLatLng(x, y);
 			//
@@ -158,7 +160,7 @@ namespace Route66
 			//
 			if (IsAutoRoute && RedRoute.Points.Count > 0)
 			{
-				if (CurrentMarker != Red.Markers.Last() && MessageBox.Show($"Are you sure to insert route at current marker?", "Current marker in not at end of route.", MessageBoxButtons.YesNo) == DialogResult.No) return;
+				if (CurrentMarker != Red.Markers.Last() && MessageBox.Show($"Are you sure to insert route at current marker?", "Current marker in not at end of route.", MessageBoxButtons.YesNo) == DialogResult.No) return CurrentMarker;
 				var end = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
 				My.Status($"Moment. Autoroute started at {CurrentMarker.ToolTipText}, stop {end.Position}");
 				Application.DoEvents();
@@ -173,10 +175,28 @@ namespace Route66
 				}
 			}
 			else AddMarker(point);
-			SetRedTooltip(CurrentMarker); // Not nessesarry but nice 4 debugging.
+			SetTooltipRed(CurrentMarker); // Not nessesarry but nice 4 debugging.
 			ShowArrowMarker(CurrentMarker);
 			Route.IsChanged = true;
+			return CurrentMarker;
 		}
+		private bool AddMarker(PointLatLng point)
+		{
+			var marker = new GMarkerGoogle(point, (Red.Markers.Count == 0) ? GMarkerGoogleType.green_big_go : GMarkerGoogleType.red_small);
+			var idx = GetIndexRed(CurrentMarker) + 1;
+			CurrentMarker = marker;
+			Red.Markers.Insert(idx, marker);
+			RedRoute.Points.Insert(idx, point);
+			gmap.UpdateRouteLocalPosition(RedRoute);
+			Console.WriteLine($"Marker {idx} added at {marker.LocalPosition}");
+			return true;
+		}
+		private MapRoute AutoRouter(GMapMarker start, GMapMarker end)
+		{
+			RoutingProvider rp = GMapProviders.OpenStreetMap; // use OpenStreetMap if provider does not implement routing
+			return rp.GetRoute(start.Position, end.Position, false, false, 2);
+		}
+
 		public void Clear()
 		{
 			foreach (var overlay in gmap.Overlays)
@@ -188,12 +208,18 @@ namespace Route66
 			gmap.UpdateRouteLocalPosition(RedRoute);
 			SetCurrentMarker(null);
 		}
-
-		internal int GetIndex(GMapMarker item) => Red.Markers.IndexOf(item);
-
-		public void SetRedTooltip(GMapMarker item)
+		internal int GetIndexAny(GMapMarker item)
 		{
-			var idx = GetIndex(item);
+			if (item == null) return -1;
+			if (IsGpsMarker(item)) return GetIndexRed(item);
+			return GetIndexRed(FindRedMarker(item.Tag as GpsMarker));
+		}
+
+		internal int GetIndexRed(GMapMarker item) => Red.Markers.IndexOf(item);
+
+		public void SetTooltipRed(GMapMarker item)
+		{
+			var idx = GetIndexRed(item);
 			if (idx >= 0)
 			{
 				item.ToolTipMode = (Settings.ToolTipMode) ? MarkerTooltipMode.OnMouseOver : MarkerTooltipMode.Never;
@@ -201,10 +227,11 @@ namespace Route66
 			}
 		}
 
-		public override string ToString() => $"Current marker={CurrentMarker?.Overlay.Id} {GetIndex(CurrentMarker)}, Tag={CurrentMarker?.Tag}, Total distance={RedRoute.Distance:f3} km.";
+		public override string ToString() => $"Current marker={CurrentMarker?.Overlay.Id} {GetIndexRed(CurrentMarker)}, Tag={CurrentMarker?.Tag}, Total distance={RedRoute.Distance:f3} km.";
 
 		public void SetCurrentMarker(GMapMarker item)
 		{
+			Console.WriteLine($"Set CurrentMarker {item.Info()}");
 			//
 			// Always use red marker. unittest: Set NOGPS and drag green marker.
 			//
@@ -215,7 +242,6 @@ namespace Route66
 				CurrentMarker = FindRedMarker(item.Tag as GpsMarker);
 				CurrentMarker.LocalPosition = item.LocalPosition; // So when dragging copy Blue pos into red pos.
 			}
-			Console.WriteLine($"Set CurrentMarker {CurrentMarker?.Overlay.Id} {GetIndex(CurrentMarker)} at {CurrentMarker?.LocalPosition}");
 			ShowArrowMarker(item);
 		}
 
@@ -232,7 +258,7 @@ namespace Route66
 		private float Angle(GMapMarker currentMarker)
 		{
 			var angle = 0d;
-			var idx = GetIndex(CurrentMarker); // when noGPS currentMarker (= ChangeMarker) return -1 
+			var idx = GetIndexRed(CurrentMarker); // when noGPS currentMarker (= ChangeMarker) return -1 
 			const double DEG = 180 / Math.PI;
 			//
 			// If last marker then use angele of previous marker.
@@ -257,7 +283,7 @@ namespace Route66
 				if (idx == 0) dx += currentMarker.Offset.X - nextMarker.Offset.X;
 
 				angle = Math.Atan2(dy, dx) * DEG;
-				Console.WriteLine($"Angle={angle} nextmarker={nextMarker.LocalPosition} currentmarker={currentMarker.LocalPosition}");
+				//Console.WriteLine($"Angle={angle} nextmarker={nextMarker.LocalPosition} currentmarker={currentMarker.LocalPosition}");
 			}
 			return (float)angle;
 		}
@@ -365,18 +391,18 @@ namespace Route66
 
 		internal void RemoveCurrentMarker()
 		{
-			if (CurrentMarker != null) Remove(CurrentMarker);
+			Remove(CurrentMarker);
 		}
 
 		internal void SetArrowMarker(bool forward)
 		{
-			var idx = GetIndex(CurrentMarker);
+			var idx = GetIndexRed(CurrentMarker);
 			if (idx >= 0)
 			{
 				idx += (forward) ? 1 : -1;
 				idx = InRange(idx, 0, Red.Markers.Count - 1);
 				SetCurrentMarker(Red.Markers[idx]);
-				if (idx == Red.Markers.Count - 1) My.Status($"End of route. Gps marker {idx}.");
+				if (idx == Red.Markers.Count - 1) My.Status($"End of route. Gps marker {idx}."); else My.Status(" Ready");
 			}
 		}
 
@@ -408,7 +434,7 @@ namespace Route66
 		{
 			foreach (var red in route.GpsMarkers) AddMarker(new PointLatLng(red.Lat, red.Lng));
 			//
-			// Copy green and blue tags into red markers.
+			// Copy green and blue into red markers tags.
 			//
 			foreach (var item in route.ChangeMarkers)
 			{
@@ -458,7 +484,6 @@ namespace Route66
 		private GMapMarker GetGreenMarker(GMapMarker currentMarker)
 		{
 			foreach (var item in Green.Markers) if (item.Tag == currentMarker.Tag) return item;
-			//foreach (var item in Green.Markers) if (item.Position == currentMarker.Position) return item;
 			return null;
 		}
 		private GMapMarker GetBlueMarker(GMapMarker currentMarker)
@@ -486,22 +511,6 @@ namespace Route66
 		/// </summary>
 		/// <param name="from"></param>
 		/// <param name="to"></param>
-		private bool AddMarker(PointLatLng point)
-		{
-			var marker = new GMarkerGoogle(point, (Red.Markers.Count == 0) ? GMarkerGoogleType.green_big_go : GMarkerGoogleType.red_small);
-			var idx = GetIndex(CurrentMarker) + 1;
-			CurrentMarker = marker;
-			Red.Markers.Insert(idx, marker);
-			RedRoute.Points.Insert(idx, point);
-			gmap.UpdateRouteLocalPosition(RedRoute);
-			Console.WriteLine($"Marker {idx} added at {marker.LocalPosition}");
-			return true;
-		}
-		private MapRoute AutoRouter(GMapMarker start, GMapMarker end)
-		{
-			RoutingProvider rp = GMapProviders.OpenStreetMap; // use OpenStreetMap if provider does not implement routing
-			return rp.GetRoute(start.Position, end.Position, false, false, 2);
-		}
 		internal int UpdateAllChangeMarkers(double from, double to)
 		{
 			var cnt = 0;

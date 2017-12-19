@@ -19,7 +19,7 @@ namespace Route66
 		{
 			this.bitmap = bitmap;
 			Size = new Size(30, 30);
-			Offset = new Point(-Size.Width / 2 , -Size.Height / 2 );
+			Offset = new Point(-Size.Width / 2, -Size.Height / 2);
 		}
 		public override void OnRender(Graphics g)
 		{
@@ -53,6 +53,15 @@ namespace Route66
 			}
 
 			base.Dispose();
+		}
+	}
+	public static class Extensions
+	{
+		public static string Info (this GMapMarker item)
+		{
+			if (item == null) return null;
+			var s= $"{item.Overlay.Id} {item.ToolTipText?.Replace('\n', ' ')} {item.LocalPosition} Tag={item.Tag}";
+			return s;
 		}
 	}
 }

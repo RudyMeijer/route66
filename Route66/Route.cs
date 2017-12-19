@@ -88,6 +88,11 @@ namespace Route66
 		public List<ChangeMarker> ChangeMarkers { get; set; }
 		public List<NavigationMarker> NavigationMarkers { get; set; }
 
+		internal void Clear()
+		{
+			throw new NotImplementedException();
+		}
+
 		#endregion
 	}
 }
