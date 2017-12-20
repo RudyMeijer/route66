@@ -236,11 +236,14 @@ namespace Route66
 			// Always use red marker. unittest: Set NOGPS and drag green marker.
 			//
 			if (item == null || IsGpsMarker(item))
+			{
 				CurrentMarker = item; // On up/down key red pos is used. 
-			else
+			}
+			else 
 			{
 				CurrentMarker = FindRedMarker(item.Tag as GpsMarker);
-				CurrentMarker.LocalPosition = item.LocalPosition; // So when dragging copy Blue pos into red pos.
+				if (GetIndexRed(CurrentMarker)>0 && CurrentMarker.LocalPosition != item.LocalPosition)
+				CurrentMarker.LocalPosition = item.LocalPosition; // gives jumping big marker. So when dragging copy Blue pos into red pos.
 			}
 			ShowArrowMarker(item);
 		}
@@ -258,10 +261,10 @@ namespace Route66
 		private float Angle(GMapMarker currentMarker)
 		{
 			var angle = 0d;
-			var idx = GetIndexRed(CurrentMarker); // when noGPS currentMarker (= ChangeMarker) return -1 
+			var idx = GetIndexAny(currentMarker); // when noGPS currentMarker (= ChangeMarker) return -1 
 			const double DEG = 180 / Math.PI;
 			//
-			// If last marker then use angele of previous marker.
+			// If this is last marker then use angele of previous marker.
 			//
 			if (idx == Red.Markers.Count - 1 && idx > 0)
 			{
@@ -373,6 +376,7 @@ namespace Route66
 			ConvertRoute(Route);
 			LoadOverlay(Route);
 			if (IsSubroute) Route.IsChanged = true;
+			else gmap.ZoomAndCenterRoute(RedRoute);
 			return true;
 		}
 
@@ -461,7 +465,6 @@ namespace Route66
 			//
 			SetCurrentMarker(Red.Markers[Red.Markers.Count - 1]);
 			CreateOverlayRoute();
-			gmap.ZoomAndCenterRoute(RedRoute);
 		}
 
 		/// <summary>

@@ -24,7 +24,7 @@ namespace Route66
 		public override void OnRender(Graphics g)
 		{
 			g.DrawImage(RotateImage(bitmap, Angle), LocalPosition.X, LocalPosition.Y, Size.Width, Size.Height);
-			//g.DrawEllipse(Pens.Red, -5, -5, 10, 10);
+			g.DrawRectangle(Pens.Red, -5, -5, 10, 10);
 		}
 		private Bitmap RotateImage(Bitmap bmp, float angle)
 		{
@@ -58,9 +58,15 @@ namespace Route66
 	public static class Extensions
 	{
 		public static string Info (this GMapMarker item)
-		{
+		{ var s = "";
 			if (item == null) return null;
-			var s= $"{item.Overlay.Id} {item.ToolTipText?.Replace('\n', ' ')} {item.LocalPosition} Tag={item.Tag}";
+			if (item.Overlay.Id == "Gps points")
+			{
+				var t = (item.Tag != null) ? ((item.Tag as GpsMarker).ToString().Replace('\n', ' ')) : "-";
+				s = $"{item.Overlay.Id} {item.ToolTipText?.Replace('\n', ' ')} {item.LocalPosition} Tag={t}";
+			}
+			else
+				s = $"{item.Overlay.Id} {item.ToolTipText?.Replace('\n', ' ')} {item.LocalPosition}";
 			return s;
 		}
 	}

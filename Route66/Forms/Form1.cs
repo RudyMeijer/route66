@@ -161,7 +161,7 @@ namespace Route66
 			try
 			{
 				Console.WriteLine($"MouseDown {e.Button} IsOnMarker={IsOnMarker}, IsDragging={IsDragging}");
-				if (e.Button == MouseButtons.Left && !IsOnMarker && IsEditMode()) { CurrentMarker=Overlay.AddMarker(e.X, e.Y); IsOnMarker=true; }
+				if (e.Button == MouseButtons.Left && !IsOnMarker && IsEditMode()) { CurrentMarker=Overlay.AddMarker(e.X, e.Y); }
 			}
 			catch (Exception ee) { My.Status($"Error {ee}"); }
 		}
@@ -172,8 +172,8 @@ namespace Route66
 		{
 			try
 			{
-				Console.WriteLine($"gmap_OnMarkerClick {e.Button} {item.Info()}");
-				if (e.Button == MouseButtons.Left) { Overlay.SetCurrentMarker(item); }
+				//Console.WriteLine($"gmap_OnMarkerClick {e.Button} {item.Info()}");
+				if (e.Button == MouseButtons.Left) {Overlay.SetCurrentMarker(item); }
 				if (e.Button == MouseButtons.Right && IsEditMode()) { Overlay.Remove(item); IsOnMarker = false; }
 			}
 			catch (Exception ee) { My.Status($"Error {ee}"); }
@@ -205,7 +205,7 @@ namespace Route66
 				IsOnMarker = true;
 				CurrentMarker = item;
 				Overlay.SetTooltipRed(item);
-				Console.WriteLine($"Enter {item.Info()}");
+				Console.WriteLine($"{DateTime.Now} Enter {item.Info()}");
 				if (Settings.FastDrawMode || !chkGpsPoints.Checked) Overlay.SetCurrentMarker(item);
 				if (Overlay.IsNavigationMarker(item) && Settings.SpeechSyntesizer)
 				{
