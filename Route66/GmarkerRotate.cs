@@ -57,17 +57,21 @@ namespace Route66
 	}
 	public static class Extensions
 	{
-		public static string Info (this GMapMarker item)
-		{ var s = "";
+		/// <summary>
+		/// This extension returns information about item parameter:
+		/// Gps points 1 {X=-325,Y=-109} Tag=Dosage 20 g Left 1 m Right 1 m
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
+		public static string Info(this GMapMarker item)
+		{
+			var tag = "-";
 			if (item == null) return null;
-			if (item.Overlay.Id == "Gps points")
+			if (item.Tag != null && item.Overlay.Id == "Gps points")
 			{
-				var t = (item.Tag != null) ? ((item.Tag as GpsMarker).ToString().Replace('\n', ' ')) : "-";
-				s = $"{item.Overlay.Id} {item.ToolTipText?.Replace('\n', ' ')} {item.LocalPosition} Tag={t}";
+				tag = (item.Tag as GpsMarker).ToString().Replace('\n', ' ');
 			}
-			else
-				s = $"{item.Overlay.Id} {item.ToolTipText?.Replace('\n', ' ')} {item.LocalPosition}";
-			return s;
+			return $"{item.Overlay.Id} {item.ToolTipText?.Replace('\n', ' ')} {item.LocalPosition} Tag={tag}";
 		}
 	}
 }

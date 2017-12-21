@@ -215,11 +215,7 @@ namespace Route66
 		}
 		private void gmap_OnMarkerLeave(GMapMarker item)
 		{
-			if (!IsDragging)
-			{
-				IsOnMarker = false;
-				CurrentMarker = null;
-			}
+			if (!IsDragging) IsOnMarker = false;
 		}
 		/// <summary>
 		/// Drag marker
@@ -251,7 +247,6 @@ namespace Route66
 		{
 			//Console.WriteLine("gmap_MouseLeave");
 			IsOnMarker = false;
-			CurrentMarker = null;
 			My.Status(" Ready");
 		}
 		private void gmap_KeyDown(object sender, KeyEventArgs e)
@@ -262,7 +257,7 @@ namespace Route66
 			if (Overlay.CurrentMarker == null) return;
 			if (Key.KeyCode == Keys.Up) Overlay.SetArrowMarker(true);
 			if (Key.KeyCode == Keys.Down) Overlay.SetArrowMarker(false);
-			if (Key.KeyCode == Keys.Delete && IsEditMode()) { Overlay.RemoveCurrentMarker(); IsOnMarker = false; }
+			if (Key.KeyCode == Keys.Delete && IsEditMode()) { Overlay.RemoveCurrentMarker(); }
 			if (Key.KeyCode == Keys.C) Overlay.EditMarker(false);
 			if (Key.KeyCode == Keys.N) Overlay.EditMarker(true);
 		}
@@ -296,6 +291,7 @@ namespace Route66
 					return;
 				}
 				if (!Overlay.OpenRoute(openFileDialog1.FileName, IsSubroute)) My.Status($"Error This file contains no Gps markers.");
+				CurrentMarker = Overlay.CurrentMarker;
 				//
 				// If subroute is loaded then keep original filename.
 				//
