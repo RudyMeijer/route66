@@ -362,7 +362,11 @@ namespace Route66
 			if (Route.GpsMarkers.Count == 0) return false;
 			ConvertRoute(Route);
 			LoadOverlay(Route);
-			if (IsSubroute) Route.IsChanged = true;
+			if (IsSubroute)
+			{
+				Route.IsChanged = true;
+				gmap.UpdateRouteLocalPosition(RedRoute);
+			}
 			else gmap.ZoomAndCenterRoute(RedRoute);
 			return true;
 		}
