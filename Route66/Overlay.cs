@@ -150,7 +150,7 @@ namespace Route66
 			{
 				if (CurrentMarker != Red.Markers.Last() && MessageBox.Show($"Are you sure to insert route at current marker?", "Current marker in not at end of route.", MessageBoxButtons.YesNo) == DialogResult.No) return;
 				var end = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
-				My.Status($"Moment. Autoroute started at {CurrentMarker.ToolTipText}, stop {end.Position}");
+				My.Status($"Moment. Autoroute started at {CurrentMarker.ToolTipText} {CurrentMarker.Position}, stop {end.Position}");
 				Application.DoEvents();
 
 				var route = AutoRouter(CurrentMarker, end);

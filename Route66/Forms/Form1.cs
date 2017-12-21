@@ -174,7 +174,7 @@ namespace Route66
 			try
 			{
 				//Console.WriteLine($"gmap_OnMarkerClick {e.Button} {item.Info()}");
-				if (e.Button == MouseButtons.Left) {Overlay.SetCurrentMarker(item); }
+				if (e.Button == MouseButtons.Left && IsOnMarker) {Overlay.SetCurrentMarker(item); } // IsonMarker is false when adding markers. 
 				if (e.Button == MouseButtons.Right && IsEditMode()) { Overlay.Remove(item); IsOnMarker = false; }
 			}
 			catch (Exception ee) { My.Status($"Error {ee}"); }
