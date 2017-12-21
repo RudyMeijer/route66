@@ -181,7 +181,7 @@ namespace Route66
 		private MapRoute AutoRouter(GMapMarker start, GMapMarker end)
 		{
 			RoutingProvider rp = GMapProviders.OpenStreetMap; // use OpenStreetMap if provider does not implement routing
-			return rp.GetRoute(start.Position, end.Position, false, false, 2);
+			return rp.GetRoute(start.Position, end.Position, false, false, (int)gmap.Zoom);
 		}
 
 		public void Clear()
