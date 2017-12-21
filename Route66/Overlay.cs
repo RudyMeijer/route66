@@ -140,19 +140,7 @@ namespace Route66
 			ArrowMarker.Position = newPosition;
 			return true;
 		}
-		/// <summary>
-		/// Create overlay route from red markers.
-		/// </summary>
-		private void CreateOverlayRoute()
-		{
-			RedRoute.Points.Clear();
-			foreach (var item in Red.Markers)
-			{
-				RedRoute.Points.Add(item.Position);
-			}
-			gmap.UpdateRouteLocalPosition(RedRoute);
-		}
-		internal GMapMarker AddMarker(int x, int y)
+		internal void AddMarker(int x, int y)
 		{
 			PointLatLng point = gmap.FromLocalToLatLng(x, y);
 			//
@@ -160,7 +148,7 @@ namespace Route66
 			//
 			if (IsAutoRoute && RedRoute.Points.Count > 0)
 			{
-				if (CurrentMarker != Red.Markers.Last() && MessageBox.Show($"Are you sure to insert route at current marker?", "Current marker in not at end of route.", MessageBoxButtons.YesNo) == DialogResult.No) return CurrentMarker;
+				if (CurrentMarker != Red.Markers.Last() && MessageBox.Show($"Are you sure to insert route at current marker?", "Current marker in not at end of route.", MessageBoxButtons.YesNo) == DialogResult.No) return;
 				var end = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
 				My.Status($"Moment. Autoroute started at {CurrentMarker.ToolTipText}, stop {end.Position}");
 				Application.DoEvents();
@@ -178,7 +166,8 @@ namespace Route66
 			SetTooltipRed(CurrentMarker); // Not nessesarry but nice 4 debugging.
 			ShowArrowMarker(CurrentMarker);
 			Route.IsChanged = true;
-			return CurrentMarker;
+			gmap.UpdateRouteLocalPosition(RedRoute);
+			Console.WriteLine($"Add marker {CurrentMarker.Info()}.");
 		}
 		private bool AddMarker(PointLatLng point)
 		{
@@ -187,8 +176,6 @@ namespace Route66
 			CurrentMarker = marker;
 			Red.Markers.Insert(idx, marker);
 			RedRoute.Points.Insert(idx, point);
-			gmap.UpdateRouteLocalPosition(RedRoute);
-			Console.WriteLine($"Marker {idx} added at {marker.LocalPosition}");
 			return true;
 		}
 		private MapRoute AutoRouter(GMapMarker start, GMapMarker end)
@@ -239,11 +226,11 @@ namespace Route66
 			{
 				CurrentMarker = item; // On up/down key red pos is used. 
 			}
-			else 
+			else
 			{
 				CurrentMarker = FindRedMarker(item.Tag as GpsMarker);
-				if (GetIndexRed(CurrentMarker)>0 && CurrentMarker.LocalPosition != item.LocalPosition)
-				CurrentMarker.LocalPosition = item.LocalPosition; // gives jumping big marker. So when dragging copy Blue pos into red pos.
+				if (GetIndexRed(CurrentMarker) > 0 && CurrentMarker.LocalPosition != item.LocalPosition)
+					CurrentMarker.LocalPosition = item.LocalPosition; // gives jumping big marker. So when dragging copy Blue pos into red pos.
 			}
 			ShowArrowMarker(item);
 		}
@@ -464,7 +451,6 @@ namespace Route66
 			// Set currentMarker to last point. (Autorouter enabled and leftmouse on empty map)
 			//
 			SetCurrentMarker(Red.Markers[Red.Markers.Count - 1]);
-			CreateOverlayRoute();
 		}
 
 		/// <summary>
