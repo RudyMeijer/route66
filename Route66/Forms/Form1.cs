@@ -23,6 +23,11 @@ namespace Route66
 	{
 		#region FIELDS
 		/// <summary>
+		/// Application configuration loaded on startup from Settings.xml.
+		/// Never create new instance of settings.
+		/// </summary>
+		public Settings Settings { get; }
+		/// <summary>
 		/// Contains all overlays like routes and markers.
 		/// </summary>
 		private Overlay Overlay;
@@ -34,8 +39,21 @@ namespace Route66
 		/// Title shown on top of form.
 		/// </summary>
 		private readonly string Title;
+		/// <summary>
+		/// Last key pressed was a Ctrl key.
+		/// </summary>
 		private bool CtrlKeyIsPressed;
-		private KeyEventArgs Key;
+		/// <summary>
+		/// Mouse is on a Marker.
+		/// True when any marker is entered.
+		/// False when any marker is leaved or when map control is leaved.
+		/// </summary>
+		private bool IsOnMarker;
+		/// <summary>
+		/// Last marker that is entered with the mouse. 
+		/// Promoted to current marker on mouse move. 
+		/// </summary>
+		private GMapMarker LastEnteredMarker;
 		#endregion
 		#region CONSTRUCTOR
 		public Form1()
@@ -46,23 +64,6 @@ namespace Route66
 		}
 		#endregion
 		#region PROPERTIES
-		/// <summary>
-		/// Application configuration loaded on startup from Settings.xml.
-		/// Never create new instance of settings.
-		/// </summary>
-		public Settings Settings { get; }
-		/// <summary>
-		/// Mouse is on a Marker.
-		/// Increment when any marker is entered or a new marker is added.
-		/// Decrement when any marker is leaved or a marker is removed.
-		/// Set to zero when map control is leaved.
-		/// </summary>
-		private bool IsOnMarker { get; set; }
-		/// <summary>
-		/// Actual marker indicated with a blue arrow.
-		/// Current marker can be Gps, Change or Navigation marker.
-		/// </summary>
-		private GMapMarker CurrentMarker;
 		#endregion
 		#region INITIALIZE
 		private void Form1_Load(object sender, EventArgs e)
@@ -161,7 +162,7 @@ namespace Route66
 			try
 			{
 				Console.WriteLine($"MouseDown {e.Button} IsOnMarker={IsOnMarker}, IsDragging={IsDragging}");
-				if (e.Button == MouseButtons.Left && !IsOnMarker && IsEditMode()) { CurrentMarker=Overlay.AddMarker(e.X, e.Y); }
+				if (e.Button == MouseButtons.Left && !IsOnMarker && IsEditMode()) { Overlay.AddMarker(e.X, e.Y); }
 			}
 			catch (Exception ee) { My.Status($"Error {ee}"); }
 		}
@@ -203,7 +204,7 @@ namespace Route66
 			if (!IsDragging)
 			{
 				IsOnMarker = true;
-				CurrentMarker = item;
+				LastEnteredMarker = item;
 				Overlay.SetTooltipRed(item);
 				Console.WriteLine($"{DateTime.Now} Enter {item.Info()}");
 				if (Settings.FastDrawMode || !chkGpsPoints.Checked) Overlay.SetCurrentMarker(item);
@@ -227,7 +228,7 @@ namespace Route66
 			{
 				if (!IsDragging) Console.WriteLine("start dragging ");
 				IsDragging = true;
-				Overlay.SetCurrentMarker(CurrentMarker);
+				Overlay.SetCurrentMarker(LastEnteredMarker);
 				Overlay.UpdateCurrentMarkerPosition(e.X, e.Y);
 			}
 		}
@@ -252,21 +253,20 @@ namespace Route66
 		private void gmap_KeyDown(object sender, KeyEventArgs e)
 		{
 			Console.WriteLine($"KeyDown = {e.KeyCode}");
-			Key = e;
 			CtrlKeyIsPressed = e.Control;
 			if (Overlay.CurrentMarker == null) return;
-			if (Key.KeyCode == Keys.Up) Overlay.SetArrowMarker(true);
-			if (Key.KeyCode == Keys.Down) Overlay.SetArrowMarker(false);
-			if (Key.KeyCode == Keys.Delete && IsEditMode()) { Overlay.RemoveCurrentMarker(); }
-			if (Key.KeyCode == Keys.C) Overlay.EditMarker(false);
-			if (Key.KeyCode == Keys.N) Overlay.EditMarker(true);
+			if (e.KeyCode == Keys.Up) Overlay.SetArrowMarker(true);
+			if (e.KeyCode == Keys.Down) Overlay.SetArrowMarker(false);
+			if (e.KeyCode == Keys.Delete && IsEditMode()) { Overlay.RemoveCurrentMarker(); IsOnMarker = false; }
+			if (e.KeyCode == Keys.C) Overlay.EditMarker(false);
+			if (e.KeyCode == Keys.N) Overlay.EditMarker(true);
 		}
 		private void gmap_KeyUp(object sender, KeyEventArgs e)
 		{
 			Console.WriteLine($"KeyUp = {e.KeyCode}");
-			Key = e; CtrlKeyIsPressed = false;
-			if (Key.KeyCode == Keys.Up) Overlay.SetArrowMarker(true);
-			if (Key.KeyCode == Keys.Down) Overlay.SetArrowMarker(false);
+			CtrlKeyIsPressed = false;
+			if (e.KeyCode == Keys.Up) Overlay.SetArrowMarker(true);
+			if (e.KeyCode == Keys.Down) Overlay.SetArrowMarker(false);
 		}
 		private void gmap_OnMapZoomChanged()
 		{
@@ -291,7 +291,6 @@ namespace Route66
 					return;
 				}
 				if (!Overlay.OpenRoute(openFileDialog1.FileName, IsSubroute)) My.Status($"Error This file contains no Gps markers.");
-				CurrentMarker = Overlay.CurrentMarker;
 				//
 				// If subroute is loaded then keep original filename.
 				//
@@ -397,7 +396,6 @@ namespace Route66
 			My.Status($"Clear Route {Overlay.Route}.");
 			Overlay.Clear();
 			IsOnMarker = false;
-			CurrentMarker = null;
 		}
 		private void chkGpsPoints_CheckedChanged(object sender, EventArgs e)
 		{
