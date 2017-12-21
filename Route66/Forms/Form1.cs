@@ -174,7 +174,7 @@ namespace Route66
 			try
 			{
 				//Console.WriteLine($"gmap_OnMarkerClick {e.Button} {item.Info()}");
-				if (e.Button == MouseButtons.Left && IsOnMarker) {Overlay.SetCurrentMarker(item); } // IsonMarker is false when adding markers. 
+				if (e.Button == MouseButtons.Left && IsOnMarker) { Overlay.SetCurrentMarker(item); } // IsonMarker is false when adding markers. 
 				if (e.Button == MouseButtons.Right && IsEditMode()) { Overlay.Remove(item); IsOnMarker = false; }
 			}
 			catch (Exception ee) { My.Status($"Error {ee}"); }
@@ -283,7 +283,6 @@ namespace Route66
 			openFileDialog1.Title = (IsSubroute) ? "Add subroute" : "Open route";
 			if (openFileDialog1.ShowDialog() == DialogResult.OK)
 			{
-				var originalFilename = Overlay.Route.FileName;
 				My.Log($"{openFileDialog1.Title} {openFileDialog1.FileName } {((IsSubroute) ? " at " + Overlay : "")}");
 				if (Path.GetExtension(openFileDialog1.FileName) != ".xml")
 				{
@@ -294,11 +293,7 @@ namespace Route66
 				//
 				// If subroute is loaded then keep original filename.
 				//
-				if (IsSubroute)
-				{
-					My.Status($"Subroute {openFileDialog1.FileName} Succesfully added.");
-					Overlay.Route.FileName = originalFilename;
-				}
+				if (IsSubroute) My.Status($"Subroute {openFileDialog1.FileName} Succesfully added.");
 				this.Text = Title + Overlay.Route;
 			}
 		}
@@ -417,16 +412,16 @@ namespace Route66
 
 		}
 		private void chkShowTooltip_CheckedChanged(object sender, EventArgs e) => Settings.ToolTipMode = chkShowTooltip.Checked;
-		private void btnChangeGlobalDosing_Click(object sender, EventArgs e)
+		private void btnChangeGlobalDosage_Click(object sender, EventArgs e)
 		{
-			var from = (double)numDosingFrom.Value;
-			var to = (double)numDosingTo.Value;
-			var res = Overlay.UpdateAllChangeMarkers(from, to);
+			var from = (double)numDosageFrom.Value;
+			var to = (double)numDosageTo.Value;
+			var res = Overlay.UpdateDosageAllChangeMarkers(from, to);
 			if (res > 0)
 				My.Status($"Dosage of {res} Changemarkers successfull updated from {from} to {to} gr/m2.");
 			else
 				My.Status($"No Changemarkers found with dosage {from}.", Color.Red);
-			numDosingFrom.Value = numDosingTo.Value;
+			numDosageFrom.Value = numDosageTo.Value;
 		}
 		private void chkAutoRoute_CheckedChanged(object sender, EventArgs e)
 		{

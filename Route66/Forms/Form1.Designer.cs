@@ -33,11 +33,11 @@
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.gmap = new GMap.NET.WindowsForms.GMapControl();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
-			this.btnChangeGlobalDosing = new System.Windows.Forms.Button();
+			this.btnChangeGlobalDosage = new System.Windows.Forms.Button();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
-			this.numDosingTo = new System.Windows.Forms.NumericUpDown();
-			this.numDosingFrom = new System.Windows.Forms.NumericUpDown();
+			this.numDosageTo = new System.Windows.Forms.NumericUpDown();
+			this.numDosageFrom = new System.Windows.Forms.NumericUpDown();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.chkAutoRoute = new System.Windows.Forms.CheckBox();
 			this.chkEditRoute = new System.Windows.Forms.CheckBox();
@@ -69,8 +69,8 @@
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
 			this.groupBox3.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numDosingTo)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numDosingFrom)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numDosageTo)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numDosageFrom)).BeginInit();
 			this.groupBox2.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -110,7 +110,7 @@
 			this.splitContainer1.Panel2.Controls.Add(this.comboBox1);
 			this.splitContainer1.Panel2.Controls.Add(this.btnClear);
 			this.splitContainer1.Size = new System.Drawing.Size(1121, 586);
-			this.splitContainer1.SplitterDistance = 991;
+			this.splitContainer1.SplitterDistance = 990;
 			this.splitContainer1.SplitterWidth = 5;
 			this.splitContainer1.TabIndex = 1;
 			// 
@@ -138,7 +138,7 @@
 			this.gmap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
 			this.gmap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
 			this.gmap.ShowTileGridLines = false;
-			this.gmap.Size = new System.Drawing.Size(991, 586);
+			this.gmap.Size = new System.Drawing.Size(990, 586);
 			this.gmap.TabIndex = 0;
 			this.gmap.Zoom = 13D;
 			this.gmap.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.gmap_OnMarkerClick);
@@ -155,11 +155,11 @@
 			// 
 			// groupBox3
 			// 
-			this.groupBox3.Controls.Add(this.btnChangeGlobalDosing);
+			this.groupBox3.Controls.Add(this.btnChangeGlobalDosage);
 			this.groupBox3.Controls.Add(this.label3);
 			this.groupBox3.Controls.Add(this.label2);
-			this.groupBox3.Controls.Add(this.numDosingTo);
-			this.groupBox3.Controls.Add(this.numDosingFrom);
+			this.groupBox3.Controls.Add(this.numDosageTo);
+			this.groupBox3.Controls.Add(this.numDosageFrom);
 			this.groupBox3.Location = new System.Drawing.Point(1, 402);
 			this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
 			this.groupBox3.Name = "groupBox3";
@@ -169,16 +169,16 @@
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Dosage";
 			// 
-			// btnChangeGlobalDosing
+			// btnChangeGlobalDosage
 			// 
-			this.btnChangeGlobalDosing.Location = new System.Drawing.Point(8, 87);
-			this.btnChangeGlobalDosing.Margin = new System.Windows.Forms.Padding(4);
-			this.btnChangeGlobalDosing.Name = "btnChangeGlobalDosing";
-			this.btnChangeGlobalDosing.Size = new System.Drawing.Size(103, 28);
-			this.btnChangeGlobalDosing.TabIndex = 7;
-			this.btnChangeGlobalDosing.Text = "Change";
-			this.btnChangeGlobalDosing.UseVisualStyleBackColor = true;
-			this.btnChangeGlobalDosing.Click += new System.EventHandler(this.btnChangeGlobalDosing_Click);
+			this.btnChangeGlobalDosage.Location = new System.Drawing.Point(8, 87);
+			this.btnChangeGlobalDosage.Margin = new System.Windows.Forms.Padding(4);
+			this.btnChangeGlobalDosage.Name = "btnChangeGlobalDosage";
+			this.btnChangeGlobalDosage.Size = new System.Drawing.Size(103, 28);
+			this.btnChangeGlobalDosage.TabIndex = 7;
+			this.btnChangeGlobalDosage.Text = "Change";
+			this.btnChangeGlobalDosage.UseVisualStyleBackColor = true;
+			this.btnChangeGlobalDosage.Click += new System.EventHandler(this.btnChangeGlobalDosage_Click);
 			// 
 			// label3
 			// 
@@ -200,28 +200,28 @@
 			this.label2.TabIndex = 7;
 			this.label2.Text = "From";
 			// 
-			// numDosingTo
+			// numDosageTo
 			// 
-			this.numDosingTo.Location = new System.Drawing.Point(59, 55);
-			this.numDosingTo.Margin = new System.Windows.Forms.Padding(4);
-			this.numDosingTo.Name = "numDosingTo";
-			this.numDosingTo.Size = new System.Drawing.Size(52, 22);
-			this.numDosingTo.TabIndex = 1;
-			this.toolTip1.SetToolTip(this.numDosingTo, "Update dosage globally");
-			this.numDosingTo.Value = new decimal(new int[] {
+			this.numDosageTo.Location = new System.Drawing.Point(59, 55);
+			this.numDosageTo.Margin = new System.Windows.Forms.Padding(4);
+			this.numDosageTo.Name = "numDosageTo";
+			this.numDosageTo.Size = new System.Drawing.Size(52, 22);
+			this.numDosageTo.TabIndex = 1;
+			this.toolTip1.SetToolTip(this.numDosageTo, "Update dosage globally");
+			this.numDosageTo.Value = new decimal(new int[] {
             20,
             0,
             0,
             0});
 			// 
-			// numDosingFrom
+			// numDosageFrom
 			// 
-			this.numDosingFrom.Location = new System.Drawing.Point(59, 23);
-			this.numDosingFrom.Margin = new System.Windows.Forms.Padding(4);
-			this.numDosingFrom.Name = "numDosingFrom";
-			this.numDosingFrom.Size = new System.Drawing.Size(52, 22);
-			this.numDosingFrom.TabIndex = 0;
-			this.toolTip1.SetToolTip(this.numDosingFrom, "Update dosage globally");
+			this.numDosageFrom.Location = new System.Drawing.Point(59, 23);
+			this.numDosageFrom.Margin = new System.Windows.Forms.Padding(4);
+			this.numDosageFrom.Name = "numDosageFrom";
+			this.numDosageFrom.Size = new System.Drawing.Size(52, 22);
+			this.numDosageFrom.TabIndex = 0;
+			this.toolTip1.SetToolTip(this.numDosageFrom, "Enter zero to update all dosages.");
 			// 
 			// groupBox2
 			// 
@@ -404,7 +404,7 @@
 			// 
 			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
 			this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-			this.openToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+			this.openToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
 			this.openToolStripMenuItem.Text = "Open";
 			this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
 			// 
@@ -412,7 +412,7 @@
 			// 
 			this.AddtoolStripMenuItem.Name = "AddtoolStripMenuItem";
 			this.AddtoolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-			this.AddtoolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+			this.AddtoolStripMenuItem.Size = new System.Drawing.Size(173, 26);
 			this.AddtoolStripMenuItem.Text = "Add";
 			this.AddtoolStripMenuItem.Click += new System.EventHandler(this.AddtoolStripMenuItem_Click);
 			// 
@@ -420,21 +420,21 @@
 			// 
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
 			this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
 			this.saveToolStripMenuItem.Text = "Save";
 			this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
 			// 
 			// saveAsToolStripMenuItem
 			// 
 			this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
 			this.saveAsToolStripMenuItem.Text = "Save As...";
 			this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
 			this.exitToolStripMenuItem.Text = "Exit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
@@ -498,8 +498,8 @@
 			this.splitContainer1.ResumeLayout(false);
 			this.groupBox3.ResumeLayout(false);
 			this.groupBox3.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numDosingTo)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numDosingFrom)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numDosageTo)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numDosageFrom)).EndInit();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			this.groupBox1.ResumeLayout(false);
@@ -542,11 +542,11 @@
 		private System.Windows.Forms.GroupBox groupBox2;
 		private System.Windows.Forms.CheckBox chkEditRoute;
 		private System.Windows.Forms.GroupBox groupBox3;
-		private System.Windows.Forms.NumericUpDown numDosingFrom;
+		private System.Windows.Forms.NumericUpDown numDosageFrom;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.NumericUpDown numDosingTo;
-		private System.Windows.Forms.Button btnChangeGlobalDosing;
+		private System.Windows.Forms.NumericUpDown numDosageTo;
+		private System.Windows.Forms.Button btnChangeGlobalDosage;
 		private System.Windows.Forms.CheckBox chkAutoRoute;
 		private System.Windows.Forms.CheckBox chkArrowMarker;
 		private System.Windows.Forms.ToolStripMenuItem AddtoolStripMenuItem;

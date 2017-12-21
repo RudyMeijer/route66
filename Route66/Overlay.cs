@@ -71,75 +71,6 @@ namespace Route66
 		public bool IsChanged { get => Route.IsChanged; }
 		#endregion
 		#region METHODES
-		internal void Remove(GMapMarker marker)
-		{
-			var idx = GetIndexRed(marker);
-			if (idx >= 0)
-			{
-				Console.WriteLine($"Remove marker {marker.Info()}");
-				Red.Markers.Remove(marker);
-				RedRoute.Points.RemoveAt(idx);
-				gmap.UpdateRouteLocalPosition(RedRoute);
-				if (idx > 0)
-					SetCurrentMarker(Red.Markers[idx - 1]);
-				else if (Red.Markers.Count > 0)
-					SetCurrentMarker(Red.Markers[idx]);
-				else
-					SetCurrentMarker(null);
-				Route.IsChanged = true;
-			}
-			UpdateGreenAndBlueOverlay(Crud.Delete, marker.Tag, null);
-			//
-			// When Change- or Navigation marker is deleted then remove Gpspoint tag.
-			//
-			if (!IsGpsMarker(marker)) FindRedMarker(marker.Tag as GpsMarker).Tag = null;
-		}
-		/// <summary>
-		/// When Mouse is moved update position of:
-		/// CurrentMarker, 
-		/// Red, green and blue Markers,
-		/// RedRoute points, 
-		/// ChangeMarker and NavigationMarker instances
-		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <returns></returns>
-		public bool UpdateCurrentMarkerPosition(int x, int y)
-		{
-			if (CurrentMarker == null) return false;
-			var newPosition = gmap.FromLocalToLatLng(x, y);/// +11
-			//
-			// Use Gps marker.
-			//
-			if (!IsGpsMarker(CurrentMarker)) CurrentMarker = FindRedMarker(CurrentMarker.Tag as GpsMarker);
-
-			if (CurrentMarker.Tag is ChangeMarker) GetGreenMarker(CurrentMarker).Position = newPosition;
-			if (CurrentMarker.Tag is NavigationMarker) GetBlueMarker(CurrentMarker).Position = newPosition;
-			// 
-			// Update Route point.
-			// Allways use currentmarker class to find index because we can have duplicated Positions (struct)!
-			//
-			var idx = GetIndexRed(CurrentMarker);
-			RedRoute.Points[idx] = newPosition;
-			gmap.UpdateRouteLocalPosition(RedRoute);
-			//
-			// Update current marker position.
-			// Red marker will implicit be updated.
-			//
-			//Red.Markers[idx].Position = newPosition;
-			CurrentMarker.Position = newPosition;
-			if (CurrentMarker.Tag != null)
-			{
-				(CurrentMarker.Tag as GpsMarker).Lat = newPosition.Lat;
-				(CurrentMarker.Tag as GpsMarker).Lng = newPosition.Lng;
-			}
-			Route.IsChanged = true;
-			//
-			// Update arrowmarker.
-			//
-			ArrowMarker.Position = newPosition;
-			return true;
-		}
 		internal void AddMarker(int x, int y)
 		{
 			PointLatLng point = gmap.FromLocalToLatLng(x, y);
@@ -178,32 +109,84 @@ namespace Route66
 			RedRoute.Points.Insert(idx, point);
 			return true;
 		}
+		internal void RemoveCurrentMarker()
+		{
+			Remove(CurrentMarker);
+		}
+		internal void Remove(GMapMarker marker)
+		{
+			var idx = GetIndexRed(marker);
+			if (idx >= 0)
+			{
+				Console.WriteLine($"Remove marker {marker.Info()}");
+				Red.Markers.Remove(marker);
+				RedRoute.Points.RemoveAt(idx);
+				gmap.UpdateRouteLocalPosition(RedRoute);
+				if (idx > 0)
+					SetCurrentMarker(Red.Markers[idx - 1]);
+				else if (Red.Markers.Count > 0)
+					SetCurrentMarker(Red.Markers[idx]);
+				else
+					SetCurrentMarker(null);
+				Route.IsChanged = true;
+			}
+			UpdateGreenAndBlueOverlay(Crud.Delete, marker.Tag, null);
+			//
+			// When Change- or Navigation marker is deleted then remove Gpspoint tag.
+			//
+			if (!IsGpsMarker(marker)) GetRedMarker(marker.Tag as GpsMarker).Tag = null;
+		}
+		/// <summary>
+		/// When Mouse is moved update position of:
+		/// CurrentMarker, 
+		/// Red, green and blue Markers,
+		/// RedRoute points, 
+		/// ChangeMarker and NavigationMarker instances
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
+		public bool UpdateCurrentMarkerPosition(int x, int y)
+		{
+			if (CurrentMarker == null) return false;
+			var newPosition = gmap.FromLocalToLatLng(x, y);/// +11
+			//
+			// Use Gps marker.
+			//
+			if (!IsGpsMarker(CurrentMarker)) CurrentMarker = GetRedMarker(CurrentMarker.Tag as GpsMarker);
+
+			if (CurrentMarker.Tag is ChangeMarker) GetGreenMarker(CurrentMarker).Position = newPosition;
+			if (CurrentMarker.Tag is NavigationMarker) GetBlueMarker(CurrentMarker).Position = newPosition;
+			// 
+			// Update Route point.
+			// Allways use currentmarker class to find index because we can have duplicated Positions (struct)!
+			//
+			var idx = GetIndexRed(CurrentMarker);
+			RedRoute.Points[idx] = newPosition;
+			gmap.UpdateRouteLocalPosition(RedRoute);
+			//
+			// Update current marker position.
+			// Red marker will implicit be updated.
+			//
+			//Red.Markers[idx].Position = newPosition;
+			CurrentMarker.Position = newPosition;
+			if (CurrentMarker.Tag != null)
+			{
+				(CurrentMarker.Tag as GpsMarker).Lat = newPosition.Lat;
+				(CurrentMarker.Tag as GpsMarker).Lng = newPosition.Lng;
+			}
+			Route.IsChanged = true;
+			//
+			// Update arrowmarker.
+			//
+			ArrowMarker.Position = newPosition;
+			return true;
+		}
 		private MapRoute AutoRouter(GMapMarker start, GMapMarker end)
 		{
 			RoutingProvider rp = GMapProviders.OpenStreetMap; // use OpenStreetMap if provider does not implement routing
 			return rp.GetRoute(start.Position, end.Position, false, false, (int)gmap.Zoom);
 		}
-
-		public void Clear()
-		{
-			foreach (var overlay in gmap.Overlays)
-			{
-				if (overlay.Id.Contains("Arrow marker")) continue;
-				overlay.Markers.Clear();
-				foreach (var route in overlay.Routes) route.Clear();
-			}
-			gmap.UpdateRouteLocalPosition(RedRoute);
-			SetCurrentMarker(null);
-		}
-		internal int GetIndexAny(GMapMarker item)
-		{
-			if (item == null) return -1;
-			if (IsGpsMarker(item)) return GetIndexRed(item);
-			return GetIndexRed(FindRedMarker(item.Tag as GpsMarker));
-		}
-
-		internal int GetIndexRed(GMapMarker item) => Red.Markers.IndexOf(item);
-
 		public void SetTooltipRed(GMapMarker item)
 		{
 			var idx = GetIndexRed(item);
@@ -228,7 +211,7 @@ namespace Route66
 			}
 			else
 			{
-				CurrentMarker = FindRedMarker(item.Tag as GpsMarker);
+				CurrentMarker = GetRedMarker(item.Tag as GpsMarker);
 				if (GetIndexRed(CurrentMarker) > 0 && CurrentMarker.LocalPosition != item.LocalPosition)
 					CurrentMarker.LocalPosition = item.LocalPosition; // gives jumping big marker. So when dragging copy Blue pos into red pos.
 			}
@@ -277,8 +260,25 @@ namespace Route66
 			}
 			return (float)angle;
 		}
-
-		private GMapMarker FindRedMarker(GpsMarker m) // Class compare. save
+		#region FIND & GET MARKERS
+		internal int GetIndexAny(GMapMarker item)
+		{
+			if (item == null) return -1;
+			if (IsGpsMarker(item)) return GetIndexRed(item);
+			return GetIndexRed(GetRedMarker(item.Tag as GpsMarker));
+		}
+		internal int GetIndexRed(GMapMarker item) => Red.Markers.IndexOf(item);
+		private GMapMarker GetGreenMarker(GMapMarker currentMarker)
+		{
+			foreach (var item in Green.Markers) if (item.Tag == currentMarker.Tag) return item;
+			return null;
+		}
+		private GMapMarker GetBlueMarker(GMapMarker currentMarker)
+		{
+			foreach (var item in Blue.Markers) if (item.Tag == currentMarker.Tag) return item;
+			return null;
+		}
+		private GMapMarker GetRedMarker(GpsMarker m) // Class compare. save
 		{
 			foreach (var item in Red.Markers) if (item.Tag == m) return item;
 			return null;
@@ -289,7 +289,7 @@ namespace Route66
 			foreach (var item in Red.Markers) if (item.Position == pos) return item;
 			return null;
 		}
-
+		#endregion
 		/// <summary>
 		/// Determine current marker type: Change marker or Navigation marker.
 		/// Show properties of current marker on windows form.
@@ -353,17 +353,21 @@ namespace Route66
 					break;
 			}
 		}
-
 		#region OPEN SAVE CONVERT ROUTE
 		internal bool OpenRoute(string fileName, bool IsSubroute = false)
 		{
 			if (!IsSubroute) Clear();
+			var originalFilename = Route.FileName;
 			Route = Route.Load(fileName);
 			if (Route.GpsMarkers.Count == 0) return false;
 			ConvertRoute(Route);
 			LoadOverlay(Route);
+			//
+			// If subroute is loaded then keep original filename.
+			//
 			if (IsSubroute)
 			{
+				Route.FileName = originalFilename;
 				Route.IsChanged = true;
 				gmap.UpdateRouteLocalPosition(RedRoute);
 			}
@@ -384,9 +388,16 @@ namespace Route66
 			}
 		}
 
-		internal void RemoveCurrentMarker()
+		public void Clear()
 		{
-			Remove(CurrentMarker);
+			foreach (var overlay in gmap.Overlays)
+			{
+				if (overlay.Id.Contains("Arrow marker")) continue;
+				overlay.Markers.Clear();
+				foreach (var route in overlay.Routes) route.Clear();
+			}
+			gmap.UpdateRouteLocalPosition(RedRoute);
+			SetCurrentMarker(null);
 		}
 
 		internal void SetArrowMarker(bool forward)
@@ -412,7 +423,7 @@ namespace Route66
 		{
 			var fileName = (Route.IsDefaultFile) ? Path.Combine(Settings.RoutePath, "Route66.xml") : Route.FileName;
 			SaveAs(fileName);
-			return fileName;
+			return Route.ToString();
 		}
 
 		internal void SaveAs(string fileName)
@@ -474,16 +485,6 @@ namespace Route66
 			}
 		}
 		#endregion
-		private GMapMarker GetGreenMarker(GMapMarker currentMarker)
-		{
-			foreach (var item in Green.Markers) if (item.Tag == currentMarker.Tag) return item;
-			return null;
-		}
-		private GMapMarker GetBlueMarker(GMapMarker currentMarker)
-		{
-			foreach (var item in Blue.Markers) if (item.Tag == currentMarker.Tag) return item;
-			return null;
-		}
 		private void AddOverlayGreenMarker(GMapMarker currentMarker)
 		{
 			var marker = new GMarkerGoogle(currentMarker.Position, GMarkerGoogleType.green_small);
@@ -504,7 +505,7 @@ namespace Route66
 		/// </summary>
 		/// <param name="from"></param>
 		/// <param name="to"></param>
-		internal int UpdateAllChangeMarkers(double from, double to)
+		internal int UpdateDosageAllChangeMarkers(double from, double to)
 		{
 			var cnt = 0;
 			foreach (var item in Green.Markers)
