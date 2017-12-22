@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Route xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MachineType>StandardSpreader</MachineType>
+  <Version>1.0</Version>
+  <GpsMarkers>
+    <GpsMarker Lng="6.3966822624206543" Lat="52.277304077831694" />
+    <GpsMarker Lng="6.3970845937728882" Lat="52.27714161023129" />
+    <GpsMarker Lng="6.3972026109695435" Lat="52.277088274778073" />
+    <GpsMarker Lng="6.3973313570022583" Lat="52.2768314431585" />
+  </GpsMarkers>
+  <ChangeMarkers>
+    <ChangeMarker Lng="6.3970845937728882" Lat="52.27714161023129" Dosage="20" WidthLeft="1" WidthRight="1" Spreading="true" DualWidth="false" Spraying="false" Pump="false" Max="false" SecMat="false" Liquid="0" DosageLiquid="0" Hopper1="false" Hopper2="false" SprayLeft="0" SprayRight="0" />
+  </ChangeMarkers>
+  <NavigationMarkers />
+</Route>

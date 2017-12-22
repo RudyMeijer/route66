@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Route xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MachineType>WspPercentage</MachineType>
+  <Version>1.0</Version>
+  <GpsMarkers>
+    <GpsMarker Lng="-77.329931259155273" Lat="25.062665000281442" />
+    <GpsMarker Lng="-77.322292327880859" Lat="25.056755910851095" />
+    <GpsMarker Lng="-77.316670417785645" Lat="25.0606435017541" />
+  </GpsMarkers>
+  <ChangeMarkers>
+    <ChangeMarker Lng="-77.329931259155273" Lat="25.062665000281442" Dosage="20" WidthLeft="1" WidthRight="1" Spreading="true" DualWidth="false" Spraying="false" Pump="false" Max="false" SecMat="false" Liquid="0" DosageLiquid="0" Hopper1="false" Hopper2="false" SprayLeft="0" SprayRight="0" />
+    <ChangeMarker Lng="-77.322292327880859" Lat="25.056755910851095" Dosage="21" WidthLeft="1" WidthRight="1" Spreading="true" DualWidth="false" Spraying="false" Pump="false" Max="false" SecMat="false" Liquid="0" DosageLiquid="0" Hopper1="false" Hopper2="false" SprayLeft="0" SprayRight="0" />
+  </ChangeMarkers>
+  <NavigationMarkers />
+</Route>
