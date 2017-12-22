@@ -11,6 +11,10 @@ using System.Windows.Forms;
 
 namespace Route66
 {
+	/// <summary>
+	/// This form displays a Change marker and allow the user to edit the change marker properties.
+	/// The Change marker properties (dosage, width,...) are contained in the map markers tag.
+	/// </summary>
 	public partial class FormEditChangeMarker : Form
 	{
 		#region FIELDS
@@ -42,7 +46,7 @@ namespace Route66
 		#endregion
 		/// <summary>
 		/// Determine which fields must be shown according machineType.
-		/// 
+		/// The form is divided into 3 floating rows in which changemarker properties can be displayed depending on the machinetype.
 		/// See http://confluence.ash.ads.org/pages/resumedraft.action?draftId=12451841&draftShareId=4fe65ae2-5191-4570-9e32-ad841719fd5c
 		/// </summary>
 		/// <param name="machineType"></param>
@@ -73,14 +77,13 @@ namespace Route66
 			var marge = 8;
 			foreach (var item in flowLayoutPanel.Controls)
 			{
-				//if (item is GroupBox && (item as GroupBox).Visible )
 					if ((item as Control).Visible && !(item is Label))
 					width += (item as Control).Width + marge;
 			}
 			return (flowLayoutPanel.Width - marge - width) / 2;
 		}
 		/// <summary>
-		/// This methode displays Changemarker (xml) onto the form.
+		/// This methode displays the Changemarker class content (=xml) onto the form.
 		/// If this methode changes then also update methode GetFromForm!
 		/// </summary>
 		/// <param name="cm"></param>
