@@ -216,7 +216,7 @@ namespace Route66
 		private void gmap_MouseMove(object sender, MouseEventArgs e)
 		{
 			//Console.WriteLine($"gmap_MouseMove ({e.X},{e.Y})");
-			if (e.Button == MouseButtons.Left )
+			if (e.Button == MouseButtons.Left)
 			{
 				if (!IsDragging) Console.WriteLine("start dragging ");
 				IsDragging = true;
@@ -237,7 +237,8 @@ namespace Route66
 		/// <returns></returns>
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyCode)
 		{
-			Console.WriteLine($"ProcessCmdKey={keyCode}");
+			var r = base.ProcessCmdKey(ref msg, keyCode);
+			Console.WriteLine($"ProcessCmdKey={keyCode} {r}");
 			if (Overlay.CurrentMarker == null) return true;
 			CtrlKeyIsPressed = keyCode == (Keys.ControlKey | Keys.Control);
 
@@ -247,7 +248,7 @@ namespace Route66
 			if (keyCode == Keys.Delete && IsEditMode()) { Overlay.RemoveCurrentMarker(); IsOnMarker = false; }
 			if (keyCode == Keys.C) Overlay.EditMarker(false);
 			if (keyCode == Keys.N) Overlay.EditMarker(true);
-			return base.ProcessCmdKey(ref msg, keyCode);
+			return true;
 		}
 		/// <summary>
 		/// When mouse leaves the map: clear statusbar and reset currentmarker.
