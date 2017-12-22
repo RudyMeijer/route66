@@ -197,7 +197,7 @@ namespace Route66
 			}
 		}
 
-		public override string ToString() => $"Current marker={CurrentMarker?.Overlay.Id} {GetIndexRed(CurrentMarker)}, Tag={CurrentMarker?.Tag}, Total distance={RedRoute.Distance:f3} km.";
+		public override string ToString() => $"{CurrentMarker?.Info()}, Total distance={RedRoute.Distance:f3} km.";
 
 		public void SetCurrentMarker(GMapMarker item)
 		{
