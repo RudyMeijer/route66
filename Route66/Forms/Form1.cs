@@ -265,6 +265,8 @@ namespace Route66
 		{
 			if (toolStripStatusLabel1.Text.StartsWith(" "))
 				My.Status($" Zoom factor = {gmap.Zoom}");
+			chkGpsPoints.Checked = true; // Bug update angle.
+			gmap.Refresh();
 		}
 		#endregion
 		#region MENU ITEMS
@@ -387,10 +389,7 @@ namespace Route66
 		}
 		private void chkGpsPoints_CheckedChanged(object sender, EventArgs e)
 		{
-			foreach (var item in gmap.Overlays[0].Markers)
-			{
-				item.IsVisible = chkGpsPoints.Checked;
-			}
+			foreach (var item in gmap.Overlays[0].Markers) item.IsVisible = chkGpsPoints.Checked;
 			gmap.Refresh();
 		}
 		private void chkChangePoints_CheckedChanged(object sender, EventArgs e)

@@ -8,3 +8,4 @@ Autoroute = ON, draw route so that M3 is exact on M1. Add ChangeMarker to M3. sa
 Open double marker.xml and drag M3 away from M1. check if Changemarker is still on M3.
 for (GPS , Edit) = (00,01,10,11) Add Changemarker on 
 Clear, Create MO, Del M0, Move MO -> no exception.
+Open Angle. noGPS, move cursor 5 cm above center and zoom out/in, move corsor over M1 and observe arrow.
