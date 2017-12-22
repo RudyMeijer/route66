@@ -66,12 +66,13 @@ namespace Route66
 		public static string Info(this GMapMarker item)
 		{
 			var tag = "-";
+			var dis = "";
 			if (item == null) return null;
-			if (item.Tag != null && item.Overlay.Id == "Gps points")
-			{
-				tag = (item.Tag as GpsMarker).ToString().Replace('\n', ' ');
-			}
-			return $"{item.Overlay.Id} {item.ToolTipText?.Replace('\n', ' ')} {item.LocalPosition} Tag={tag}";
+			if (item.Overlay.Id == "Gps points")
+				dis = $"Total distance={item.Overlay.Routes[0].Distance:f3} km ";
+			if (item.Tag != null)
+				tag = $"Tag={(item.Tag as GpsMarker).ToString().Replace('\n', ' ')}";
+			return $"{item.Overlay.Id} {item.ToolTipText?.Replace('\n', ' ')} {item.LocalPosition} {dis}{tag}";
 		}
 	}
 }

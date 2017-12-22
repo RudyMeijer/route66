@@ -141,6 +141,7 @@ namespace Route66
 			gmap.Zoom = 13;
 			gmap.SetPositionByKeywords(txtSearchPlaces.Text);
 			gmap.DragButton = MouseButtons.Left;
+			gmap.IgnoreMarkerOnMouseWheel = true;
 			Console.WriteLine($"{txtSearchPlaces.Text} at {gmap.Position}");
 			//gmap.ShowCenter = false;
 		}
@@ -181,6 +182,7 @@ namespace Route66
 		private bool IsEditMode()
 		{
 			if (chkEditRoute.Checked) return true;
+			if (!chkGpsPoints.Checked && !Overlay.IsGpsMarker(LastEnteredMarker)) return true;
 			MessageBox.Show($"Please enable edit route on the right side.", $"Dear mr {My.UserName}");
 			return false;
 		}
@@ -209,7 +211,7 @@ namespace Route66
 			if (!IsDragging) IsOnMarker = false;
 		}
 		/// <summary>
-		/// Drag marker
+		/// Move marker.
 		/// </summary>
 		private void gmap_MouseMove(object sender, MouseEventArgs e)
 		{

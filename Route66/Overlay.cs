@@ -197,7 +197,7 @@ namespace Route66
 			}
 		}
 
-		public override string ToString() => $"{CurrentMarker?.Info()}, Total distance={RedRoute.Distance:f3} km.";
+		public override string ToString() => $"{CurrentMarker.Info()}";
 
 		public void SetCurrentMarker(GMapMarker item)
 		{
@@ -216,7 +216,7 @@ namespace Route66
 					CurrentMarker.LocalPosition = item.LocalPosition; // gives jumping big marker. So when dragging copy Blue pos into red pos.
 			}
 			ShowArrowMarker(item);
-			My.Status($"Info: {this}");
+			My.Status($" Info: {this}");
 		}
 
 		private void ShowArrowMarker(GMapMarker item)
@@ -409,7 +409,7 @@ namespace Route66
 				idx += (forward) ? 1 : -1;
 				idx = InRange(idx, 0, Red.Markers.Count - 1);
 				SetCurrentMarker(Red.Markers[idx]);
-				if (idx == Red.Markers.Count - 1) My.Status($"End of route. Gps marker {idx}."); else My.Status(" Ready");
+				if (idx == Red.Markers.Count - 1) My.Status($"End of route. Gps marker {idx}.");
 			}
 		}
 
