@@ -156,7 +156,7 @@ namespace Route66
 		#endregion
 		#region EDIT ROUTE
 		/// <summary>
-		/// Select, Add, Remove or Edit marker
+		/// Add marker
 		/// </summary>
 		private void gmap_MouseUp(object sender, MouseEventArgs e)
 		{
@@ -164,6 +164,9 @@ namespace Route66
 			if (e.Button == MouseButtons.Left && !IsOnMarker && !IsDragging && IsEditMode()) { Overlay.AddMarker(e.X, e.Y); }
 			IsDragging = false;
 		}
+		/// <summary>
+		/// Select, Remove or Edit marker
+		/// </summary>
 		private void gmap_MouseDown(object sender, MouseEventArgs e)
 		{
 			try
