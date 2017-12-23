@@ -79,7 +79,7 @@ namespace Route66
 			//
 			if (IsAutoRoute && RedRoute.Points.Count > 0)
 			{
-				if (CurrentMarker != Red.Markers.Last() && My.Show($"Are you sure to insert route at current marker?", "Current marker in not at end of route.", MessageBoxButtons.YesNo) == DialogResult.No) return;
+				if (CurrentMarker != Red.Markers.Last() && My.Show($"Are you sure to insert route at current marker?", "Current marker is not at end of route.", MessageBoxButtons.YesNo) == DialogResult.No) return;
 				var end = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
 				My.Status($"Moment. Autoroute started at {CurrentMarker.ToolTipText} {CurrentMarker.Position}, stop {end.Position}");
 				Application.DoEvents();
@@ -98,7 +98,7 @@ namespace Route66
 			ShowArrowMarker(CurrentMarker);
 			Route.IsChanged = true;
 			gmap.UpdateRouteLocalPosition(RedRoute);
-			Console.WriteLine($"Add marker {CurrentMarker.Info()}.");
+			My.Log($"Add marker {CurrentMarker.Info()}.");
 		}
 		private bool AddMarker(PointLatLng point)
 		{
@@ -316,7 +316,8 @@ namespace Route66
 			//
 			var after = (CurrentMarker.Tag != null) ? 1 : 0;
 			var crud = (Crud)before + after;
-			My.Log($"{crud} {CurrentMarker.Info()}");
+			if (CurrentMarker.Tag != null) My.Log($"crud={crud} {CurrentMarker.Info()}");
+			else if (originalTag != null) My.Log($"crud={crud} {CurrentMarker.Info()}   {originalTag.ToString().Replace('\n', ' ')}");
 			UpdateGreenAndBlueOverlay(crud, originalTag, CurrentMarker.Tag);
 			Route.IsChanged = crud != Crud.None;
 			return true;
@@ -451,7 +452,7 @@ namespace Route66
 					rm.Tag = item;
 					AddOverlayGreenMarker(rm);
 				}
-				else My.Status($"Green marker {new PointLatLng(item.Lat,item.Lng)} not found in red markers list.",Color.Red);
+				else My.Status($"Green marker {new PointLatLng(item.Lat, item.Lng)} not found in red markers list.", Color.Red);
 			}
 			foreach (var item in route.NavigationMarkers)
 			{
