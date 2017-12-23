@@ -68,7 +68,7 @@ namespace Route66
 		#region INITIALIZE
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			My.Log($"Start {Title} User {My.UserName} {My.WindowsVersion}", InitializeLogfile());
+			My.Log($"=========== Start {Title} User {My.UserName} {My.WindowsVersion} =============\n", InitializeLogfile());
 			My.SetStatus(toolStripStatusLabel1);
 			InitializeGmapProvider();
 			InitializeOverlays();
