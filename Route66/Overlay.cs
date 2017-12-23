@@ -94,6 +94,7 @@ namespace Route66
 				}
 			}
 			else AddMarker(point);
+			SetTooltipRed(CurrentMarker); // Not nessesarry but nice 4 debugging.
 			ShowArrowMarker(CurrentMarker);
 			Route.IsChanged = true;
 			gmap.UpdateRouteLocalPosition(RedRoute);
@@ -104,7 +105,6 @@ namespace Route66
 			var marker = new GMarkerGoogle(point, (Red.Markers.Count == 0) ? GMarkerGoogleType.green_big_go : GMarkerGoogleType.red_small);
 			var idx = GetIndexRed(CurrentMarker) + 1;
 			CurrentMarker = marker;
-			marker.ToolTipText = $"{idx}";
 			Red.Markers.Insert(idx, marker);
 			RedRoute.Points.Insert(idx, point);
 			return true;
@@ -186,6 +186,15 @@ namespace Route66
 		{
 			RoutingProvider rp = GMapProviders.OpenStreetMap; // use OpenStreetMap if provider does not implement routing
 			return rp.GetRoute(start.Position, end.Position, false, false, (int)gmap.Zoom);
+		}
+		public void SetTooltipRed(GMapMarker item)
+		{
+			var idx = GetIndexRed(item);
+			if (idx >= 0)
+			{
+				item.ToolTipMode = (Settings.ToolTipMode) ? MarkerTooltipMode.OnMouseOver : MarkerTooltipMode.Never;
+				item.ToolTipText = $"{idx}";
+			}
 		}
 
 		public override string ToString() => $"{CurrentMarker.Info()}";

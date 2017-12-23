@@ -198,7 +198,7 @@ namespace Route66
 			{
 				IsOnMarker = true;
 				LastEnteredMarker = item;
-				item.ToolTipMode = (Settings.ToolTipMode) ? MarkerTooltipMode.OnMouseOver : MarkerTooltipMode.Never;
+				Overlay.SetTooltipRed(item);
 				Console.WriteLine($"Enter {item.Info()}");
 				if (Settings.FastDrawMode || !chkGpsPoints.Checked) Overlay.SetCurrentMarker(item);
 				if (Overlay.IsNavigationMarker(item) && Settings.SpeechSyntesizer)
