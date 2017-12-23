@@ -13,7 +13,7 @@ using System.IO;
 
 namespace Route66
 {
-	internal class Overlay
+	public class Overlay
 	{
 		#region FIELDS
 		private GMapControl gmap;
@@ -355,7 +355,7 @@ namespace Route66
 			}
 		}
 		#region OPEN SAVE CONVERT ROUTE
-		internal bool OpenRoute(string fileName, bool IsSubroute = false)
+		public bool OpenRoute(string fileName, bool IsSubroute = false)
 		{
 			if (!IsSubroute) Clear();
 			var originalFilename = Route.FileName;

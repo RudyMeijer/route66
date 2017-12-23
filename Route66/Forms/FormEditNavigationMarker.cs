@@ -74,7 +74,7 @@
 		{
 			if (Settings.SpeechSyntesizer)
 			{
-				var wavFile = Path.Combine(My.CheckPath(Settings.RoutePath , "VoiceFiles"), My.ValidateFilename(cmbMessage.Text)) + ".wav";
+				var wavFile = My.CheckPath(Settings.RoutePath , "VoiceFiles", My.ValidateFilename(cmbMessage.Text) + ".wav");
 				Speech.SaveWav(cmbMessage.Text, wavFile);
 			}
 			cmbMessage_SelectedIndexChanged(null, null);

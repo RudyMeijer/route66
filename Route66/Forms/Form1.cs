@@ -68,8 +68,7 @@ namespace Route66
 		#region INITIALIZE
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			InitializeLogfile();
-			My.Log($"Start {Title} User {My.UserName} {My.WindowsVersion}");
+			My.Log($"Start {Title} User {My.UserName} {My.WindowsVersion}",InitializeLogfile());
 			My.SetStatus(toolStripStatusLabel1);
 			InitializeGmapProvider();
 			InitializeOverlays();
@@ -80,18 +79,20 @@ namespace Route66
 		/// <summary>
 		/// Limit maximum logfile size to 1 Mb.
 		/// </summary>
-		private void InitializeLogfile()
+		private string InitializeLogfile()
 		{
 			try
 			{
-				var fileName = My.ExeFile + ".log";
+				var fileName = My.CheckPath(Settings.RoutePath,"log",Title+".log");
 				if (File.Exists(fileName))
 				{
 					var fi = new FileInfo(fileName);
 					if (fi.Length > 1000000) File.Delete(fileName);
 				}
+				return fileName;
 			}
 			catch (Exception ee) { My.Log($"InitializeLogfile {ee.Message + ee.InnerException}"); }
+			return "";
 		}
 		private void InitializeSettings()
 		{
