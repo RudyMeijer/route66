@@ -75,13 +75,13 @@ public class Settings
 					appSettings = new XmlSerializer(typeof(Settings)).Deserialize(reader) as Settings;
 			}
 			else if (autoCreate) appSettings.SaveAs(fileName);
-			else if (MessageBox.Show("Would you like to load default settings?", "", MessageBoxButtons.YesNo) == DialogResult.No)
+			else if (My.Show("Would you like to load default settings?", "", MessageBoxButtons.YesNo) == DialogResult.No)
 				Environment.Exit(1);
 		}
 		catch (Exception ex)
 		{
-			My.Log($"Error loading appsettings {ex} trying restore backup.");
-			MessageBox.Show(ex.Message,"Error during loading settings.");
+			//My.Log($"Error loading appsettings {ex} trying restore backup.");
+			My.Show(ex.Message,"Error during loading settings.");
 			if (File.Exists(backupFile)) File.Copy(backupFile, fileName, true);
 			//Environment.Exit(1);
 		}
@@ -122,14 +122,14 @@ public class Settings
 		string dir = (IsFile) ? Path.GetDirectoryName(path) : path;
 		if (!Directory.Exists(dir))
 		{
-			if (MessageBox.Show("Create directory " + dir, e.ChangedItem.Label, MessageBoxButtons.YesNo) == DialogResult.No) return;
+			if (My.Show("Create directory " + dir, e.ChangedItem.Label, MessageBoxButtons.YesNo) == DialogResult.No) return;
 			Directory.CreateDirectory(dir);
 			//
 			// Copy emu files.
 			//
 			//CopyEmuFile("_AllImages.emu", dir);
 		}
-		if (IsFile && !File.Exists(path)) MessageBox.Show("File " + path + " doesn't exist.", e.ChangedItem.Label);
+		if (IsFile && !File.Exists(path)) My.Show("File " + path + " doesn't exist.", e.ChangedItem.Label);
 	}
 	//private static void CopyEmuFile(string file, string dir)
 	//{

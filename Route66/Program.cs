@@ -27,8 +27,8 @@ namespace Route66
 			catch (Exception e)
 			{
 				var msg = $"{e} {e.InnerException}";
-				My.Log(msg);
-				MessageBox.Show(msg, "Sometimes you have luck sometimes not. Please send file Route.log to Rudy.");
+				
+				My.Show(msg, "Sometimes you have luck sometimes not. Please send file Route66.log to Rudy.");
 			}
 		}
 

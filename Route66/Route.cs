@@ -45,11 +45,11 @@ namespace Route66
 			{
 				if (!IsDefaultFile)
 				{
-					My.Log($"{ee} ");
+					//My.Log($"{ee} ");
 					if (ee.InnerException != null)
-						MessageBox.Show($"{ee.InnerException.Message}", ee.Message);
+						My.Show($"{ee.InnerException.Message}", ee.Message);
 					else
-						MessageBox.Show($"{ee.Message}", "Loading route.");
+						My.Show($"{ee.Message}", "Loading route.");
 				}
 			}
 			route.FileName = fileName;
@@ -68,7 +68,7 @@ namespace Route66
 				using (StreamWriter writer = new StreamWriter(fileName)) serializer.Serialize(writer, this);
 				route.FileName = fileName;
 				IsDefaultFile = (fileName == "Route66.xml");
-				My.Status($"Route saved to {this}");
+				My.Status($"Saved route succesfull to {this}");
 				IsChanged = false;
 			}
 			catch (Exception e)

@@ -83,7 +83,8 @@ namespace Route66
 		{
 			try
 			{
-				var fileName = My.CheckPath(Settings.RoutePath, "log", Title + ".log");
+				var IsRemote = My.Drive.ToUpper() != "C:\\";
+				var fileName = (IsRemote) ? "Route66.log" : My.CheckPath(Settings.RoutePath, "log", Title + ".log");
 				if (File.Exists(fileName))
 				{
 					var fi = new FileInfo(fileName);
@@ -184,7 +185,7 @@ namespace Route66
 		{
 			if (chkEditRoute.Checked) return true;
 			if (!chkGpsPoints.Checked && !Overlay.IsGpsMarker(LastEnteredMarker)) return true;
-			MessageBox.Show($"Please enable edit route on the right side.", $"Dear mr {My.UserName}");
+			My.Show($"Please enable edit route on the right side.");
 			return false;
 		}
 		/// <summary>
@@ -286,7 +287,7 @@ namespace Route66
 				My.Log($"{openFileDialog1.Title} {openFileDialog1.FileName } {((IsSubroute) ? " at " + Overlay : "")}");
 				if (Path.GetExtension(openFileDialog1.FileName) != ".xml")
 				{
-					MessageBox.Show("Sorry, this function is not implemented yet.", $"Deer mr {My.UserName}");
+					My.Show("Sorry, this function is not implemented yet.");
 					return;
 				}
 				if (!Overlay.OpenRoute(openFileDialog1.FileName, IsSubroute)) My.Status($"Error This file contains no Gps markers.");
@@ -300,8 +301,8 @@ namespace Route66
 		private void AddtoolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			var idx = Overlay.GetIndexRed(Overlay.CurrentMarker);
-			if (idx == -1) { MessageBox.Show("Please open a mainroute first.", $"Dear mr {My.UserName}:"); return; }
-			if (MessageBox.Show($"Do you want to insert subroute at current Gps marker {idx}?", "Route66", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+			if (idx == -1) { My.Show("Please open a mainroute first."); return; }
+			if (My.Show($"Do you want to insert subroute at current Gps marker {idx}?",null, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
 			{
 				OpenToolStripMenuItem_Click("SubRoute", null);
 			}
@@ -310,7 +311,7 @@ namespace Route66
 		{
 			if (Overlay.IsChanged)
 			{
-				var res = MessageBox.Show("Save current route?", "Route is changed.", MessageBoxButtons.YesNoCancel);
+				var res = My.Show("Save current route?", "Route is changed.", MessageBoxButtons.YesNoCancel);
 				if (res == DialogResult.Yes) SaveToolStripMenuItem_Click(null, null);
 				return res == DialogResult.Cancel;
 			}
@@ -331,7 +332,7 @@ namespace Route66
 			{
 				if (Path.GetExtension(saveFileDialog1.FileName) != ".xml")
 				{
-					MessageBox.Show("Sorry, this function is not implemented yet.", $"Deer mr {My.UserName}");
+					My.Show("Sorry, this function is not implemented yet.");
 					return;
 				}
 				Overlay.SaveAs(saveFileDialog1.FileName);
