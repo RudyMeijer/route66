@@ -68,7 +68,7 @@ namespace Route66
 		#region INITIALIZE
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			My.Log($"Start {Title} User {My.UserName} {My.WindowsVersion}",InitializeLogfile());
+			My.Log($"Start {Title} User {My.UserName} {My.WindowsVersion}", InitializeLogfile());
 			My.SetStatus(toolStripStatusLabel1);
 			InitializeGmapProvider();
 			InitializeOverlays();
@@ -83,7 +83,7 @@ namespace Route66
 		{
 			try
 			{
-				var fileName = My.CheckPath(Settings.RoutePath,"log",Title+".log");
+				var fileName = My.CheckPath(Settings.RoutePath, "log", Title + ".log");
 				if (File.Exists(fileName))
 				{
 					var fi = new FileInfo(fileName);
@@ -238,18 +238,22 @@ namespace Route66
 		/// <returns></returns>
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyCode)
 		{
-			var r = base.ProcessCmdKey(ref msg, keyCode);
-			Console.WriteLine($"ProcessCmdKey={keyCode} {r}");
-			if (Overlay.CurrentMarker == null) return true;
-			CtrlKeyIsPressed = keyCode == (Keys.ControlKey | Keys.Control);
-
-			if (keyCode == Keys.Up) Overlay.SetArrowMarker(true);
-			if (keyCode == Keys.Down) Overlay.SetArrowMarker(false);
-
-			if (keyCode == Keys.Delete && IsEditMode()) { Overlay.RemoveCurrentMarker(); IsOnMarker = false; }
-			if (keyCode == Keys.C) Overlay.EditMarker(false);
-			if (keyCode == Keys.N) Overlay.EditMarker(true);
-			return true;
+			Console.WriteLine($"ProcessCmdKey={keyCode} focussed={gmap.Focused}");
+			if (gmap.Focused && Overlay.CurrentMarker != null)
+			{
+				CtrlKeyIsPressed = keyCode == (Keys.ControlKey | Keys.Control);
+				switch (keyCode)
+				{
+					case Keys.Up: Overlay.SetArrowMarker(true); break;
+					case Keys.Down: Overlay.SetArrowMarker(false); break;
+					case Keys.Delete: if (IsEditMode()) { Overlay.RemoveCurrentMarker(); IsOnMarker = false; } break;
+					case Keys.C: Overlay.EditMarker(false); break;
+					case Keys.N: Overlay.EditMarker(true); break;
+					default: return base.ProcessCmdKey(ref msg, keyCode);
+				}
+				return true;
+			}
+			return base.ProcessCmdKey(ref msg, keyCode); // handle Ctrl-O, Ctrl-S, Holten
 		}
 		/// <summary>
 		/// When mouse leaves the map: clear statusbar and reset currentmarker.
