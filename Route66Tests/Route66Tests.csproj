@@ -43,6 +43,7 @@
       <HintPath>..\..\Assemblies\GMAP\GMap.NET.WindowsForms.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -61,6 +62,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\My\My\My.csproj">
+      <Project>{02B95A35-AA86-49EE-B9A2-85BED81A189A}</Project>
+      <Name>My</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Route66\Route66.csproj">
       <Project>{334E18B0-2A1D-4FE5-BDA0-634B792FCB8E}</Project>
       <Name>Route66</Name>

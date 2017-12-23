@@ -1,5 +1,6 @@
 ﻿using GMap.NET.WindowsForms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MyLib;
 using Route66;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,10 @@ namespace Route66.Tests
 	public class OverlayTests
 	{
 		private GMapControl gmap= new GMapControl();
-
+		public OverlayTests()
+		{
+			My.SetStatus(new System.Windows.Forms.ToolStripStatusLabel());
+		}
 		[TestMethod()]
 		public void OpenRouteTest()
 		{
