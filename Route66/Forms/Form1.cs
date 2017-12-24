@@ -54,6 +54,11 @@ namespace Route66
 		/// Promoted to current marker on mouse move. 
 		/// </summary>
 		private GMapMarker LastEnteredMarker;
+		/// <summary>
+		/// Last mouse down position. Set on mousedown event.
+		/// Used to detemine if dragging mode must be entered during mousemove event.
+		/// </summary>
+		private MouseEventArgs eLast;
 		#endregion
 		#region CONSTRUCTOR
 		public Form1()
@@ -175,16 +180,18 @@ namespace Route66
 			try
 			{
 				//Console.WriteLine($"MouseDown {e.Button} IsOnMarker={IsOnMarker}, IsDragging={IsDragging}");
-				if (e.Button == MouseButtons.Left && IsOnMarker) { Overlay.SetCurrentMarker(LastEnteredMarker); }
-				if (e.Button == MouseButtons.Right && IsOnMarker && IsEditMode()) { Overlay.Remove(LastEnteredMarker); IsOnMarker = false; }
-				if (e.Button == MouseButtons.Left && IsOnMarker && e.Clicks == 2) { Overlay.EditMarker(CtrlKeyIsPressed); chkChangePoints.Checked = chkNavPoints.Checked = true; }
+				this.eLast = e;
+				if (!IsOnMarker) return;
+				if (e.Button == MouseButtons.Left ) { Overlay.SetCurrentMarker(LastEnteredMarker); }
+				if (e.Button == MouseButtons.Right && IsEditMode()) { Overlay.Remove(LastEnteredMarker); IsOnMarker = false; }
+				if (e.Button == MouseButtons.Left && e.Clicks == 2) { Overlay.EditMarker(CtrlKeyIsPressed); chkChangePoints.Checked = chkNavPoints.Checked = true; }
 			}
 			catch (Exception ee) { My.Status($"Error {ee}"); }
 		}
 		private bool IsEditMode()
 		{
 			if (chkEditRoute.Checked) return true;
-			if (!chkGpsPoints.Checked && !Overlay.IsGpsMarker(LastEnteredMarker)) return true;
+			//if (!chkGpsPoints.Checked && !Overlay.IsGpsMarker(LastEnteredMarker)) return true;
 			My.Show($"Please enable edit route on the right side.");
 			return false;
 		}
@@ -217,8 +224,8 @@ namespace Route66
 		/// </summary>
 		private void gmap_MouseMove(object sender, MouseEventArgs e)
 		{
-			//Console.WriteLine($"gmap_MouseMove ({e.X},{e.Y})");
-			if (e.Button == MouseButtons.Left)
+			//Console.WriteLine($"gmap_MouseMove x,y=({e.X},{e.Y})");
+			if (e.Button == MouseButtons.Left && IsMouseOutsideRegion(e, 30))
 			{
 				if (!IsDragging) Console.WriteLine("start dragging ");
 				IsDragging = true;
@@ -228,6 +235,17 @@ namespace Route66
 					Overlay.UpdateCurrentMarkerPosition(e.X, e.Y);
 				}
 			}
+		}
+		/// <summary>
+		/// True when mouse is outside last mousedown position.
+		/// </summary>
+		/// <param name="e"></param>
+		/// <param name="region"></param>
+		/// <returns></returns>
+		private bool IsMouseOutsideRegion(MouseEventArgs e, int region)
+		{
+			//Console.WriteLine($"IsWithinRegion delta x,y=({Math.Abs(e.X - eLast.X)},{Math.Abs(e.Y - eLast.Y)})");
+			return (Math.Abs(e.X - eLast.X) <= region && Math.Abs(e.Y - eLast.Y) <= region);
 		}
 		#endregion
 		#region MAP ZOOM KEYS
@@ -240,7 +258,7 @@ namespace Route66
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyCode)
 		{
 			Console.WriteLine($"ProcessCmdKey={keyCode} focussed={gmap.Focused}");
-			if (gmap.Focused && Overlay.CurrentMarker != null)
+			if (gmap.Focused && Overlay.CurrentMarker != null || keyCode==Keys.I)
 			{
 				CtrlKeyIsPressed = keyCode == (Keys.ControlKey | Keys.Control);
 				switch (keyCode)
@@ -250,7 +268,7 @@ namespace Route66
 					case Keys.Delete: if (IsEditMode()) { Overlay.RemoveCurrentMarker(); IsOnMarker = false; } break;
 					case Keys.C: Overlay.EditMarker(false); break;
 					case Keys.N: Overlay.EditMarker(true); break;
-					case Keys.I: My.Status($"currentmarker={Overlay.CurrentMarker.Info()}, LastEnteredMarker={LastEnteredMarker.Info()}, IsOnMarker={IsOnMarker}"); break;
+					case Keys.I: My.Status($"currentmarker={Overlay.CurrentMarker.Info()}, LastEnteredMarker={((Overlay?.CurrentMarker==LastEnteredMarker)?"+":LastEnteredMarker.Info())}, IsOnMarker={IsOnMarker}, elast=({eLast?.X},{eLast?.Y})"); break;
 					default: return base.ProcessCmdKey(ref msg, keyCode);
 				}
 				return true;
