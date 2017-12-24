@@ -415,7 +415,11 @@ namespace Route66
 				idx += (forward) ? 1 : -1;
 				idx = InRange(idx, 0, Red.Markers.Count - 1);
 				SetCurrentMarker(Red.Markers[idx]);
-				if (idx == Red.Markers.Count - 1) My.Status($" End of route. Gps marker {idx}.");
+				if (idx == Red.Markers.Count - 1)
+				{
+					My.Status($" End of route. Gps marker {idx}.");
+					if (Settings.SpeechSyntesizer) My.PlaySound(" End of route.");
+				}
 			}
 			return CurrentMarker;
 		}
