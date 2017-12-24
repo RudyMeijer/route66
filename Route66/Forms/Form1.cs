@@ -225,7 +225,7 @@ namespace Route66
 		private void gmap_MouseMove(object sender, MouseEventArgs e)
 		{
 			//Console.WriteLine($"gmap_MouseMove x,y=({e.X},{e.Y})");
-			if (e.Button == MouseButtons.Left && IsMouseOutsideRegion(e, 30))
+			if (e.Button == MouseButtons.Left && (IsOnMarker || IsMouseOutsideRegion(e, 30)))
 			{
 				if (!IsDragging) Console.WriteLine("start dragging ");
 				IsDragging = true;
@@ -244,8 +244,8 @@ namespace Route66
 		/// <returns></returns>
 		private bool IsMouseOutsideRegion(MouseEventArgs e, int region)
 		{
-			//Console.WriteLine($"IsWithinRegion delta x,y=({Math.Abs(e.X - eLast.X)},{Math.Abs(e.Y - eLast.Y)})");
-			return (Math.Abs(e.X - eLast.X) <= region && Math.Abs(e.Y - eLast.Y) <= region);
+			Console.WriteLine($"IsWithinRegion delta x,y=({Math.Abs(e.X - eLast.X)},{Math.Abs(e.Y - eLast.Y)})");
+			return (Math.Abs(e.X - eLast.X) > region || Math.Abs(e.Y - eLast.Y) > region);
 		}
 		#endregion
 		#region MAP ZOOM KEYS
@@ -263,8 +263,8 @@ namespace Route66
 				CtrlKeyIsPressed = keyCode == (Keys.ControlKey | Keys.Control);
 				switch (keyCode)
 				{
-					case Keys.Up: Overlay.SetArrowMarker(true); break;
-					case Keys.Down: Overlay.SetArrowMarker(false); break;
+					case Keys.Up: LastEnteredMarker = Overlay.SetArrowMarker(true); break;
+					case Keys.Down: LastEnteredMarker = Overlay.SetArrowMarker(false); break;
 					case Keys.Delete: if (IsEditMode()) { Overlay.RemoveCurrentMarker(); IsOnMarker = false; } break;
 					case Keys.C: Overlay.EditMarker(false); break;
 					case Keys.N: Overlay.EditMarker(true); break;

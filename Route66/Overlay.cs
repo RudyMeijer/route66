@@ -407,7 +407,7 @@ namespace Route66
 			SetCurrentMarker(null);
 		}
 
-		internal void SetArrowMarker(bool forward)
+		internal GMapMarker SetArrowMarker(bool forward)
 		{
 			var idx = GetIndexRed(CurrentMarker);
 			if (idx >= 0)
@@ -417,6 +417,7 @@ namespace Route66
 				SetCurrentMarker(Red.Markers[idx]);
 				if (idx == Red.Markers.Count - 1) My.Status($" End of route. Gps marker {idx}.");
 			}
+			return CurrentMarker;
 		}
 
 		private int InRange(int val, int min, int max)
