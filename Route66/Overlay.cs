@@ -292,8 +292,8 @@ namespace Route66
 		}
 		#endregion
 		/// <summary>
-		/// Determine current marker type: Change marker or Navigation marker.
 		/// Show properties of current marker on windows form.
+		/// Current marker type: Change marker or Navigation marker.
 		/// </summary>
 		/// <param name="key"></param>
 		/// <returns></returns>
@@ -303,11 +303,16 @@ namespace Route66
 			if (CurrentMarker == null) return false;
 			var originalTag = CurrentMarker.Tag;// if DeepClone(); then marker is not removed from route on delete.
 			var before = (CurrentMarker.Tag != null) ? 2 : 0;
-			if (CurrentMarker.Tag is ChangeMarker) form = new FormEditChangeMarker(CurrentMarker);
+
+			if (CurrentMarker.Tag == null)
+			{
+				if (IsNavigationMarker)
+					form = new FormEditNavigationMarker(CurrentMarker);
+				else
+					form = new FormEditChangeMarker(CurrentMarker);
+			}
+			else if (CurrentMarker.Tag is ChangeMarker) form = new FormEditChangeMarker(CurrentMarker);
 			else if (CurrentMarker.Tag is NavigationMarker) form = new FormEditNavigationMarker(CurrentMarker);
-			else if (CurrentMarker.Tag == null) if (IsNavigationMarker) form = new FormEditNavigationMarker(CurrentMarker);
-				else form = new FormEditChangeMarker(CurrentMarker);
-			else My.Log($"Error during edit Tag {CurrentMarker.Tag}");
 
 			form.ShowDialog();
 			//

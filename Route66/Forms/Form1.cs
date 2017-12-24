@@ -250,6 +250,7 @@ namespace Route66
 					case Keys.Delete: if (IsEditMode()) { Overlay.RemoveCurrentMarker(); IsOnMarker = false; } break;
 					case Keys.C: Overlay.EditMarker(false); break;
 					case Keys.N: Overlay.EditMarker(true); break;
+					case Keys.I: My.Status($"currentmarker={Overlay.CurrentMarker.Info()}, LastEnteredMarker={LastEnteredMarker.Info()}, IsOnMarker={IsOnMarker}"); break;
 					default: return base.ProcessCmdKey(ref msg, keyCode);
 				}
 				return true;
@@ -276,6 +277,13 @@ namespace Route66
 		}
 		#endregion
 		#region MENU ITEMS
+		private void NewToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (!AskToSaveModifiedRoute())
+			{
+				btnClear_Click(sender, e);
+			}
+		}
 		private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			var IsSubroute = sender is string;
@@ -302,7 +310,7 @@ namespace Route66
 		{
 			var idx = Overlay.GetIndexRed(Overlay.CurrentMarker);
 			if (idx == -1) { My.Show("Please open a mainroute first."); return; }
-			if (My.Show($"Do you want to insert subroute at current Gps marker {idx}?",null, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+			if (My.Show($"Do you want to insert subroute at current Gps marker {idx}?", null, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
 			{
 				OpenToolStripMenuItem_Click("SubRoute", null);
 			}
@@ -311,8 +319,8 @@ namespace Route66
 		{
 			if (Overlay.IsChanged)
 			{
-				var res = My.Show("Save current route?", "Route is changed.", MessageBoxButtons.YesNoCancel);
-				if (res == DialogResult.Yes) SaveToolStripMenuItem_Click(null, null);
+				var res = My.Show("Do you want to save changes?", "Route is changed.", MessageBoxButtons.YesNoCancel);
+				if (res == DialogResult.Yes) SaveAsToolStripMenuItem_Click(null, null);
 				return res == DialogResult.Cancel;
 			}
 			return false;
@@ -343,14 +351,12 @@ namespace Route66
 		{
 			Close();
 		}
-
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			My.Log($"{Title} closed by user {My.UserName}.");
 			Settings.Save();
 			e.Cancel = AskToSaveModifiedRoute();
 		}
-
 		/// <summary>
 		/// Show configuration menu.
 		/// </summary>
@@ -376,6 +382,7 @@ namespace Route66
 		#region SEARCH PLACES
 		private void txtSearch_Validated(object sender, EventArgs e)
 		{
+			My.Log($"Search {txtSearchPlaces.Text}");
 			if (gmap.MapProvider == BingHybridMapProvider.Instance) comboBox1.SelectedItem = OpenStreetMapProvider.Instance;
 			gmap.Zoom = 14;
 			gmap.SetPositionByKeywords(txtSearchPlaces.Text);
@@ -431,5 +438,6 @@ namespace Route66
 			gmap.Overlays[3].IsVisibile = Settings.ArrowMarker;
 		}
 		#endregion
+
 	}
 }
