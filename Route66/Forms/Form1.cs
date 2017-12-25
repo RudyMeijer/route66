@@ -182,7 +182,7 @@ namespace Route66
 				//Console.WriteLine($"MouseDown {e.Button} IsOnMarker={IsOnMarker}, IsDragging={IsDragging}");
 				this.eLast = e;
 				if (!IsOnMarker) return;
-				if (e.Button == MouseButtons.Left ) { Overlay.SetCurrentMarker(LastEnteredMarker); }
+				if (e.Button == MouseButtons.Left) { Overlay.SetCurrentMarker(LastEnteredMarker); }
 				if (e.Button == MouseButtons.Right && IsEditMode()) { Overlay.Remove(LastEnteredMarker); IsOnMarker = false; }
 				if (e.Button == MouseButtons.Left && e.Clicks == 2) { Overlay.EditMarker(CtrlKeyIsPressed); chkChangePoints.Checked = chkNavPoints.Checked = true; }
 			}
@@ -244,6 +244,7 @@ namespace Route66
 		/// <returns></returns>
 		private bool IsMouseOutsideRegion(MouseEventArgs e, int region)
 		{
+			if (eLast == null) return false;
 			Console.WriteLine($"IsWithinRegion delta x,y=({Math.Abs(e.X - eLast.X)},{Math.Abs(e.Y - eLast.Y)})");
 			return (Math.Abs(e.X - eLast.X) > region || Math.Abs(e.Y - eLast.Y) > region);
 		}
@@ -257,8 +258,8 @@ namespace Route66
 		/// <returns></returns>
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyCode)
 		{
-			Console.WriteLine($"ProcessCmdKey={keyCode} focussed={gmap.Focused}");
-			if (gmap.Focused && Overlay.CurrentMarker != null || keyCode==Keys.I)
+			Console.WriteLine($"ProcessCmdKey={keyCode} focused={gmap.Focused}");
+			if (gmap.Focused && Overlay.CurrentMarker != null || keyCode == Keys.I)
 			{
 				CtrlKeyIsPressed = keyCode == (Keys.ControlKey | Keys.Control);
 				switch (keyCode)
@@ -268,7 +269,7 @@ namespace Route66
 					case Keys.Delete: if (IsEditMode()) { Overlay.RemoveCurrentMarker(); IsOnMarker = false; } break;
 					case Keys.C: Overlay.EditMarker(false); break;
 					case Keys.N: Overlay.EditMarker(true); break;
-					case Keys.I: My.Status($"currentmarker={Overlay.CurrentMarker.Info()}, LastEnteredMarker={((Overlay?.CurrentMarker==LastEnteredMarker)?"+":LastEnteredMarker.Info())}, IsOnMarker={IsOnMarker}, elast=({eLast?.X},{eLast?.Y})"); break;
+					case Keys.I: My.Status($"currentmarker={Overlay.CurrentMarker.Info()}, LastEnteredMarker={((Overlay?.CurrentMarker == LastEnteredMarker) ? "+" : LastEnteredMarker.Info())}, IsOnMarker={IsOnMarker}, elast=({eLast?.X},{eLast?.Y})"); break;
 					default: return base.ProcessCmdKey(ref msg, keyCode);
 				}
 				return true;
@@ -284,12 +285,11 @@ namespace Route66
 		{
 			//Console.WriteLine("gmap_MouseLeave");
 			IsOnMarker = false;
-			My.Status(" Ready");
+			My.Status(" Ready", SystemColors.Control);
 		}
 		private void gmap_OnMapZoomChanged()
 		{
-			if (toolStripStatusLabel1.Text.StartsWith(" "))
-				My.Status($" Zoom factor = {gmap.Zoom}");
+			if (toolStripStatusLabel1.Text.StartsWith(" ")) My.Status($" Zoom factor = {gmap.Zoom}");
 			chkGpsPoints.Checked = true; // Bug update angle.
 			gmap.Refresh();
 		}
@@ -337,8 +337,8 @@ namespace Route66
 		{
 			if (Overlay.IsChanged)
 			{
-				var res = My.Show("Do you want to save changes?", "Route is changed.", MessageBoxButtons.YesNoCancel);
-				if (res == DialogResult.Yes) SaveAsToolStripMenuItem_Click(null, null);
+				var res = My.Show($"Do you want to save changes to {Overlay.Route.FileName}?", "Route is changed.", MessageBoxButtons.YesNoCancel);
+				if (res == DialogResult.Yes) SaveToolStripMenuItem_Click(null, null);
 				return res == DialogResult.Cancel;
 			}
 			return false;

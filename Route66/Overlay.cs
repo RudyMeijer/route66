@@ -21,6 +21,7 @@ namespace Route66
 		/// This field contains Lat,Lng coordinates of the last clicked Red marker.
 		/// </summary>
 		public GMapMarker CurrentMarker;
+		private bool Initialize;
 		private readonly GMapRoute RedRoute;
 		private readonly GMapOverlay Red;
 		private readonly GMapOverlay Green;
@@ -115,6 +116,7 @@ namespace Route66
 		}
 		internal void Remove(GMapMarker marker)
 		{
+			if (marker == null) return;
 			var idx = GetIndexRed(marker);
 			if (idx >= 0)
 			{
@@ -216,7 +218,7 @@ namespace Route66
 					CurrentMarker.LocalPosition = item.LocalPosition; // gives jumping big marker. So when dragging copy Blue pos into red pos.
 			}
 			ShowArrowMarker(item);
-			My.Status($" Info: {this}");
+			if (!Initialize) My.Status($" Info: {this}");
 		}
 
 		private void ShowArrowMarker(GMapMarker item)
@@ -363,6 +365,7 @@ namespace Route66
 		#region OPEN SAVE CONVERT ROUTE
 		public bool OpenRoute(string fileName, bool IsSubroute = false)
 		{
+			Initialize = true;
 			if (!IsSubroute) Clear();
 			var originalFilename = Route.FileName;
 			Route = Route.Load(fileName);
@@ -379,6 +382,7 @@ namespace Route66
 				gmap.UpdateRouteLocalPosition(RedRoute);
 			}
 			else gmap.ZoomAndCenterRoute(RedRoute);
+			Initialize = false;
 			return true;
 		}
 
@@ -389,7 +393,7 @@ namespace Route66
 				//
 				// Todo convert route.
 				//
-				My.Status($"Route converted from {route.MachineType} to {Settings.MachineType}.");
+				My.Status($"Route succesfull converted from {route.MachineType} to {Settings.MachineType}.", Color.LightGreen);
 				route.MachineType = Settings.MachineType;
 				route.IsChanged = true;
 			}
