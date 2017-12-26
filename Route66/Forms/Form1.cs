@@ -89,7 +89,7 @@ namespace Route66
 			try
 			{
 				var IsRemote = My.Drive.ToUpper() != "C:\\";
-				var fileName = (IsRemote) ? "Route66.log" : My.CheckPath(Settings.RoutePath, "log", Title + ".log");
+				var fileName = (IsRemote) ? My.LogFile : My.CheckPath(Settings.RoutePath, "log", My.LogFile);
 				if (File.Exists(fileName))
 				{
 					var fi = new FileInfo(fileName);
