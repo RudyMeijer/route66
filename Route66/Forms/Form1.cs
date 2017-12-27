@@ -164,17 +164,18 @@ namespace Route66
 		#endregion
 		#region EDIT ROUTE
 		/// <summary>
-		/// Add marker
+		/// Add, Edit marker
 		/// </summary>
 		private void gmap_MouseUp(object sender, MouseEventArgs e)
 		{
 			Console.WriteLine($" gmap_MouseUp focus={gmap.Focused}");
 			if (IsDragging) Console.WriteLine("stop dragging");
 			if (e.Button == MouseButtons.Left && !IsOnMarker && !IsDragging && IsEditMode()) { Overlay.AddMarker(e.X, e.Y); }
+			if (e.Button == MouseButtons.Left && IsOnMarker && !IsDragging) { Overlay.EditMarker(CtrlKeyIsPressed); chkChangePoints.Checked = chkNavPoints.Checked = true; }
 			IsDragging = false;
 		}
 		/// <summary>
-		/// Select, Remove or Edit marker
+		/// Select, Remove marker
 		/// </summary>
 		private void gmap_MouseDown(object sender, MouseEventArgs e)
 		{
@@ -185,14 +186,12 @@ namespace Route66
 				if (!IsOnMarker) return;
 				if (e.Button == MouseButtons.Left) { Overlay.SetCurrentMarker(LastEnteredMarker); }
 				if (e.Button == MouseButtons.Right && IsEditMode()) { Overlay.Remove(LastEnteredMarker); IsOnMarker = false; }
-				if (e.Button == MouseButtons.Left && e.Clicks == 2) { Overlay.EditMarker(CtrlKeyIsPressed); chkChangePoints.Checked = chkNavPoints.Checked = true; }
 			}
 			catch (Exception ee) { My.Status($"Error {ee}"); }
 		}
 		private bool IsEditMode()
 		{
 			if (chkEditRoute.Checked) return true;
-			//if (!chkGpsPoints.Checked && !Overlay.IsGpsMarker(LastEnteredMarker)) return true;
 			My.Show($"Please enable edit route on the right side.");
 			return false;
 		}
@@ -284,7 +283,7 @@ namespace Route66
 		/// <param name="e"></param>
 		private void gmap_MouseLeave(object sender, EventArgs e)
 		{
-			//Console.WriteLine("gmap_MouseLeave");
+			Console.WriteLine("gmap_MouseLeave");
 			IsOnMarker = false;
 			My.Status(" Ready", SystemColors.Control);
 		}
