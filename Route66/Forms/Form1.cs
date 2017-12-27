@@ -144,7 +144,7 @@ namespace Route66
 			// See http://www.independent-software.com/gmap-net-beginners-tutorial-maps-markers-polygons-routes-updated-for-visual-studio-2015-and-gmap-net-1-7/
 			//
 			gmap.MapProvider = BingMapProvider.Instance;
-			GMaps.Instance.Mode = AccessMode.ServerOnly;
+			GMaps.Instance.Mode = AccessMode.ServerAndCache;
 			gmap.Zoom = 13;
 			gmap.SetPositionByKeywords(txtSearchPlaces.Text);
 			gmap.DragButton = MouseButtons.Left;
@@ -168,7 +168,8 @@ namespace Route66
 		/// </summary>
 		private void gmap_MouseUp(object sender, MouseEventArgs e)
 		{
-			//if (IsDragging) Console.WriteLine("stop dragging ");
+			Console.WriteLine($" gmap_MouseUp focus={gmap.Focused}");
+			if (IsDragging) Console.WriteLine("stop dragging");
 			if (e.Button == MouseButtons.Left && !IsOnMarker && !IsDragging && IsEditMode()) { Overlay.AddMarker(e.X, e.Y); }
 			IsDragging = false;
 		}
@@ -179,7 +180,7 @@ namespace Route66
 		{
 			try
 			{
-				//Console.WriteLine($"MouseDown {e.Button} IsOnMarker={IsOnMarker}, IsDragging={IsDragging}");
+				Console.WriteLine($"MouseDown {e.Button} IsOnMarker={IsOnMarker}, IsDragging={IsDragging}");
 				this.eLast = e;
 				if (!IsOnMarker) return;
 				if (e.Button == MouseButtons.Left) { Overlay.SetCurrentMarker(LastEnteredMarker); }
@@ -269,7 +270,7 @@ namespace Route66
 					case Keys.Delete: if (IsEditMode()) { Overlay.RemoveCurrentMarker(); IsOnMarker = false; } break;
 					case Keys.C: Overlay.EditMarker(false); break;
 					case Keys.N: Overlay.EditMarker(true); break;
-					case Keys.I: My.Status($"currentmarker={Overlay.CurrentMarker.Info()}, LastEnteredMarker={((Overlay?.CurrentMarker == LastEnteredMarker) ? "+" : LastEnteredMarker.Info())}, IsOnMarker={IsOnMarker}, elast=({eLast?.X},{eLast?.Y})"); break;
+					case Keys.I: My.Status($"currentmarker={Overlay.CurrentMarker.Info()}, LastEnteredMarker={((Overlay?.CurrentMarker == LastEnteredMarker) ? "+" : LastEnteredMarker.Info())}, IsOnMarker={IsOnMarker}, IsDragging={IsDragging})"); break;
 					default: return base.ProcessCmdKey(ref msg, keyCode);
 				}
 				return true;
@@ -322,6 +323,8 @@ namespace Route66
 				//
 				if (IsSubroute) My.Status($"Subroute {openFileDialog1.FileName} Succesfully added.");
 				this.Text = Title + Overlay.Route;
+				IsOnMarker = true;// Doubleclick in fileopenmenu -> adds marker.
+				LastEnteredMarker = null;
 			}
 		}
 		private void AddtoolStripMenuItem_Click(object sender, EventArgs e)
@@ -457,5 +460,10 @@ namespace Route66
 		}
 		#endregion
 
+		private void btnAutoNavigate_Click(object sender, EventArgs e)
+		{
+			chkNavPoints.Checked = true;
+			Overlay.AutoNavigate();
+		}
 	}
 }

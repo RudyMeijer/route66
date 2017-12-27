@@ -219,38 +219,6 @@ namespace Route66
 			}
 			ShowArrowMarker(item);
 			if (!Initialize) My.Status($" Info: {this}");
-			AddNavigation(item); //todo enable or button?
-		}
-
-		private void AddNavigation(GMapMarker marker)
-		{
-			if (marker == null || marker.Tag != null || !IsGpsMarker(marker)) return;
-			var uturn = 10f;
-			var marge = 30f;
-			string message=null;
-			var angle = GetAngeWithPreviousItem(marker);
-			if (angle < uturn || angle > 360 - uturn) message = Translate.NavigationMessages[(int)NavigationMessages.U_TURN]; 
-			if (angle > 90 - marge && angle < 90 + marge) message = Translate.NavigationMessages[(int)NavigationMessages.TURN_RIGHT];
-			if (angle > 270 - marge && angle < 270 + marge) message = Translate.NavigationMessages[(int)NavigationMessages.TURN_LEFT];
-			if (message != null)
-			{
-				var tag = new NavigationMarker(marker.Position);
-				tag.Message = message;
-				tag.SoundFile = My.ValidateFilename(message) + ".wav";
-				marker.Tag = tag;
-				AddOverlayBlueMarker(marker);
-			}
-		}
-
-		private float GetAngeWithPreviousItem(GMapMarker item)
-		{
-			var idx = GetIndexRed(item);
-			if (idx <= 0) return 180;
-			var prevItem = Red.Markers[idx - 1];
-			var angle = 180 - Angle(item) + Angle(prevItem);
-			if (angle < 0) angle += 360;
-			My.Status($" angle={angle}");
-			return angle;
 		}
 
 		private void ShowArrowMarker(GMapMarker item)
@@ -520,6 +488,47 @@ namespace Route66
 			SetCurrentMarker(Red.Markers[Red.Markers.Count - 1]);
 		}
 
+		/// <summary>
+		/// Add navigation markers, based on angle with previous marker.
+		/// </summary>
+		internal void AutoNavigate()
+		{
+			var cnt = 0;
+			foreach (var item in Red.Markers) if (AddNavigation(item)) ++cnt;
+			My.Status($"{cnt} navigation markers succesfull added.");
+		}
+		private bool AddNavigation(GMapMarker marker)
+		{
+			if (marker == null || marker.Tag != null || !IsGpsMarker(marker)) return false;
+			var uturn = 10f;
+			var marge = 30f;
+			string message = null;
+			var angle = GetAngeWithPreviousItem(marker);
+			if (angle < uturn || angle > 360 - uturn) message = Translate.NavigationMessages[(int)NavigationMessages.U_TURN];
+			if (angle > 90 - marge && angle < 90 + marge) message = Translate.NavigationMessages[(int)NavigationMessages.TURN_RIGHT];
+			if (angle > 270 - marge && angle < 270 + marge) message = Translate.NavigationMessages[(int)NavigationMessages.TURN_LEFT];
+			if (message != null)
+			{
+				var tag = new NavigationMarker(marker.Position);
+				tag.Message = message;
+				tag.SoundFile = My.ValidateFilename(message) + ".wav";
+				marker.Tag = tag;
+				AddOverlayBlueMarker(marker);
+			}
+			return message != null;
+		}
+
+		private float GetAngeWithPreviousItem(GMapMarker item)
+		{
+			var idx = GetIndexRed(item);
+			if (idx <= 0) return 180;
+			var prevItem = Red.Markers[idx - 1];
+			var angle = 180 - Angle(item) + Angle(prevItem);
+			if (angle < 0) angle += 360;
+			if (angle > 360) angle -= 360;
+			My.Status($" angle={angle}");
+			return angle;
+		}
 		/// <summary>
 		/// Copy overlays into Route class.
 		/// </summary>

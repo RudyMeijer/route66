@@ -65,7 +65,7 @@
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.chkAddNavi = new System.Windows.Forms.CheckBox();
+			this.btnAutoNavigate = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -112,7 +112,7 @@
 			this.splitContainer1.Panel2.Controls.Add(this.comboBox1);
 			this.splitContainer1.Panel2.Controls.Add(this.btnClear);
 			this.splitContainer1.Size = new System.Drawing.Size(1121, 586);
-			this.splitContainer1.SplitterDistance = 986;
+			this.splitContainer1.SplitterDistance = 985;
 			this.splitContainer1.SplitterWidth = 5;
 			this.splitContainer1.TabIndex = 1;
 			// 
@@ -140,7 +140,7 @@
 			this.gmap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
 			this.gmap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
 			this.gmap.ShowTileGridLines = false;
-			this.gmap.Size = new System.Drawing.Size(986, 586);
+			this.gmap.Size = new System.Drawing.Size(985, 586);
 			this.gmap.TabIndex = 0;
 			this.gmap.Zoom = 13D;
 			this.gmap.OnMarkerEnter += new GMap.NET.WindowsForms.MarkerEnter(this.gmap_OnMarkerEnter);
@@ -158,7 +158,7 @@
 			this.groupBox3.Controls.Add(this.label2);
 			this.groupBox3.Controls.Add(this.numDosageTo);
 			this.groupBox3.Controls.Add(this.numDosageFrom);
-			this.groupBox3.Location = new System.Drawing.Point(1, 402);
+			this.groupBox3.Location = new System.Drawing.Point(3, 432);
 			this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
@@ -223,7 +223,7 @@
 			// 
 			// groupBox2
 			// 
-			this.groupBox2.Controls.Add(this.chkAddNavi);
+			this.groupBox2.Controls.Add(this.btnAutoNavigate);
 			this.groupBox2.Controls.Add(this.chkAutoRoute);
 			this.groupBox2.Controls.Add(this.chkEditRoute);
 			this.groupBox2.Location = new System.Drawing.Point(1, 292);
@@ -244,6 +244,7 @@
 			this.chkAutoRoute.Size = new System.Drawing.Size(96, 21);
 			this.chkAutoRoute.TabIndex = 2;
 			this.chkAutoRoute.Text = "Auto route";
+			this.toolTip1.SetToolTip(this.chkAutoRoute, "Add intermediate markers automatic onto road.");
 			this.chkAutoRoute.UseVisualStyleBackColor = true;
 			this.chkAutoRoute.CheckedChanged += new System.EventHandler(this.chkAutoRoute_CheckedChanged);
 			// 
@@ -486,16 +487,17 @@
 			this.toolStripStatusLabel1.Text = "Ready";
 			this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// chkAddNavi
+			// btnAutoNavigate
 			// 
-			this.chkAddNavi.AutoSize = true;
-			this.chkAddNavi.Location = new System.Drawing.Point(8, 81);
-			this.chkAddNavi.Margin = new System.Windows.Forms.Padding(4);
-			this.chkAddNavi.Name = "chkAddNavi";
-			this.chkAddNavi.Size = new System.Drawing.Size(85, 21);
-			this.chkAddNavi.TabIndex = 3;
-			this.chkAddNavi.Text = "Add navi";
-			this.chkAddNavi.UseVisualStyleBackColor = true;
+			this.btnAutoNavigate.Location = new System.Drawing.Point(8, 83);
+			this.btnAutoNavigate.Margin = new System.Windows.Forms.Padding(4);
+			this.btnAutoNavigate.Name = "btnAutoNavigate";
+			this.btnAutoNavigate.Size = new System.Drawing.Size(117, 28);
+			this.btnAutoNavigate.TabIndex = 9;
+			this.btnAutoNavigate.Text = "Auto navigate";
+			this.toolTip1.SetToolTip(this.btnAutoNavigate, "Add navigation markers based on road angle.");
+			this.btnAutoNavigate.UseVisualStyleBackColor = true;
+			this.btnAutoNavigate.Click += new System.EventHandler(this.btnAutoNavigate_Click);
 			// 
 			// Form1
 			// 
@@ -572,7 +574,7 @@
 		private System.Windows.Forms.CheckBox chkArrowMarker;
 		private System.Windows.Forms.ToolStripMenuItem AddtoolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
-		private System.Windows.Forms.CheckBox chkAddNavi;
+		private System.Windows.Forms.Button btnAutoNavigate;
 	}
 }
 
