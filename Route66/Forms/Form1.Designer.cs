@@ -65,6 +65,7 @@
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.chkAddNavi = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -111,7 +112,7 @@
 			this.splitContainer1.Panel2.Controls.Add(this.comboBox1);
 			this.splitContainer1.Panel2.Controls.Add(this.btnClear);
 			this.splitContainer1.Size = new System.Drawing.Size(1121, 586);
-			this.splitContainer1.SplitterDistance = 987;
+			this.splitContainer1.SplitterDistance = 986;
 			this.splitContainer1.SplitterWidth = 5;
 			this.splitContainer1.TabIndex = 1;
 			// 
@@ -139,7 +140,7 @@
 			this.gmap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
 			this.gmap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
 			this.gmap.ShowTileGridLines = false;
-			this.gmap.Size = new System.Drawing.Size(987, 586);
+			this.gmap.Size = new System.Drawing.Size(986, 586);
 			this.gmap.TabIndex = 0;
 			this.gmap.Zoom = 13D;
 			this.gmap.OnMarkerEnter += new GMap.NET.WindowsForms.MarkerEnter(this.gmap_OnMarkerEnter);
@@ -222,13 +223,14 @@
 			// 
 			// groupBox2
 			// 
+			this.groupBox2.Controls.Add(this.chkAddNavi);
 			this.groupBox2.Controls.Add(this.chkAutoRoute);
 			this.groupBox2.Controls.Add(this.chkEditRoute);
 			this.groupBox2.Location = new System.Drawing.Point(1, 292);
 			this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-			this.groupBox2.Size = new System.Drawing.Size(128, 90);
+			this.groupBox2.Size = new System.Drawing.Size(128, 132);
 			this.groupBox2.TabIndex = 5;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Route";
@@ -402,7 +404,7 @@
 			// 
 			this.newToolStripMenuItem.Name = "newToolStripMenuItem";
 			this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-			this.newToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+			this.newToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
 			this.newToolStripMenuItem.Text = "New";
 			this.newToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
 			// 
@@ -410,7 +412,7 @@
 			// 
 			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
 			this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-			this.openToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+			this.openToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
 			this.openToolStripMenuItem.Text = "Open";
 			this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
 			// 
@@ -418,7 +420,7 @@
 			// 
 			this.AddtoolStripMenuItem.Name = "AddtoolStripMenuItem";
 			this.AddtoolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-			this.AddtoolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+			this.AddtoolStripMenuItem.Size = new System.Drawing.Size(173, 26);
 			this.AddtoolStripMenuItem.Text = "Add";
 			this.AddtoolStripMenuItem.Click += new System.EventHandler(this.AddtoolStripMenuItem_Click);
 			// 
@@ -426,21 +428,21 @@
 			// 
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
 			this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
 			this.saveToolStripMenuItem.Text = "Save";
 			this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
 			// 
 			// saveAsToolStripMenuItem
 			// 
 			this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
 			this.saveAsToolStripMenuItem.Text = "Save As...";
 			this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
 			this.exitToolStripMenuItem.Text = "Exit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
@@ -479,10 +481,21 @@
 			// toolStripStatusLabel1
 			// 
 			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-			this.toolStripStatusLabel1.Size = new System.Drawing.Size(1062, 20);
+			this.toolStripStatusLabel1.Size = new System.Drawing.Size(1101, 20);
 			this.toolStripStatusLabel1.Spring = true;
 			this.toolStripStatusLabel1.Text = "Ready";
 			this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// chkAddNavi
+			// 
+			this.chkAddNavi.AutoSize = true;
+			this.chkAddNavi.Location = new System.Drawing.Point(8, 81);
+			this.chkAddNavi.Margin = new System.Windows.Forms.Padding(4);
+			this.chkAddNavi.Name = "chkAddNavi";
+			this.chkAddNavi.Size = new System.Drawing.Size(85, 21);
+			this.chkAddNavi.TabIndex = 3;
+			this.chkAddNavi.Text = "Add navi";
+			this.chkAddNavi.UseVisualStyleBackColor = true;
 			// 
 			// Form1
 			// 
@@ -559,6 +572,7 @@
 		private System.Windows.Forms.CheckBox chkArrowMarker;
 		private System.Windows.Forms.ToolStripMenuItem AddtoolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+		private System.Windows.Forms.CheckBox chkAddNavi;
 	}
 }
 

@@ -219,6 +219,38 @@ namespace Route66
 			}
 			ShowArrowMarker(item);
 			if (!Initialize) My.Status($" Info: {this}");
+			AddNavigation(item); //todo enable or button?
+		}
+
+		private void AddNavigation(GMapMarker marker)
+		{
+			if (marker == null || marker.Tag != null || !IsGpsMarker(marker)) return;
+			var uturn = 10f;
+			var marge = 30f;
+			string message=null;
+			var angle = GetAngeWithPreviousItem(marker);
+			if (angle < uturn || angle > 360 - uturn) message = Translate.NavigationMessages[(int)NavigationMessages.U_TURN]; 
+			if (angle > 90 - marge && angle < 90 + marge) message = Translate.NavigationMessages[(int)NavigationMessages.TURN_RIGHT];
+			if (angle > 270 - marge && angle < 270 + marge) message = Translate.NavigationMessages[(int)NavigationMessages.TURN_LEFT];
+			if (message != null)
+			{
+				var tag = new NavigationMarker(marker.Position);
+				tag.Message = message;
+				tag.SoundFile = My.ValidateFilename(message) + ".wav";
+				marker.Tag = tag;
+				AddOverlayBlueMarker(marker);
+			}
+		}
+
+		private float GetAngeWithPreviousItem(GMapMarker item)
+		{
+			var idx = GetIndexRed(item);
+			if (idx <= 0) return 180;
+			var prevItem = Red.Markers[idx - 1];
+			var angle = 180 - Angle(item) + Angle(prevItem);
+			if (angle < 0) angle += 360;
+			My.Status($" angle={angle}");
+			return angle;
 		}
 
 		private void ShowArrowMarker(GMapMarker item)
@@ -423,6 +455,10 @@ namespace Route66
 				{
 					My.Status($" End of route. Gps marker {idx}.");
 					if (Settings.SpeechSyntesizer) My.PlaySound(" End of route.");
+				}
+				else if (CurrentMarker.Tag is NavigationMarker)
+				{
+					if (Settings.SpeechSyntesizer) My.PlaySound((CurrentMarker.Tag as NavigationMarker).Message);
 				}
 			}
 			return CurrentMarker;
