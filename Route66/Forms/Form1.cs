@@ -208,7 +208,7 @@ namespace Route66
 				Overlay.SetTooltipRed(item);
 				Console.WriteLine($"Enter {item.Info()}");
 				if (Settings.FastDrawMode || !chkGpsPoints.Checked) Overlay.SetCurrentMarker(item);
-				if (Overlay.IsNavigationMarker(item) && Settings.SpeechSyntesizer)
+				if (Overlay.IsNavigationMarker(item) && Settings.SpeechSyntesizer && chkNavPoints.Checked)
 				{
 					My.PlaySound((item.Tag as NavigationMarker).Message);
 				}
@@ -436,7 +436,21 @@ namespace Route66
 			gmap.Refresh();
 
 		}
+		private void chkArrowMarker_CheckedChanged(object sender, EventArgs e)
+		{
+			Settings.ArrowMarker = (sender as CheckBox).Checked;
+			gmap.Overlays[3].IsVisibile = Settings.ArrowMarker;
+		}
 		private void chkShowTooltip_CheckedChanged(object sender, EventArgs e) => Settings.ToolTipMode = chkShowTooltip.Checked;
+		private void chkAutoRoute_CheckedChanged(object sender, EventArgs e)
+		{
+			Overlay.IsAutoRoute = (sender as CheckBox).Checked;
+		}
+		private void btnAutoNavigate_Click(object sender, EventArgs e)
+		{
+			chkNavPoints.Checked = true;
+			Overlay.AutoNavigate();
+		}
 		private void btnChangeGlobalDosage_Click(object sender, EventArgs e)
 		{
 			var from = (double)numDosageFrom.Value;
@@ -448,21 +462,6 @@ namespace Route66
 				My.Status($"No Changemarkers found with dosage {from}.", Color.Red);
 			numDosageFrom.Value = numDosageTo.Value;
 		}
-		private void chkAutoRoute_CheckedChanged(object sender, EventArgs e)
-		{
-			Overlay.IsAutoRoute = (sender as CheckBox).Checked;
-		}
-		private void chkArrowMarker_CheckedChanged(object sender, EventArgs e)
-		{
-			Settings.ArrowMarker = (sender as CheckBox).Checked;
-			gmap.Overlays[3].IsVisibile = Settings.ArrowMarker;
-		}
 		#endregion
-
-		private void btnAutoNavigate_Click(object sender, EventArgs e)
-		{
-			chkNavPoints.Checked = true;
-			Overlay.AutoNavigate();
-		}
 	}
 }
