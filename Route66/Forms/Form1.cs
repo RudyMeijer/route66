@@ -245,7 +245,7 @@ namespace Route66
 		private bool IsMouseOutsideRegion(MouseEventArgs e, int region)
 		{
 			if (eLast == null) return false;
-			Console.WriteLine($"IsWithinRegion delta x,y=({Math.Abs(e.X - eLast.X)},{Math.Abs(e.Y - eLast.Y)})");
+			Console.WriteLine($"IsMouseOutsideRegion delta x,y=({Math.Abs(e.X - eLast.X)},{Math.Abs(e.Y - eLast.Y)})");
 			return (Math.Abs(e.X - eLast.X) > region || Math.Abs(e.Y - eLast.Y) > region);
 		}
 		#endregion

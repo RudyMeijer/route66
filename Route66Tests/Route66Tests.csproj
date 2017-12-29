@@ -71,6 +71,14 @@
       <Name>Route66</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Test data\angle.xml" />
+    <Content Include="Test data\empty.xml" />
+    <Content Include="Test data\Green marker not found in red marker list.xml" />
+    <Content Include="Test data\Invalid.xml" />
+    <Content Include="Test data\jumping big green.xml" />
+    <Content Include="Test data\UI Test.txt" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

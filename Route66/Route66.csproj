@@ -130,12 +130,6 @@
     </Content>
     <Content Include="Documents\System Requirements Document.txt" />
     <None Include="Resources\arrow3.png" />
-    <Content Include="Test data\angle.xml" />
-    <Content Include="Test data\jumping big green.xml" />
-    <Content Include="Test data\UI Test.txt" />
-    <Content Include="Test data\empty.xml" />
-    <Content Include="Test data\Green marker not found in red marker list.xml" />
-    <Content Include="Test data\Invalid.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

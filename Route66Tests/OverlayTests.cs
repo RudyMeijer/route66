@@ -20,13 +20,14 @@ namespace Route66.Tests
 		public OverlayTests()
 		{
 			status = new System.Windows.Forms.ToolStripStatusLabel();
+			gmap.SetBounds(0, 0, 100, 100);
 			My.SetStatus(status);
 			Settings = Settings.Load();
 		}
 
 		public Settings Settings { get; }
 
-		[TestMethod(), DeploymentItem(@"..\..\..\Route66\Test data\angle.xml")]
+		[TestMethod(), DeploymentItem(@"..\..\Test data\")]
 		public void OpenRouteTest()
 		{
 			var d = My.CurrentDirectory;
@@ -39,16 +40,18 @@ namespace Route66.Tests
 			//
 			Assert.IsTrue(status.Text.StartsWith("Route succ"), "Couldn't convert Route {}");
 			//
-			// Get red marker 1.
+			// Update dosage from 20 to 30 gr/m2
+			//
+			Assert.IsTrue((int)My.Invoke(overlay, "UpdateDosageAllChangeMarkers", 20, 30) == 1, "Error updating dosage.");
+			//
+			// Get red marker 1 and check for IsGpsMarker.
 			//
 			var marker = gmap.Overlays[0].Markers[1];
+			Assert.IsTrue(overlay.IsGpsMarker(marker), "Error updating dosage.");
 			//
 			// Get angle red marker 1.
 			//
-			var bf = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.InvokeMethod;
-			
-			var m = overlay.GetType().GetMethod("Angle",bf);
-			var angle = m.Invoke(overlay, new object[] { marker });
+			var angle = My.Invoke(overlay, "Angle", marker);
 		}
 	}
 }
