@@ -262,8 +262,10 @@ namespace Route66
 		private void gmap_OnMapZoomChanged()
 		{
 			if (toolStripStatusLabel1.Text.StartsWith(" ")) My.Status($" Zoom factor = {gmap.Zoom}");
+			var save = chkGpsPoints.Checked;
 			chkGpsPoints.Checked = true; // Bug update angle.
 			gmap.Refresh();
+			chkGpsPoints.Checked = save;
 		}
 		#endregion
 		#region PROCESS KEYS
