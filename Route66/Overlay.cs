@@ -537,7 +537,7 @@ namespace Route66
 			route.NavigationMarkers.Clear();
 			foreach (var item in Red.Markers)
 			{
-				route.GpsMarkers.Add(new GpsMarker(item.Position.Lng, item.Position.Lat));
+				route.GpsMarkers.Add(new GpsMarker(item.Position));
 				if (item.Tag is ChangeMarker) route.ChangeMarkers.Add(item.Tag as ChangeMarker);
 				if (item.Tag is NavigationMarker) route.NavigationMarkers.Add(item.Tag as NavigationMarker);
 			}

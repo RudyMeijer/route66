@@ -2,6 +2,7 @@
 using MyLib;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -35,6 +36,8 @@ namespace Route66
 		{
 			IsDefaultFile = (fileName == "Route66.xml");
 			route = new Route();
+			route.FileName = fileName;
+			route.IsChanged = false;
 			try
 			{
 				using (TextReader reader = new StreamReader(fileName))
@@ -61,25 +64,50 @@ namespace Route66
 						My.Show($"{ee.Message}", "Loading route.");
 				}
 			}
-			route.FileName = fileName;
-			route.IsChanged = false;
 			return route;
 		}
 
 		private static void ReadAr3(TextReader reader, Route route)
 		{
-			var line="";
+			var line = "";
 			var version = "";
-			while ((line = reader.ReadLine())!=null)
+			var provider = CultureInfo.GetCultureInfo("en").NumberFormat;
+			var distanceTable = new Dictionary<String, PointLatLng>();
+			var err1 = 0;
+			var err2 = 0;
+			while ((line = reader.ReadLine()) != null)
 			{
-				var s = line.Split(':', ',');
-				if (line.StartsWith("Ar3")) version = line.Split(':')[1];
-				else if (line.StartsWith("MachineType")) route.MachineType = My.GetEnum<MachineTypes>(s[1]);
-				else if (line.StartsWith("WayPoint[")) route.GpsMarkers.Add(new GpsMarker(s[1],s[2],s[3]));
-				else if (line.StartsWith("Instruction[")) route.NavigationMarkers.Add(new NavigationMarker(s[1]));
-				else if (line.StartsWith("ChangePoint[")) route.ChangeMarkers.Add(new ChangeMarker(s));
+				try
+				{
+					var s = line.Split(':', ',');
+
+					if (line.StartsWith("Ar3")) version = line.Split(':')[1];
+					else if (line.StartsWith("MachineType")) route.MachineType = My.GetEnum<MachineTypes>(s[1]);
+					else if (line.StartsWith("WayPoint["))
+					{
+						var point = new PointLatLng(Double.Parse(s[2], provider), Double.Parse(s[1], provider));
+						route.GpsMarkers.Add(new GpsMarker(point));
+						distanceTable.Add(s[3], point);
+					}
+					else if (line.StartsWith("Instruction[")) route.NavigationMarkers.Add(new NavigationMarker(FindLatLng(s[1])));
+					else if (line.StartsWith("ChangePoint[")) route.ChangeMarkers.Add(new ChangeMarker(FindLatLng(s[1])));
+				}
+				catch (KeyNotFoundException)
+				{
+					++err1;
+					My.Log($"{line} not found in waypoints."); 
+				}
+				catch (Exception)
+				{
+					++err2;
+					My.Log($"Duplicated line {line}"); 
+				}
 			}
+			if (err1+err2 > 0) My.Show($"Total {err1 + err2} errors in route {Path.GetFileName(route.FileName)} detected. \n{err2} duplicated lines will be ignored. {err1} missing waypoints will be added.\nSee logfile for more information.", $"Statistical report.");
+
+			PointLatLng FindLatLng(string distance) => distanceTable[distance];
 		}
+
 
 		public void Save() => SaveAs(FileName);
 		public void SaveAs(string fileName)

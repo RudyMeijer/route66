@@ -50,7 +50,7 @@ namespace Route66
 	public class NavigationMarker : GpsMarker
 	{
 		public NavigationMarker() { }
-		public NavigationMarker(PointLatLng position) : base(position.Lng, position.Lat)
+		public NavigationMarker(PointLatLng position) : base(position)
 		{
 			Message = "Turn right";
 			SoundFile = "Turn right.wav";
@@ -75,7 +75,7 @@ namespace Route66
 	public class ChangeMarker : GpsMarker
 	{
 		public ChangeMarker() { }
-		public ChangeMarker(PointLatLng position) : base(position.Lng, position.Lat)
+		public ChangeMarker(PointLatLng position) : base(position)
 		{
 			Dosage = 20.0;
 			SpreadingWidthLeft = 1.0;
@@ -118,20 +118,27 @@ namespace Route66
 	[Serializable]
 	public class GpsMarker
 	{
-		public GpsMarker(double lng, double lat)
-		{
-			Lng = lng;
-			Lat = lat;
-		}
+		//public GpsMarker(double lat, double lng)
+		//{
+		//	Lng = lng;
+		//	Lat = lat;
+		//}
 		public GpsMarker()
 		{
 			Lng = 4.0;
 			Lat = 52.0;
 		}
-		[XmlAttribute()]
-		public double Lng { get; set; }
+
+		public GpsMarker(PointLatLng point)
+		{
+			Lat = point.Lat;
+			Lng = point.Lng;
+		}
+
 		[XmlAttribute()]
 		public double Lat { get; set; }
+		[XmlAttribute()]
+		public double Lng { get; set; }
 		public override string ToString()
 		{
 			return $"Lat {Lat} Lng {Lng}";
