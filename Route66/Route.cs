@@ -38,7 +38,6 @@ namespace Route66
 			IsDefaultFile = (fileName == "Route66.xml");
 			route = new Route();
 			route.FileName = fileName;
-			route.IsChanged = false;
 			try
 			{
 				using (TextReader reader = new StreamReader(fileName))
@@ -65,6 +64,8 @@ namespace Route66
 						My.Show($"{ee.Message}", "Loading route.");
 				}
 			}
+			route.FileName = fileName;
+			route.IsChanged = false;
 			return route;
 		}
 
