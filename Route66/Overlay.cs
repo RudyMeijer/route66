@@ -318,7 +318,7 @@ namespace Route66
 
 			form.ShowDialog();
 			//
-			// Determine CRUD operation (Create, Update or Delete).
+			// Determine CRUD operation (None, Create, Update or Delete).
 			// 0= No operation, 1 = Create, 2 = Delete, 3 = Update.
 			//
 			var after = (CurrentMarker.Tag != null) ? 1 : 0;
@@ -332,9 +332,6 @@ namespace Route66
 		private enum Crud { None, Create, Delete, Update }
 		private void UpdateGreenAndBlueOverlay(Crud crud, object origin, object tag)
 		{
-			//if (tag != null) My.Status($"{crud} {tag.ToString().Replace('\n', ' ')}");
-			//else if (origin != null) My.Status($"{crud} {origin.ToString().Replace('\n', ' ')}");
-
 			switch (crud)
 			{
 				case Crud.None:

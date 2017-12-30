@@ -248,34 +248,6 @@ namespace Route66
 			Console.WriteLine($"IsMouseOutsideRegion delta x,y=({Math.Abs(e.X - eLast.X)},{Math.Abs(e.Y - eLast.Y)})");
 			return (Math.Abs(e.X - eLast.X) > region || Math.Abs(e.Y - eLast.Y) > region);
 		}
-		#endregion
-		#region MAP ZOOM KEYS
-		/// <summary>
-		/// Process keys.
-		/// </summary>
-		/// <param name="msg"></param>
-		/// <param name="keyCode"></param>
-		/// <returns></returns>
-		protected override bool ProcessCmdKey(ref Message msg, Keys keyCode)
-		{
-			Console.WriteLine($"ProcessCmdKey={keyCode} focused={gmap.Focused}");
-			if (gmap.Focused && Overlay.CurrentMarker != null || keyCode == Keys.I)
-			{
-				CtrlKeyIsPressed = keyCode == (Keys.ControlKey | Keys.Control);
-				switch (keyCode)
-				{
-					case Keys.Up: LastEnteredMarker = Overlay.SetArrowMarker(true); break;
-					case Keys.Down: LastEnteredMarker = Overlay.SetArrowMarker(false); break;
-					case Keys.Delete: if (IsEditMode()) { Overlay.RemoveCurrentMarker(); IsOnMarker = false; } break;
-					case Keys.C: Overlay.EditMarker(false); break;
-					case Keys.N: Overlay.EditMarker(true); break;
-					case Keys.I: My.Status($"currentmarker={Overlay.CurrentMarker.Info()}, LastEnteredMarker={((Overlay?.CurrentMarker == LastEnteredMarker) ? "+" : LastEnteredMarker.Info())}, IsOnMarker={IsOnMarker}, IsDragging={IsDragging})"); break;
-					default: return base.ProcessCmdKey(ref msg, keyCode);
-				}
-				return true;
-			}
-			return base.ProcessCmdKey(ref msg, keyCode); // handle Ctrl-O, Ctrl-S, Holten
-		}
 		/// <summary>
 		/// When mouse leaves the map: clear statusbar and reset currentmarker.
 		/// </summary>
@@ -292,6 +264,28 @@ namespace Route66
 			if (toolStripStatusLabel1.Text.StartsWith(" ")) My.Status($" Zoom factor = {gmap.Zoom}");
 			chkGpsPoints.Checked = true; // Bug update angle.
 			gmap.Refresh();
+		}
+		#endregion
+		#region PROCESS KEYS
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyCode)
+		{
+			Console.WriteLine($"ProcessCmdKey={keyCode} focused={gmap.Focused}");
+			if (gmap.Focused && (Overlay.CurrentMarker != null || keyCode == Keys.I))
+			{
+				CtrlKeyIsPressed = keyCode == (Keys.ControlKey | Keys.Control);
+				switch (keyCode)
+				{
+					case Keys.Up: LastEnteredMarker = Overlay.SetArrowMarker(true); break;
+					case Keys.Down: LastEnteredMarker = Overlay.SetArrowMarker(false); break;
+					case Keys.Delete: if (IsEditMode()) { Overlay.RemoveCurrentMarker(); IsOnMarker = false; } break;
+					case Keys.C: Overlay.EditMarker(false); break;
+					case Keys.N: Overlay.EditMarker(true); break;
+					case Keys.I: My.Status($"currentmarker={Overlay.CurrentMarker.Info()}, LastEnteredMarker={((Overlay?.CurrentMarker == LastEnteredMarker) ? "+" : LastEnteredMarker.Info())}, IsOnMarker={IsOnMarker}, IsDragging={IsDragging}, gmap.Focused={gmap.Focused}"); break;
+					default: return base.ProcessCmdKey(ref msg, keyCode);
+				}
+				return true;
+			}
+			return base.ProcessCmdKey(ref msg, keyCode); // handle Ctrl-O, Ctrl-S, Holten
 		}
 		#endregion
 		#region MENU ITEMS
@@ -311,12 +305,11 @@ namespace Route66
 			if (openFileDialog1.ShowDialog() == DialogResult.OK)
 			{
 				My.Log($"{openFileDialog1.Title} {openFileDialog1.FileName } {((IsSubroute) ? " at " + Overlay : "")}");
-				if (Path.GetExtension(openFileDialog1.FileName) != ".xml")
+				if (!Overlay.OpenRoute(openFileDialog1.FileName, IsSubroute))
 				{
-					My.Show("Sorry, this function is not implemented yet.");
-					return;
+					if (Overlay.Route.IsNotSupported) { My.Show($"Sorry, filetype {Path.GetExtension(openFileDialog1.FileName)} is not supported yet."); return; }
+					My.Status($"Error This file contains no Gps markers.");
 				}
-				if (!Overlay.OpenRoute(openFileDialog1.FileName, IsSubroute)) My.Status($"Error This file contains no Gps markers.");
 				//
 				// If subroute is loaded then keep original filename.
 				//
@@ -413,7 +406,7 @@ namespace Route66
 			if (e.KeyCode == Keys.Enter) txtSearch_Validated(null, null);
 		}
 		#endregion
-		#region RIGHT PANE
+		#region RIGHT PANEL
 		private void btnClear_Click(object sender, EventArgs e)
 		{
 			My.Status($"Clear Route {Overlay.Route}.");

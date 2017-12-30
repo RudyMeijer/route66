@@ -12,11 +12,12 @@ namespace Route66
 	public class Route
 	{
 		#region FIELDS
-		[XmlIgnore]
-		public string FileName;
+		//[XmlIgnore]
+		internal string FileName;
 		public static bool IsDefaultFile;
-		[XmlIgnore]
-		public bool IsChanged;
+		internal bool IsNotSupported;
+		//[XmlIgnore]
+		internal bool IsChanged;
 		private static Route route;
 		#endregion
 		#region CONSTRUCTOR
@@ -38,14 +39,22 @@ namespace Route66
 			{
 				using (TextReader reader = new StreamReader(fileName))
 				{
-					route = new XmlSerializer(typeof(Route)).Deserialize(reader) as Route;
+					switch (Path.GetExtension(fileName))
+					{
+						case ".xml":
+							route = new XmlSerializer(typeof(Route)).Deserialize(reader) as Route;
+							break;
+						case ".ar3":
+							ReadAr3(reader, route);
+							break;
+						default: route.IsNotSupported = true; break;
+					}
 				}
 			}
 			catch (Exception ee)
 			{
 				if (!IsDefaultFile)
 				{
-					//My.Log($"{ee} ");
 					if (ee.InnerException != null)
 						My.Show($"{ee.InnerException.Message}", ee.Message);
 					else
@@ -56,6 +65,22 @@ namespace Route66
 			route.IsChanged = false;
 			return route;
 		}
+
+		private static void ReadAr3(TextReader reader, Route route)
+		{
+			var line="";
+			var version = "";
+			while ((line = reader.ReadLine())!=null)
+			{
+				var s = line.Split(':', ',');
+				if (line.StartsWith("Ar3")) version = line.Split(':')[1];
+				else if (line.StartsWith("MachineType")) route.MachineType = My.GetEnum<MachineTypes>(s[1]);
+				else if (line.StartsWith("WayPoint[")) route.GpsMarkers.Add(new GpsMarker(s[1],s[2],s[3]));
+				else if (line.StartsWith("Instruction[")) route.NavigationMarkers.Add(new NavigationMarker(s[1]));
+				else if (line.StartsWith("ChangePoint[")) route.ChangeMarkers.Add(new ChangeMarker(s));
+			}
+		}
+
 		public void Save() => SaveAs(FileName);
 		public void SaveAs(string fileName)
 		{
