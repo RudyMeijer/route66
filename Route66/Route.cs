@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
@@ -72,42 +73,58 @@ namespace Route66
 			var line = "";
 			var version = "";
 			var provider = CultureInfo.GetCultureInfo("en").NumberFormat;
-			var distanceTable = new Dictionary<String, PointLatLng>();
-			var err1 = 0;
-			var err2 = 0;
+			var distanceTable = new Dictionary<int, PointLatLng>();
+			int err1 = 0, err2 = 0, err3 = 0;
+			var sb = new StringBuilder();
+			var lastKey = 0;
+			var lastDistance = -1;
 			while ((line = reader.ReadLine()) != null)
 			{
 				try
 				{
 					var s = line.Split(':', ',');
 
-					if (line.StartsWith("Ar3")) version = line.Split(':')[1];
+					if (line.StartsWith("Ar3")) version = s[1];
 					else if (line.StartsWith("MachineType")) route.MachineType = My.GetEnum<MachineTypes>(s[1]);
 					else if (line.StartsWith("WayPoint["))
 					{
 						var point = new PointLatLng(Double.Parse(s[2], provider), Double.Parse(s[1], provider));
 						route.GpsMarkers.Add(new GpsMarker(point));
-						distanceTable.Add(s[3], point);
+						var distance = int.Parse(s[3]);
+						if (distance < lastDistance) { ++err1; sb.Append($"\n{line} has descending distance and will be ignored."); }
+						else if (distance == lastDistance) { ++err2; sb.Append($"\nDuplicated line {line}"); }
+						else distanceTable.Add(distance, point);
+						lastDistance = distance;
 					}
 					else if (line.StartsWith("Instruction[")) route.NavigationMarkers.Add(new NavigationMarker(FindLatLng(s[1])));
 					else if (line.StartsWith("ChangePoint[")) route.ChangeMarkers.Add(new ChangeMarker(FindLatLng(s[1])));
 				}
-				catch (KeyNotFoundException)
-				{
-					++err1;
-					My.Log($"{line} not found in waypoints."); 
-				}
-				catch (Exception)
-				{
-					++err2;
-					My.Log($"Duplicated line {line}"); 
-				}
+				catch (Exception ee) { ++err3; sb.Append($"\nError in {line} {ee.Message}"); }
 			}
-			if (err1+err2 > 0) My.Show($"Total {err1 + err2} errors in route {Path.GetFileName(route.FileName)} detected. \n{err2} duplicated lines will be ignored. {err1} missing waypoints will be added.\nSee logfile for more information.", $"Statistical report.");
+			if (err1 + err2 + err3 > 0)
+			{
+				My.Log(sb.ToString());
+				My.Show($"Total {err1 + err2 + err3} errors in route {Path.GetFileName(route.FileName)} detected. \n{err2} duplicated lines will be ignored.\n{err1} points have descending distance and will be ignored. \n{err3} other errors. \nMissing waypoints will be added.\nAll errors are succesfully resolved. See logfile for more information.", $"Statistical report.");
+			}
 
-			PointLatLng FindLatLng(string distance) => distanceTable[distance];
+			PointLatLng FindLatLng(string distance)
+			{
+				int d = int.Parse(distance);
+				lastKey = 0;
+				foreach (var item in distanceTable)
+				{
+					if (item.Key >= d)
+					{
+						distanceTable.Remove(item.Key);// Use distance only one's so that not both NP and CP can be added to one gps point.
+						return item.Value;
+					}
+					else if (item.Key < lastKey) sb.Append($"\nDistance {line} not accending.");
+
+					lastKey = item.Key;
+				}
+				return distanceTable[0]; //todo
+			}
 		}
-
 
 		public void Save() => SaveAs(FileName);
 		public void SaveAs(string fileName)
