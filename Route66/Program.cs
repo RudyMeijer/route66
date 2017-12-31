@@ -24,12 +24,7 @@ namespace Route66
 			{
 				Application.Run(new Form1());
 			}
-			catch (Exception e)
-			{
-				var msg = $"{e} {e.InnerException}";
-				
-				My.Show(msg, "Sometimes you have luck sometimes not. Please send file Route66.log to Rudy.");
-			}
+			catch (Exception e) { My.Show($"{e} {e.InnerException}", "Sometimes you have luck sometimes not. Please send file Route66.log to Rudy."); }
 		}
 
 		private static void TestStack()

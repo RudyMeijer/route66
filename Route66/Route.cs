@@ -105,7 +105,7 @@ namespace Route66
 			if (err1 + err2 + err3 > 0)
 			{
 				My.Log(sb.ToString());
-				My.Show($"Total {err1 + err2 + err3} errors in route {Path.GetFileName(route.FileName)} detected. \n{err2} duplicated lines will be ignored.\n{err1} points have descending distance and will be ignored. \n{err3} other errors. \nMissing waypoints will be added.\nAll errors are succesfully resolved. See logfile for more information.", $"Statistical report.");
+				My.Show($"Total {err1 + err2 + err3} errors in route {Path.GetFileName(route.FileName)} detected. \n{err2} duplicated lines will be ignored.\n{err1} points have descending distance and will be ignored. \n{err3} other errors. \nMissing waypoints will be added.\nAll errors are succesfully resolved. See logfile for more information.", $"Requirements conformation report.");
 			}
 
 			PointLatLng FindLatLng(string distance)

@@ -317,7 +317,7 @@ namespace Route66
 				//
 				if (IsSubroute) My.Status($"Subroute {openFileDialog1.FileName} Succesfully added.");
 				this.Text = Title + Overlay.Route;
-				IsOnMarker = true;// Doubleclick in fileopenmenu -> adds marker.
+				IsDragging = true;// Doubleclick in fileopenmenu -> adds marker.
 				LastEnteredMarker = null;
 			}
 		}
