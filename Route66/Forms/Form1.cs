@@ -296,6 +296,8 @@ namespace Route66
 			if (!AskToSaveModifiedRoute())
 			{
 				btnClear_Click(sender, e);
+				Overlay.Route.FileName = "Untitled.xml";
+				this.Text = Title + Overlay.Route;
 			}
 		}
 		private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
