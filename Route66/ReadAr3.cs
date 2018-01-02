@@ -1,0 +1,114 @@
+﻿using GMap.NET;
+using MyLib;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static MyLib.My;
+
+namespace Route66
+{
+	public static partial class Adapters
+	{
+		public static void ReadAr3(TextReader reader, Route route)
+		{
+			var line = "";
+			var version = "";
+			var provider = CultureInfo.GetCultureInfo("en").NumberFormat;
+			var distanceTable = new Dictionary<int, PointLatLng>();
+			int err1 = 0, err2 = 0, err3 = 0, err4 = 0, err5 = 0;
+			var sb = new StringBuilder();
+			var lastKey = 0;
+			var lastDistance = -1;
+			while ((line = reader.ReadLine()) != null)
+			{
+				try
+				{
+					var s = line.Split(':', ',');
+
+					if (line.StartsWith("Ar3")) version = s[1];
+					else if (line.StartsWith("MachineType")) route.MachineType = My.GetEnum<MachineTypes>(s[1]);
+					else if (line.StartsWith("WayPoint["))
+					{
+						var point = new PointLatLng(Double.Parse(s[2], provider), Double.Parse(s[1], provider));
+						var distance = int.Parse(s[3]);
+						if (distance < lastDistance) { ++err1; sb.Append($"\n{line} has descending distance and will be ignored."); }
+						else if (distance == lastDistance) { ++err2; sb.Append($"\nDuplicated line {line}"); }
+						else
+						{
+							route.GpsMarkers.Add(new GpsMarker(point));
+							distanceTable.Add(distance, point);
+						}
+						lastDistance = distance;
+					}
+					else if (line.StartsWith("Instruction["))
+					{
+						var marker = new NavigationMarker(FindLatLng(s[1]));
+						marker.Message = InstructionType(s[2]);
+						marker.SoundFile = My.ValidateFilename(marker.Message) + ".wav"; // Todo create soundfile.
+						if (marker.Message == "-") { ++err3; sb.Append($"\n{line} Unkown navigation type {s[2]}"); }
+						route.NavigationMarkers.Add(marker);
+					}
+					else if (line.StartsWith("ChangePoint["))
+					{
+						var marker = new ChangeMarker(FindLatLng(s[1]));
+						if (route.MachineType == MachineTypes.StreetWasher)
+						{ }// Todo
+						else
+						{
+							marker.Dosage = Double.Parse(s[6]) / 100; // Todo fill all other properties.
+							marker.SpreadingWidthLeft = Double.Parse(s[7]) / 100;
+							marker.SpreadingWidthRight = Double.Parse(s[8]) / 100;
+						}
+						route.ChangeMarkers.Add(marker);
+					}
+				}
+				catch (Exception ee) { ++err4; sb.Append($"\nError in {line} {ee.Message}"); }
+			}
+			if (err1 + err2 + err3 + err4 + err5 > 0)
+			{
+				Log(sb.ToString());
+				Show($"Total {err1 + err2 + err3 + err4 + err5} errors in route {Path.GetFileName(route.FileName)} detected. \n{err2} duplicated lines will be ignored.\n{err1} points have descending distance and will be ignored. \n{err3} Unknown navigation types. \n{err5} Orphan markers found. They will be connected to Gps markers. \n{err4} other errors. \nAll errors are succesfully resolved. See logfile for more information.", $"Requirements conformation report.");
+			}
+
+			PointLatLng FindLatLng(string distance)
+			{
+				int d = int.Parse(distance);
+				lastKey = 0;
+				foreach (var item in distanceTable)
+				{
+					if (item.Key >= d)
+					{
+						if (item.Key > d) ++err5; // No corresponding Gps marker (=orphan).
+						distanceTable.Remove(item.Key);// Use distance only one's so that not both NP and CP can be added to one gps point.
+						return item.Value;
+					}
+					else if (item.Key < lastKey) sb.Append($"\nDistance {line} not accending.");
+
+					lastKey = item.Key;
+				}
+				return distanceTable[0]; //todo
+			}
+		}
+
+		private static string InstructionType(string v)
+		{
+			switch (v)
+			{
+				case "1": return Translate.NavigationMessages[(int)NavigationMessages.ENTER_ROUNDABOUT];
+				case "4": return Translate.NavigationMessages[(int)NavigationMessages.TURN_LEFT];
+				case "6": return Translate.NavigationMessages[(int)NavigationMessages.TURN_RIGHT];
+				case "8": return Translate.NavigationMessages[(int)NavigationMessages.ARRIVE];
+				case "9": return Translate.NavigationMessages[(int)NavigationMessages.U_TURN];
+				case "15": return Translate.NavigationMessages[(int)NavigationMessages.TAKE_RAMP_RIGHT];
+				case "16": return Translate.NavigationMessages[(int)NavigationMessages.PROCEED];
+				case "1008": return Translate.NavigationMessages[(int)NavigationMessages.MARKER];
+				default: return "-";
+			}
+		}
+
+	}
+}

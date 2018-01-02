@@ -497,8 +497,8 @@ namespace Route66
 		private bool AddNavigation(GMapMarker marker)
 		{
 			if (marker == null || marker.Tag != null || !IsGpsMarker(marker)) return false;
-			var uturn = 10f;
-			var marge = 30f;
+			var uturn = 30f;
+			var marge = 45f;
 			string message = null;
 			var angle = GetAngeWithPreviousItem(marker);
 			if (angle < uturn || angle > 360 - uturn) message = Translate.NavigationMessages[(int)NavigationMessages.U_TURN];

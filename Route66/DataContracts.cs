@@ -18,6 +18,7 @@ namespace Route66
 		RspDosage,
 		Sprayer,
 		Dst,
+		StreetWasher
 	}
 	public enum NavigationMessages
 	{
@@ -35,12 +36,11 @@ namespace Route66
 		ENTER_BIKE_LANE,
 		BEGIN_BREAK,
 		END_BREAK,
-		ENTER_LANE_1,
-		ENTER_LANE_2,
-		ENTER_LANE_3,
-		ENTER_LANE_4,
 		TURN_RIGHT_INTO_BIKE_LANE,
 		TURN_LEFT_INTO_BIKE_LANE,
+		ARRIVE,
+		MARKER,
+		PROCEED
 	}
 
 	/// <summary>
