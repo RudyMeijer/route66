@@ -244,7 +244,8 @@ namespace Route66
 		/// <returns></returns>
 		private bool IsMouseOutsideRegion(MouseEventArgs e, int region)
 		{
-			if (eLast == null) return false;
+			if (eLast == null) return true; // Doubleclick in fileopenmenu -> adds marker.
+											
 			//Console.WriteLine($"IsMouseOutsideRegion delta x,y=({Math.Abs(e.X - eLast.X)},{Math.Abs(e.Y - eLast.Y)})");
 			return (Math.Abs(e.X - eLast.X) > region || Math.Abs(e.Y - eLast.Y) > region);
 		}
@@ -322,7 +323,7 @@ namespace Route66
 				//
 				if (IsSubroute) My.Status($"Subroute {openFileDialog1.FileName} Succesfully added.");
 				this.Text = Title + Overlay.Route;
-				IsDragging = true;// Doubleclick in fileopenmenu -> adds marker.
+				//IsDragging = true;// Doubleclick in fileopenmenu -> adds marker.
 				LastEnteredMarker = null;
 			}
 		}
