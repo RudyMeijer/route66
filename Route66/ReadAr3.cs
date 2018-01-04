@@ -77,7 +77,7 @@ namespace Route66
 			if (errors.Sum() > 0)
 			{
 				Log(sb.ToString());
-				Show($"Total {errors.Sum()} errors in route {filename} detected. \n" +
+				Show($"Total {errors.Sum()} errors in route {Path.GetFileName(filename)} detected. \n" +
 					$"{errors[1]} duplicated lines will be ignored.\n" +
 					$"{errors[0]} points have descending distance and will be ignored. \n" +
 					$"{errors[2]} unknown navigation types. \n" +

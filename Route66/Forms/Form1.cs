@@ -216,7 +216,7 @@ namespace Route66
 		}
 		private void gmap_OnMarkerLeave(GMapMarker item)
 		{
-			Console.WriteLine($"Leave IsDragging={IsDragging}");
+			//Console.WriteLine($"Leave IsDragging={IsDragging}");
 			if (!IsDragging) IsOnMarker = false;
 		}
 		/// <summary>
@@ -245,7 +245,7 @@ namespace Route66
 		private bool IsMouseOutsideRegion(MouseEventArgs e, int region)
 		{
 			if (eLast == null) return false;
-			Console.WriteLine($"IsMouseOutsideRegion delta x,y=({Math.Abs(e.X - eLast.X)},{Math.Abs(e.Y - eLast.Y)})");
+			//Console.WriteLine($"IsMouseOutsideRegion delta x,y=({Math.Abs(e.X - eLast.X)},{Math.Abs(e.Y - eLast.Y)})");
 			return (Math.Abs(e.X - eLast.X) > region || Math.Abs(e.Y - eLast.Y) > region);
 		}
 		/// <summary>
@@ -255,7 +255,7 @@ namespace Route66
 		/// <param name="e"></param>
 		private void gmap_MouseLeave(object sender, EventArgs e)
 		{
-			Console.WriteLine("gmap_MouseLeave");
+			//Console.WriteLine("gmap_MouseLeave");
 			IsOnMarker = false;
 			My.Status(" Ready", SystemColors.Control);
 		}
