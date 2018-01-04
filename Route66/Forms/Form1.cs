@@ -275,7 +275,8 @@ namespace Route66
 			if (gmap.Focused && (Overlay.CurrentMarker != null || keyCode == Keys.I))
 			{
 				CtrlKeyIsPressed = keyCode == (Keys.ControlKey | Keys.Control);
-				switch (keyCode)
+				var key = keyCode & ~Keys.Control;
+				switch (key)
 				{
 					case Keys.Up: LastEnteredMarker = Overlay.SetArrowMarker(true); break;
 					case Keys.Down: LastEnteredMarker = Overlay.SetArrowMarker(false); break;
@@ -283,6 +284,8 @@ namespace Route66
 					case Keys.C: Overlay.EditMarker(false); break;
 					case Keys.N: Overlay.EditMarker(true); break;
 					case Keys.I: My.Status($"currentmarker={Overlay.CurrentMarker.Info()}, LastEnteredMarker={((Overlay?.CurrentMarker == LastEnteredMarker) ? "+" : LastEnteredMarker.Info())}, IsOnMarker={IsOnMarker}, IsDragging={IsDragging}, gmap.Focused={gmap.Focused}"); break;
+					case Keys.X: Overlay.CutMarker(); break;
+					case Keys.V: Overlay.PastMarker(); break;
 					default: return base.ProcessCmdKey(ref msg, keyCode);
 				}
 				return true;

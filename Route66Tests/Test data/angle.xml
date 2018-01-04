@@ -9,7 +9,7 @@
     <GpsMarker Lng="6.3973313570022583" Lat="52.2768314431585" />
   </GpsMarkers>
   <ChangeMarkers>
-    <ChangeMarker Lng="6.3970845937728882" Lat="52.27714161023129" Dosage="20" WidthLeft="1" WidthRight="1" Spreading="true" DualWidth="false" Spraying="false" Pump="false" Max="false" SecMat="false" Liquid="0" DosageLiquid="0" Hopper1="false" Hopper2="false" SprayLeft="0" SprayRight="0" />
+    <ChangeMarker Lng="6.3970845937728882" Lat="52.27714161023129" Dosage="33" WidthLeft="22" WidthRight="11" Spreading="true" DualWidth="false" Spraying="false" Pump="false" Max="false" SecMat="false" Liquid="0" DosageLiquid="0" Hopper1="false" Hopper2="false" SprayLeft="0" SprayRight="0" />
   </ChangeMarkers>
   <NavigationMarkers />
 </Route>

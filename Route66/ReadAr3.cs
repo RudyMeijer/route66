@@ -13,16 +13,20 @@ namespace Route66
 {
 	public static partial class Adapters
 	{
-		public static void ReadAr3(TextReader reader, Route route)
+		public static int[] errors;
+
+		public static Route ReadAr3(String filename)
 		{
 			var line = "";
 			var version = "";
 			var provider = CultureInfo.GetCultureInfo("en").NumberFormat;
 			var distanceTable = new Dictionary<int, PointLatLng>();
-			int err1 = 0, err2 = 0, err3 = 0, err4 = 0, err5 = 0;
+			errors = new int[5];
 			var sb = new StringBuilder();
 			var lastKey = 0;
 			var lastDistance = -1;
+			var route = new Route() { FileName = filename };
+			using (TextReader reader = new StreamReader(filename))
 			while ((line = reader.ReadLine()) != null)
 			{
 				try
@@ -35,8 +39,8 @@ namespace Route66
 					{
 						var point = new PointLatLng(Double.Parse(s[2], provider), Double.Parse(s[1], provider));
 						var distance = int.Parse(s[3]);
-						if (distance < lastDistance) { ++err1; sb.Append($"\n{line} has descending distance and will be ignored."); }
-						else if (distance == lastDistance) { ++err2; sb.Append($"\nDuplicated line {line}"); }
+						if (distance < lastDistance) { ++errors[0]; sb.Append($"\n{line} has descending distance and will be ignored."); }
+						else if (distance == lastDistance) { ++errors[1]; sb.Append($"\nDuplicated line {line}"); }
 						else
 						{
 							route.GpsMarkers.Add(new GpsMarker(point));
@@ -49,14 +53,16 @@ namespace Route66
 						var marker = new NavigationMarker(FindLatLng(s[1]));
 						marker.Message = InstructionType(s[2]);
 						marker.SoundFile = My.ValidateFilename(marker.Message) + ".wav"; // Todo create soundfile.
-						if (marker.Message == "-") { ++err3; sb.Append($"\n{line} Unkown navigation type {s[2]}"); }
+						if (marker.Message == "-") { ++errors[2]; sb.Append($"\n{line} Unkown navigation type {s[2]}"); }
 						route.NavigationMarkers.Add(marker);
 					}
 					else if (line.StartsWith("ChangePoint["))
 					{
 						var marker = new ChangeMarker(FindLatLng(s[1]));
 						if (route.MachineType == MachineTypes.StreetWasher)
-						{ }// Todo
+						{
+							// Todo
+						}
 						else
 						{
 							marker.Dosage = Double.Parse(s[6]) / 100; // Todo fill all other properties.
@@ -66,13 +72,20 @@ namespace Route66
 						route.ChangeMarkers.Add(marker);
 					}
 				}
-				catch (Exception ee) { ++err4; sb.Append($"\nError in {line} {ee.Message}"); }
+				catch (Exception ee) { ++errors[3]; sb.Append($"\nError in {line} {ee.Message} {ee.StackTrace}"); }
 			}
-			if (err1 + err2 + err3 + err4 + err5 > 0)
+			if (errors.Sum() > 0)
 			{
 				Log(sb.ToString());
-				Show($"Total {err1 + err2 + err3 + err4 + err5} errors in route {Path.GetFileName(route.FileName)} detected. \n{err2} duplicated lines will be ignored.\n{err1} points have descending distance and will be ignored. \n{err3} Unknown navigation types. \n{err5} Orphan markers found. They will be connected to Gps markers. \n{err4} other errors. \nAll errors are succesfully resolved. See logfile for more information.", $"Requirements conformation report.");
+				Show($"Total {errors.Sum()} errors in route {filename} detected. \n" +
+					$"{errors[1]} duplicated lines will be ignored.\n" +
+					$"{errors[0]} points have descending distance and will be ignored. \n" +
+					$"{errors[2]} unknown navigation types. \n" +
+					$"{errors[4]} orphan markers found. They will be connected to Gps markers. \n" +
+					$"{errors[3]} other errors. \n" +
+					$"All errors are succesfully resolved. See logfile for more information.", $"Requirements conformation report.");
 			}
+			return route;
 
 			PointLatLng FindLatLng(string distance)
 			{
@@ -82,15 +95,15 @@ namespace Route66
 				{
 					if (item.Key >= d)
 					{
-						if (item.Key > d) ++err5; // No corresponding Gps marker (=orphan).
-						distanceTable.Remove(item.Key);// Use distance only one's so that not both NP and CP can be added to one gps point.
+						if (item.Key > d) ++errors[4]; // No corresponding Gps marker (=orphan).
+						distanceTable.Remove(item.Key);// Use distance only one's so that not both Nav and Change marker can be added to one gps marker.
 						return item.Value;
 					}
 					else if (item.Key < lastKey) sb.Append($"\nDistance {line} not accending.");
 
 					lastKey = item.Key;
 				}
-				return distanceTable[0]; //todo
+				return distanceTable[distanceTable.Count-1];
 			}
 		}
 

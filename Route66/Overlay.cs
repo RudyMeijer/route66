@@ -22,6 +22,7 @@ namespace Route66
 		/// </summary>
 		public GMapMarker CurrentMarker;
 		private bool Initialize;
+		private GpsMarker savedTag;
 		private readonly GMapRoute RedRoute;
 		private readonly GMapOverlay Red;
 		private readonly GMapOverlay Green;
@@ -134,7 +135,7 @@ namespace Route66
 			}
 			UpdateGreenAndBlueOverlay(Crud.Delete, marker.Tag, null);
 			//
-			// When Change- or Navigation marker is deleted then remove Gpspoint tag.
+			// When Change- or Navigation marker is deleted then remove Gps marker tag.
 			//
 			if (!IsGpsMarker(marker)) GetRedMarker(marker.Tag as GpsMarker).Tag = null;
 		}
@@ -143,7 +144,8 @@ namespace Route66
 		/// CurrentMarker, 
 		/// Red, green and blue Markers,
 		/// RedRoute points, 
-		/// ChangeMarker and NavigationMarker instances
+		/// ChangeMarker and NavigationMarker instances,
+		/// Arrow marker
 		/// </summary>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
@@ -156,19 +158,19 @@ namespace Route66
 			// Use Gps marker.
 			//
 			if (!IsGpsMarker(CurrentMarker)) CurrentMarker = GetRedMarker(CurrentMarker.Tag as GpsMarker);
-
+			//
+			// Update green and blue marker position.
+			//
 			if (CurrentMarker.Tag is ChangeMarker) GetGreenMarker(CurrentMarker).Position = newPosition;
 			if (CurrentMarker.Tag is NavigationMarker) GetBlueMarker(CurrentMarker).Position = newPosition;
 			// 
-			// Update Route point.
-			// Allways use currentmarker class to find index because we can have duplicated Positions (struct)!
+			// Update Route point. Allways use currentmarker class to find index because we can have duplicated Positions (struct)!
 			//
 			var idx = GetIndexRed(CurrentMarker);
 			RedRoute.Points[idx] = newPosition;
 			gmap.UpdateRouteLocalPosition(RedRoute);
 			//
-			// Update current marker position.
-			// Red marker will implicit be updated.
+			// Update current marker position. Red marker will implicit be updated.
 			//
 			//Red.Markers[idx].Position = newPosition;
 			CurrentMarker.Position = newPosition;
@@ -291,6 +293,29 @@ namespace Route66
 			var pos = new PointLatLng(lat, lng);
 			foreach (var item in Red.Markers) if (item.Position == pos) return item;
 			return null;
+		}
+
+		internal void CutMarker()
+		{
+			if (CurrentMarker?.Tag != null)
+			{
+				savedTag = CurrentMarker.Tag as GpsMarker;
+				savedTag.Lat = 0;
+				savedTag.Lng = 0;
+				UpdateGreenAndBlueOverlay(Crud.Delete, CurrentMarker.Tag, null);
+				CurrentMarker.Tag = null;
+			}
+		}
+
+		internal void PastMarker()
+		{
+			if (CurrentMarker?.Tag != null) UpdateGreenAndBlueOverlay(Crud.Delete, CurrentMarker.Tag, null);
+			{
+				CurrentMarker.Tag = savedTag.DeepClone(); // Make multicopy possible.
+				(CurrentMarker.Tag as GpsMarker).Lat = CurrentMarker.Position.Lat;
+				(CurrentMarker.Tag as GpsMarker).Lng = CurrentMarker.Position.Lng;
+				UpdateGreenAndBlueOverlay(Crud.Create, null, CurrentMarker.Tag);
+			}
 		}
 		#endregion
 		/// <summary>

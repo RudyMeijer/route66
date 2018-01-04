@@ -43,6 +43,7 @@
       <HintPath>..\..\Assemblies\GMAP\GMap.NET.WindowsForms.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <Choose>
@@ -58,6 +59,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AdaptersTests.cs" />
     <Compile Include="OverlayTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -78,6 +80,9 @@
     <Content Include="Test data\Invalid.xml" />
     <Content Include="Test data\jumping big green.xml" />
     <Content Include="Test data\UI Test.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Test data\KleineRoute.ar3" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

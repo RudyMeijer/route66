@@ -38,21 +38,17 @@ namespace Route66
 		{
 			IsDefaultFile = (fileName == "Route66.xml");
 			route = new Route();
-			route.FileName = fileName;
 			try
 			{
-				using (TextReader reader = new StreamReader(fileName))
+				switch (Path.GetExtension(fileName))
 				{
-					switch (Path.GetExtension(fileName))
-					{
-						case ".xml":
-							route = new XmlSerializer(typeof(Route)).Deserialize(reader) as Route;
-							break;
-						case ".ar3":
-							ReadAr3(reader, route);
-							break;
-						default: route.IsNotSupported = true; break;
-					}
+					case ".xml":
+						route = new XmlSerializer(typeof(Route)).Deserialize(new StreamReader(fileName)) as Route;
+						break;
+					case ".ar3":
+						route = ReadAr3(fileName);
+						break;
+					default: route.IsNotSupported = true; break;
 				}
 			}
 			catch (Exception ee)
@@ -66,7 +62,6 @@ namespace Route66
 				}
 			}
 			route.FileName = fileName;
-			route.IsChanged = false;
 			return route;
 		}
 

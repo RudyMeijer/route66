@@ -7,3 +7,4 @@
 5 Update dosage values globally from x -> y.
 6 On startup show file open menu.
 7 Add changemarker edit form according http://confluence.ash.ads.org/display/PROD/Routecreator+ES#space-menu-link-content
+8 Allow cut and paste operations on map.
