@@ -72,7 +72,8 @@ namespace Route66
 				dis = $"Total distance={item.Overlay.Routes[0].Distance:f3} km ";
 			if (item.Tag != null)
 				tag = $"Tag={(item.Tag as GpsMarker).ToString().Replace('\n', ' ')}";
-			return $"{item.Overlay.Id} {item.ToolTipText?.Replace('\n', ' ')} {item.LocalPosition} {dis}{tag}";
+			var idx = item.Overlay.Markers.IndexOf(item);
+			return $"{item.Overlay.Id} {idx} {item.ToolTipText?.Replace('\n', ' ')} {item.LocalPosition} {dis}{tag}";
 		}
 	}
 }

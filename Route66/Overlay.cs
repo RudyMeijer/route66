@@ -220,7 +220,7 @@ namespace Route66
 					CurrentMarker.LocalPosition = item.LocalPosition; // gives jumping big marker. So when dragging copy Blue pos into red pos.
 			}
 			ShowArrowMarker(item);
-			if (!Initialize) My.Status($" Info: {this}");
+			if (!Initialize) My.Status($" Info: {item.Info()}");
 		}
 
 		private void ShowArrowMarker(GMapMarker item)
