@@ -103,7 +103,7 @@ namespace Route66
 
 					lastKey = item.Key;
 				}
-				return distanceTable[distanceTable.Count-1];
+				return distanceTable[lastKey];
 			}
 		}
 
