@@ -77,13 +77,13 @@ namespace Route66
 			if (errors.Sum() > 0)
 			{
 				Log(sb.ToString());
-				Show($"Total {errors.Sum()} errors in route {Path.GetFileName(filename)} detected. \n" +
+				Show($"Total {errors.Sum()} violations in route {Path.GetFileName(filename)} detected. \n" +
 					$"{errors[1]} duplicated lines will be ignored.\n" +
 					$"{errors[0]} points have descending distance and will be ignored. \n" +
 					$"{errors[2]} unknown navigation types. \n" +
 					$"{errors[4]} orphan markers found. They will be connected to Gps markers. \n" +
-					$"{errors[3]} other errors. \n" +
-					$"All errors are succesfully resolved. See logfile for more information.", $"Requirements conformation report.");
+					$"{errors[3]} exceptions. \n" +
+					$"All violations succesfully resolved. See logfile for more information.", $"Requirements conformation report.");
 			}
 			return route;
 
