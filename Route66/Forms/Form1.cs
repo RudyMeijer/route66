@@ -300,7 +300,7 @@ namespace Route66
 			if (!AskToSaveModifiedRoute())
 			{
 				btnClear_Click(sender, e);
-				Overlay.Route.FileName = "Untitled.xml";
+				Overlay.Route.FileName = My.CheckPath(Settings.RoutePath,"Route66.xml");
 				this.Text = Title + Overlay.Route;
 			}
 		}
