@@ -69,8 +69,9 @@
 			this.grpLeftJet = new System.Windows.Forms.GroupBox();
 			this.chkLeftJetOnOff = new System.Windows.Forms.CheckBox();
 			this.numPositionLeftJet = new System.Windows.Forms.NumericUpDown();
-			this.label11 = new System.Windows.Forms.Label();
+			this.grpPressure = new System.Windows.Forms.GroupBox();
 			this.numPressure = new System.Windows.Forms.NumericUpDown();
+			this.label11 = new System.Windows.Forms.Label();
 			this.grpRightJet = new System.Windows.Forms.GroupBox();
 			this.chkRightJetOnOff = new System.Windows.Forms.CheckBox();
 			this.numPositionRightJet = new System.Windows.Forms.NumericUpDown();
@@ -83,7 +84,6 @@
 			this.chkPump = new System.Windows.Forms.CheckBox();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
 			this.btnRemove = new System.Windows.Forms.Button();
-			this.grpPressure = new System.Windows.Forms.GroupBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage3.SuspendLayout();
 			this.flowLayoutPanel3.SuspendLayout();
@@ -105,18 +105,18 @@
 			this.grpHopper.SuspendLayout();
 			this.grpLeftJet.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numPositionLeftJet)).BeginInit();
+			this.grpPressure.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numPressure)).BeginInit();
 			this.grpRightJet.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numPositionRightJet)).BeginInit();
 			this.grpAction.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
-			this.grpPressure.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnOk
 			// 
 			this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnOk.Location = new System.Drawing.Point(488, 220);
+			this.btnOk.Location = new System.Drawing.Point(459, 220);
 			this.btnOk.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.btnOk.Name = "btnOk";
 			this.btnOk.Size = new System.Drawing.Size(98, 35);
@@ -135,7 +135,7 @@
 			this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(601, 394);
+			this.tabControl1.Size = new System.Drawing.Size(572, 394);
 			this.tabControl1.TabIndex = 8;
 			// 
 			// tabPage3
@@ -146,7 +146,7 @@
 			this.tabPage3.Location = new System.Drawing.Point(4, 4);
 			this.tabPage3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.tabPage3.Name = "tabPage3";
-			this.tabPage3.Size = new System.Drawing.Size(593, 361);
+			this.tabPage3.Size = new System.Drawing.Size(564, 361);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "tabPage3";
 			this.tabPage3.UseVisualStyleBackColor = true;
@@ -160,7 +160,7 @@
 			this.flowLayoutPanel3.Location = new System.Drawing.Point(0, 137);
 			this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-			this.flowLayoutPanel3.Size = new System.Drawing.Size(593, 170);
+			this.flowLayoutPanel3.Size = new System.Drawing.Size(564, 170);
 			this.flowLayoutPanel3.TabIndex = 2;
 			this.flowLayoutPanel3.WrapContents = false;
 			// 
@@ -383,7 +383,7 @@
 			this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 62);
 			this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-			this.flowLayoutPanel2.Size = new System.Drawing.Size(593, 75);
+			this.flowLayoutPanel2.Size = new System.Drawing.Size(564, 75);
 			this.flowLayoutPanel2.TabIndex = 1;
 			this.flowLayoutPanel2.WrapContents = false;
 			// 
@@ -643,7 +643,7 @@
 			this.grpLeftJet.Size = new System.Drawing.Size(154, 65);
 			this.grpLeftJet.TabIndex = 16;
 			this.grpLeftJet.TabStop = false;
-			this.grpLeftJet.Text = "Left Jet";
+			this.grpLeftJet.Text = "Left Jet   Position";
 			this.grpLeftJet.Visible = false;
 			// 
 			// chkLeftJetOnOff
@@ -682,16 +682,19 @@
             0,
             0});
 			// 
-			// label11
+			// grpPressure
 			// 
-			this.label11.AutoSize = true;
-			this.label11.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.label11.Location = new System.Drawing.Point(76, 28);
-			this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(34, 20);
-			this.label11.TabIndex = 11;
-			this.label11.Text = "Bar";
+			this.grpPressure.Controls.Add(this.numPressure);
+			this.grpPressure.Controls.Add(this.label11);
+			this.grpPressure.Enabled = false;
+			this.grpPressure.ForeColor = System.Drawing.Color.Blue;
+			this.grpPressure.Location = new System.Drawing.Point(863, 3);
+			this.grpPressure.Name = "grpPressure";
+			this.grpPressure.Size = new System.Drawing.Size(124, 67);
+			this.grpPressure.TabIndex = 17;
+			this.grpPressure.TabStop = false;
+			this.grpPressure.Text = "Pressure";
+			this.grpPressure.Visible = false;
 			// 
 			// numPressure
 			// 
@@ -717,6 +720,17 @@
             0,
             0});
 			// 
+			// label11
+			// 
+			this.label11.AutoSize = true;
+			this.label11.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			this.label11.Location = new System.Drawing.Point(76, 28);
+			this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(34, 20);
+			this.label11.TabIndex = 11;
+			this.label11.Text = "Bar";
+			// 
 			// grpRightJet
 			// 
 			this.grpRightJet.Controls.Add(this.chkRightJetOnOff);
@@ -730,7 +744,7 @@
 			this.grpRightJet.Size = new System.Drawing.Size(155, 65);
 			this.grpRightJet.TabIndex = 18;
 			this.grpRightJet.TabStop = false;
-			this.grpRightJet.Text = "Right Jet";
+			this.grpRightJet.Text = "Right Jet Position";
 			this.grpRightJet.Visible = false;
 			// 
 			// chkRightJetOnOff
@@ -778,7 +792,7 @@
 			this.grpAction.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.grpAction.Name = "grpAction";
 			this.grpAction.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.grpAction.Size = new System.Drawing.Size(593, 62);
+			this.grpAction.Size = new System.Drawing.Size(564, 62);
 			this.grpAction.TabIndex = 0;
 			this.grpAction.TabStop = false;
 			this.grpAction.Text = "Action";
@@ -794,7 +808,7 @@
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 23);
 			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(587, 32);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(558, 32);
 			this.flowLayoutPanel1.TabIndex = 0;
 			this.flowLayoutPanel1.WrapContents = false;
 			// 
@@ -871,7 +885,7 @@
 			this.tabPage4.Location = new System.Drawing.Point(4, 4);
 			this.tabPage4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.tabPage4.Name = "tabPage4";
-			this.tabPage4.Size = new System.Drawing.Size(1242, 361);
+			this.tabPage4.Size = new System.Drawing.Size(581, 361);
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "tabPage4";
 			this.tabPage4.UseVisualStyleBackColor = true;
@@ -888,26 +902,12 @@
 			this.btnRemove.UseVisualStyleBackColor = true;
 			this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
 			// 
-			// grpPressure
-			// 
-			this.grpPressure.Controls.Add(this.numPressure);
-			this.grpPressure.Controls.Add(this.label11);
-			this.grpPressure.Enabled = false;
-			this.grpPressure.ForeColor = System.Drawing.Color.Blue;
-			this.grpPressure.Location = new System.Drawing.Point(863, 3);
-			this.grpPressure.Name = "grpPressure";
-			this.grpPressure.Size = new System.Drawing.Size(124, 67);
-			this.grpPressure.TabIndex = 17;
-			this.grpPressure.TabStop = false;
-			this.grpPressure.Text = "Pressure";
-			this.grpPressure.Visible = false;
-			// 
 			// FormEditChangeMarker
 			// 
 			this.AcceptButton = this.btnOk;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(601, 271);
+			this.ClientSize = new System.Drawing.Size(572, 271);
 			this.Controls.Add(this.btnOk);
 			this.Controls.Add(this.btnRemove);
 			this.Controls.Add(this.tabControl1);
@@ -950,6 +950,8 @@
 			this.grpLeftJet.ResumeLayout(false);
 			this.grpLeftJet.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numPositionLeftJet)).EndInit();
+			this.grpPressure.ResumeLayout(false);
+			this.grpPressure.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numPressure)).EndInit();
 			this.grpRightJet.ResumeLayout(false);
 			this.grpRightJet.PerformLayout();
@@ -957,8 +959,6 @@
 			this.grpAction.ResumeLayout(false);
 			this.flowLayoutPanel1.ResumeLayout(false);
 			this.flowLayoutPanel1.PerformLayout();
-			this.grpPressure.ResumeLayout(false);
-			this.grpPressure.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
