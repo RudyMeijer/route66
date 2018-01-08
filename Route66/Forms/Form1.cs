@@ -172,7 +172,7 @@ namespace Route66
 			Console.WriteLine($" gmap_MouseUp focus={gmap.Focused}");
 			if (IsDragging) Console.WriteLine("stop dragging");
 			if (e.Button == MouseButtons.Left && !IsOnMarker && !IsDragging && IsEditMode()) { Overlay.AddMarker(e.X, e.Y); }
-			if (e.Button == MouseButtons.Left && IsOnMarker && !IsDragging) { Overlay.EditMarker(CtrlKeyIsPressed); chkChangePoints.Checked = chkNavPoints.Checked = true; }
+			if (e.Button == MouseButtons.Left && IsOnMarker && !IsDragging) { Overlay.EditMarker(CtrlKeyIsPressed); }
 			IsDragging = false;
 		}
 		/// <summary>

@@ -107,7 +107,7 @@ namespace Route66
 					$"{errors[2]} unknown navigation types. \n" +
 					$"{errors[4]} orphan markers found. They will be connected to Gps markers. \n" +
 					$"{errors[3]} exceptions. \n" +
-					$"All violations succesfully resolved. See logfile for more information.", $"Requirements conformation report.");
+					$"All violations succesfully resolved. See logfile for more information.", $"Requirements Conformation Report.");
 			}
 			return route;
 
