@@ -113,9 +113,9 @@ namespace Route66
 				chkPump.Checked = cm.PumpOnOff;
 				chkLeftJetOnOff.Checked = cm.Hopper1OnOff;
 				chkRightJetOnOff.Checked = cm.Hopper2OnOff;
-				numPressure.Value = (decimal)cm.Dosage;
-				numPositionRightJet.Value = (decimal)cm.SpreadingWidthRight;
-				numPositionLeftJet.Value = (decimal)cm.SpreadingWidthLeft;
+				Set(numPressure, cm.Dosage);
+				Set(numPositionRightJet, cm.SpreadingWidthRight);
+				Set(numPositionLeftJet, cm.SpreadingWidthLeft);
 			}
 			else
 			{
@@ -124,20 +124,26 @@ namespace Route66
 				chkDualWidth.Checked = cm.DualWidthOnOff;
 				chkSpraying.Checked = cm.SprayingOnOff;
 				// Row 2
-				numDosage.Value = (decimal)cm.Dosage;
+				Set(numDosage, cm.Dosage);
 				chkMaxOnOff.Checked = cm.MaxOnOff;
 				chkSecMatOnOff.Checked = cm.SecMatOnOff;
-				numSecLiquid.Value = (decimal)cm.SecLiquid;
-				numDosageLiquid.Value = (decimal)cm.DosageLiquid;
+				Set(numPersentageLiquid, cm.PersentageLiquid);
+				Set(numDosageLiquid, cm.DosageLiquid);
 				chkHopper1OnOff.Checked = cm.Hopper1OnOff;
 				chkHopper2OnOff.Checked = cm.Hopper2OnOff;
 				// Row 3
-				numSpreadingWidthLeft.Value = (decimal)cm.SpreadingWidthLeft;
-				numSpreadingWidthRight.Value = (decimal)cm.SpreadingWidthRight;
-				numSprayingWidthLeft.Value = (decimal)cm.SprayingWidthLeft;
-				numSprayingWidthRight.Value = (decimal)cm.SprayingWidthRight;
+				Set(numSpreadingWidthLeft, cm.SpreadingWidthLeft);
+				Set(numSpreadingWidthRight, cm.SpreadingWidthRight);
+				Set(numSprayingWidthLeft, cm.SprayingWidthLeft);
+				Set(numSprayingWidthRight, cm.SprayingWidthRight);
 			}
 		}
+		private void Set(NumericUpDown numericUpDown, double input)
+		{
+			var value = (decimal)input;
+			if (value >= numericUpDown.Minimum && value <= numericUpDown.Maximum) numericUpDown.Value = value;
+		}
+
 		/// <summary>
 		/// This methode is the complement of previous methode DisplayOnForm.
 		/// </summary>
@@ -163,7 +169,7 @@ namespace Route66
 				cm.Dosage = (double)numDosage.Value;
 				cm.MaxOnOff = chkMaxOnOff.Checked;
 				cm.SecMatOnOff = chkSecMatOnOff.Checked;
-				cm.SecLiquid = (double)numSecLiquid.Value;
+				cm.PersentageLiquid = (double)numPersentageLiquid.Value;
 				cm.DosageLiquid = (double)numDosageLiquid.Value;
 				cm.Hopper1OnOff = chkHopper1OnOff.Checked;
 				cm.Hopper2OnOff = chkHopper2OnOff.Checked;

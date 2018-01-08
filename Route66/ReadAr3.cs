@@ -15,6 +15,12 @@ namespace Route66
 	{
 		public static int[] errors;
 
+		/// <summary>
+		/// Read AR3 file.
+		/// See http://confluence.ash.ads.org/display/EHP/Autologic+ar3+route+file+format.+V2
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <returns></returns>
 		public static Route ReadAr3(String filename)
 		{
 			var line = "";
@@ -27,53 +33,70 @@ namespace Route66
 			var lastDistance = -1;
 			var route = new Route() { FileName = filename };
 			using (TextReader reader = new StreamReader(filename))
-			while ((line = reader.ReadLine()) != null)
-			{
-				try
+				while ((line = reader.ReadLine()) != null)
 				{
-					var s = line.Split(':', ',');
+					try
+					{
+						var s = line.Split(':', ',');
 
-					if (line.StartsWith("Ar3")) version = s[1];
-					else if (line.StartsWith("MachineType")) route.MachineType = My.GetEnum<MachineTypes>(s[1]);
-					else if (line.StartsWith("WayPoint["))
-					{
-						var point = new PointLatLng(Double.Parse(s[2], provider), Double.Parse(s[1], provider));
-						var distance = int.Parse(s[3]);
-						if (distance < lastDistance) { ++errors[0]; sb.Append($"\n{line} has descending distance and will be ignored."); }
-						else if (distance == lastDistance) { ++errors[1]; sb.Append($"\nDuplicated line {line}"); }
-						else
+						if (line.StartsWith("Ar3")) version = s[1];
+						else if (line.StartsWith("MachineType")) route.MachineType = My.GetEnum<MachineTypes>(s[1]);
+						else if (line.StartsWith("WayPoint["))
 						{
-							route.GpsMarkers.Add(new GpsMarker(point));
-							distanceTable.Add(distance, point);
+							var point = new PointLatLng(Double.Parse(s[2], provider), Double.Parse(s[1], provider));
+							var distance = int.Parse(s[3]);
+							if (distance < lastDistance) { ++errors[0]; sb.Append($"\n{line} has descending distance and will be ignored."); }
+							else if (distance == lastDistance) { ++errors[1]; sb.Append($"\nDuplicated line {line}"); }
+							else
+							{
+								route.GpsMarkers.Add(new GpsMarker(point));
+								distanceTable.Add(distance, point);
+							}
+							lastDistance = distance;
 						}
-						lastDistance = distance;
-					}
-					else if (line.StartsWith("Instruction["))
-					{
-						var marker = new NavigationMarker(FindLatLng(s[1]));
-						marker.Message = InstructionType(s[2]);
-						marker.SoundFile = My.ValidateFilename(marker.Message) + ".wav"; // Todo create soundfile.
-						if (marker.Message == "-") { ++errors[2]; sb.Append($"\n{line} Unkown navigation type {s[2]}"); }
-						route.NavigationMarkers.Add(marker);
-					}
-					else if (line.StartsWith("ChangePoint["))
-					{
-						var marker = new ChangeMarker(FindLatLng(s[1]));
-						//if (route.MachineType == MachineTypes.StreetWasher)
-						//{
-						//	// Todo
-						//}
-						//else
+						else if (line.StartsWith("Instruction["))
 						{
-							marker.Dosage = Double.Parse(s[6]) / 100; // Todo fill all other properties.
-							marker.SpreadingWidthLeft = Double.Parse(s[7]) / 100;
-							marker.SpreadingWidthRight = Double.Parse(s[8]) / 100;
+							var marker = new NavigationMarker(FindLatLng(s[1]));
+							marker.Message = InstructionType(s[2]);
+							marker.SoundFile = My.ValidateFilename(marker.Message) + ".wav"; // Todo create soundfile.
+							if (marker.Message == "-") { ++errors[2]; sb.Append($"\n{line} Unkown navigation type {s[2]}"); }
+							route.NavigationMarkers.Add(marker);
 						}
-						route.ChangeMarkers.Add(marker);
+						else if (line.StartsWith("ChangePoint["))
+						{
+							var marker = new ChangeMarker(FindLatLng(s[1]));
+							if (route.MachineType == MachineTypes.StreetWasher)
+							{
+								// 1=DistanceFromStart, ActivityState, LeftNozzleIsActive, LeftNozzlePosition, RightNozzleIsActive, RightNozzlePosition, waterpressure,Marked, Message
+								// If this code is changed then modify also methode DisplayOnForm.
+								marker.PumpOnOff = s[2] == "1";
+								marker.Hopper1OnOff = s[3] == "1";
+								marker.SpreadingWidthLeft = Double.Parse(s[4]);
+								marker.Hopper2OnOff = s[5] == "1";
+								marker.SpreadingWidthRight = Double.Parse(s[6]);
+								marker.Dosage = Double.Parse(s[7]);
+							}
+							else
+							{
+								// 1=DistanceFromStartInCm, SpreadSprayOnOff, SprayModeOnOff, Max, SecMat,Dosage, WidthLeft, WidthRight, SecDos, WidthLeftSpraying, WidthRightSpraying, CombiPercentage, HopperSelection, Marked, Message
+								marker.SpreadingOnOff = s[2] == "1";
+								marker.SprayingOnOff = s[3] == "1";
+								marker.MaxOnOff = s[4] == "1";
+								marker.SecMatOnOff = s[5] == "1";
+								marker.Dosage = Double.Parse(s[6]) / 100;
+								marker.SpreadingWidthLeft = Double.Parse(s[7]) / 100;
+								marker.SpreadingWidthRight = Double.Parse(s[8]) / 100;
+								marker.DosageLiquid = Double.Parse(s[9]) / 100;
+								marker.SprayingWidthLeft = Double.Parse(s[10]) / 100;
+								marker.SprayingWidthRight = Double.Parse(s[11]) / 100;
+								marker.PersentageLiquid = Double.Parse(s[12]);
+
+							}
+							route.ChangeMarkers.Add(marker);
+						}
 					}
+					catch (Exception ee) { ++errors[3]; sb.Append($"\nError in {line} {ee.Message} {ee.StackTrace}"); }
 				}
-				catch (Exception ee) { ++errors[3]; sb.Append($"\nError in {line} {ee.Message} {ee.StackTrace}"); }
-			}
 			if (errors.Sum() > 0)
 			{
 				Log(sb.ToString());

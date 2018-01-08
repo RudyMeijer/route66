@@ -58,7 +58,7 @@
 			this.chkSecMatOnOff = new System.Windows.Forms.CheckBox();
 			this.grpSecLiquid = new System.Windows.Forms.GroupBox();
 			this.label5 = new System.Windows.Forms.Label();
-			this.numSecLiquid = new System.Windows.Forms.NumericUpDown();
+			this.numPersentageLiquid = new System.Windows.Forms.NumericUpDown();
 			this.grpDosageLiquid = new System.Windows.Forms.GroupBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.numDosageLiquid = new System.Windows.Forms.NumericUpDown();
@@ -99,7 +99,7 @@
 			this.grpMax.SuspendLayout();
 			this.grpSecMat.SuspendLayout();
 			this.grpSecLiquid.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numSecLiquid)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numPersentageLiquid)).BeginInit();
 			this.grpDosageLiquid.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numDosageLiquid)).BeginInit();
 			this.grpHopper.SuspendLayout();
@@ -116,7 +116,7 @@
 			// btnOk
 			// 
 			this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnOk.Location = new System.Drawing.Point(459, 220);
+			this.btnOk.Location = new System.Drawing.Point(472, 220);
 			this.btnOk.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.btnOk.Name = "btnOk";
 			this.btnOk.Size = new System.Drawing.Size(98, 35);
@@ -135,7 +135,7 @@
 			this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(572, 394);
+			this.tabControl1.Size = new System.Drawing.Size(585, 394);
 			this.tabControl1.TabIndex = 8;
 			// 
 			// tabPage3
@@ -146,7 +146,7 @@
 			this.tabPage3.Location = new System.Drawing.Point(4, 4);
 			this.tabPage3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.tabPage3.Name = "tabPage3";
-			this.tabPage3.Size = new System.Drawing.Size(564, 361);
+			this.tabPage3.Size = new System.Drawing.Size(577, 361);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "tabPage3";
 			this.tabPage3.UseVisualStyleBackColor = true;
@@ -160,7 +160,7 @@
 			this.flowLayoutPanel3.Location = new System.Drawing.Point(0, 137);
 			this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-			this.flowLayoutPanel3.Size = new System.Drawing.Size(564, 170);
+			this.flowLayoutPanel3.Size = new System.Drawing.Size(577, 170);
 			this.flowLayoutPanel3.TabIndex = 2;
 			this.flowLayoutPanel3.WrapContents = false;
 			// 
@@ -383,7 +383,7 @@
 			this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 62);
 			this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-			this.flowLayoutPanel2.Size = new System.Drawing.Size(564, 75);
+			this.flowLayoutPanel2.Size = new System.Drawing.Size(577, 75);
 			this.flowLayoutPanel2.TabIndex = 1;
 			this.flowLayoutPanel2.WrapContents = false;
 			// 
@@ -391,7 +391,7 @@
 			// 
 			this.lblMargeRow2.Location = new System.Drawing.Point(3, 0);
 			this.lblMargeRow2.Name = "lblMargeRow2";
-			this.lblMargeRow2.Size = new System.Drawing.Size(11, 60);
+			this.lblMargeRow2.Size = new System.Drawing.Size(2, 60);
 			this.lblMargeRow2.TabIndex = 15;
 			// 
 			// grpDosage
@@ -400,7 +400,7 @@
 			this.grpDosage.Controls.Add(this.label3);
 			this.grpDosage.Enabled = false;
 			this.grpDosage.ForeColor = System.Drawing.Color.Blue;
-			this.grpDosage.Location = new System.Drawing.Point(21, 5);
+			this.grpDosage.Location = new System.Drawing.Point(12, 5);
 			this.grpDosage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.grpDosage.Name = "grpDosage";
 			this.grpDosage.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -443,7 +443,7 @@
 			// 
 			this.grpMax.Controls.Add(this.chkMaxOnOff);
 			this.grpMax.ForeColor = System.Drawing.Color.Blue;
-			this.grpMax.Location = new System.Drawing.Point(163, 4);
+			this.grpMax.Location = new System.Drawing.Point(154, 4);
 			this.grpMax.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.grpMax.Name = "grpMax";
 			this.grpMax.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -471,7 +471,7 @@
 			this.grpSecMat.Controls.Add(this.chkSecMatOnOff);
 			this.grpSecMat.Enabled = false;
 			this.grpSecMat.ForeColor = System.Drawing.Color.Blue;
-			this.grpSecMat.Location = new System.Drawing.Point(248, 4);
+			this.grpSecMat.Location = new System.Drawing.Point(239, 4);
 			this.grpSecMat.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.grpSecMat.Name = "grpSecMat";
 			this.grpSecMat.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -497,10 +497,10 @@
 			// grpSecLiquid
 			// 
 			this.grpSecLiquid.Controls.Add(this.label5);
-			this.grpSecLiquid.Controls.Add(this.numSecLiquid);
+			this.grpSecLiquid.Controls.Add(this.numPersentageLiquid);
 			this.grpSecLiquid.Enabled = false;
 			this.grpSecLiquid.ForeColor = System.Drawing.Color.Blue;
-			this.grpSecLiquid.Location = new System.Drawing.Point(342, 4);
+			this.grpSecLiquid.Location = new System.Drawing.Point(333, 4);
 			this.grpSecLiquid.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.grpSecLiquid.Name = "grpSecLiquid";
 			this.grpSecLiquid.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -520,19 +520,19 @@
 			this.label5.TabIndex = 8;
 			this.label5.Text = "%";
 			// 
-			// numSecLiquid
+			// numPersentageLiquid
 			// 
-			this.numSecLiquid.Increment = new decimal(new int[] {
+			this.numPersentageLiquid.Increment = new decimal(new int[] {
             10,
             0,
             0,
             0});
-			this.numSecLiquid.Location = new System.Drawing.Point(8, 28);
-			this.numSecLiquid.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.numSecLiquid.Name = "numSecLiquid";
-			this.numSecLiquid.Size = new System.Drawing.Size(62, 26);
-			this.numSecLiquid.TabIndex = 7;
-			this.numSecLiquid.Value = new decimal(new int[] {
+			this.numPersentageLiquid.Location = new System.Drawing.Point(8, 28);
+			this.numPersentageLiquid.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+			this.numPersentageLiquid.Name = "numPersentageLiquid";
+			this.numPersentageLiquid.Size = new System.Drawing.Size(62, 26);
+			this.numPersentageLiquid.TabIndex = 7;
+			this.numPersentageLiquid.Value = new decimal(new int[] {
             30,
             0,
             0,
@@ -544,7 +544,7 @@
 			this.grpDosageLiquid.Controls.Add(this.numDosageLiquid);
 			this.grpDosageLiquid.Enabled = false;
 			this.grpDosageLiquid.ForeColor = System.Drawing.Color.Blue;
-			this.grpDosageLiquid.Location = new System.Drawing.Point(460, 4);
+			this.grpDosageLiquid.Location = new System.Drawing.Point(451, 4);
 			this.grpDosageLiquid.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.grpDosageLiquid.Name = "grpDosageLiquid";
 			this.grpDosageLiquid.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -589,7 +589,7 @@
 			this.grpHopper.Controls.Add(this.label1);
 			this.grpHopper.Enabled = false;
 			this.grpHopper.ForeColor = System.Drawing.Color.Blue;
-			this.grpHopper.Location = new System.Drawing.Point(613, 4);
+			this.grpHopper.Location = new System.Drawing.Point(604, 4);
 			this.grpHopper.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.grpHopper.Name = "grpHopper";
 			this.grpHopper.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -636,7 +636,7 @@
 			this.grpLeftJet.Controls.Add(this.numPositionLeftJet);
 			this.grpLeftJet.Enabled = false;
 			this.grpLeftJet.ForeColor = System.Drawing.Color.Blue;
-			this.grpLeftJet.Location = new System.Drawing.Point(703, 4);
+			this.grpLeftJet.Location = new System.Drawing.Point(694, 4);
 			this.grpLeftJet.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.grpLeftJet.Name = "grpLeftJet";
 			this.grpLeftJet.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -657,10 +657,10 @@
 			this.chkLeftJetOnOff.TabIndex = 11;
 			this.chkLeftJetOnOff.Text = "OFF";
 			this.chkLeftJetOnOff.UseVisualStyleBackColor = true;
+			this.chkLeftJetOnOff.CheckedChanged += new System.EventHandler(this.chkMaxOnOff_CheckedChanged);
 			// 
 			// numPositionLeftJet
 			// 
-			this.numPositionLeftJet.DecimalPlaces = 1;
 			this.numPositionLeftJet.Location = new System.Drawing.Point(80, 25);
 			this.numPositionLeftJet.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.numPositionLeftJet.Maximum = new decimal(new int[] {
@@ -674,13 +674,8 @@
             0,
             -2147483648});
 			this.numPositionLeftJet.Name = "numPositionLeftJet";
-			this.numPositionLeftJet.Size = new System.Drawing.Size(61, 26);
+			this.numPositionLeftJet.Size = new System.Drawing.Size(54, 26);
 			this.numPositionLeftJet.TabIndex = 10;
-			this.numPositionLeftJet.Value = new decimal(new int[] {
-            6,
-            0,
-            0,
-            0});
 			// 
 			// grpPressure
 			// 
@@ -688,7 +683,7 @@
 			this.grpPressure.Controls.Add(this.label11);
 			this.grpPressure.Enabled = false;
 			this.grpPressure.ForeColor = System.Drawing.Color.Blue;
-			this.grpPressure.Location = new System.Drawing.Point(863, 3);
+			this.grpPressure.Location = new System.Drawing.Point(854, 3);
 			this.grpPressure.Name = "grpPressure";
 			this.grpPressure.Size = new System.Drawing.Size(124, 67);
 			this.grpPressure.TabIndex = 17;
@@ -698,8 +693,7 @@
 			// 
 			// numPressure
 			// 
-			this.numPressure.DecimalPlaces = 1;
-			this.numPressure.Location = new System.Drawing.Point(7, 26);
+			this.numPressure.Location = new System.Drawing.Point(13, 26);
 			this.numPressure.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.numPressure.Maximum = new decimal(new int[] {
             20,
@@ -712,10 +706,10 @@
             0,
             0});
 			this.numPressure.Name = "numPressure";
-			this.numPressure.Size = new System.Drawing.Size(61, 26);
+			this.numPressure.Size = new System.Drawing.Size(54, 26);
 			this.numPressure.TabIndex = 10;
 			this.numPressure.Value = new decimal(new int[] {
-            6,
+            5,
             0,
             0,
             0});
@@ -737,7 +731,7 @@
 			this.grpRightJet.Controls.Add(this.numPositionRightJet);
 			this.grpRightJet.Enabled = false;
 			this.grpRightJet.ForeColor = System.Drawing.Color.Blue;
-			this.grpRightJet.Location = new System.Drawing.Point(993, 4);
+			this.grpRightJet.Location = new System.Drawing.Point(984, 4);
 			this.grpRightJet.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.grpRightJet.Name = "grpRightJet";
 			this.grpRightJet.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -758,10 +752,10 @@
 			this.chkRightJetOnOff.TabIndex = 11;
 			this.chkRightJetOnOff.Text = "OFF";
 			this.chkRightJetOnOff.UseVisualStyleBackColor = true;
+			this.chkRightJetOnOff.CheckedChanged += new System.EventHandler(this.chkMaxOnOff_CheckedChanged);
 			// 
 			// numPositionRightJet
 			// 
-			this.numPositionRightJet.DecimalPlaces = 1;
 			this.numPositionRightJet.Location = new System.Drawing.Point(80, 25);
 			this.numPositionRightJet.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.numPositionRightJet.Maximum = new decimal(new int[] {
@@ -775,13 +769,8 @@
             0,
             -2147483648});
 			this.numPositionRightJet.Name = "numPositionRightJet";
-			this.numPositionRightJet.Size = new System.Drawing.Size(61, 26);
+			this.numPositionRightJet.Size = new System.Drawing.Size(54, 26);
 			this.numPositionRightJet.TabIndex = 10;
-			this.numPositionRightJet.Value = new decimal(new int[] {
-            6,
-            0,
-            0,
-            0});
 			// 
 			// grpAction
 			// 
@@ -792,7 +781,7 @@
 			this.grpAction.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.grpAction.Name = "grpAction";
 			this.grpAction.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.grpAction.Size = new System.Drawing.Size(564, 62);
+			this.grpAction.Size = new System.Drawing.Size(577, 62);
 			this.grpAction.TabIndex = 0;
 			this.grpAction.TabStop = false;
 			this.grpAction.Text = "Action";
@@ -808,7 +797,7 @@
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 23);
 			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(558, 32);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(571, 32);
 			this.flowLayoutPanel1.TabIndex = 0;
 			this.flowLayoutPanel1.WrapContents = false;
 			// 
@@ -885,7 +874,7 @@
 			this.tabPage4.Location = new System.Drawing.Point(4, 4);
 			this.tabPage4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.tabPage4.Name = "tabPage4";
-			this.tabPage4.Size = new System.Drawing.Size(581, 361);
+			this.tabPage4.Size = new System.Drawing.Size(560, 361);
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "tabPage4";
 			this.tabPage4.UseVisualStyleBackColor = true;
@@ -907,7 +896,7 @@
 			this.AcceptButton = this.btnOk;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(572, 271);
+			this.ClientSize = new System.Drawing.Size(585, 271);
 			this.Controls.Add(this.btnOk);
 			this.Controls.Add(this.btnRemove);
 			this.Controls.Add(this.tabControl1);
@@ -941,7 +930,7 @@
 			this.grpSecMat.PerformLayout();
 			this.grpSecLiquid.ResumeLayout(false);
 			this.grpSecLiquid.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numSecLiquid)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numPersentageLiquid)).EndInit();
 			this.grpDosageLiquid.ResumeLayout(false);
 			this.grpDosageLiquid.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numDosageLiquid)).EndInit();
@@ -984,7 +973,7 @@
 		private System.Windows.Forms.CheckBox chkSecMatOnOff;
 		private System.Windows.Forms.GroupBox grpSecLiquid;
 		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.NumericUpDown numSecLiquid;
+		private System.Windows.Forms.NumericUpDown numPersentageLiquid;
 		private System.Windows.Forms.CheckBox chkPump;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
 		private System.Windows.Forms.Label lblMargeRow3;

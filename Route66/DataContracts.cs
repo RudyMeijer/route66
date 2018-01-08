@@ -103,7 +103,7 @@ namespace Route66
 		[XmlAttribute("Dosage")] public double Dosage;
 		[XmlAttribute("Max")] public bool MaxOnOff { get; set; }
 		[XmlAttribute("SecMat")] public bool SecMatOnOff { get; set; }
-		[XmlAttribute("Liquid")] public double SecLiquid { get; set; }
+		[XmlAttribute("PersentageLiquid")] public double PersentageLiquid { get; set; }
 		[XmlAttribute("DosageLiquid")] public double DosageLiquid { get; set; }
 		[XmlAttribute("Hopper1")] public bool Hopper1OnOff { get; set; }
 		[XmlAttribute("Hopper2")] public bool Hopper2OnOff { get; set; }
