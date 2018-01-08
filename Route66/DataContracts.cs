@@ -84,25 +84,29 @@ namespace Route66
 		}
 		public override string ToString()
 		{
-			return $"Dosage {Dosage} g\nLeft {SpreadingWidthLeft} m\nRight {SpreadingWidthRight} m";
+			var IsStreetWasher = Settings.Global.MachineType == MachineTypes.StreetWasher;
+			if (IsStreetWasher)
+				return $"Pressure {Dosage} bar\nLeft {SpreadingWidthLeft} m\nRight {SpreadingWidthRight} m";
+			else
+				return $"Dosage {Dosage} g\nLeft {SpreadingWidthLeft} m\nRight {SpreadingWidthRight} m";
 		}
 		#region ROW1
-		[XmlAttribute("Spreading")]public bool SpreadingOnOff { get; set; }
-		[XmlAttribute("DualWidth")]public bool DualWidthOnOff { get; set; }
+		[XmlAttribute("Spreading")] public bool SpreadingOnOff { get; set; }
+		[XmlAttribute("DualWidth")] public bool DualWidthOnOff { get; set; }
 		[XmlAttribute("Spraying")] public bool SprayingOnOff { get; set; }
-		[XmlAttribute("Pump")]public bool PumpOnOff { get; set; }
+		[XmlAttribute("Pump")] public bool PumpOnOff { get; set; }
 		#endregion
 		#region ROW2
 		//
 		// Remove get;set to promote fields in xmlfile.
 		//
 		[XmlAttribute("Dosage")] public double Dosage;
-		[XmlAttribute("Max")]public bool MaxOnOff { get; set; }
-		[XmlAttribute("SecMat")]public bool SecMatOnOff { get; set; }
-		[XmlAttribute("Liquid")]public double SecLiquid { get; set; }
-		[XmlAttribute("DosageLiquid")]public double DosageLiquid { get; set; }
-		[XmlAttribute("Hopper1")]public bool Hopper1OnOff { get; set; }
-		[XmlAttribute("Hopper2")]public bool Hopper2OnOff { get; set; }
+		[XmlAttribute("Max")] public bool MaxOnOff { get; set; }
+		[XmlAttribute("SecMat")] public bool SecMatOnOff { get; set; }
+		[XmlAttribute("Liquid")] public double SecLiquid { get; set; }
+		[XmlAttribute("DosageLiquid")] public double DosageLiquid { get; set; }
+		[XmlAttribute("Hopper1")] public bool Hopper1OnOff { get; set; }
+		[XmlAttribute("Hopper2")] public bool Hopper2OnOff { get; set; }
 		#endregion
 		#region ROW3
 		[XmlAttribute("WidthLeft")] public double SpreadingWidthLeft;

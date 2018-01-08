@@ -53,34 +53,53 @@ namespace Route66
 		private void InitializeFormLayout(MachineTypes machineType)
 		{
 			bool IsSprayer = machineType == MachineTypes.Sprayer;
-			// Row 1
-			chkSpreading.Visible = !IsSprayer;
-			chkDualWidth.Visible = machineType == MachineTypes.WspDosage;
-			chkSpraying.Visible = machineType == MachineTypes.WspDosage || machineType == MachineTypes.RspDosage || IsSprayer;
-			chkPump.Visible = false;
-			// Row 2
-			grpDosage.Visible = !IsSprayer;
-			grpMax.Visible = true;
-			grpSecMat.Visible = !IsSprayer;
-			grpSecLiquid.Visible = machineType == MachineTypes.WspPercentage || machineType == MachineTypes.RspPercentage || machineType == MachineTypes.WspDosage || machineType == MachineTypes.RspDosage;
-			grpDosageLiquid.Visible = chkSpraying.Visible;
-			grpHopper.Visible = machineType == MachineTypes.Dst;
-			// Row 3
-			grpSpreadingWidth.Visible = !IsSprayer;
-			grpSprayingWidth.Visible = machineType == MachineTypes.WspDosage || IsSprayer;
+			if (machineType == MachineTypes.StreetWasher)
+			{
+				chkPump.Visible = grpLeftJet.Visible = grpPressure.Visible = grpRightJet.Visible = true;
+				//foreach (var item in flowLayoutPanel2.Controls)
+				//{
+				//	var c = (item as Control);
+				//	Console.WriteLine($"childindex={c.Name} {c.TabIndex}");
+				//}
+			}
+			else
+			{
+				// Row 1
+				chkSpreading.Visible = !IsSprayer;
+				chkDualWidth.Visible = machineType == MachineTypes.WspDosage;
+				chkSpraying.Visible = machineType == MachineTypes.WspDosage || machineType == MachineTypes.RspDosage || IsSprayer;
+				chkPump.Visible = false;
+				// Row 2
+				grpDosage.Visible = !IsSprayer;
+				grpMax.Visible = true;
+				grpSecMat.Visible = !IsSprayer;
+				grpSecLiquid.Visible = machineType == MachineTypes.WspPercentage || machineType == MachineTypes.RspPercentage || machineType == MachineTypes.WspDosage || machineType == MachineTypes.RspDosage;
+				grpDosageLiquid.Visible = chkSpraying.Visible;
+				grpHopper.Visible = machineType == MachineTypes.Dst;
+				// Row 3
+				grpSpreadingWidth.Visible = !IsSprayer;
+				grpSprayingWidth.Visible = machineType == MachineTypes.WspDosage || IsSprayer;
+			}
 			// Center visible controls.
 			FormEditChangeMarker_Resize(null, null);
 		}
 		private int SetLeftMargin(FlowLayoutPanel flowLayoutPanel)
 		{
 			var width = 0;
-			var marge = 8;
-			foreach (var item in flowLayoutPanel.Controls)
-			{
-					if ((item as Control).Visible && !(item is Label))
-					width += (item as Control).Width + marge;
-			}
-			return (flowLayoutPanel.Width - marge - width) / 2;
+			var marge = 4;
+			foreach (var item in flowLayoutPanel.Controls) if ((item as Control).Visible && !(item is Label)) width += (item as Control).Width + marge;
+			//Console.Write($"{flowLayoutPanel.Name}:");
+			//foreach (var item in flowLayoutPanel.Controls)
+			//{
+			//	var c = (item as Control);
+			//	Console.Write($" {c.Name} {c.Width}");
+			//	if (c.Visible && !(item is Label))
+			//	{
+			//		width += c.Width + marge;
+			//	}
+			//}
+			//Console.WriteLine($" -> {flowLayoutPanel.Width}-{width}/2={(flowLayoutPanel.Width - width) / 2}");
+			return (flowLayoutPanel.Width - width) / 2;
 		}
 		/// <summary>
 		/// This methode displays the Changemarker class content (=xml) onto the form.
@@ -89,25 +108,35 @@ namespace Route66
 		/// <param name="cm"></param>
 		private void DisplayOnForm(ChangeMarker cm)
 		{
-			// Row 1
-			chkSpreading.Checked = cm.SpreadingOnOff;
-			chkDualWidth.Checked = cm.DualWidthOnOff;
-			chkSpraying.Checked = cm.SprayingOnOff;
-			chkPump.Checked = cm.PumpOnOff;
-			// Row 2
-			numDosage.Value = (decimal)cm.Dosage;
-			chkMaxOnOff.Checked = cm.MaxOnOff;
-			chkSecMatOnOff.Checked = cm.SecMatOnOff;
-			numSecLiquid.Value = (decimal)cm.SecLiquid;
-			numDosageLiquid.Value = (decimal)cm.DosageLiquid;
-			chkHopper1OnOff.Checked = cm.Hopper1OnOff;
-			chkHopper2OnOff.Checked = cm.Hopper2OnOff;
-			// Row 3
-			numSpreadingWidthLeft.Value = (decimal)cm.SpreadingWidthLeft;
-			numSpreadingWidthRight.Value = (decimal)cm.SpreadingWidthRight;
-
-			numSprayingWidthLeft.Value = (decimal)cm.SprayingWidthLeft;
-			numSprayingWidthRight.Value = (decimal)cm.SprayingWidthRight;
+			if (Settings.MachineType == MachineTypes.StreetWasher)
+			{
+				chkPump.Checked = cm.PumpOnOff;
+				chkLeftJetOnOff.Checked = cm.Hopper1OnOff;
+				chkRightJetOnOff.Checked = cm.Hopper2OnOff;
+				numPressure.Value = (decimal)cm.Dosage;
+				numPositionRightJet.Value = (decimal)cm.SpreadingWidthRight;
+				numPositionLeftJet.Value = (decimal)cm.SpreadingWidthLeft;
+			}
+			else
+			{
+				// Row 1
+				chkSpreading.Checked = cm.SpreadingOnOff;
+				chkDualWidth.Checked = cm.DualWidthOnOff;
+				chkSpraying.Checked = cm.SprayingOnOff;
+				// Row 2
+				numDosage.Value = (decimal)cm.Dosage;
+				chkMaxOnOff.Checked = cm.MaxOnOff;
+				chkSecMatOnOff.Checked = cm.SecMatOnOff;
+				numSecLiquid.Value = (decimal)cm.SecLiquid;
+				numDosageLiquid.Value = (decimal)cm.DosageLiquid;
+				chkHopper1OnOff.Checked = cm.Hopper1OnOff;
+				chkHopper2OnOff.Checked = cm.Hopper2OnOff;
+				// Row 3
+				numSpreadingWidthLeft.Value = (decimal)cm.SpreadingWidthLeft;
+				numSpreadingWidthRight.Value = (decimal)cm.SpreadingWidthRight;
+				numSprayingWidthLeft.Value = (decimal)cm.SprayingWidthLeft;
+				numSprayingWidthRight.Value = (decimal)cm.SprayingWidthRight;
+			}
 		}
 		/// <summary>
 		/// This methode is the complement of previous methode DisplayOnForm.
@@ -115,25 +144,35 @@ namespace Route66
 		/// <param name="cm"></param>
 		private void GetFromForm(ChangeMarker cm)
 		{
-			// Row 1
-			cm.SpreadingOnOff = chkSpreading.Checked;
-			cm.DualWidthOnOff = chkDualWidth.Checked;
-			cm.SprayingOnOff = chkSpraying.Checked;
-			cm.PumpOnOff = chkPump.Checked;
-			// Row 2
-			cm.Dosage = (double)numDosage.Value;
-			cm.MaxOnOff = chkMaxOnOff.Checked;
-			cm.SecMatOnOff = chkSecMatOnOff.Checked;
-			cm.SecLiquid = (double)numSecLiquid.Value;
-			cm.DosageLiquid = (double)numDosageLiquid.Value;
-			cm.Hopper1OnOff = chkHopper1OnOff.Checked;
-			cm.Hopper2OnOff = chkHopper2OnOff.Checked;
-			// Row 3
-			cm.SpreadingWidthLeft = (double)numSpreadingWidthLeft.Value;
-			cm.SpreadingWidthRight = (double)numSpreadingWidthRight.Value;
-
-			cm.SprayingWidthLeft = (double)numSprayingWidthLeft.Value;
-			cm.SprayingWidthRight = (double)numSprayingWidthRight.Value;
+			if (Settings.MachineType == MachineTypes.StreetWasher)
+			{
+				cm.PumpOnOff = chkPump.Checked;
+				cm.Hopper1OnOff = chkLeftJetOnOff.Checked;
+				cm.Hopper2OnOff = chkRightJetOnOff.Checked;
+				cm.Dosage = (double)numPressure.Value;
+				cm.SpreadingWidthLeft = (double)numPositionLeftJet.Value;
+				cm.SpreadingWidthRight = (double)numPositionRightJet.Value;
+			}
+			else
+			{
+				// Row 1
+				cm.SpreadingOnOff = chkSpreading.Checked;
+				cm.DualWidthOnOff = chkDualWidth.Checked;
+				cm.SprayingOnOff = chkSpraying.Checked;
+				// Row 2
+				cm.Dosage = (double)numDosage.Value;
+				cm.MaxOnOff = chkMaxOnOff.Checked;
+				cm.SecMatOnOff = chkSecMatOnOff.Checked;
+				cm.SecLiquid = (double)numSecLiquid.Value;
+				cm.DosageLiquid = (double)numDosageLiquid.Value;
+				cm.Hopper1OnOff = chkHopper1OnOff.Checked;
+				cm.Hopper2OnOff = chkHopper2OnOff.Checked;
+				// Row 3
+				cm.SpreadingWidthLeft = (double)numSpreadingWidthLeft.Value;
+				cm.SpreadingWidthRight = (double)numSpreadingWidthRight.Value;
+				cm.SprayingWidthLeft = (double)numSprayingWidthLeft.Value;
+				cm.SprayingWidthRight = (double)numSprayingWidthRight.Value;
+			}
 		}
 		private void btnSave_Click(object sender, EventArgs e)
 		{
@@ -213,6 +252,12 @@ namespace Route66
 		private void chkDualWidth_CheckedChanged(object sender, EventArgs e)
 		{
 			grpSprayingWidth.Enabled = chkDualWidth.Checked;
+		}
+
+		private void chkPump_CheckedChanged(object sender, EventArgs e)
+		{
+			var on = (sender as CheckBox).Checked;
+			grpLeftJet.Enabled = grpPressure.Enabled = grpRightJet.Enabled = on;
 		}
 		#endregion
 	}

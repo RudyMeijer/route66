@@ -59,11 +59,11 @@ namespace Route66
 					else if (line.StartsWith("ChangePoint["))
 					{
 						var marker = new ChangeMarker(FindLatLng(s[1]));
-						if (route.MachineType == MachineTypes.StreetWasher)
-						{
-							// Todo
-						}
-						else
+						//if (route.MachineType == MachineTypes.StreetWasher)
+						//{
+						//	// Todo
+						//}
+						//else
 						{
 							marker.Dosage = Double.Parse(s[6]) / 100; // Todo fill all other properties.
 							marker.SpreadingWidthLeft = Double.Parse(s[7]) / 100;
