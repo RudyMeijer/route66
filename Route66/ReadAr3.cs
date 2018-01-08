@@ -146,6 +146,51 @@ namespace Route66
 				default: return "-";
 			}
 		}
+		public static void WriteAr3(String fileName, Route route)
+		{
+			var provider = CultureInfo.GetCultureInfo("en").NumberFormat;
+			using (TextWriter writer = new StreamWriter(fileName))
+			{
+				//
+				// Writer Header.
+				//
+				writer.WriteLine($"Ar3Version: 2 ");
+				writer.WriteLine($"MachineType: {route.MachineType}");
+				writer.WriteLine($"ImageFiles:");
+				writer.WriteLine($"SoundFiles:");
+				writer.WriteLine($"RouteID: {fileName}");
+				writer.WriteLine($"RouteTimestamp:");
+				writer.WriteLine($"RouteResult");
+				writer.WriteLine($"Duration: 0");
+				writer.WriteLine($"Length: {route.Distance}");
+				writer.WriteLine($"CalcTime: 0");
+				writer.WriteLine($"WayPoints: Longitude, Latitude, DistanceFromStartInCm");
+				//
+				// Write Change markers.
+				//
+				var idx = 0;
+				var distance = 0;
+				GpsMarker lastItem = null;
+				foreach (var item in route.GpsMarkers)
+				{
+					writer.WriteLine($"WayPoint[{idx++}]:{item.Lng.ToString(provider)},{item.Lat.ToString(provider)},{distance}");
+					if (lastItem == null) lastItem = item;
+					distance += Distance(lastItem, item);
+				}
+				//
+				// Write Navigation markers.
+				//
+				//
+				// Write Change markers.
+				//
+			}
 
+		}
+
+		private static int Distance(GpsMarker lastItem, GpsMarker item)
+		{
+			var dis = 2;
+			return dis;
+		}
 	}
 }

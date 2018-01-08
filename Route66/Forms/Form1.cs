@@ -246,7 +246,7 @@ namespace Route66
 		private bool IsMouseOutsideRegion(MouseEventArgs e, int region)
 		{
 			if (eLast == null) return true; // Doubleclick in fileopenmenu -> adds marker.
-											
+
 			//Console.WriteLine($"IsMouseOutsideRegion delta x,y=({Math.Abs(e.X - eLast.X)},{Math.Abs(e.Y - eLast.Y)})");
 			return (Math.Abs(e.X - eLast.X) > region || Math.Abs(e.Y - eLast.Y) > region);
 		}
@@ -301,7 +301,7 @@ namespace Route66
 			if (!AskToSaveModifiedRoute())
 			{
 				btnClear_Click(sender, e);
-				Overlay.Route.FileName = My.CheckPath(Settings.RoutePath,"Route66.xml");
+				Overlay.Route.FileName = My.CheckPath(Settings.RoutePath, "Route66.xml");
 				this.Text = Title + Overlay.Route;
 			}
 		}
@@ -351,26 +351,37 @@ namespace Route66
 		}
 		private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			this.Text = Title + Overlay.Save();
+			SaveAsToolStripMenuItem_Click(Overlay.Route.FileName, null);
 		}
 		private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			saveFileDialog1.InitialDirectory = openFileDialog1.InitialDirectory;
-			saveFileDialog1.FileName = openFileDialog1.FileName;
-			saveFileDialog1.Filter = openFileDialog1.Filter;
-			saveFileDialog1.FilterIndex = openFileDialog1.FilterIndex;
-			saveFileDialog1.DefaultExt = openFileDialog1.DefaultExt;
-			saveFileDialog1.Title = (sender == null) ? "Route is changed. Save changes?" : "Save As";
-			if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+			var filename = "";
+			if (sender is  string)
 			{
-				if (Path.GetExtension(saveFileDialog1.FileName) != ".xml")
-				{
-					My.Show("Sorry, this function is not implemented yet.");
-					return;
-				}
-				Overlay.SaveAs(saveFileDialog1.FileName);
-				this.Text = Title + saveFileDialog1.FileName;
+				filename = sender as string;
 			}
+			else
+			{
+				saveFileDialog1.FileName = openFileDialog1.FileName;
+				saveFileDialog1.InitialDirectory = openFileDialog1.InitialDirectory;
+				saveFileDialog1.Filter = openFileDialog1.Filter;
+				saveFileDialog1.FilterIndex = saveFilterIndex;
+				saveFileDialog1.DefaultExt = openFileDialog1.DefaultExt;
+				saveFileDialog1.Title = (sender == null) ? "Route is changed. Save changes?" : "Save As";
+				if (saveFileDialog1.ShowDialog() != DialogResult.OK) return;
+				saveFilterIndex = saveFileDialog1.FilterIndex;
+				filename = saveFileDialog1.FileName;
+			}
+			if (Overlay.SaveAs(filename))
+			{
+				this.Text = Title + filename;
+				My.Status($"Saved route succesfull to {filename}");
+			}
+			else if (Overlay.Route.IsNotSupported)
+			{
+				My.Show($"Sorry, file extension  {Path.GetExtension(filename)} is not implemented yet.");
+			}
+			else My.Status($"Error during save {filename}");
 		}
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
 		{

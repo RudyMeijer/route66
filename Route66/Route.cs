@@ -12,6 +12,10 @@ using static Route66.Adapters;
 
 namespace Route66
 {
+	/// <summary>
+	/// This class contains all data for one route.
+	/// To comply to Single Responsible Principle it is equiped with a Load- and Save methode to (de)serialyze its own data to disk.
+	/// </summary>
 	public class Route
 	{
 		#region FIELDS
@@ -22,6 +26,8 @@ namespace Route66
 		//[XmlIgnore]
 		internal bool IsChanged;
 		private static Route route;
+		internal int Distance;
+
 		#endregion
 		#region CONSTRUCTOR
 		public Route()
@@ -65,26 +71,31 @@ namespace Route66
 			return route;
 		}
 
-		public void Save() => SaveAs(FileName);
-		public void SaveAs(string fileName)
+		public bool SaveAs(string fileName)
 		{
 			try
 			{
 				var dir = Path.GetDirectoryName(fileName);
 				if (!Directory.Exists(dir) && dir.Length > 0) Directory.CreateDirectory(dir);
-
-				XmlSerializer serializer = new XmlSerializer(typeof(Route));
-				using (StreamWriter writer = new StreamWriter(fileName)) serializer.Serialize(writer, this);
+				switch (Path.GetExtension(fileName))
+				{
+					case ".xml":
+						XmlSerializer serializer = new XmlSerializer(typeof(Route));
+						using (StreamWriter writer = new StreamWriter(fileName)) serializer.Serialize(writer, this);
+						break;
+					case ".ar3":
+						WriteAr3(fileName, this);
+						break;
+					default: route.IsNotSupported = true; return false;
+				}
 				route.FileName = fileName;
 				IsDefaultFile = (fileName == "Route66.xml");
-				My.Status($"Saved route succesfull to {this}");
 				IsChanged = false;
+				return true;
 			}
-			catch (Exception e)
-			{
-				throw new Exception(e.ToString());
-			}
+			catch (Exception e) { throw new Exception(e.ToString()); }
 		}
+
 		public override string ToString()
 		{
 			return $"{FileName} V{Version}, Type {MachineType}";

@@ -61,8 +61,7 @@ namespace Route66
 		public bool IsAutoRoute { get; internal set; }
 		public Settings Settings { get; }
 		/// <summary>
-		/// Route data of current route on form.
-		/// Filled during Save. 
+		/// This class contains all route data and is serialyzed during Save command.
 		/// </summary>
 		public Route Route { get; set; }
 		public MachineTypes MachineType
@@ -461,17 +460,17 @@ namespace Route66
 			return val;
 		}
 
-		internal string Save()
-		{
-			var fileName = (Route.IsDefaultFile) ? Path.Combine(Settings.RoutePath, "Route66.xml") : Route.FileName;
-			SaveAs(fileName);
-			return Route.ToString();
-		}
+		//internal string Save()
+		//{
+		//	var fileName = (Route.IsDefaultFile) ? Path.Combine(Settings.RoutePath, "Route66.xml") : Route.FileName;
+		//	SaveAs(fileName);
+		//	return Route.ToString();
+		//}
 
-		internal void SaveAs(string fileName)
+		internal bool SaveAs(string fileName)
 		{
 			CopyOverlayTo(Route);
-			Route.SaveAs(fileName);
+			return Route.SaveAs(fileName);
 		}
 
 		/// <summary>
