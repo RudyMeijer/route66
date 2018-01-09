@@ -379,7 +379,7 @@ namespace Route66
 			}
 			else if (Overlay.Route.IsNotSupported)
 			{
-				My.Show($"Sorry, file extension  {Path.GetExtension(filename)} is not implemented yet.");
+				My.Show($"Sorry, filetype {Path.GetExtension(filename)} is not supported yet.");
 			}
 			else My.Status($"Error during save {filename}");
 		}

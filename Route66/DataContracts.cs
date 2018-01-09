@@ -84,8 +84,7 @@ namespace Route66
 		}
 		public override string ToString()
 		{
-			var IsStreetWasher = Settings.Global.MachineType == MachineTypes.StreetWasher;
-			if (IsStreetWasher)
+			if (Settings.Global.MachineType == MachineTypes.StreetWasher)
 				return $"Pressure {Dosage} bar\nLeft {SpreadingWidthLeft} m\nRight {SpreadingWidthRight} m";
 			else
 				return $"Dosage {Dosage} g\nLeft {SpreadingWidthLeft} m\nRight {SpreadingWidthRight} m";

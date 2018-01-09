@@ -14,6 +14,7 @@ namespace Route66
 	public static partial class Adapters
 	{
 		public static int[] errors;
+		private static Dictionary<string, NavigationMessages> naviTypes;
 
 		/// <summary>
 		/// Read AR3 file.
@@ -23,6 +24,7 @@ namespace Route66
 		/// <returns></returns>
 		public static Route ReadAr3(String filename)
 		{
+			#region FIELDS
 			var line = "";
 			var version = "";
 			var provider = CultureInfo.GetCultureInfo("en").NumberFormat;
@@ -32,13 +34,16 @@ namespace Route66
 			var lastKey = 0;
 			var lastDistance = -1;
 			var route = new Route() { FileName = filename };
+			#endregion
 			using (TextReader reader = new StreamReader(filename))
 				while ((line = reader.ReadLine()) != null)
 				{
 					try
 					{
 						var s = line.Split(':', ',');
-
+						//
+						#region READ HEADER
+						//
 						if (line.StartsWith("Ar3")) version = s[1];
 						else if (line.StartsWith("MachineType")) route.MachineType = My.GetEnum<MachineTypes>(s[1]);
 						else if (line.StartsWith("WayPoint["))
@@ -54,14 +59,26 @@ namespace Route66
 							}
 							lastDistance = distance;
 						}
+						#endregion
+						//
+						#region READ NAVIGATION MARKERS
+						//
 						else if (line.StartsWith("Instruction["))
 						{
 							var marker = new NavigationMarker(FindLatLng(s[1]));
 							marker.Message = InstructionType(s[2]);
+							if (s[2] == "20" || s[2] == "1007") // Get custom message.
+							{
+								marker.Message = (s[6] != "") ? s[6] : Path.GetFileNameWithoutExtension(s[5]);
+							}
 							marker.SoundFile = My.ValidateFilename(marker.Message) + ".wav"; // Todo create soundfile.
 							if (marker.Message == "-") { ++errors[2]; sb.Append($"\n{line} Unkown navigation type {s[2]}"); }
 							route.NavigationMarkers.Add(marker);
 						}
+						#endregion
+						//
+						#region READ CHANGE MARKERS
+						//
 						else if (line.StartsWith("ChangePoint["))
 						{
 							var marker = new ChangeMarker(FindLatLng(s[1]));
@@ -94,6 +111,7 @@ namespace Route66
 							}
 							route.ChangeMarkers.Add(marker);
 						}
+						#endregion
 					}
 					catch (Exception ee) { ++errors[3]; sb.Append($"\nError in {line} {ee.Message} {ee.StackTrace}"); }
 				}
@@ -130,67 +148,110 @@ namespace Route66
 				return distanceTable[lastKey];
 			}
 		}
-
-		private static string InstructionType(string v)
-		{
-			switch (v)
-			{
-				case "1": return Translate.NavigationMessages[(int)NavigationMessages.ENTER_ROUNDABOUT];
-				case "4": return Translate.NavigationMessages[(int)NavigationMessages.TURN_LEFT];
-				case "6": return Translate.NavigationMessages[(int)NavigationMessages.TURN_RIGHT];
-				case "8": return Translate.NavigationMessages[(int)NavigationMessages.ARRIVE];
-				case "9": return Translate.NavigationMessages[(int)NavigationMessages.U_TURN];
-				case "15": return Translate.NavigationMessages[(int)NavigationMessages.TAKE_RAMP_RIGHT];
-				case "16": return Translate.NavigationMessages[(int)NavigationMessages.PROCEED];
-				case "1008": return Translate.NavigationMessages[(int)NavigationMessages.MARKER];
-				default: return "-";
-			}
-		}
 		public static void WriteAr3(String fileName, Route route)
 		{
 			var provider = CultureInfo.GetCultureInfo("en").NumberFormat;
 			using (TextWriter writer = new StreamWriter(fileName))
 			{
 				//
-				// Writer Header.
+				#region WRITE HEADER.
 				//
-				writer.WriteLine($"Ar3Version: 2 ");
+				writer.WriteLine($"Ar3Version: 2");
 				writer.WriteLine($"MachineType: {route.MachineType}");
 				writer.WriteLine($"ImageFiles:");
 				writer.WriteLine($"SoundFiles:");
-				writer.WriteLine($"RouteID: {fileName}");
-				writer.WriteLine($"RouteTimestamp:");
-				writer.WriteLine($"RouteResult");
+				writer.WriteLine($"RouteID: {Path.GetFileNameWithoutExtension(fileName)}");
+				writer.WriteLine($"RouteTimestamp: {DateTime.Now.ToString("yyyyMMdd HH.mm.ss")}");
+				writer.WriteLine($"RouteResult:"); // : only written by route66.
 				writer.WriteLine($"Duration: 0");
 				writer.WriteLine($"Length: {route.Distance}");
 				writer.WriteLine($"CalcTime: 0");
 				writer.WriteLine($"WayPoints: Longitude, Latitude, DistanceFromStartInCm");
+				#endregion
 				//
-				// Write Change markers.
+				#region WRITE GPS MARKERS.
 				//
 				var idx = 0;
-				var distance = 0;
-				GpsMarker lastItem = null;
+				var distance = 0d;
+				var distanceTable = new Dictionary<PointLatLng, int>();
+				PointLatLng lastPoint = default(PointLatLng);
 				foreach (var item in route.GpsMarkers)
 				{
-					writer.WriteLine($"WayPoint[{idx++}]:{item.Lng.ToString(provider)},{item.Lat.ToString(provider)},{distance}");
-					if (lastItem == null) lastItem = item;
-					distance += Distance(lastItem, item);
+					var point = new PointLatLng(item.Lat, item.Lng);
+					if (!lastPoint.IsEmpty) distance += Distance(lastPoint, point) * 100000;
+					distanceTable.Add(point, (int)distance);
+					writer.WriteLine($"WayPoint[{idx++}]:{item.Lng.ToString(provider)},{item.Lat.ToString(provider)},{(int)distance}");
+					lastPoint = point;
 				}
+				#endregion
 				//
-				// Write Navigation markers.
+				#region WRITE NAVIGATION MARKERS.
 				//
+				idx = 0;
+				distance = 0d;
+				lastPoint = default(PointLatLng);
+				writer.WriteLine("Instructions: DistanceFromStartInCm, InstructionType, RoundaboutIndex, RoundaboutCount, SoundFile, Message");
+				foreach (var item in route.NavigationMarkers)
+				{
+					var point = new PointLatLng(item.Lat, item.Lng);
+					var key = InstructionKey(item.Message);
+					var soundfile = (key == "20") ? item.SoundFile : "";
+					writer.WriteLine($"Instruction[{idx++}]:{distanceTable[point]},{key},-1,-1,{soundfile},");
+				}
+				#endregion
 				//
-				// Write Change markers.
+				#region WRITE CHANGE MARKERS.
 				//
+				idx = 0;
+				distance = 0d;
+				lastPoint = default(PointLatLng);
+				writer.WriteLine("ChangePoints: DistanceFromStartInCm, SpreadSprayOnOff, SprayModeOnOff, Max, SecMat,Dosage, WidthLeft, WidthRight, SecDos, WidthLeftSpraying, WidthRightSpraying, CombiPercentage, HopperSelection");
+				foreach (var item in route.ChangeMarkers)
+				{
+					var point = new PointLatLng(item.Lat, item.Lng);
+					writer.WriteLine($"ChangePoint[{idx++}]:{distanceTable[point]},{s(item.SpreadingOnOff)},{s(item.SprayingOnOff)},{s(item.MaxOnOff)},{s(item.SecMatOnOff)},{(int)(item.Dosage * 100)},{(int)(item.SpreadingWidthLeft * 100)},{(int)(item.SpreadingWidthRight * 100)},{(int)(item.DosageLiquid * 100)},{(int)(item.SprayingWidthLeft * 100)},{(int)(item.SprayingWidthRight * 100)},{item.PersentageLiquid},1");
+				}
+				#endregion
 			}
 
 		}
-
-		private static int Distance(GpsMarker lastItem, GpsMarker item)
+		#region HELPER METHODES
+		private static string InstructionType(string key)
 		{
-			var dis = 2;
+			if (naviTypes == null) InitialyzeNavigationTypes();
+			return naviTypes.ContainsKey(key) ? Translate.NavigationMessages[(int)naviTypes[key]] : "-";
+		}
+		private static string InstructionKey(string message)
+		{
+			if (naviTypes == null) InitialyzeNavigationTypes();
+			var key = naviTypes.FirstOrDefault(x => Translate.NavigationMessages[(int)x.Value] == message).Key;
+			return key ?? "20";
+		}
+		private static void InitialyzeNavigationTypes()
+		{
+			naviTypes = new Dictionary<string, NavigationMessages>
+			{
+				{ "1", NavigationMessages.ENTER_ROUNDABOUT},
+				{ "3", NavigationMessages.KEEP_LEFT},
+				{ "4", NavigationMessages.TURN_LEFT},
+				{ "5", NavigationMessages.KEEP_RIGHT},
+				{ "6", NavigationMessages.TURN_RIGHT},
+				{ "7", NavigationMessages.PROCEED},
+				{ "8", NavigationMessages.ARRIVE},
+				{ "9", NavigationMessages.U_TURN},
+				{ "15", NavigationMessages.TAKE_RAMP_RIGHT},
+				{ "16", NavigationMessages.PROCEED},
+				//{ "20", NavigationMessages.CUSTOM_INSTRUCTION},
+				{ "1008", NavigationMessages.MARKER}
+			};
+		}
+		private static object s(bool b) => (b) ? "1" : "0";
+		private static double Distance(PointLatLng p1, PointLatLng p2)
+		{
+			var mr = new MapRoute(new List<PointLatLng>() { p1, p2 }, "compute distance");
+			var dis = mr.Distance;
 			return dis;
 		}
+		#endregion
 	}
 }

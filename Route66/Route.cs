@@ -26,7 +26,7 @@ namespace Route66
 		//[XmlIgnore]
 		internal bool IsChanged;
 		private static Route route;
-		internal int Distance;
+		internal int Distance=0;
 
 		#endregion
 		#region CONSTRUCTOR

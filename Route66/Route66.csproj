@@ -74,7 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Documents\InstructionPointParser.cs" />
-    <Compile Include="ReadAr3.cs" />
+    <Compile Include="Ar3.cs" />
     <Compile Include="DataContracts.cs" />
     <Compile Include="Forms\Form1.cs">
       <SubType>Form</SubType>
