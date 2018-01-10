@@ -146,7 +146,7 @@ namespace Route66
 			// See http://www.independent-software.com/gmap-net-beginners-tutorial-maps-markers-polygons-routes-updated-for-visual-studio-2015-and-gmap-net-1-7/
 			//
 			gmap.MapProvider = BingMapProvider.Instance;
-			GMaps.Instance.Mode = AccessMode.ServerAndCache;
+			GMaps.Instance.Mode = AccessMode.CacheOnly;
 			gmap.Zoom = 13;
 			gmap.SetPositionByKeywords(txtSearchPlaces.Text);
 			gmap.DragButton = MouseButtons.Left;
