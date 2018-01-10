@@ -60,6 +60,7 @@ namespace Route66
 		/// </summary>
 		private MouseEventArgs eLast;
 		private int saveFilterIndex;
+		private bool ShowAreYouSure;
 		#endregion
 		#region CONSTRUCTOR
 		public Form1()
@@ -171,10 +172,18 @@ namespace Route66
 		{
 			Console.WriteLine($" gmap_MouseUp focus={gmap.Focused}");
 			if (IsDragging) Console.WriteLine("stop dragging");
-			if (e.Button == MouseButtons.Left && !IsOnMarker && !IsDragging && IsEditMode()) { Overlay.AddMarker(e.X, e.Y); }
+			if (e.Button == MouseButtons.Left && !IsOnMarker && !IsDragging && IsEditMode() && IsShowAutoRoute()) { Overlay.AddMarker(e.X, e.Y); }
 			if (e.Button == MouseButtons.Left && IsOnMarker && !IsDragging) { Overlay.EditMarker(CtrlKeyIsPressed); }
 			IsDragging = false;
 		}
+
+		private bool IsShowAutoRoute()
+		{
+			if (Overlay.IsNotOnLastMarker && ShowAreYouSure && My.Show($"Are you sure to insert route at current marker?", "Current marker is not at end of route.", MessageBoxButtons.YesNo) == DialogResult.No) return false;
+			ShowAreYouSure = false;
+			return true;
+		}
+
 		/// <summary>
 		/// Select, Remove marker
 		/// </summary>
@@ -259,6 +268,7 @@ namespace Route66
 		{
 			//Console.WriteLine("gmap_MouseLeave");
 			IsOnMarker = false;
+			ShowAreYouSure = true;
 			My.Status(" Ready", SystemColors.Control);
 		}
 		private void gmap_OnMapZoomChanged()

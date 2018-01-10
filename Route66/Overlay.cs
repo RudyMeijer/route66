@@ -70,6 +70,7 @@ namespace Route66
 			set { Route.MachineType = value; if (!Route.IsDefaultFile) Route.IsChanged = true; }
 		}
 		public bool IsChanged { get => Route.IsChanged; }
+		public bool IsNotOnLastMarker { get => IsAutoRoute && RedRoute.Points.Count > 0 && CurrentMarker != Red.Markers.Last(); }
 		#endregion
 		#region METHODES
 		internal void AddMarker(int x, int y)
@@ -80,7 +81,6 @@ namespace Route66
 			//
 			if (IsAutoRoute && RedRoute.Points.Count > 0)
 			{
-				if (CurrentMarker != Red.Markers.Last() && My.Show($"Are you sure to insert route at current marker?", "Current marker is not at end of route.", MessageBoxButtons.YesNo) == DialogResult.No) return;
 				var end = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
 				My.Status($"Moment. Autoroute started at {CurrentMarker.ToolTipText} {CurrentMarker.Position}, stop {end.Position}");
 				Application.DoEvents();
@@ -310,6 +310,7 @@ namespace Route66
 		{
 			if (CurrentMarker?.Tag != null) UpdateGreenAndBlueOverlay(Crud.Delete, CurrentMarker.Tag, null);
 			{
+				if (savedTag == null) { My.Show("Please first press X-key on Change- or Navigation marker."); return; }
 				CurrentMarker.Tag = savedTag.DeepClone(); // Make multicopy possible.
 				(CurrentMarker.Tag as GpsMarker).Lat = CurrentMarker.Position.Lat;
 				(CurrentMarker.Tag as GpsMarker).Lng = CurrentMarker.Position.Lng;
