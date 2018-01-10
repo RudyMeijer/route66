@@ -178,7 +178,7 @@ namespace Route66
 				foreach (var item in route.GpsMarkers)
 				{
 					var point = new PointLatLng(item.Lat, item.Lng);
-					if (!lastPoint.IsEmpty) distance += Distance(lastPoint, point) * 100000;
+					distance += Distance(lastPoint, point) * 100000;
 					distanceTable.Add(point, (int)distance);
 					writer.WriteLine($"WayPoint[{idx++}]:{item.Lng.ToString(provider)},{item.Lat.ToString(provider)},{(int)distance}");
 					lastPoint = point;
@@ -257,9 +257,9 @@ namespace Route66
 		private static object s(bool b) => (b) ? "1" : "0";
 		private static double Distance(PointLatLng p1, PointLatLng p2)
 		{
+			if (p1.IsEmpty) return 0;
 			var mr = new MapRoute(new List<PointLatLng>() { p1, p2 }, "compute distance");
-			var dis = mr.Distance;
-			return dis;
+			return mr.Distance;
 		}
 		#endregion
 	}
