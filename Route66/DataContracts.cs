@@ -40,6 +40,7 @@ namespace Route66
 		TURN_LEFT_INTO_BIKE_LANE,
 		ARRIVE,
 		MARKER,
+		CONTINUE,
 		PROCEED
 	}
 

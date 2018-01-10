@@ -67,7 +67,7 @@ namespace Route66
 						{
 							var marker = new NavigationMarker(FindLatLng(s[1]));
 							marker.Message = InstructionType(s[2]);
-							if (s[2] == "20" || s[2] == "1007") // Get custom message.
+							if (s[2] == "1007") // Get custom message.
 							{
 								marker.Message = (s[6] != "") ? s[6] : Path.GetFileNameWithoutExtension(s[5]);
 							}
@@ -195,7 +195,7 @@ namespace Route66
 				{
 					var point = new PointLatLng(item.Lat, item.Lng);
 					var key = InstructionKey(item.Message);
-					var soundfile = (key == "20") ? item.SoundFile : "";
+					var soundfile = (key == "1007") ? item.SoundFile : "";
 					writer.WriteLine($"Instruction[{idx++}]:{distanceTable[point]},{key},-1,-1,{soundfile},");
 				}
 				#endregion
@@ -225,24 +225,33 @@ namespace Route66
 		{
 			if (naviTypes == null) InitialyzeNavigationTypes();
 			var key = naviTypes.FirstOrDefault(x => Translate.NavigationMessages[(int)x.Value] == message).Key;
-			return key ?? "20";
+			return key ?? "1007";
 		}
 		private static void InitialyzeNavigationTypes()
 		{
 			naviTypes = new Dictionary<string, NavigationMessages>
 			{
 				{ "1", NavigationMessages.ENTER_ROUNDABOUT},
+				{ "2", NavigationMessages.EXIT_ROUNDABOUT},
 				{ "3", NavigationMessages.KEEP_LEFT},
 				{ "4", NavigationMessages.TURN_LEFT},
 				{ "5", NavigationMessages.KEEP_RIGHT},
 				{ "6", NavigationMessages.TURN_RIGHT},
-				{ "7", NavigationMessages.PROCEED},
+				{ "7", NavigationMessages.CONTINUE},
 				{ "8", NavigationMessages.ARRIVE},
 				{ "9", NavigationMessages.U_TURN},
+				{ "12", NavigationMessages.TURN_HARD_LEFT},
+				{ "13", NavigationMessages.TURN_HARD_RIGHT},
+				{ "14", NavigationMessages.TAKE_RAMP_LEFT},
 				{ "15", NavigationMessages.TAKE_RAMP_RIGHT},
 				{ "16", NavigationMessages.PROCEED},
-				//{ "20", NavigationMessages.CUSTOM_INSTRUCTION},
-				{ "1008", NavigationMessages.MARKER}
+				{ "21", NavigationMessages.MARKER},
+				{ "22", NavigationMessages.BEGIN_BREAK},
+				{ "23", NavigationMessages.END_BREAK},
+				{ "24", NavigationMessages.ENTER_BIKE_LANE},
+				{ "25", NavigationMessages.TURN_RIGHT_INTO_BIKE_LANE},
+				{ "26", NavigationMessages.TURN_LEFT_INTO_BIKE_LANE},
+				//{ "1007", NavigationMessages.CUSTOM_INSTRUCTION},
 			};
 		}
 		private static object s(bool b) => (b) ? "1" : "0";
