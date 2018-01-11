@@ -336,8 +336,11 @@ namespace Route66
 				//
 				if (IsSubroute) My.Status($"Subroute {openFileDialog1.FileName} Succesfully added.");
 				this.Text = Title + Overlay.Route;
-				//IsDragging = true;// Doubleclick in fileopenmenu -> adds marker.
 				LastEnteredMarker = null;
+				//
+				// Show red markers according Gps checkbox state.
+				//
+				if (!chkGpsPoints.Checked) chkGpsPoints_CheckedChanged(null, null);
 			}
 		}
 		private void AddtoolStripMenuItem_Click(object sender, EventArgs e)
