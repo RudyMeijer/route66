@@ -240,6 +240,8 @@ namespace Route66
 				{ "7", NavigationMessages.CONTINUE},
 				{ "8", NavigationMessages.ARRIVE},
 				{ "9", NavigationMessages.U_TURN},
+				{ "10", NavigationMessages.BEAR_LEFT},
+				{ "11", NavigationMessages.BEAR_RIGHT},
 				{ "12", NavigationMessages.TURN_HARD_LEFT},
 				{ "13", NavigationMessages.TURN_HARD_RIGHT},
 				{ "14", NavigationMessages.TAKE_RAMP_LEFT},

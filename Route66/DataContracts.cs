@@ -41,7 +41,9 @@ namespace Route66
 		ARRIVE,
 		MARKER,
 		CONTINUE,
-		PROCEED
+		PROCEED,
+		BEAR_LEFT,
+		BEAR_RIGHT
 	}
 
 	/// <summary>
