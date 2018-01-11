@@ -508,6 +508,7 @@ namespace Route66
 			// Set currentMarker to last point. (Autorouter enabled and leftmouse on empty map)
 			//
 			SetCurrentMarker(Red.Markers[Red.Markers.Count - 1]);
+			My.Status($"Gps={Red.Markers.Count}, Changemarkers={Green.Markers.Count}, Navigation markers={Blue.Markers.Count}");
 		}
 
 		/// <summary>

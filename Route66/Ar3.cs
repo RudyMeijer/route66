@@ -174,14 +174,26 @@ namespace Route66
 				var idx = 0;
 				var distance = 0d;
 				var distanceTable = new Dictionary<PointLatLng, int>();
+				var random = new Random();
 				PointLatLng lastPoint = default(PointLatLng);
 				foreach (var item in route.GpsMarkers)
 				{
 					var point = new PointLatLng(item.Lat, item.Lng);
 					distance += Distance(lastPoint, point) * 100000;
+					point = MakeUniquePoint(point);
 					distanceTable.Add(point, (int)distance);
-					writer.WriteLine($"WayPoint[{idx++}]:{item.Lng.ToString(provider)},{item.Lat.ToString(provider)},{(int)distance}");
+					writer.WriteLine($"WayPoint[{idx++}]:{point.Lng.ToString(provider)},{point.Lat.ToString(provider)},{(int)distance}");
 					lastPoint = point;
+				}
+				PointLatLng MakeUniquePoint(PointLatLng point)
+				{
+					while (distanceTable.ContainsKey(point))
+					{
+						var r = random.NextDouble() / 100000;
+						Console.WriteLine($"make unique Gps point {idx} {point} {r}");
+						point = new PointLatLng(point.Lat + r, point.Lng + r);
+					}
+					return point;
 				}
 				#endregion
 				//
@@ -215,6 +227,7 @@ namespace Route66
 			}
 
 		}
+
 		#region HELPER METHODES
 		private static string InstructionType(string key)
 		{
