@@ -302,7 +302,7 @@ namespace Route66
 				}
 				return true;
 			}
-			return base.ProcessCmdKey(ref msg, keyCode); // handle Ctrl-O, Ctrl-S, Holten
+			return base.ProcessCmdKey(ref msg, keyCode); // Handle Ctrl-O, Ctrl-S, Holten
 		}
 		#endregion
 		#region MENU ITEMS

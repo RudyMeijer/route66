@@ -461,13 +461,6 @@ namespace Route66
 			return val;
 		}
 
-		//internal string Save()
-		//{
-		//	var fileName = (Route.IsDefaultFile) ? Path.Combine(Settings.RoutePath, "Route66.xml") : Route.FileName;
-		//	SaveAs(fileName);
-		//	return Route.ToString();
-		//}
-
 		internal bool SaveAs(string fileName)
 		{
 			CopyOverlayTo(Route);
@@ -508,7 +501,7 @@ namespace Route66
 			// Set currentMarker to last point. (Autorouter enabled and leftmouse on empty map)
 			//
 			SetCurrentMarker(Red.Markers[Red.Markers.Count - 1]);
-			My.Status($"Gps={Red.Markers.Count}, Changemarkers={Green.Markers.Count}, Navigation markers={Blue.Markers.Count}");
+			My.Log($"{Red.Markers.Count} Gps markers, {Green.Markers.Count} Change markers, {Blue.Markers.Count} Navigation markers, {RedRoute.Distance} km.");
 		}
 
 		/// <summary>

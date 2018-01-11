@@ -237,12 +237,16 @@ namespace Route66
 			chkDualWidth.Enabled = on && chkSpraying.Checked == true;
 			// Make Spreading and Spraying mutual exclusieve on RspDosage.
 			if (on && Settings.MachineType == MachineTypes.RspDosage) chkSpraying.Checked = false;
+			//
+			// SprayingWidth = Spraying && (DualWidth || !Spreading)
+			//
+			grpSprayingWidth.Enabled = chkSpraying.Checked && (chkDualWidth.Checked || !chkSpreading.Checked);
 		}
 		private void chkSpraying_CheckedChanged(object sender, EventArgs e)
 		{
 			var on = (sender as CheckBox).Checked;
 			grpDosageLiquid.Enabled = on;
-			grpSprayingWidth.Enabled = on;
+			grpSprayingWidth.Enabled = chkSpraying.Checked && (chkDualWidth.Checked || !chkSpreading.Checked);
 			chkDualWidth.Enabled = on && chkSpreading.Checked == true;
 			// Make Spreading and Spraying mutual exclusieve on RspDosage.
 			if (on && Settings.MachineType == MachineTypes.RspDosage) chkSpreading.Checked = false;
@@ -257,7 +261,8 @@ namespace Route66
 
 		private void chkDualWidth_CheckedChanged(object sender, EventArgs e)
 		{
-			grpSprayingWidth.Enabled = chkDualWidth.Checked;
+			//grpSprayingWidth.Enabled = chkDualWidth.Checked;
+			grpSprayingWidth.Enabled = chkSpraying.Checked && (chkDualWidth.Checked || !chkSpreading.Checked);
 		}
 
 		private void chkPump_CheckedChanged(object sender, EventArgs e)
