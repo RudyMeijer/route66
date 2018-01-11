@@ -173,27 +173,16 @@ namespace Route66
 				//
 				var idx = 0;
 				var distance = 0d;
-				var distanceTable = new Dictionary<PointLatLng, int>();
+				var distanceTable = new Dictionary<int, PointLatLng>();
 				var random = new Random();
 				PointLatLng lastPoint = default(PointLatLng);
 				foreach (var item in route.GpsMarkers)
 				{
 					var point = new PointLatLng(item.Lat, item.Lng);
 					distance += Distance(lastPoint, point) * 100000;
-					point = MakeUniquePoint(point);
-					distanceTable.Add(point, (int)distance);
+					distanceTable.Add((int)distance, point);
 					writer.WriteLine($"WayPoint[{idx++}]:{point.Lng.ToString(provider)},{point.Lat.ToString(provider)},{(int)distance}");
 					lastPoint = point;
-				}
-				PointLatLng MakeUniquePoint(PointLatLng point)
-				{
-					while (distanceTable.ContainsKey(point))
-					{
-						var r = random.NextDouble() / 100000;
-						Console.WriteLine($"make unique Gps point {idx} {point} {r}");
-						point = new PointLatLng(point.Lat + r, point.Lng + r);
-					}
-					return point;
 				}
 				#endregion
 				//
@@ -208,7 +197,12 @@ namespace Route66
 					var point = new PointLatLng(item.Lat, item.Lng);
 					var key = InstructionKey(item.Message);
 					var soundfile = (key == "1007") ? item.SoundFile : "";
-					writer.WriteLine($"Instruction[{idx++}]:{distanceTable[point]},{key},-1,-1,{soundfile},");
+					writer.WriteLine($"Instruction[{idx++}]:{GetDistance(point)},{key},-1,-1,{soundfile},");
+				}
+				int GetDistance(PointLatLng point)
+				{
+					foreach (var kvp in distanceTable) if (kvp.Value == point) return kvp.Key;
+					return 0;
 				}
 				#endregion
 				//
@@ -221,12 +215,13 @@ namespace Route66
 				foreach (var item in route.ChangeMarkers)
 				{
 					var point = new PointLatLng(item.Lat, item.Lng);
-					writer.WriteLine($"ChangePoint[{idx++}]:{distanceTable[point]},{s(item.SpreadingOnOff)},{s(item.SprayingOnOff)},{s(item.MaxOnOff)},{s(item.SecMatOnOff)},{(int)(item.Dosage * 100)},{(int)(item.SpreadingWidthLeft * 100)},{(int)(item.SpreadingWidthRight * 100)},{(int)(item.DosageLiquid * 100)},{(int)(item.SprayingWidthLeft * 100)},{(int)(item.SprayingWidthRight * 100)},{item.PersentageLiquid},1");
+					writer.WriteLine($"ChangePoint[{idx++}]:{GetDistance(point)},{s(item.SpreadingOnOff)},{s(item.SprayingOnOff)},{s(item.MaxOnOff)},{s(item.SecMatOnOff)},{(int)(item.Dosage * 100)},{(int)(item.SpreadingWidthLeft * 100)},{(int)(item.SpreadingWidthRight * 100)},{(int)(item.DosageLiquid * 100)},{(int)(item.SprayingWidthLeft * 100)},{(int)(item.SprayingWidthRight * 100)},{item.PersentageLiquid},1");
 				}
 				#endregion
 			}
 
 		}
+
 
 		#region HELPER METHODES
 		private static string InstructionType(string key)
