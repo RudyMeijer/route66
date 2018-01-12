@@ -34,6 +34,7 @@ namespace Route66
 			var lastKey = 0;
 			var lastDistance = -1;
 			var route = new Route() { FileName = filename };
+			var minimumDistanceBetweenMarkersInCm = 100;
 			#endregion
 			using (TextReader reader = new StreamReader(filename))
 				while ((line = reader.ReadLine()) != null)
@@ -46,12 +47,17 @@ namespace Route66
 						//
 						if (line.StartsWith("Ar3")) version = s[1];
 						else if (line.StartsWith("MachineType")) route.MachineType = My.GetEnum<MachineTypes>(s[1]);
+						#endregion
+						//
+						#region READ GPS MARKERS
+						//
 						else if (line.StartsWith("WayPoint["))
 						{
 							var point = new PointLatLng(Double.Parse(s[2], provider), Double.Parse(s[1], provider));
 							var distance = int.Parse(s[3]);
 							if (distance < lastDistance) { ++errors[0]; sb.Append($"\n{line} has descending distance and will be ignored."); }
 							else if (distance == lastDistance) { ++errors[1]; sb.Append($"\nDuplicated line {line}"); }
+							else if (distance < (lastDistance + minimumDistanceBetweenMarkersInCm) && lastDistance > -1) { ++errors[1]; sb.Append($"\nMinimum distance {line} with respect to previous marker violated."); }
 							else
 							{
 								route.GpsMarkers.Add(new GpsMarker(point));
@@ -138,7 +144,7 @@ namespace Route66
 					if (item.Key >= d)
 					{
 						if (item.Key > d) ++errors[4]; // No corresponding Gps marker (=orphan).
-						distanceTable.Remove(item.Key);// Use distance only one's so that not both Nav and Change marker can be added to one gps marker.
+						distanceTable.Remove(item.Key);// Use distance only one's so that not both Navigation- and Change marker can be added to one gps marker.
 						return item.Value;
 					}
 					else if (item.Key < lastKey) sb.Append($"\nDistance {line} not accending.");
@@ -179,8 +185,12 @@ namespace Route66
 				foreach (var item in route.GpsMarkers)
 				{
 					var point = new PointLatLng(item.Lat, item.Lng);
+
 					distance += Distance(lastPoint, point) * 100000;
-					distanceTable.Add((int)distance, point);
+					if (distanceTable.ContainsKey((int)distance))
+						break;
+					else
+						distanceTable.Add((int)distance, point);
 					writer.WriteLine($"WayPoint[{idx++}]:{point.Lng.ToString(provider)},{point.Lat.ToString(provider)},{(int)distance}");
 					lastPoint = point;
 				}
@@ -219,10 +229,7 @@ namespace Route66
 				}
 				#endregion
 			}
-
 		}
-
-
 		#region HELPER METHODES
 		private static string InstructionType(string key)
 		{

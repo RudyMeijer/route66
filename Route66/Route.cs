@@ -93,7 +93,8 @@ namespace Route66
 				IsChanged = false;
 				return true;
 			}
-			catch (Exception e) { throw new Exception(e.ToString()); }
+			catch (Exception e) { My.Log($"SaveAs error {e}"); }
+			return false;
 		}
 
 		public override string ToString()
