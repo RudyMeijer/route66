@@ -324,7 +324,7 @@ namespace Route66
 			openFileDialog1.Title = (IsSubroute) ? "Add subroute" : "Open route";
 			if (openFileDialog1.ShowDialog() == DialogResult.OK)
 			{
-				saveFilterIndex = openFileDialog1.FilterIndex;
+				saveFilterIndex = openFileDialog1.FilterIndex; // todo save extension.
 				My.Log($"{openFileDialog1.Title} {openFileDialog1.FileName } {((IsSubroute) ? " at " + Overlay : "")}");
 				if (!Overlay.OpenRoute(openFileDialog1.FileName, IsSubroute))
 				{

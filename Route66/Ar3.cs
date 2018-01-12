@@ -28,13 +28,13 @@ namespace Route66
 			var line = "";
 			var version = "";
 			var provider = CultureInfo.GetCultureInfo("en").NumberFormat;
-			var distanceTable = new Dictionary<int, PointLatLng>();
+			var distanceTable = new Dictionary<PointLatLng, int>();
 			errors = new int[5];
 			var sb = new StringBuilder();
-			var lastKey = 0;
 			var lastDistance = -1;
 			var route = new Route() { FileName = filename };
 			var minimumDistanceBetweenMarkersInCm = 100;
+			var random = new Random();
 			#endregion
 			using (TextReader reader = new StreamReader(filename))
 				while ((line = reader.ReadLine()) != null)
@@ -60,8 +60,9 @@ namespace Route66
 							else if (distance < (lastDistance + minimumDistanceBetweenMarkersInCm) && lastDistance > -1) { ++errors[1]; sb.Append($"\nMinimum distance {line} with respect to previous marker violated."); }
 							else
 							{
+								point = Unique(point);
 								route.GpsMarkers.Add(new GpsMarker(point));
-								distanceTable.Add(distance, point);
+								distanceTable.Add(point, distance);
 							}
 							lastDistance = distance;
 						}
@@ -77,7 +78,7 @@ namespace Route66
 							{
 								marker.Message = (s[6] != "") ? s[6] : Path.GetFileNameWithoutExtension(s[5]);
 							}
-							marker.SoundFile = My.ValidateFilename(marker.Message) + ".wav"; // Todo create soundfile.
+							marker.SoundFile = My.ValidateFilename((s[5] != "") ? s[5] : (marker.Message + ".wav")); // Todo create soundfile.
 							if (marker.Message == "-") { ++errors[2]; sb.Append($"\n{line} Unkown navigation type {s[2]}"); }
 							route.NavigationMarkers.Add(marker);
 						}
@@ -131,29 +132,53 @@ namespace Route66
 					$"{errors[2]} unknown navigation types. \n" +
 					$"{errors[4]} orphan markers found. They will be connected to Gps markers. \n" +
 					$"{errors[3]} exceptions. \n" +
-					$"All violations succesfully resolved. See logfile for more information.", $"Requirements Conformation Report.");
+					$"See logfile for more information.", $"Requirements Conformation Report.");
 			}
 			return route;
+			//
+			// Make unique LatLng point. See Software Design Document.
+			//
+			PointLatLng Unique(PointLatLng point)
+			{
+				while (distanceTable.ContainsKey(point))
+				{
+					var r = random.NextDouble() / 100000;
+					My.Log($"Make unique LatLng point {point} + {r}");
+					point = new PointLatLng(point.Lat + r, point.Lng + r);
+				}
+				return point;
+			}
 
 			PointLatLng FindLatLng(string distance)
 			{
 				int d = int.Parse(distance);
-				lastKey = 0;
+				var lastKey = default(PointLatLng);
 				foreach (var item in distanceTable)
 				{
-					if (item.Key >= d)
+					if (item.Value < d)
 					{
-						if (item.Key > d) ++errors[4]; // No corresponding Gps marker (=orphan).
-						distanceTable.Remove(item.Key);// Use distance only one's so that not both Navigation- and Change marker can be added to one gps marker.
-						return item.Value;
+						lastKey = item.Key;
 					}
-					else if (item.Key < lastKey) sb.Append($"\nDistance {line} not accending.");
-
-					lastKey = item.Key;
+					else if (item.Value == d)
+					{
+						lastKey = item.Key;
+						break;
+					}
+					else if (item.Value > d)
+					{
+						++errors[4]; // No corresponding Gps marker (=orphan).
+						lastDistance = distanceTable[lastKey];
+						if (item.Value - d < d - lastDistance)
+							lastKey = item.Key;
+						break;
+					}
 				}
-				return distanceTable[lastKey];
+				distanceTable.Remove(lastKey); // Use distance only one's so that not both Navigation- and Change marker can be added to one gps marker.
+				return lastKey;
 			}
 		}
+
+
 		public static void WriteAr3(String fileName, Route route)
 		{
 			var provider = CultureInfo.GetCultureInfo("en").NumberFormat;

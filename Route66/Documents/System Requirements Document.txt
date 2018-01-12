@@ -1,4 +1,4 @@
-﻿SRD Sytem Requirements Document
+﻿SRD Sytem Requirements Document.
 
 1 Create route from scratch on map.
 2 Allow CRUD (Create, Update, Delete) operations on change- and navigation marker on map.
@@ -8,3 +8,16 @@
 6 On startup show file open menu.
 7 Add changemarker edit form according http://confluence.ash.ads.org/display/PROD/Routecreator+ES#space-menu-link-content
 8 Allow cut and paste operations on map.
+
+SDD Software Design Document. (including Design Considerations)
+
+During read of a route file we need a unique key to link Navigation- and Change markers to Gps markers. 
+Two options:
+
+1) Use distance: 
+	- Recompute distance of all markers, sometimes more than 4000, when one marker is moved, added or deleted.
+    - Distances are not always unique.
+	- AR3 Markers with same distance can have different LatLng coordinates!
+2) Use LatLng:
+   ++ No recomputation of distance is needed when mouse moves a marker.
+	- Make Unique LatLng during read of Nav- and change markers using Dictionary key-value pair.

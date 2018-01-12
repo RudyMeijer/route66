@@ -73,7 +73,7 @@ namespace Route66
 			if (item.Tag != null)
 				tag = $"Tag={(item.Tag as GpsMarker).ToString().Replace('\n', ' ')}";
 			var idx = item.Overlay.Markers.IndexOf(item);
-			return $"{item.Overlay.Id} {idx} {item.ToolTipText?.Replace('\n', ' ')} {item.LocalPosition} {dis}{tag}";
+			return $"{item.Overlay.Id} {idx} {item.ToolTipText?.Replace('\n', ' ')} {item.Position} {dis}{tag}";
 		}
 	}
 }
