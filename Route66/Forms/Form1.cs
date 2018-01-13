@@ -59,7 +59,6 @@ namespace Route66
 		/// Used to detemine if dragging mode must be entered during mousemove event.
 		/// </summary>
 		private MouseEventArgs eLast;
-		private int saveFilterIndex;
 		private bool ShowAreYouSure;
 		#endregion
 		#region CONSTRUCTOR
@@ -320,11 +319,11 @@ namespace Route66
 			var IsSubroute = sender is string;
 			AskToSaveModifiedRoute();
 			openFileDialog1.InitialDirectory = Settings.RoutePath;
-			openFileDialog1.FilterIndex = saveFilterIndex;
+			openFileDialog1.FilterIndex = Settings.FileExtension;
 			openFileDialog1.Title = (IsSubroute) ? "Add subroute" : "Open route";
 			if (openFileDialog1.ShowDialog() == DialogResult.OK)
 			{
-				saveFilterIndex = openFileDialog1.FilterIndex; // todo save extension.
+				Settings.FileExtension = openFileDialog1.FilterIndex;
 				My.Log($"{openFileDialog1.Title} {openFileDialog1.FileName } {((IsSubroute) ? " at " + Overlay : "")}");
 				if (!Overlay.OpenRoute(openFileDialog1.FileName, IsSubroute))
 				{
@@ -378,11 +377,11 @@ namespace Route66
 				saveFileDialog1.FileName = openFileDialog1.FileName;
 				saveFileDialog1.InitialDirectory = openFileDialog1.InitialDirectory;
 				saveFileDialog1.Filter = openFileDialog1.Filter;
-				saveFileDialog1.FilterIndex = saveFilterIndex;
+				saveFileDialog1.FilterIndex = Settings.FileExtension;
 				saveFileDialog1.DefaultExt = openFileDialog1.DefaultExt;
 				saveFileDialog1.Title = (sender == null) ? "Route is changed. Save changes?" : "Save As";
 				if (saveFileDialog1.ShowDialog() != DialogResult.OK) return;
-				saveFilterIndex = saveFileDialog1.FilterIndex;
+				Settings.FileExtension = saveFileDialog1.FilterIndex;
 				filename = saveFileDialog1.FileName;
 			}
 			if (Overlay.SaveAs(filename))

@@ -53,14 +53,13 @@ namespace Route66
 						//
 						else if (line.StartsWith("WayPoint["))
 						{
-							var point = new PointLatLng(Double.Parse(s[2], provider), Double.Parse(s[1], provider));
 							var distance = int.Parse(s[3]);
 							if (distance < lastDistance) { ++errors[0]; sb.Append($"\n{line} has descending distance and will be ignored."); }
-							else if (distance == lastDistance) { ++errors[1]; sb.Append($"\nDuplicated line {line}"); }
+							else if (distance == lastDistance) { ++errors[1]; sb.Append($"\r\nDuplicated line {line}"); }
 							else if (distance < (lastDistance + minimumDistanceBetweenMarkersInCm) && lastDistance > -1) { ++errors[1]; sb.Append($"\nMinimum distance {line} with respect to previous marker violated."); }
 							else
 							{
-								point = Unique(point);
+								var point = Unique(new PointLatLng(Double.Parse(s[2], provider), Double.Parse(s[1], provider)));
 								route.GpsMarkers.Add(new GpsMarker(point));
 								distanceTable.Add(point, distance);
 							}
@@ -73,13 +72,14 @@ namespace Route66
 						else if (line.StartsWith("Instruction["))
 						{
 							var marker = new NavigationMarker(FindLatLng(s[1]));
-							marker.Message = InstructionType(s[2]);
+							
 							if (s[2] == "1007") // Get custom message.
-							{
 								marker.Message = (s[6] != "") ? s[6] : Path.GetFileNameWithoutExtension(s[5]);
-							}
-							marker.SoundFile = My.ValidateFilename((s[5] != "") ? s[5] : (marker.Message + ".wav")); // Todo create soundfile.
+							else
+								marker.Message = InstructionType(s[2]);
+
 							if (marker.Message == "-") { ++errors[2]; sb.Append($"\n{line} Unkown navigation type {s[2]}"); }
+							marker.SoundFile = My.ValidateFilename((s[5] != "") ? s[5] : (marker.Message + ".wav")); // Todo create soundfile.
 							route.NavigationMarkers.Add(marker);
 						}
 						#endregion

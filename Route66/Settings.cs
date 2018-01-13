@@ -61,6 +61,8 @@ public class Settings
 	public bool ToolTipMode { get; set; }
 	[Category("Route Settings"), Description("Show current marker as blue arrow.")]
 	public bool ArrowMarker { get; set; }
+	[Category("Route Settings"), Description("Default file extension: 1=xml, 2=ar3, ...")]
+	public int FileExtension { get; set; }
 	#endregion
 	#region METHODES
 	public static Settings Load(PropertyGrid propertyGrid = null, string fileName = "Settings.xml", bool autoCreate = true)

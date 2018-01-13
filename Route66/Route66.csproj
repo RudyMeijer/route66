@@ -145,7 +145,8 @@
     <Content Include="Documents\Help.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Documents\System Requirements Document.txt" />
+    <Content Include="Documents\SDD Software Design Document.txt" />
+    <Content Include="Documents\SRD System Requirements Document.txt" />
     <None Include="Resources\arrow3.png" />
   </ItemGroup>
   <ItemGroup>

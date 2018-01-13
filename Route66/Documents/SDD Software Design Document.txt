@@ -1,0 +1,12 @@
+﻿SDD Software Design Document. (including Design Considerations)
+
+During read of a route file we need a unique key to link Navigation- and Change markers to Gps markers. 
+Two options:
+
+1) Use distance: 
+	- Recompute distance of all markers, sometimes more than 4000, when one marker is moved, added or deleted.
+    - Distances are not always unique.
+	- AR3 Markers with same distance can have different LatLng coordinates!
+2) Use LatLng:
+   ++ No recomputation of distance is needed when mouse moves a marker.
+	- Make Unique LatLng during read of Nav- and change markers using Dictionary key-value pair.
