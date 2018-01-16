@@ -33,6 +33,7 @@ namespace Route66
 			// Filled during Read Gps markers.
 			//
 			var distanceTable = new Dictionary<PointLatLng, int>();
+			var navigationTable = new Dictionary<int, PointLatLng>();
 			errors = new int[5];
 			var lastDistance = -1;
 			var route = new Route() { FileName = filename };
@@ -154,41 +155,61 @@ namespace Route66
 			PointLatLng FindLatLng(string sdistance)
 			{
 				var distance = int.Parse(sdistance);
-				var lastKey = default(PointLatLng);
+				var last = default(KeyValuePair<PointLatLng, int>);
 				var idx = 0;
 				foreach (var item in distanceTable)
 				{
 					++idx;
 					if (item.Value < distance)
 					{
-						lastKey = item.Key;
+						last = item;
 					}
 					else if (item.Value == distance)
 					{
-						lastKey = item.Key;
+						last = item;
 						break;
 					}
 					else if (item.Value > distance)
 					{
-						++errors[4];
 						//
 						// No corresponding Gps marker (orphan).
-						// Insert new Gps Marker at current position. Use interpolation.
 						//
-						route.GpsMarkers.Insert(idx + 1, new GpsMarker(item.Key));
-						return lastKey;
-						//distanceTable.Add(lastKey, distance);
-						//lastDistance = distanceTable[lastKey];
-						//if (item.Value - distance < distance - lastDistance)
-						//	lastKey = item.Key;
-						//break;
+						++errors[4];
+						break;
+						#region TEST
+						// 1) If there is a Navigation marker with same distance
+						//    then add unique new point at same distance.
+						// 2) Else interpolate new Gps Marker at current position.
+						//
+						//PointLatLng newpoint;
+						//if (navigationTable.ContainsKey(distance))
+						//{
+						//	distanceTable.Add(navigationTable[distance],distance); // Required for unique.
+						//	newpoint = Unique(navigationTable[distance]);
+						//}
+						//else
+						//{
+						//	newpoint = Unique(Interpolate(distance, last, item));
+						//}
+						//route.GpsMarkers.Insert(idx + 1, new GpsMarker((newpoint)));
+						//return newpoint;
+						#endregion
 					}
 				}
-				distanceTable.Remove(lastKey); // Use distance only one's so that not both Navigation- and Change marker can be added to one gps marker.
-				return lastKey;
+				distanceTable.Remove(last.Key); // Use distance only one's so that not both Navigation- and Change marker can be added to one gps marker.
+				//navigationTable.Add(last.Value, last.Key);
+				return last.Key;
 			}
 		}
 
+		private static PointLatLng Interpolate(int distance, KeyValuePair<PointLatLng, int> last, KeyValuePair<PointLatLng, int> item)
+		{
+			var t = My.InverseLerp(distance, last.Value, item.Value);
+			var lat = My.Lerp(t, (float)last.Key.Lat, (float)item.Key.Lat);
+			var lng = My.Lerp(t, (float)last.Key.Lng, (float)item.Key.Lng);
+			var point = new PointLatLng(lat, lng);
+			return point;
+		}
 
 		public static void WriteAr3(String fileName, Route route)
 		{
