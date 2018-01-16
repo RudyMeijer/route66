@@ -16,6 +16,7 @@ namespace Route66
 		[STAThread]
 		static void Main()
 		{
+			TestFloat();
 			//TestStack();
 			//TestReflection();
 			Application.EnableVisualStyles();
@@ -25,6 +26,14 @@ namespace Route66
 				Application.Run(new Form1());
 			}
 			catch (Exception e) { My.Show($"{e} {e.InnerException}", "Sometimes you have luck sometimes not. Please send file Route66.log to Rudy."); }
+		}
+
+		private static void TestFloat()
+		{
+			float R = 0.82f;
+			var L = R * 1000;
+			int i = (int)(R * 1000);
+			int j = (int)(L);
 		}
 
 		private static void TestStack()

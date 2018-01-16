@@ -28,13 +28,16 @@ namespace Route66
 			var line = "";
 			var version = "";
 			var provider = CultureInfo.GetCultureInfo("en").NumberFormat;
+			//
+			// The distance table contains the relation between LatLng and distance.
+			// Filled during Read Gps markers.
+			//
 			var distanceTable = new Dictionary<PointLatLng, int>();
 			errors = new int[5];
-			var sb = new StringBuilder();
 			var lastDistance = -1;
 			var route = new Route() { FileName = filename };
-			var minimumDistanceBetweenMarkersInCm = 100;
 			var random = new Random();
+			var minimumDistanceBetweenMarkersInCm = 100;
 			#endregion
 			using (TextReader reader = new StreamReader(filename))
 				while ((line = reader.ReadLine()) != null)
@@ -54,9 +57,9 @@ namespace Route66
 						else if (line.StartsWith("WayPoint["))
 						{
 							var distance = int.Parse(s[3]);
-							if (distance < lastDistance) { ++errors[0]; sb.Append($"\n{line} has descending distance and will be ignored."); }
-							else if (distance == lastDistance) { ++errors[1]; sb.Append($"\r\nDuplicated line {line}"); }
-							else if (distance < (lastDistance + minimumDistanceBetweenMarkersInCm) && lastDistance > -1) { ++errors[1]; sb.Append($"\nMinimum distance {line} with respect to previous marker violated."); }
+							if (distance < lastDistance) { My.Log($"{++errors[0]} {line} has descending distance and will be ignored."); }
+							else if (distance == lastDistance) { My.Log($"{++errors[1]} Duplicated line {line}"); }
+							else if (distance < (lastDistance + minimumDistanceBetweenMarkersInCm) && lastDistance > -1) { My.Log($"{++errors[1]} Minimum distance {line} with respect to previous marker violated."); }
 							else
 							{
 								var point = Unique(new PointLatLng(Double.Parse(s[2], provider), Double.Parse(s[1], provider)));
@@ -72,13 +75,13 @@ namespace Route66
 						else if (line.StartsWith("Instruction["))
 						{
 							var marker = new NavigationMarker(FindLatLng(s[1]));
-							
+
 							if (s[2] == "1007") // Get custom message.
 								marker.Message = (s[6] != "") ? s[6] : Path.GetFileNameWithoutExtension(s[5]);
 							else
-								marker.Message = InstructionType(s[2]);
+								marker.Message = NavigationMessage(s[2]);
 
-							if (marker.Message == "-") { ++errors[2]; sb.Append($"\n{line} Unkown navigation type {s[2]}"); }
+							if (marker.Message == "-") { My.Log($"{++errors[2]} {line} Unkown navigation type {s[2]}"); }
 							marker.SoundFile = My.ValidateFilename((s[5] != "") ? s[5] : (marker.Message + ".wav")); // Todo create soundfile.
 							route.NavigationMarkers.Add(marker);
 						}
@@ -120,11 +123,10 @@ namespace Route66
 						}
 						#endregion
 					}
-					catch (Exception ee) { ++errors[3]; sb.Append($"\nError in {line} {ee.Message} {ee.StackTrace}"); }
+					catch (Exception ee) { My.Log($"{++errors[3]} Error in {line} {ee.Message} {ee.StackTrace}"); }
 				}
 			if (errors.Sum() > 0)
 			{
-				Log(sb.ToString());
 				Log("End of requirement analyze.");
 				Show($"Total {errors.Sum()} violations in route {Path.GetFileName(filename)} detected. \n" +
 					$"{errors[1]} duplicated lines will be ignored.\n" +
@@ -143,34 +145,43 @@ namespace Route66
 				while (distanceTable.ContainsKey(point))
 				{
 					var r = random.NextDouble() / 100000;
-					My.Log($"Make unique LatLng point {point} + {r}");
+					//My.Log($"Make unique LatLng point {point} + {r}");
 					point = new PointLatLng(point.Lat + r, point.Lng + r);
 				}
 				return point;
 			}
 
-			PointLatLng FindLatLng(string distance)
+			PointLatLng FindLatLng(string sdistance)
 			{
-				int d = int.Parse(distance);
+				var distance = int.Parse(sdistance);
 				var lastKey = default(PointLatLng);
+				var idx = 0;
 				foreach (var item in distanceTable)
 				{
-					if (item.Value < d)
+					++idx;
+					if (item.Value < distance)
 					{
 						lastKey = item.Key;
 					}
-					else if (item.Value == d)
+					else if (item.Value == distance)
 					{
 						lastKey = item.Key;
 						break;
 					}
-					else if (item.Value > d)
+					else if (item.Value > distance)
 					{
-						++errors[4]; // No corresponding Gps marker (=orphan).
-						lastDistance = distanceTable[lastKey];
-						if (item.Value - d < d - lastDistance)
-							lastKey = item.Key;
-						break;
+						++errors[4];
+						//
+						// No corresponding Gps marker (orphan).
+						// Insert new Gps Marker at current position. Use interpolation.
+						//
+						route.GpsMarkers.Insert(idx + 1, new GpsMarker(item.Key));
+						return lastKey;
+						//distanceTable.Add(lastKey, distance);
+						//lastDistance = distanceTable[lastKey];
+						//if (item.Value - distance < distance - lastDistance)
+						//	lastKey = item.Key;
+						//break;
 					}
 				}
 				distanceTable.Remove(lastKey); // Use distance only one's so that not both Navigation- and Change marker can be added to one gps marker.
@@ -230,7 +241,7 @@ namespace Route66
 				foreach (var item in route.NavigationMarkers)
 				{
 					var point = new PointLatLng(item.Lat, item.Lng);
-					var key = InstructionKey(item.Message);
+					var key = NavigationKey(item.Message);
 					var soundfile = (key == "1007") ? item.SoundFile : "";
 					writer.WriteLine($"Instruction[{idx++}]:{GetDistance(point)},{key},-1,-1,{soundfile},");
 				}
@@ -256,12 +267,23 @@ namespace Route66
 			}
 		}
 		#region HELPER METHODES
-		private static string InstructionType(string key)
+		/// <summary>
+		/// This function translates an navigation type (in ar3 file) to corresponding navigation message.
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		private static string NavigationMessage(string key)
 		{
 			if (naviTypes == null) InitialyzeNavigationTypes();
 			return naviTypes.ContainsKey(key) ? Translate.NavigationMessages[(int)naviTypes[key]] : "-";
 		}
-		private static string InstructionKey(string message)
+		/// <summary>
+		/// This function translates an navigation message to corresponding navigation type.
+		/// This function is complementary to previous function NavigationMessage.
+		/// </summary>
+		/// <param name="message"></param>
+		/// <returns></returns>
+		private static string NavigationKey(string message)
 		{
 			if (naviTypes == null) InitialyzeNavigationTypes();
 			var key = naviTypes.FirstOrDefault(x => Translate.NavigationMessages[(int)x.Value] == message).Key;
@@ -293,7 +315,15 @@ namespace Route66
 				{ "24", NavigationMessages.ENTER_BIKE_LANE},
 				{ "25", NavigationMessages.TURN_RIGHT_INTO_BIKE_LANE},
 				{ "26", NavigationMessages.TURN_LEFT_INTO_BIKE_LANE},
+				//
+				// Translate old navigation messages to new ar3 format v2.
+				//
+				//{ "1005", NavigationMessages.BEGIN_PAUZE},
+				//{ "1006", NavigationMessages.END_PAUZE},
 				//{ "1007", NavigationMessages.CUSTOM_INSTRUCTION},
+				{ "1008", NavigationMessages.MARKER},
+				{ "1009", NavigationMessages.BEGIN_BREAK},
+				{ "1010", NavigationMessages.END_BREAK},
 			};
 		}
 		private static object s(bool b) => (b) ? "1" : "0";

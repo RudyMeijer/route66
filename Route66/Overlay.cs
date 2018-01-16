@@ -134,17 +134,16 @@ namespace Route66
 			}
 			UpdateGreenAndBlueOverlay(Crud.Delete, marker.Tag, null);
 			//
-			// When Change- or Navigation marker is deleted then remove Gps marker tag.
+			// When Change- or Navigation marker is deleted then remove corresponding Gps marker tag.
 			//
 			if (!IsGpsMarker(marker)) GetRedMarker(marker.Tag as GpsMarker).Tag = null;
 		}
 		/// <summary>
 		/// When Mouse is moved update position of:
 		/// CurrentMarker, 
-		/// Red, green and blue Markers,
+		/// Red, green, blue and arrow Marker,
 		/// RedRoute points, 
-		/// ChangeMarker and NavigationMarker instances,
-		/// Arrow marker
+		/// Change- and Navigation marker instances,
 		/// </summary>
 		/// <param name="x"></param>
 		/// <param name="y"></param>

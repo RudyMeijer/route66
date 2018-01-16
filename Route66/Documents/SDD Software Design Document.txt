@@ -1,5 +1,7 @@
 ﻿SDD Software Design Document. (including Design Considerations)
 
+Each Gps marker tag can contain an instance of a Change-, Navigation marker.
+
 During read of a route file we need a unique key to link Navigation- and Change markers to Gps markers. 
 Two options:
 
