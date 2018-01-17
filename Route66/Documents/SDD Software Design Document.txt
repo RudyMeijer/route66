@@ -1,14 +1,16 @@
 ﻿SDD Software Design Document. (including Design Considerations)
 
-Each Gps marker tag can contain an instance of a Change-, Navigation marker.
+1) Each Gps marker tag can contain an instance of a Change-, Navigation marker.
 
-During read of a route file we need a unique key to link Navigation- and Change markers to Gps markers. 
-Two options:
+2) During reading route file we need a unique key to link Navigation- and Change markers to Gps markers. 
+	Two options:
 
-1) Use distance: 
-	- Recompute distance of all markers, sometimes more than 4000, when one marker is moved, added or deleted.
-    - Distances are not always unique.
-	- AR3 Markers with same distance can have different LatLng coordinates!
-2) Use LatLng:
-   ++ No recomputation of distance is needed when mouse moves a marker.
-	- Make Unique LatLng during read of Nav- and change markers using Dictionary key-value pair.
+	a) Use distance: 
+		- Recompute distance of all markers when one marker is moved, added or deleted. sometimes more than 4000.
+		- Distances are not always unique in ar3 files.
+		- AR3 Markers with same distance can have different LatLng coordinates!
+	b) Use LatLng:
+	   ++ No recomputation of distance is needed when mouse moves a marker.
+
+	Make unique LatLng during read of Nav- and Change markers using Dictionary key-value pair.
+	Make unique distance during write of Nav- and Change markers by adding 1 cm.

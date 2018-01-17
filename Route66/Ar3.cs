@@ -33,7 +33,7 @@ namespace Route66
 			// Filled during Read Gps markers.
 			//
 			var distanceTable = new Dictionary<PointLatLng, int>();
-			var navigationTable = new Dictionary<int, PointLatLng>();
+			//var navigationTable = new Dictionary<int, PointLatLng>();
 			errors = new int[5];
 			var lastDistance = -1;
 			var route = new Route() { FileName = filename };
@@ -197,7 +197,7 @@ namespace Route66
 					}
 				}
 				distanceTable.Remove(last.Key); // Use distance only one's so that not both Navigation- and Change marker can be added to one gps marker.
-				//navigationTable.Add(last.Value, last.Key);
+												//navigationTable.Add(last.Value, last.Key);
 				return last.Key;
 			}
 		}
@@ -244,10 +244,16 @@ namespace Route66
 					var point = new PointLatLng(item.Lat, item.Lng);
 
 					distance += Distance(lastPoint, point) * 100000;
-					if (distanceTable.ContainsKey((int)distance))
-						break;
-					else
-						distanceTable.Add((int)distance, point);
+					//
+					// According SDD design decision 2b: LatLng are unique. 
+					// Make distance unique when sequential Latlng's are within 1 cm.
+					//
+					while (distanceTable.ContainsKey((int)distance))
+					{
+						++distance;
+						My.Log($"WriteAr3: Waypoint[{idx}] create unique distance {(int)distance}.");
+					}
+					distanceTable.Add((int)distance, point);
 					writer.WriteLine($"WayPoint[{idx++}]:{point.Lng.ToString(provider)},{point.Lat.ToString(provider)},{(int)distance}");
 					lastPoint = point;
 				}
@@ -268,8 +274,8 @@ namespace Route66
 				}
 				int GetDistance(PointLatLng point)
 				{
-					foreach (var kvp in distanceTable) if (kvp.Value == point) return kvp.Key;
-					return 0;
+					foreach (var kvp in distanceTable) if (kvp.Value == point) return (int)kvp.Key;
+					return -1;
 				}
 				#endregion
 				//
