@@ -1,9 +1,9 @@
 ﻿SDD Software Design Document. (including Design Considerations)
 
-1) Each Gps marker tag can contain an instance of a Change-, Navigation marker.
+1) Each Gps marker tag can contain an instance of a Change- or Navigation class.
 
 2) During reading route file we need a unique key to link Navigation- and Change markers to Gps markers. 
-	Two options:
+   Two options:
 
 	a) Use distance: 
 		- Recompute distance of all markers when one marker is moved, added or deleted. sometimes more than 4000.
@@ -12,5 +12,5 @@
 	b) Use LatLng:
 	   ++ No recomputation of distance is needed when mouse moves a marker.
 
-	Make unique LatLng during read of Nav- and Change markers using Dictionary key-value pair.
-	Make unique distance during write of Nav- and Change markers by adding 1 cm.
+	Make LatLng unique during read of Nav- and Change markers using Dictionary key-value pair.
+	Make distance unique during write of Nav- and Change markers by adding 1 cm.

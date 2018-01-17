@@ -63,7 +63,7 @@ namespace Route66
 							else if (distance < (lastDistance + minimumDistanceBetweenMarkersInCm) && lastDistance > -1) { My.Log($"{++errors[1]} Minimum distance {line} with respect to previous marker violated."); }
 							else
 							{
-								var point = Unique(new PointLatLng(Double.Parse(s[2], provider), Double.Parse(s[1], provider)));
+								var point = Unique(new PointLatLng(My.Val(s[2]), My.Val(s[1])));
 								route.GpsMarkers.Add(new GpsMarker(point));
 								distanceTable.Add(point, distance);
 							}
@@ -99,10 +99,10 @@ namespace Route66
 								// If this code is changed then modify also methode DisplayOnForm.
 								marker.PumpOnOff = s[2] == "1";
 								marker.Hopper1OnOff = s[3] == "1";
-								marker.SpreadingWidthLeft = Double.Parse(s[4]);
+								marker.SpreadingWidthLeft = My.Val(s[4]);
 								marker.Hopper2OnOff = s[5] == "1";
-								marker.SpreadingWidthRight = Double.Parse(s[6]);
-								marker.Dosage = Double.Parse(s[7]);
+								marker.SpreadingWidthRight = My.Val(s[6]);
+								marker.Dosage = My.Val(s[7]);
 							}
 							else
 							{
@@ -111,13 +111,13 @@ namespace Route66
 								marker.SprayingOnOff = s[3] == "1";
 								marker.MaxOnOff = s[4] == "1";
 								marker.SecMatOnOff = s[5] == "1";
-								marker.Dosage = Double.Parse(s[6]) / 100;
-								marker.SpreadingWidthLeft = Double.Parse(s[7]) / 100;
-								marker.SpreadingWidthRight = Double.Parse(s[8]) / 100;
-								marker.DosageLiquid = Double.Parse(s[9]) / 100;
-								marker.SprayingWidthLeft = Double.Parse(s[10]) / 100;
-								marker.SprayingWidthRight = Double.Parse(s[11]) / 100;
-								marker.PersentageLiquid = Double.Parse(s[12]);
+								marker.Dosage = My.Val(s[6]) / 100;
+								marker.SpreadingWidthLeft = My.Val(s[7]) / 100;
+								marker.SpreadingWidthRight = My.Val(s[8]) / 100;
+								marker.DosageLiquid = My.Val(s[9]) / 100;
+								marker.SprayingWidthLeft = My.Val(s[10]) / 100;
+								marker.SprayingWidthRight = My.Val(s[11]) / 100;
+								marker.PersentageLiquid = My.Val(s[12]);
 
 							}
 							route.ChangeMarkers.Add(marker);

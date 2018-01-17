@@ -8,5 +8,5 @@
 6 On startup show file open menu.
 7 Add changemarker edit form according http://confluence.ash.ads.org/display/PROD/Routecreator+ES#space-menu-link-content
 8 Allow cut and paste operations on map.
-9 Adapter AR3 according http://confluence.ash.ads.org/display/EHP/Autologic+ar3+route+file+format.+V2
+9 Create AR3 Adapter according http://confluence.ash.ads.org/display/EHP/Autologic+ar3+route+file+format.+V2
 
