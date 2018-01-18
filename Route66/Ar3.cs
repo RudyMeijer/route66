@@ -15,6 +15,7 @@ namespace Route66
 	{
 		public static int[] errors;
 		private static Dictionary<string, NavigationMessages> naviTypes;
+		private static ChangeMarker previousChangeMarker = new ChangeMarker();
 
 		/// <summary>
 		/// Read AR3 file.
@@ -97,30 +98,33 @@ namespace Route66
 							{
 								// 1=DistanceFromStart, ActivityState, LeftNozzleIsActive, LeftNozzlePosition, RightNozzleIsActive, RightNozzlePosition, waterpressure,Marked, Message
 								// If this code is changed then modify also methode DisplayOnForm.
-								marker.PumpOnOff = s[2] == "1";
-								marker.Hopper1OnOff = s[3] == "1";
-								marker.SpreadingWidthLeft = My.Val(s[4]);
-								marker.Hopper2OnOff = s[5] == "1";
-								marker.SpreadingWidthRight = My.Val(s[6]);
-								marker.Dosage = My.Val(s[7]);
+								//
+								// On empty strings copy previous marker value.
+								marker.PumpOnOff = My.Bool(s[2], previousChangeMarker.PumpOnOff);
+								marker.Hopper1OnOff = My.Bool(s[3], previousChangeMarker.Hopper1OnOff);
+								marker.SpreadingWidthLeft = My.Val(s[4], previousChangeMarker.SpreadingWidthLeft);
+								marker.Hopper2OnOff = My.Bool(s[5], previousChangeMarker.Hopper2OnOff);
+								marker.SpreadingWidthRight = My.Val(s[6], previousChangeMarker.SpreadingWidthRight);
+								marker.Dosage = My.Val(s[7], previousChangeMarker.Dosage);
 							}
 							else
 							{
 								// 1=DistanceFromStartInCm, SpreadSprayOnOff, SprayModeOnOff, Max, SecMat,Dosage, WidthLeft, WidthRight, SecDos, WidthLeftSpraying, WidthRightSpraying, CombiPercentage, HopperSelection, Marked, Message
-								marker.SpreadingOnOff = s[2] == "1";
-								marker.SprayingOnOff = s[3] == "1";
-								marker.MaxOnOff = s[4] == "1";
-								marker.SecMatOnOff = s[5] == "1";
-								marker.Dosage = My.Val(s[6]) / 100;
-								marker.SpreadingWidthLeft = My.Val(s[7]) / 100;
-								marker.SpreadingWidthRight = My.Val(s[8]) / 100;
-								marker.DosageLiquid = My.Val(s[9]) / 100;
-								marker.SprayingWidthLeft = My.Val(s[10]) / 100;
-								marker.SprayingWidthRight = My.Val(s[11]) / 100;
-								marker.PersentageLiquid = My.Val(s[12]);
+								marker.SpreadingOnOff = My.Bool(s[2], previousChangeMarker.SpreadingOnOff);
+								marker.SprayingOnOff = My.Bool(s[3], previousChangeMarker.SprayingOnOff);
+								marker.MaxOnOff = My.Bool(s[4], previousChangeMarker.MaxOnOff);
+								marker.SecMatOnOff = My.Bool(s[5], previousChangeMarker.SecMatOnOff);
+								marker.Dosage = My.Val(s[6], previousChangeMarker.Dosage*100) / 100;
+								marker.SpreadingWidthLeft = My.Val(s[7], previousChangeMarker.SpreadingWidthLeft*100) / 100;
+								marker.SpreadingWidthRight = My.Val(s[8], previousChangeMarker.SpreadingWidthRight * 100) / 100;
+								marker.DosageLiquid = My.Val(s[9], previousChangeMarker.DosageLiquid * 100) / 100;
+								marker.SprayingWidthLeft = My.Val(s[10], previousChangeMarker.SprayingWidthLeft * 100) / 100;
+								marker.SprayingWidthRight = My.Val(s[11], previousChangeMarker.SprayingWidthRight * 100) / 100;
+								marker.PersentageLiquid = My.Val(s[12], previousChangeMarker.PersentageLiquid);
 
 							}
 							route.ChangeMarkers.Add(marker);
+							previousChangeMarker = marker;
 						}
 						#endregion
 					}

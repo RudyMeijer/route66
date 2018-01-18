@@ -88,9 +88,9 @@ namespace Route66
 		public override string ToString()
 		{
 			if (Settings.Global.MachineType == MachineTypes.StreetWasher)
-				return $"Pressure {Dosage} bar\nLeft {SpreadingWidthLeft} m\nRight {SpreadingWidthRight} m";
+				return $"Pressure {Dosage} bar \nLeft {SpreadingWidthLeft} m \nRight {SpreadingWidthRight} m";
 			else
-				return $"Dosage {Dosage} g\nLeft {SpreadingWidthLeft} m\nRight {SpreadingWidthRight} m";
+				return $"Dosage {Dosage} g \nLeft {SpreadingWidthLeft} m \nRight {SpreadingWidthRight} m";
 		}
 		#region ROW1
 		[XmlAttribute("Spreading")] public bool SpreadingOnOff { get; set; }
