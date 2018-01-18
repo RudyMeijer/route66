@@ -83,7 +83,7 @@ namespace Route66
 			Dosage = 20.0;
 			SpreadingWidthLeft = 1.0;
 			SpreadingWidthRight = 1.0;
-			SpreadingOnOff = true;
+			SpreadingOnOff = false;
 		}
 		public override string ToString()
 		{

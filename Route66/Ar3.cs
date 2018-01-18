@@ -114,14 +114,18 @@ namespace Route66
 								marker.SprayingOnOff = My.Bool(s[3], previousChangeMarker.SprayingOnOff);
 								marker.MaxOnOff = My.Bool(s[4], previousChangeMarker.MaxOnOff);
 								marker.SecMatOnOff = My.Bool(s[5], previousChangeMarker.SecMatOnOff);
-								marker.Dosage = My.Val(s[6], previousChangeMarker.Dosage*100) / 100;
-								marker.SpreadingWidthLeft = My.Val(s[7], previousChangeMarker.SpreadingWidthLeft*100) / 100;
+								marker.Dosage = My.Val(s[6], previousChangeMarker.Dosage * 100) / 100;
+								marker.SpreadingWidthLeft = My.Val(s[7], previousChangeMarker.SpreadingWidthLeft * 100) / 100;
 								marker.SpreadingWidthRight = My.Val(s[8], previousChangeMarker.SpreadingWidthRight * 100) / 100;
 								marker.DosageLiquid = My.Val(s[9], previousChangeMarker.DosageLiquid * 100) / 100;
 								marker.SprayingWidthLeft = My.Val(s[10], previousChangeMarker.SprayingWidthLeft * 100) / 100;
 								marker.SprayingWidthRight = My.Val(s[11], previousChangeMarker.SprayingWidthRight * 100) / 100;
 								marker.PersentageLiquid = My.Val(s[12], previousChangeMarker.PersentageLiquid);
 
+							}
+							if (route.ChangeMarkers.Count == 0 && s[1] != "0")
+							{
+								route.ChangeMarkers.Add(new ChangeMarker(FindLatLng("0")));
 							}
 							route.ChangeMarkers.Add(marker);
 							previousChangeMarker = marker;
@@ -179,6 +183,7 @@ namespace Route66
 						// No corresponding Gps marker (orphan).
 						//
 						++errors[4];
+						if (last.Key.IsEmpty) last = item;
 						break;
 						#region TEST
 						// 1) If there is a Navigation marker with same distance
