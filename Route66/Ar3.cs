@@ -35,6 +35,7 @@ namespace Route66
 			//
 			var distanceTable = new Dictionary<PointLatLng, int>();
 			//var navigationTable = new Dictionary<int, PointLatLng>();
+			PointLatLng startPoint=new PointLatLng();
 			errors = new int[5];
 			var lastDistance = -1;
 			var route = new Route() { FileName = filename };
@@ -67,6 +68,7 @@ namespace Route66
 								var point = Unique(new PointLatLng(My.Val(s[2]), My.Val(s[1])));
 								route.GpsMarkers.Add(new GpsMarker(point));
 								distanceTable.Add(point, distance);
+								if (startPoint.IsEmpty) startPoint = point;
 							}
 							lastDistance = distance;
 						}
@@ -99,7 +101,7 @@ namespace Route66
 								// 1=DistanceFromStart, ActivityState, LeftNozzleIsActive, LeftNozzlePosition, RightNozzleIsActive, RightNozzlePosition, waterpressure,Marked, Message
 								// If this code is changed then modify also methode DisplayOnForm.
 								//
-								// On empty strings copy previous marker value.
+								// Handle empty strings; use previous marker value.
 								marker.PumpOnOff = My.Bool(s[2], previousChangeMarker.PumpOnOff);
 								marker.Hopper1OnOff = My.Bool(s[3], previousChangeMarker.Hopper1OnOff);
 								marker.SpreadingWidthLeft = My.Val(s[4], previousChangeMarker.SpreadingWidthLeft);
@@ -123,9 +125,16 @@ namespace Route66
 								marker.PersentageLiquid = My.Val(s[12], previousChangeMarker.PersentageLiquid);
 
 							}
+							//
+							// First change marker should have distance 0.
+							//
 							if (route.ChangeMarkers.Count == 0 && s[1] != "0")
 							{
-								route.ChangeMarkers.Add(new ChangeMarker(FindLatLng("0")));
+
+								//if (!distanceTable.ContainsKey(startPoint)) distanceTable.Add(startPoint, 0);
+								var newPoint = Unique(startPoint);
+								route.GpsMarkers.Insert(0, new GpsMarker(newPoint));
+								route.ChangeMarkers.Add(new ChangeMarker(newPoint));
 							}
 							route.ChangeMarkers.Add(marker);
 							previousChangeMarker = marker;
@@ -177,11 +186,8 @@ namespace Route66
 						last = item;
 						break;
 					}
-					else if (item.Value > distance)
+					else if (item.Value > distance) // No corresponding Gps marker (orphan).
 					{
-						//
-						// No corresponding Gps marker (orphan).
-						//
 						++errors[4];
 						if (last.Key.IsEmpty) last = item;
 						break;
@@ -205,8 +211,8 @@ namespace Route66
 						#endregion
 					}
 				}
-				distanceTable.Remove(last.Key); // Use distance only one's so that not both Navigation- and Change marker can be added to one gps marker.
-												//navigationTable.Add(last.Value, last.Key);
+				if (distance > 0) distanceTable.Remove(last.Key); // Use distance only one's so that not both Navigation- and Change marker can be added to one gps marker.
+																  //navigationTable.Add(last.Value, last.Key);
 				return last.Key;
 			}
 		}
