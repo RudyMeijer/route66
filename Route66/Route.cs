@@ -50,7 +50,7 @@ namespace Route66
                 switch (Path.GetExtension(fileName))
                 {
                     case ".xml":
-                        route = new XmlSerializer(typeof(Route)).Deserialize(new StreamReader(fileName)) as Route;
+                        using (var reader = new StreamReader(fileName)) route = new XmlSerializer(typeof(Route)).Deserialize(reader) as Route;
                         break;
                     case ".ar3":
                         route = ReadAr3(fileName);
@@ -81,8 +81,7 @@ namespace Route66
                 switch (Path.GetExtension(fileName))
                 {
                     case ".xml":
-                        XmlSerializer serializer = new XmlSerializer(typeof(Route));
-                        using (StreamWriter writer = new StreamWriter(fileName)) serializer.Serialize(writer, this);
+                        using (StreamWriter writer = new StreamWriter(fileName)) new XmlSerializer(typeof(Route)).Serialize(writer, this);
                         break;
                     case ".ar3":
                         WriteAr3(fileName, this);
