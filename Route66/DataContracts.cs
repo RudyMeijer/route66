@@ -11,7 +11,7 @@ using GMap.NET;
 
 [module: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1201:ElementsMustAppearInTheCorrectOrder", Justification = "Reviewed. Suppression is OK here.")]
 [module: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
-[module: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "*", Justification = "Reviewed. Suppression is OK here.")]
+[module: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
 
 namespace Route66
 {
@@ -120,13 +120,14 @@ namespace Route66
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="ChangeMarker" /> class.
+            /// The parameter less constructor is used during serialization.
             /// </summary>
             public ChangeMarker()
             {
             }
 
             /// <summary>
-            /// Initializes a new instance of this class.
+            /// Initializes a new instance of the ChangeMarker class.
             /// </summary>
             /// <param name="position">Latitude Longitude coordinate</param>
             public ChangeMarker(PointLatLng position) : base(position)
@@ -149,7 +150,7 @@ namespace Route66
             #endregion
             #region ROW2
             /// <summary>
-            /// Remove get;set to promote fields in xmlfile.
+            /// Remove get;set to promote fields in xml file.
             /// </summary>
             [XmlAttribute("Dosage")] public double Dosage;
 
@@ -189,13 +190,13 @@ namespace Route66
         }
 
         /// <summary>
-        /// This class contains all properties for a red GPS marker: Lng, Lat 
+        /// This class contains all properties for a red GPS marker: Longitude Latitude. 
         /// </summary>
         [Serializable]
         public class GpsMarker
         {
             /// <summary>
-            /// Initializes a new instance of this class.
+            /// Initializes a new instance of the <see cref="GpsMarker"/> class.
             /// </summary>
             public GpsMarker()
             {
