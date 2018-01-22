@@ -10,6 +10,7 @@ using GMap.NET.MapProviders;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using static Route66.DataContracts;
 
 namespace Route66
 {

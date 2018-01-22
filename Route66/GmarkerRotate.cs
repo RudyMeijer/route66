@@ -7,6 +7,7 @@ using GMap.NET;
 using GMap.NET.WindowsForms;
 using Route66.Properties;
 using System.Drawing;
+using static Route66.DataContracts;
 
 namespace Route66
 {
