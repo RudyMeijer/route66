@@ -1,20 +1,20 @@
 ﻿// <copyright file="DataContracts.cs" company="Aebi Schmidt Nederland B.V.">
 //   Aebi Schmidt Nederland B.V. All rights reserved.
 // </copyright>
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
-using GMap.NET;
-
 [module: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1201:ElementsMustAppearInTheCorrectOrder", Justification = "Reviewed. Suppression is OK here.")]
 [module: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
 [module: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
 
 namespace Route66
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Xml.Serialization;
+    using GMap.NET;
+
     /// <summary>
     /// This enum contains MachineTypes.
     /// </summary>
@@ -94,7 +94,7 @@ namespace Route66
             /// </summary>
             [XmlAttribute]
             public string SoundFile { get; set; }
-            
+
             /// <summary>
             /// Gets or sets message.
             /// </summary>
@@ -182,7 +182,7 @@ namespace Route66
             /// <returns>return message</returns>
             public override string ToString()
             {
-                return (Settings.Global.MachineType == MachineTypes.StreetWasher) ? 
+                return (Settings.Global.MachineType == MachineTypes.StreetWasher) ?
                     $"Pressure {Dosage} bar \nLeft {SpreadingWidthLeft} m \nRight {SpreadingWidthRight} m"
                     :
                     $"Dosage {Dosage} g \nLeft {SpreadingWidthLeft} m \nRight {SpreadingWidthRight} m";
@@ -190,7 +190,8 @@ namespace Route66
         }
 
         /// <summary>
-        /// This class contains all properties for a red GPS marker: Longitude Latitude. 
+        /// This class contains all properties for a red GPS marker: Longitude Latitude.
+        /// It is used as base class for classes above.
         /// </summary>
         [Serializable]
         public class GpsMarker
@@ -222,7 +223,7 @@ namespace Route66
 
             [XmlAttribute]
             public double Lng { get; set; }
-            
+
             /// <summary>
             /// override string
             /// </summary>
