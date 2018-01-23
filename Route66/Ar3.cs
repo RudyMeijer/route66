@@ -12,11 +12,9 @@ using static Route66.DataContracts;
 
 namespace Route66
 {
-    public static partial class Adapters
+    public class Adapters
     {
-        public static int[] errors;
         private static Dictionary<string, NavigationMessages> naviTypes;
-        private static ChangeMarker previousChangeMarker = new ChangeMarker();
 
         /// <summary>
         /// Read AR3 file.
@@ -29,21 +27,22 @@ namespace Route66
             #region FIELDS
             var line = "";
             var version = "";
-            var provider = CultureInfo.GetCultureInfo("en").NumberFormat;
             //
             // The distance table contains the relation between LatLng and distance.
             // Filled during Read Gps markers.
             //
             var distanceTable = new Dictionary<PointLatLng, int>();
-            //var navigationTable = new Dictionary<int, PointLatLng>();
+            int[] errors;
             PointLatLng startPoint = new PointLatLng();
             errors = new int[5];
             var lastDistance = -1;
             var route = new Route() { FileName = filename };
             var random = new Random();
             var minimumDistanceBetweenMarkersInCm = 100;
+            var previousChangeMarker = new ChangeMarker();
             #endregion
             using (TextReader reader = new StreamReader(filename))
+            {
                 while ((line = reader.ReadLine()) != null)
                 {
                     try
@@ -144,6 +143,7 @@ namespace Route66
                     }
                     catch (Exception ee) { My.Log($"{++errors[3]} Error in {line} {ee.Message} {ee.StackTrace}"); }
                 }
+            }
             if (errors.Sum() > 0)
             {
                 Log("End of requirement analyze.");

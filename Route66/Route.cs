@@ -40,6 +40,14 @@ namespace Route66
             NavigationMarkers = new List<NavigationMarker>();
         }
         #endregion
+        #region PROPERTIES
+        public MachineTypes MachineType { get; set; }
+        public String Version { get; set; }
+        public List<GpsMarker> GpsMarkers { get; set; }
+        public List<ChangeMarker> ChangeMarkers { get; set; }
+        public List<NavigationMarker> NavigationMarkers { get; set; }
+
+        #endregion
         #region METHODES
         public static Route Load(string fileName = "Route66.xml")
         {
@@ -101,14 +109,6 @@ namespace Route66
         {
             return $"{FileName} V{Version}, Type {MachineType}";
         }
-        #endregion
-        #region PROPERTIES
-        public MachineTypes MachineType { get; set; }
-        public String Version { get; set; }
-        public List<GpsMarker> GpsMarkers { get; set; }
-        public List<ChangeMarker> ChangeMarkers { get; set; }
-        public List<NavigationMarker> NavigationMarkers { get; set; }
-
         #endregion
     }
 }

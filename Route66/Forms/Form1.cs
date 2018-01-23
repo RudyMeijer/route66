@@ -24,11 +24,6 @@ namespace Route66
     {
         #region FIELDS
         /// <summary>
-        /// Application configuration loaded on startup from Settings.xml.
-        /// Never create new instance of settings.
-        /// </summary>
-        public Settings Settings { get; }
-        /// <summary>
         /// Contains all overlays like routes and markers.
         /// </summary>
         private Overlay Overlay;
@@ -71,6 +66,11 @@ namespace Route66
         }
         #endregion
         #region PROPERTIES
+        /// <summary>
+        /// Application configuration loaded on startup from Settings.xml.
+        /// Never create new instance of settings.
+        /// </summary>
+        public Settings Settings { get; }
         #endregion
         #region INITIALIZE
         private void Form1_Load(object sender, EventArgs e)
