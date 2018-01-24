@@ -15,7 +15,7 @@ namespace Route66
 {
     /// <summary>
     /// This class contains all data for one route.
-    /// To comply to Single Responsible Principle it is equiped with a Load- and Save methode to (de)serialyze its own data to disk.
+    /// To comply to Single Responsible Principle it is equiped with a Load- and Save methode to (de)serialyze its properties to disk.
     /// </summary>
     public class Route
     {
