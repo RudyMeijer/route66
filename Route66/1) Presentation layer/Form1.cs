@@ -347,7 +347,7 @@ namespace Route66
         {
             var idx = Overlay.GetIndexRed(Overlay.CurrentMarker);
             if (idx == -1) { My.Show("Please open a mainroute first."); return; }
-            if (My.Show($"Do you want to insert subroute at current Gps marker {idx}?", null, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            if (My.Show($"Do you want to insert subroute at current Gps marker?", null, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
             {
                 OpenToolStripMenuItem_Click("SubRoute", null);
             }
