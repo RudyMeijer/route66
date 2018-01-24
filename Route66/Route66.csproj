@@ -137,12 +137,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\My\My\My.csproj">
-      <Project>{02b95a35-aa86-49ee-b9a2-85bed81a189a}</Project>
-      <Name>My</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Documents\Exclude.txt" />
     <Content Include="Documents\Help.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
