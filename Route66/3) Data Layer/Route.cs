@@ -1,6 +1,4 @@
-﻿using GMap.NET;
-using MyLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -8,6 +6,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using GMap.NET;
+using MyLib;
 using static Route66.Adapters;
 using static Route66.DataContracts;
 
@@ -15,53 +15,65 @@ namespace Route66
 {
     /// <summary>
     /// This class contains all data for one route.
-    /// To comply to Single Responsible Principle it is equiped with a Load- and Save methode to (de)serialyze its properties to disk.
+    /// To comply to Single Responsible Principle it is equipped with a Load- and Save method to (de)serialize its properties to disk.
     /// </summary>
     public class Route
     {
         #region FIELDS
-        //[XmlIgnore]
+        // Use "internal" Access Modifiers to prohibit serialisation of variable [XmlIgnore]
+        public static bool IsDefaultFile;
+        internal bool IsChanged;
         internal bool IsNotSupported;
         internal string FileName;
-        internal bool IsChanged;
         internal int Distance = 0;
-        public static bool IsDefaultFile;
         private static Route route;
         #endregion
         #region CONSTRUCTOR
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Route" /> class.
+        /// </summary>
         public Route()
         {
-            MachineType = MachineTypes.StandardSpreader;
-            Version = "1.0";
-            GpsMarkers = new List<GpsMarker>();
-            ChangeMarkers = new List<ChangeMarker>();
-            NavigationMarkers = new List<NavigationMarker>();
+            this.MachineType = MachineTypes.StandardSpreader;
+            this.Version = "1.0";
+            this.GpsMarkers = new List<GpsMarker>();
+            this.ChangeMarkers = new List<ChangeMarker>();
+            this.NavigationMarkers = new List<NavigationMarker>();
         }
         #endregion
         #region PROPERTIES
         public MachineTypes MachineType { get; set; }
-        public String Version { get; set; }
+
+        public string Version { get; set; }
+
         public List<GpsMarker> GpsMarkers { get; set; }
+
         public List<ChangeMarker> ChangeMarkers { get; set; }
+
         public List<NavigationMarker> NavigationMarkers { get; set; }
 
         #endregion
         #region METHODES
         public static Route Load(string fileName = "Route66.xml")
         {
-            IsDefaultFile = (fileName == "Route66.xml");
+            IsDefaultFile = fileName == "Route66.xml";
             route = new Route();
             try
             {
                 switch (Path.GetExtension(fileName))
                 {
                     case ".xml":
-                        using (var reader = new StreamReader(fileName)) route = new XmlSerializer(typeof(Route)).Deserialize(reader) as Route;
+                        using (var reader = new StreamReader(fileName))
+                        {
+                            route = new XmlSerializer(typeof(Route)).Deserialize(reader) as Route;
+                        }
                         break;
                     case ".ar3":
                         route = ReadAr3(fileName);
                         break;
-                    default: route.IsNotSupported = true; break;
+                    default:
+                        route.IsNotSupported = true;
+                        break;
                 }
             }
             catch (Exception ee)
@@ -69,11 +81,16 @@ namespace Route66
                 if (!IsDefaultFile)
                 {
                     if (ee.InnerException != null)
+                    {
                         My.Show($"{ee.InnerException.Message}", ee.Message);
+                    }
                     else
+                    {
                         My.Show($"{ee.Message}", "Loading route.");
+                    }
                 }
             }
+
             route.FileName = fileName;
             return route;
         }
@@ -92,14 +109,18 @@ namespace Route66
                     case ".ar3":
                         WriteAr3(fileName, this);
                         break;
-                    default: route.IsNotSupported = true; return false;
+                    default: route.IsNotSupported = true;
+                        return false;
                 }
                 route.FileName = fileName;
-                IsDefaultFile = (fileName == "Route66.xml");
-                IsChanged = false;
+                IsDefaultFile = fileName == "Route66.xml";
+                this.IsChanged = false;
                 return true;
             }
-            catch (Exception e) { My.Log($"SaveAs error {e}"); }
+            catch (Exception e)
+            {
+                My.Log($"SaveAs error {e}");
+            }
             return false;
         }
 

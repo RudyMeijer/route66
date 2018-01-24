@@ -105,7 +105,9 @@
     <Compile Include="2%29 Business Layer\Overlay.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="3%29 Data Layer\Route.cs" />
+    <Compile Include="3%29 Data Layer\Route.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="Translate.cs" />
     <EmbeddedResource Include="1%29 Presentation layer\Form1.resx">
