@@ -111,6 +111,7 @@ namespace Route66
             chkShowTooltip.Checked = Settings.ToolTipMode;
             if (Settings.SupervisorMode) chkEditRoute.Checked = true;
             chkArrowMarker.Checked = Settings.ArrowMarker;
+            btnClear.Visible = Settings.SupervisorMode;
         }
 
         private int GetComboIndex(string mapProvider)
