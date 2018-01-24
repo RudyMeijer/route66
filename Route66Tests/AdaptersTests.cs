@@ -33,9 +33,9 @@ namespace Route66.Tests
 			// Test internal Filename.
 			//
 			Assert.IsTrue((string)My.GetField(route, "FileName") == filename, "ReadAr3 error 6");
-			//
-			// Test requirements.
-			//
+            //
+            // Test requirements.
+            //
 			Assert.IsTrue(Adapters.errors[0] == 1, "Requirement violation 7");
 			Assert.IsTrue(Adapters.errors[1] == 4, "Requirement violation 8");
 			Assert.IsTrue(Adapters.errors[2] == 0, "Requirement violation 9");

@@ -14,10 +14,9 @@ using GMap.NET.WindowsForms;
 public class Settings
 {
     #region FIELDS
-    public string fileName;
+    private string fileName;
     private static Settings appSettings;
     private static PropertyGrid _propertyGrid;
-    public static Settings Global { get; private set; }
     private static string backupFile;
     #endregion
     #region CONSTRUCTOR
@@ -45,7 +44,10 @@ public class Settings
 
     [Category("Application Settings"), DescriptionAttribute("Supervisors have special rights for modifications.")]
     public bool SupervisorMode { get; set; }
+
     public static bool IsChanged { get; private set; }
+
+    public static Settings Global { get; private set; }
 
     [Category("Route Settings"), Description("Enter routes location. Leave empty to open last location.")]
     [Editor(typeof(FolderNameEditor), typeof(UITypeEditor))]
@@ -96,7 +98,7 @@ public class Settings
 
         appSettings.fileName = fileName; // allow Save().
         _propertyGrid = propertyGrid;    // allow refresh().
-        Global = appSettings;
+        Global = appSettings;            // allow global access to settings.
 
         if (propertyGrid != null)
         {

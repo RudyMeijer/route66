@@ -1,45 +1,45 @@
-﻿using GMap.NET;
-using MyLib;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static MyLib.My;
-using static Route66.DataContracts;
-
+﻿
 namespace Route66
 {
+    using GMap.NET;
+    using MyLib;
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using static MyLib.My;
+    using static Route66.DataContracts;
+
     public class Adapters
     {
+        public static int[] errors;
         private static Dictionary<string, NavigationMessages> naviTypes;
 
         /// <summary>
-        /// Read AR3 file.
-        /// See http://confluence.ash.ads.org/display/EHP/Autologic+ar3+route+file+format.+V2
+        /// Read AR3 file. See http://confluence.ash.ads.org/display/EHP/Autologic+ar3+route+file+format.+V2
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
         public static Route ReadAr3(String filename)
         {
             #region FIELDS
-            var line = "";
-            var version = "";
             //
             // The distance table contains the relation between LatLng and distance.
             // Filled during Read Gps markers.
             //
             var distanceTable = new Dictionary<PointLatLng, int>();
-            int[] errors;
-            PointLatLng startPoint = new PointLatLng();
-            errors = new int[5];
+            var line = "";
+            var version = "";
+            var startPoint = new PointLatLng();
             var lastDistance = -1;
             var route = new Route() { FileName = filename };
             var random = new Random();
             var minimumDistanceBetweenMarkersInCm = 100;
             var previousChangeMarker = new ChangeMarker();
+            errors = new int[5]; // for unittesting.
             #endregion
             using (TextReader reader = new StreamReader(filename))
             {
@@ -141,7 +141,7 @@ namespace Route66
                         }
                         #endregion
                     }
-                    catch (Exception ee) { My.Log($"{++errors[3]} Error in {line} {ee.Message} {ee.StackTrace}"); }
+                    catch (Exception ee) { Log($"{++errors[3]} Error in {line} {ee.Message} {ee.StackTrace}"); }
                 }
             }
             if (errors.Sum() > 0)
@@ -213,18 +213,9 @@ namespace Route66
                     }
                 }
                 if (distance > 0) distanceTable.Remove(last.Key); // Use distance only one's so that not both Navigation- and Change marker can be added to one gps marker.
-                                                                  //navigationTable.Add(last.Value, last.Key);
+
                 return last.Key;
             }
-        }
-
-        private static PointLatLng Interpolate(int distance, KeyValuePair<PointLatLng, int> last, KeyValuePair<PointLatLng, int> item)
-        {
-            var t = My.InverseLerp(distance, last.Value, item.Value);
-            var lat = My.Lerp(t, (float)last.Key.Lat, (float)item.Key.Lat);
-            var lng = My.Lerp(t, (float)last.Key.Lng, (float)item.Key.Lng);
-            var point = new PointLatLng(lat, lng);
-            return point;
         }
 
         public static void WriteAr3(String fileName, Route route)
@@ -376,6 +367,15 @@ namespace Route66
             var mr = new MapRoute(new List<PointLatLng>() { p1, p2 }, "compute distance");
             return mr.Distance;
         }
+
+        ////private static PointLatLng Interpolate(int distance, KeyValuePair<PointLatLng, int> last, KeyValuePair<PointLatLng, int> item)
+        ////{
+        ////    var t = My.InverseLerp(distance, last.Value, item.Value);
+        ////    var lat = My.Lerp(t, (float)last.Key.Lat, (float)item.Key.Lat);
+        ////    var lng = My.Lerp(t, (float)last.Key.Lng, (float)item.Key.Lng);
+        ////    var point = new PointLatLng(lat, lng);
+        ////    return point;
+        ////}
         #endregion
     }
 }

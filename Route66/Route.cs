@@ -21,14 +21,12 @@ namespace Route66
     {
         #region FIELDS
         //[XmlIgnore]
-        internal string FileName;
-        public static bool IsDefaultFile;
         internal bool IsNotSupported;
-        //[XmlIgnore]
+        internal string FileName;
         internal bool IsChanged;
-        private static Route route;
         internal int Distance = 0;
-
+        public static bool IsDefaultFile;
+        private static Route route;
         #endregion
         #region CONSTRUCTOR
         public Route()

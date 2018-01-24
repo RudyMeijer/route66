@@ -81,11 +81,11 @@
             }
             cmbMessage_SelectedIndexChanged(null, null);
         }
-        #endregion
 
         private void cmbMessage_SelectedIndexChanged(object sender, EventArgs e)
         {
             txtSoundFile.Text = My.ValidateFilename(cmbMessage.Text) + ".wav";
         }
+        #endregion
     }
 }
