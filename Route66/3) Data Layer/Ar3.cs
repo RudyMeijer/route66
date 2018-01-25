@@ -78,7 +78,9 @@ namespace Route66
                         //
                         else if (line.StartsWith("Instruction["))
                         {
-                            var marker = new NavigationMarker(FindLatLng(s[1]));
+                            if (s[1] == "0") s[1] = "10"; // Set first Navigation marker on 10 cm. Set first Change marker on 0 cm.
+                            var latlng = FindLatLng(s[1]);
+                            var marker = new NavigationMarker(latlng);
 
                             if (s[2] == "1007") // Get custom message.
                                 marker.Message = (s[6] != "") ? s[6] : Path.GetFileNameWithoutExtension(s[5]);
@@ -144,17 +146,7 @@ namespace Route66
                     catch (Exception ee) { Log($"{++errors[3]} Error in {line} {ee.Message} {ee.StackTrace}"); }
                 }
             }
-            if (errors.Sum() > 0)
-            {
-                Log("End of requirement analyze.");
-                Show($"Total {errors.Sum()} violations in route {Path.GetFileName(filename)} detected. \n" +
-                    $"{errors[1]} duplicated lines will be ignored.\n" +
-                    $"{errors[0]} points have descending distance and will be ignored. \n" +
-                    $"{errors[2]} unknown navigation types. \n" +
-                    $"{errors[4]} orphan markers found. They will be connected to Gps markers. \n" +
-                    $"{errors[3]} exceptions. \n" +
-                    $"See logfile for more information.", $"Requirements Conformation Report.");
-            }
+            My.Log("End of requirement analyze.");
             return route;
             //
             // Make unique LatLng point. See Software Design Document.
@@ -190,7 +182,7 @@ namespace Route66
                     else if (item.Value > distance) // No corresponding Gps marker (orphan).
                     {
                         ++errors[4];
-                        if (last.Key.IsEmpty) last = item;
+                        if (last.Key.IsEmpty || distance == 10) last = item;
                         break;
                         #region TEST
                         // 1) If there is a Navigation marker with same distance
@@ -212,7 +204,7 @@ namespace Route66
                         #endregion
                     }
                 }
-                if (distance > 0) distanceTable.Remove(last.Key); // Use distance only one's so that not both Navigation- and Change marker can be added to one gps marker.
+                distanceTable.Remove(last.Key); // Use distance only one's so that not both Navigation- and Change marker can be added to one gps marker.
 
                 return last.Key;
             }

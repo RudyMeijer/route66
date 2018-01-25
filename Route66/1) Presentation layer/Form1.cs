@@ -332,6 +332,18 @@ namespace Route66
                     if (Overlay.Route.IsNotSupported) { My.Show($"Sorry, filetype {Path.GetExtension(openFileDialog1.FileName)} is not supported yet."); return; }
                     My.Status($"Error This file contains no Gps markers.");
                 }
+                if (Adapters.errors?.Sum() > 0)
+                {
+                    My.Show($"Total {Adapters.errors.Sum()} violations in route {Path.GetFileName(openFileDialog1.FileName)} detected. \n" +
+                        $"{Adapters.errors[1]} duplicated lines will be ignored.\n" +
+                        $"{Adapters.errors[0]} points have descending distance and will be ignored. \n" +
+                        $"{Adapters.errors[2]} unknown navigation types. \n" +
+                        $"{Adapters.errors[4]} orphan markers found. They will be connected to Gps markers. \n" +
+                        $"{Adapters.errors[3]} exceptions. \n" +
+                        $"See logfile for more information.", $"Requirements Conformation Report.");
+                    Adapters.errors = null;
+                }
+
                 //
                 // If subroute is loaded then keep original filename.
                 //

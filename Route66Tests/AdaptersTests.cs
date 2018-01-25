@@ -40,7 +40,7 @@ namespace Route66.Tests
 			Assert.IsTrue(Adapters.errors[1] == 4, "Requirement violation 8");
 			Assert.IsTrue(Adapters.errors[2] == 0, "Requirement violation 9");
 			Assert.IsTrue(Adapters.errors[3] == 0, "Requirement violation 10");
-			Assert.IsTrue(Adapters.errors[4] == 112, "Requirement violation 11");
+			Assert.IsTrue(Adapters.errors[4] == 114, "Requirement violation 11");
 		}
 	}
 }
