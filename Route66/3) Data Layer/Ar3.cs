@@ -131,7 +131,7 @@ namespace Route66
                             if (route.ChangeMarkers.Count == 0 && s[1] != "0")
                             {
 
-                                //if (!distanceTable.ContainsKey(startPoint)) distanceTable.Add(startPoint, 0);
+                                if (!distanceTable.ContainsKey(startPoint)) distanceTable.Add(startPoint, 0);
                                 var newPoint = Unique(startPoint);
                                 route.GpsMarkers.Insert(0, new GpsMarker(newPoint));
                                 route.ChangeMarkers.Add(new ChangeMarker(newPoint));
