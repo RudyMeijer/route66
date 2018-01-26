@@ -14,7 +14,7 @@ namespace Route66.Tests
 	[TestClass()]
 	public class AdaptersTests
 	{
-		[TestMethod(), DeploymentItem(@"..\..\Test data\")]
+		[TestMethod, DeploymentItem(@"..\..\Test data\")]
 		public void ReadAr3Test()
 		{
 			var filename = "KleineRoute.ar3";
@@ -42,5 +42,23 @@ namespace Route66.Tests
 			Assert.IsTrue(Adapters.errors[3] == 0, "Requirement violation 10");
 			Assert.IsTrue(Adapters.errors[4] == 112, "Requirement violation 11");
 		}
-	}
+        [TestMethod, DeploymentItem(@"..\..\Test data\")]
+        public void RequirementsAr3Test()
+        {
+            var filename = "Requirements test.ar3";
+            var route = Adapters.ReadAr3(filename);
+            Assert.IsTrue(route.GpsMarkers.Count == 5, "Requirement violation 12");
+            Assert.IsTrue(route.NavigationMarkers.Count == 1, "Requirement violation 13");
+            Assert.IsTrue(route.ChangeMarkers.Count == 3, "Requirement violation 14");
+            //
+            // Write ar3 and read back.
+            //
+            filename = "Requirements test wr.ar3";
+            Adapters.WriteAr3(filename, route);
+            var route2 = Adapters.ReadAr3(filename);
+            Assert.IsTrue(route2.GpsMarkers.Count == 5, "Requirement violation 22");
+            Assert.IsTrue(route2.NavigationMarkers.Count == 1, "Requirement violation 23");
+            Assert.IsTrue(route2.ChangeMarkers.Count == 3, "Requirement violation 24");
+        }
+    }
 }

@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Test data\KleineRoute.ar3" />
+    <None Include="Test data\Requirements test.ar3" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

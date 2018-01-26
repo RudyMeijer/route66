@@ -1,0 +1,22 @@
+Ar3Version: 2
+MachineType: StandardSpreader
+ImageFiles:
+SoundFiles:
+RouteID: Requirements test
+RouteTimestamp: 20180125 15.39.42
+RouteResult:
+Duration: 0
+Length: 0
+CalcTime: 0
+WayPoints: Longitude, Latitude, DistanceFromStartInCm
+WayPoint[0]:5.99141120910645,52.2362891986625,0
+WayPoint[1]:5.99381446838379,52.2382339970158,27149
+WayPoint[3]:5.99733352661133,52.2372090463425,53714   
+WayPoint[4]:5.99733352661133,52.2372090463425,53714   ,Duplicated marker.
+WayPoint[5]:5.99471569061279,52.235369331919,80879
+WayPoint[6]:5.99471569061279,52.235369331919,80878    ,Decending distance.
+Instructions: DistanceFromStartInCm, InstructionType, RoundaboutIndex, RoundaboutCount, SoundFile, Message
+Instruction[0]:0,66,-1,-1,,							  ,Place not at 0 cm.
+ChangePoints: DistanceFromStartInCm, SpreadSprayOnOff, SprayModeOnOff, Max, SecMat,Dosage, WidthLeft, WidthRight, SecDos, WidthLeftSpraying, WidthRightSpraying, CombiPercentage, HopperSelection
+ChangePoint[0]:27149,1,0,0,0,2222,100,100,0,0,0,0,1   ,Change point should start at zero.
+ChangePoint[1]:57150,0,0,0,0,3333,100,100,0,0,0,0,1   ,Orphan marker.
