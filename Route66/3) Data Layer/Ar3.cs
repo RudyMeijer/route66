@@ -37,9 +37,9 @@ namespace Route66
             var lastDistance = -1;
             var route = new Route() { FileName = filename };
             var random = new Random();
-            var minimumDistanceBetweenMarkersInCm = 100;
+            //var minimumDistanceBetweenMarkersInCm = 100;
             var previousChangeMarker = new ChangeMarker();
-            errors = new int[5]; // for unittesting.
+            errors = new int[5]; // used in unittesting.
             #endregion
             using (TextReader reader = new StreamReader(filename))
             {
@@ -62,12 +62,11 @@ namespace Route66
                             var distance = int.Parse(s[3]);
                             if (distance < lastDistance) { My.Log($"{++errors[0]} {line} has descending distance and will be ignored."); }
                             else if (distance == lastDistance) { My.Log($"{++errors[1]} Duplicated line {line}"); }
-                            else if (distance < (lastDistance + minimumDistanceBetweenMarkersInCm) && lastDistance > -1) { My.Log($"{++errors[1]} Minimum distance violation {line} with respect to previous marker."); }
+                            //else if (distance < (lastDistance + minimumDistanceBetweenMarkersInCm) && lastDistance > -1) { My.Log($"{++errors[1]} Minimum distance violation {line} with respect to previous marker."); }
                             else
                             {
-                                var point = Unique(new PointLatLng(My.Val(s[2]), My.Val(s[1])));
+                                var point = Unique(new PointLatLng(My.Val(s[2]), My.Val(s[1])), distance);
                                 route.GpsMarkers.Add(new GpsMarker(point));
-                                distanceTable.Add(point, distance);
                                 if (startPoint.IsEmpty) startPoint = point;
                             }
                             lastDistance = distance;
@@ -82,8 +81,7 @@ namespace Route66
 
                             if (s[1] == "0") // Set first Navigation marker not at distance zero. This is reserved for Change marker.
                             {
-                                latlng = Unique(startPoint);
-                                distanceTable.Add(latlng, 200);
+                                latlng = Unique(startPoint, 200);
                                 route.GpsMarkers.Insert(1, new GpsMarker(latlng));
                             }
                             else
@@ -143,10 +141,10 @@ namespace Route66
                             if (route.ChangeMarkers.Count == 0 && s[1] != "0")
                             {
 
-                                if (!distanceTable.ContainsKey(startPoint)) distanceTable.Add(startPoint, 0);
-                                var newPoint = startPoint;
+                                //if (!distanceTable.ContainsKey(startPoint)) distanceTable.Add(startPoint, 0);
+                                //var newPoint = startPoint;
                                 //route.GpsMarkers.Insert(0, new GpsMarker(newPoint));
-                                route.ChangeMarkers.Add(new ChangeMarker(newPoint));
+                                route.ChangeMarkers.Add(new ChangeMarker(startPoint));
                             }
                             route.ChangeMarkers.Add(marker);
                             previousChangeMarker = marker;
@@ -161,14 +159,14 @@ namespace Route66
             //
             // Make unique LatLng point. See Software Design Document.
             //
-            PointLatLng Unique(PointLatLng point)
+            PointLatLng Unique(PointLatLng point, int distance)
             {
                 while (distanceTable.ContainsKey(point))
                 {
                     var r = random.NextDouble() / 100000;
-                    //My.Log($"Make unique LatLng point {point} + {r}");
                     point = new PointLatLng(point.Lat + r, point.Lng + r);
                 }
+                distanceTable.Add(point, distance);
                 return point;
             }
 
@@ -192,26 +190,8 @@ namespace Route66
                     else if (item.Value > distance) // No corresponding Gps marker (orphan).
                     {
                         ++errors[4];
-                        if (last.Key.IsEmpty || distance == 10) last = item;
+                        if (last.Key.IsEmpty) last = item;
                         break;
-                        #region TEST
-                        // 1) If there is a Navigation marker with same distance
-                        //    then add unique new point at same distance.
-                        // 2) Else interpolate new Gps Marker at current position.
-                        //
-                        //PointLatLng newpoint;
-                        //if (navigationTable.ContainsKey(distance))
-                        //{
-                        //	distanceTable.Add(navigationTable[distance],distance); // Required for unique.
-                        //	newpoint = Unique(navigationTable[distance]);
-                        //}
-                        //else
-                        //{
-                        //	newpoint = Unique(Interpolate(distance, last, item));
-                        //}
-                        //route.GpsMarkers.Insert(idx + 1, new GpsMarker((newpoint)));
-                        //return newpoint;
-                        #endregion
                     }
                 }
                 distanceTable.Remove(last.Key); // Use distance only one's so that not both Navigation- and Change marker can be added to one gps marker.
