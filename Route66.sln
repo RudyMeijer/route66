@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Route66", "Route66\Route66.csproj", "{334E18B0-2A1D-4FE5-BDA0-634B792FCB8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Route66Tests", "Route66Tests\Route66Tests.csproj", "{999FDC72-77A7-4535-AEE4-54C6CBFF6FDF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "Route66Tests\UnitTests.csproj", "{999FDC72-77A7-4535-AEE4-54C6CBFF6FDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

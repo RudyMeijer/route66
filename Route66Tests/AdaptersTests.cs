@@ -20,7 +20,7 @@ namespace Route66.Tests
 			var filename = "KleineRoute.ar3";
 			var route = Adapters.ReadAr3(filename);
 			Assert.IsFalse(Route.IsDefaultFile, "ReadAr3 error 0");
-			Assert.IsTrue(route.GpsMarkers.Count == 594, "ReadAr3 error 1");
+			Assert.IsTrue(route.GpsMarkers.Count == 595, "ReadAr3 error 1");
 			Assert.IsTrue(route.ChangeMarkers.Count == 66, "ReadAr3 error 2");
 			Assert.IsTrue(route.NavigationMarkers.Count == 56, "ReadAr3 error 3");
 			//
@@ -40,7 +40,7 @@ namespace Route66.Tests
 			Assert.IsTrue(Adapters.errors[1] == 4, "Requirement violation 8");
 			Assert.IsTrue(Adapters.errors[2] == 0, "Requirement violation 9");
 			Assert.IsTrue(Adapters.errors[3] == 0, "Requirement violation 10");
-			Assert.IsTrue(Adapters.errors[4] == 114, "Requirement violation 11");
+			Assert.IsTrue(Adapters.errors[4] == 112, "Requirement violation 11");
 		}
 	}
 }

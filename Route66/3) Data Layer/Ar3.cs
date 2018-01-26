@@ -62,7 +62,7 @@ namespace Route66
                             var distance = int.Parse(s[3]);
                             if (distance < lastDistance) { My.Log($"{++errors[0]} {line} has descending distance and will be ignored."); }
                             else if (distance == lastDistance) { My.Log($"{++errors[1]} Duplicated line {line}"); }
-                            else if (distance < (lastDistance + minimumDistanceBetweenMarkersInCm) && lastDistance > -1) { My.Log($"{++errors[1]} Minimum distance {line} with respect to previous marker violated."); }
+                            else if (distance < (lastDistance + minimumDistanceBetweenMarkersInCm) && lastDistance > -1) { My.Log($"{++errors[1]} Minimum distance violation {line} with respect to previous marker."); }
                             else
                             {
                                 var point = Unique(new PointLatLng(My.Val(s[2]), My.Val(s[1])));
@@ -78,8 +78,18 @@ namespace Route66
                         //
                         else if (line.StartsWith("Instruction["))
                         {
-                            if (s[1] == "0") s[1] = "10"; // Set first Navigation marker on 10 cm. Set first Change marker on 0 cm.
-                            var latlng = FindLatLng(s[1]);
+                            PointLatLng latlng;
+
+                            if (s[1] == "0") // Set first Navigation marker not at distance zero. This is reserved for Change marker.
+                            {
+                                latlng = Unique(startPoint);
+                                distanceTable.Add(latlng, 200);
+                                route.GpsMarkers.Insert(1, new GpsMarker(latlng));
+                            }
+                            else
+                            {
+                                latlng = FindLatLng(s[1]);
+                            }
                             var marker = new NavigationMarker(latlng);
 
                             if (s[2] == "1007") // Get custom message.
@@ -134,8 +144,8 @@ namespace Route66
                             {
 
                                 if (!distanceTable.ContainsKey(startPoint)) distanceTable.Add(startPoint, 0);
-                                var newPoint = Unique(startPoint);
-                                route.GpsMarkers.Insert(0, new GpsMarker(newPoint));
+                                var newPoint = startPoint;
+                                //route.GpsMarkers.Insert(0, new GpsMarker(newPoint));
                                 route.ChangeMarkers.Add(new ChangeMarker(newPoint));
                             }
                             route.ChangeMarkers.Add(marker);

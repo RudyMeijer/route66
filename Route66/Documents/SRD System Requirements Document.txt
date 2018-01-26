@@ -1,13 +1,13 @@
 ﻿SRD System Requirements Document.
 
-1 Use Mouse to CRUD (Create, Update and Delete) route from scratch. Including change- and navigation markers.
-2 Allow CRUD (Create, Update, Delete) operations on change- and navigation marker on map.
-3 Ask to save modified route when opening new route or program exit.
-4 When current marker is removed make previous marker current.
-5 Update dosage values globally from x -> y.
-6 On startup show file open menu.
-7 Add changemarker edit form according http://confluence.ash.ads.org/display/PROD/Routecreator+ES#space-menu-link-content
-8 Allow cut and paste operations on map using Ctrl-X, Ctrl-V.
-9 Create AR3 Adapter according http://confluence.ash.ads.org/display/EHP/Autologic+ar3+route+file+format.+V2
-10 
+Use Mouse to CRUD (Create, Update and Delete) route from scratch. Including change- and navigation markers.
+Allow CRUD (Create, Update, Delete) operations on change- and navigation marker on map.
+Ask to save modified route when opening new route or program exit.
+When current marker is removed make previous marker current.
+Update dosage values globally from x -> y.
+On startup show file open menu.
+Add changemarker edit form according http://confluence.ash.ads.org/display/PROD/Routecreator+ES#space-menu-link-content
+Allow cut and paste operations on map using Ctrl-X, Ctrl-V.
+Create AR3 Adapter according http://confluence.ash.ads.org/display/EHP/Autologic+ar3+route+file+format.+V2
+Add navigation markers automatically.
 

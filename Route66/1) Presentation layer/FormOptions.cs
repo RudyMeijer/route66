@@ -13,14 +13,14 @@ namespace Route66
 	public partial class FormOptions : Form
 	{
 		#region CONSTRUCTOR
-		public FormOptions(Settings set)
+		public FormOptions(Settings settings)
 		{
 			InitializeComponent();
-			set.Save();
+			settings.Save();
 			//Settings = Settings.Load(propertyGrid1, set.fileName); // Set eventhandler.
 			propertyGrid1.PropertyValueChanged += Settings.propertygrid_PropertyValueChanged;
-			propertyGrid1.SelectedObject = set;
-			propertyGrid1.HelpVisible = set.HelpVisible;
+			propertyGrid1.SelectedObject = settings;
+			propertyGrid1.HelpVisible = settings.HelpVisible;
 		}
 		#endregion
 		#region PROPERTIES
