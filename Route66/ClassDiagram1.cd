@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Route66.Route">
+    <Position X="0.5" Y="0.5" Width="1.75" />
+    <Members>
+      <Field Name="Distance" Hidden="true" />
+      <Field Name="FileName" Hidden="true" />
+      <Field Name="IsChanged" Hidden="true" />
+      <Field Name="IsDefaultFile" Hidden="true" />
+      <Field Name="IsNotSupported" Hidden="true" />
+      <Field Name="route" Hidden="true" />
+      <Method Name="Route" Hidden="true" />
+      <Method Name="ToString" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>IAAQoAAAAAAAAAAEAAAAAABgACAAAABAAhABAABBAAA=</HashCode>
+      <FileName>3) Data Layer\Route.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="MachineType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Route66.DataContracts">
+    <Position X="2.75" Y="1.5" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="Route66.DataContracts.NavigationMarker" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>DataContracts.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="Route66.DataContracts.ChangeMarker" Collapsed="true">
+        <Members>
+          <Method Name="ToString" Hidden="true" />
+        </Members>
+        <Compartments>
+          <Compartment Name="Fields" Collapsed="true" />
+        </Compartments>
+        <TypeIdentifier>
+          <NewMemberFileName>DataContracts.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="Route66.DataContracts.GpsMarker">
+        <Members>
+          <Method Name="ToString" Hidden="true" />
+        </Members>
+        <TypeIdentifier>
+          <NewMemberFileName>DataContracts.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataContracts.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Settings">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <Members>
+      <Field Name="_propertyGrid" Hidden="true" />
+      <Field Name="appSettings" Hidden="true" />
+      <Field Name="backupFile" Hidden="true" />
+      <Method Name="CheckPath" Hidden="true" />
+      <Method Name="Copy" Hidden="true" />
+      <Field Name="fileName" Hidden="true" />
+      <Method Name="propertygrid_PropertyValueChanged" Hidden="true" />
+      <Method Name="Refresh" Hidden="true" />
+      <Method Name="SaveAs" Hidden="true" />
+      <Method Name="Settings" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAEAsIACAEBAAIAAAAIAASIAAgAAgAACAlFAAAABGAA=</HashCode>
+      <FileName>Settings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Route66.MachineTypes">
+    <Position X="5.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAARAAAAAAAAAAAAgAAAAAAAAAIRAAAAAAgACAA=</HashCode>
+      <FileName>DataContracts.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Route66.NavigationMessages" Collapsed="true">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAEEgIIhQYgBAAAAAAEAEAEAAEAIAAAAAARAAAA=</HashCode>
+      <FileName>DataContracts.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

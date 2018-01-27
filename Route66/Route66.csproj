@@ -77,6 +77,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Documents\InstructionPointParser.cs" />
     <Compile Include="3%29 Data Layer\Ar3.cs" />
     <Compile Include="DataContracts.cs" />
