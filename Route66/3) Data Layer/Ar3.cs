@@ -15,7 +15,6 @@ namespace Route66
 
     public class Adapters
     {
-        public static int[] errors;
         private static Dictionary<string, NavigationMessages> naviTypes;
 
         /// <summary>
@@ -37,7 +36,6 @@ namespace Route66
             var lastDistance = -1;
             var route = new Route() { FileName = filename };
             var random = new Random();
-            //var minimumDistanceBetweenMarkersInCm = 100;
             var previousChangeMarker = new ChangeMarker();
             errors = new int[5]; // used in unittesting.
             #endregion
@@ -62,7 +60,6 @@ namespace Route66
                             var distance = int.Parse(s[3]);
                             if (distance < lastDistance) { My.Log($"{++errors[0]} {line} has descending distance and will be ignored."); }
                             else if (distance == lastDistance) { My.Log($"{++errors[1]} Duplicated line {line}"); }
-                            //else if (distance < (lastDistance + minimumDistanceBetweenMarkersInCm) && lastDistance > -1) { My.Log($"{++errors[1]} Minimum distance violation {line} with respect to previous marker."); }
                             else
                             {
                                 var point = Unique(new PointLatLng(My.Val(s[2]), My.Val(s[1])), distance);
@@ -140,10 +137,6 @@ namespace Route66
                             //
                             if (route.ChangeMarkers.Count == 0 && s[1] != "0")
                             {
-
-                                //if (!distanceTable.ContainsKey(startPoint)) distanceTable.Add(startPoint, 0);
-                                //var newPoint = startPoint;
-                                //route.GpsMarkers.Insert(0, new GpsMarker(newPoint));
                                 route.ChangeMarkers.Add(new ChangeMarker(startPoint));
                             }
                             route.ChangeMarkers.Add(marker);
@@ -226,7 +219,6 @@ namespace Route66
                 var idx = 0;
                 var distance = 0d;
                 var distanceTable = new Dictionary<int, PointLatLng>();
-                var random = new Random();
                 PointLatLng lastPoint = default(PointLatLng);
                 foreach (var item in route.GpsMarkers)
                 {
@@ -282,6 +274,9 @@ namespace Route66
                 #endregion
             }
         }
+        #region PROPERTIES
+        public static int[] errors { get; set; }
+        #endregion
         #region HELPER METHODES
         /// <summary>
         /// This function translates an navigation type (in ar3 file) to corresponding navigation message.

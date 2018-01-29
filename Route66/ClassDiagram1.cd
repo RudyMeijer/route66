@@ -59,7 +59,7 @@
       <FileName>DataContracts.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Settings">
+  <Class Name="Settings" Collapsed="true">
     <Position X="7.5" Y="0.5" Width="1.5" />
     <Members>
       <Field Name="_propertyGrid" Hidden="true" />
@@ -77,7 +77,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAEAsIACAEBAAIAAAAIAASIAAgAAgAACAlFAAAABGAA=</HashCode>
+      <HashCode>AAAAsIACAEBAAIAAAAIAASIAAgAAgAACAlFAAAABGAA=</HashCode>
       <FileName>Settings.cs</FileName>
     </TypeIdentifier>
   </Class>
