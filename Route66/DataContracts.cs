@@ -196,6 +196,7 @@ namespace Route66
         [Serializable]
         public class GpsMarker
         {
+            #region CONSTRUCTORS
             /// <summary>
             /// Initializes a new instance of the <see cref="GpsMarker"/> class.
             /// </summary>
@@ -214,7 +215,8 @@ namespace Route66
                 this.Lat = point.Lat;
                 this.Lng = point.Lng;
             }
-
+            #endregion
+            #region PROPERTIES
             /// <summary>
             /// Gets or sets Lat
             /// </summary>
@@ -223,7 +225,8 @@ namespace Route66
 
             [XmlAttribute]
             public double Lng { get; set; }
-
+            #endregion
+            #region METHODES
             /// <summary>
             /// override string
             /// </summary>
@@ -232,6 +235,7 @@ namespace Route66
             {
                 return $"Lat {Lat} Lng {Lng}";
             }
+            #endregion
         }
     }
     #endregion

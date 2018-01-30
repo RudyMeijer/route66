@@ -34,10 +34,7 @@
           <NewMemberFileName>DataContracts.cs</NewMemberFileName>
         </TypeIdentifier>
       </Class>
-      <Class Name="Route66.DataContracts.ChangeMarker" Collapsed="true">
-        <Members>
-          <Method Name="ToString" Hidden="true" />
-        </Members>
+      <Class Name="Route66.DataContracts.ChangeMarker">
         <Compartments>
           <Compartment Name="Fields" Collapsed="true" />
         </Compartments>
@@ -46,9 +43,6 @@
         </TypeIdentifier>
       </Class>
       <Class Name="Route66.DataContracts.GpsMarker">
-        <Members>
-          <Method Name="ToString" Hidden="true" />
-        </Members>
         <TypeIdentifier>
           <NewMemberFileName>DataContracts.cs</NewMemberFileName>
         </TypeIdentifier>
@@ -59,7 +53,7 @@
       <FileName>DataContracts.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Settings" Collapsed="true">
+  <Class Name="Settings">
     <Position X="7.5" Y="0.5" Width="1.5" />
     <Members>
       <Field Name="_propertyGrid" Hidden="true" />
@@ -81,7 +75,7 @@
       <FileName>Settings.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Enum Name="Route66.MachineTypes">
+  <Enum Name="Route66.MachineTypes" Collapsed="true">
     <Position X="5.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAARAAAAAAAAAAAAgAAAAAAAAAIRAAAAAAgACAA=</HashCode>
