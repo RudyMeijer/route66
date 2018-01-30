@@ -1,18 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Windows.Forms;
-using System.Xml.Serialization;
-using GMap.NET;
-using MyLib;
-using static Route66.Adapters;
-using static Route66.DataContracts;
+﻿// <copyright file="Route.cs" company="Aebi Schmidt Nederland B.V.">
+//   Aebi Schmidt Nederland B.V. All rights reserved.
+// </copyright>
 
 namespace Route66
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.IO;
+    using System.Runtime.InteropServices;
+    using System.Text;
+    using System.Windows.Forms;
+    using System.Xml.Serialization;
+    using GMap.NET;
+    using MyLib;
+    using static Route66.Adapters;
+    using static Route66.DataContracts;
+
     /// <summary>
     /// This class contains all data for one route.
     /// To comply to Single Responsible Principle it is equipped with a Load- and Save method to (de)serialize its properties to disk.
@@ -100,16 +104,25 @@ namespace Route66
             try
             {
                 var dir = Path.GetDirectoryName(fileName);
-                if (!Directory.Exists(dir) && dir.Length > 0) Directory.CreateDirectory(dir);
+                if (!Directory.Exists(dir) && dir.Length > 0)
+                {
+                    Directory.CreateDirectory(dir);
+                }
+
                 switch (Path.GetExtension(fileName))
                 {
                     case ".xml":
-                        using (StreamWriter writer = new StreamWriter(fileName)) new XmlSerializer(typeof(Route)).Serialize(writer, this);
+                        using (StreamWriter writer = new StreamWriter(fileName))
+                        {
+                            new XmlSerializer(typeof(Route)).Serialize(writer, this);
+                        }
+
                         break;
                     case ".ar3":
                         WriteAr3(fileName, this);
                         break;
-                    default: route.IsNotSupported = true;
+                    default:
+                        route.IsNotSupported = true;
                         return false;
                 }
                 route.FileName = fileName;

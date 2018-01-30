@@ -17,7 +17,6 @@ namespace Route66
 		{
 			InitializeComponent();
 			settings.Save();
-			//Settings = Settings.Load(propertyGrid1, set.fileName); // Set eventhandler.
 			propertyGrid1.PropertyValueChanged += Settings.propertygrid_PropertyValueChanged;
 			propertyGrid1.SelectedObject = settings;
 			propertyGrid1.HelpVisible = settings.HelpVisible;
