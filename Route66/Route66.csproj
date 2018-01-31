@@ -148,6 +148,7 @@
     </Content>
     <Content Include="Documents\SDD Software Design Document.txt" />
     <Content Include="Documents\SRD System Requirements Document.txt" />
+    <None Include="Documents\Streams.doc" />
     <None Include="Resources\arrow3.png" />
   </ItemGroup>
   <ItemGroup>

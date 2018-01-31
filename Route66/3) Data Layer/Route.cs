@@ -1,21 +1,20 @@
 ﻿// <copyright file="Route.cs" company="Aebi Schmidt Nederland B.V.">
 //   Aebi Schmidt Nederland B.V. All rights reserved.
 // </copyright>
-
 namespace Route66
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.IO;
-    using System.Runtime.InteropServices;
-    using System.Text;
-    using System.Windows.Forms;
-    using System.Xml.Serialization;
-    using GMap.NET;
-    using MyLib;
-    using static Route66.Adapters;
-    using static Route66.DataContracts;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Windows.Forms;
+using System.Xml.Serialization;
+using GMap.NET;
+using MyLib;
+using static Route66.Adapters;
+using static Route66.DataContracts;
 
     /// <summary>
     /// This class contains all data for one route.

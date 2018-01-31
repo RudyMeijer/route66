@@ -54,7 +54,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Settings">
-    <Position X="7.5" Y="0.5" Width="1.5" />
+    <Position X="9" Y="0.5" Width="1.5" />
     <Members>
       <Field Name="_propertyGrid" Hidden="true" />
       <Field Name="appSettings" Hidden="true" />
@@ -76,6 +76,78 @@
       <FileName>Settings.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Route66.Overlay">
+    <Position X="7.25" Y="0.5" Width="1.5" />
+    <Members>
+      <Method Name="AddMarker" Hidden="true" />
+      <Method Name="AddNavigation" Hidden="true" />
+      <Method Name="AddOverlayBlueMarker" Hidden="true" />
+      <Method Name="AddOverlayGreenMarker" Hidden="true" />
+      <Method Name="Angle" Hidden="true" />
+      <Field Name="ArrowMarker" Hidden="true" />
+      <Method Name="AutoNavigate" Hidden="true" />
+      <Method Name="AutoRouter" Hidden="true" />
+      <Field Name="Blue" Hidden="true" />
+      <Method Name="ConvertRoute" Hidden="true" />
+      <Method Name="CopyOverlayTo" Hidden="true" />
+      <Field Name="CurrentMarker" Hidden="true" />
+      <Method Name="CutMarker" Hidden="true" />
+      <Method Name="FindRedMarker" Hidden="true" />
+      <Method Name="GetAngeWithPreviousItem" Hidden="true" />
+      <Method Name="GetBlueMarker" Hidden="true" />
+      <Method Name="GetGreenMarker" Hidden="true" />
+      <Method Name="GetIndexAny" Hidden="true" />
+      <Method Name="GetIndexRed" Hidden="true" />
+      <Method Name="GetRedMarker" Hidden="true" />
+      <Field Name="gmap" Hidden="true" />
+      <Field Name="Green" Hidden="true" />
+      <Field Name="Initialize" Hidden="true" />
+      <Method Name="InRange" Hidden="true" />
+      <Property Name="IsAutoRoute" Hidden="true" />
+      <Property Name="IsChanged" Hidden="true" />
+      <Property Name="IsNotOnLastMarker" Hidden="true" />
+      <Method Name="LoadOverlay" Hidden="true" />
+      <Property Name="MachineType" Hidden="true" />
+      <Method Name="Overlay" Hidden="true" />
+      <Method Name="PastMarker" Hidden="true" />
+      <Field Name="Red" Hidden="true" />
+      <Field Name="RedRoute" Hidden="true" />
+      <Method Name="Remove" Hidden="true" />
+      <Method Name="RemoveCurrentMarker" Hidden="true" />
+      <Method Name="SaveAs" Hidden="true" />
+      <Field Name="savedTag" Hidden="true" />
+      <Method Name="SetArrowMarker" Hidden="true" />
+      <Method Name="ShowArrowMarker" Hidden="true" />
+      <Method Name="UpdateDosageAllChangeMarkers" Hidden="true" />
+      <Method Name="UpdateGreenAndBlueOverlay" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="Route66.Overlay.Crud" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>2) Business Layer\Overlay.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <AssociationLine Name="Settings" Type="Settings" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="8" Y="0.5" />
+        <Point X="8" Y="0.125" />
+        <Point X="9.75" Y="0.125" />
+        <Point X="9.75" Y="0.5" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AgijIhAAIIUAA7AEIEAArFCACWJIgAAIwlIgCBDAAAA=</HashCode>
+      <FileName>2) Business Layer\Overlay.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Route" />
+      <Property Name="Settings" />
+    </ShowAsAssociation>
+  </Class>
   <Enum Name="Route66.MachineTypes">
     <Position X="5.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
@@ -83,8 +155,8 @@
       <FileName>DataContracts.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="Route66.NavigationMessages" Collapsed="true">
-    <Position X="9.25" Y="0.5" Width="1.5" />
+  <Enum Name="Route66.NavigationMessages">
+    <Position X="11" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ACAAAAEEgIIhQYgBAAAAAAEAEAEAAEAIAAAAAARAAAA=</HashCode>
       <FileName>DataContracts.cs</FileName>
