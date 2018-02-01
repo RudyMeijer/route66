@@ -13,18 +13,40 @@ namespace Route66
 {
     public partial class FormStatistics : Form
     {
+        private Statistics stat;
 
         public FormStatistics(Overlay overlay)
         {
             InitializeComponent();
-            var statistics = overlay.ComputeStatistics();
-            lblTotalDistance.Text = $"Total distance = {statistics.TotalDistance:f0} km.";
-            lblTotalDosage.Text = $"Total dosage = {statistics.TotalDosage:f0} kg.";
+            stat = overlay.ComputeStatistics();
+            lblDrivingDistance.Text = $"{stat.DrivingDistance:f0} km.";
+            lblSpreadingDistance.Text = $"{stat.SpreadingDistance:f0} km.";
+            lblTotalDistance.Text = $"{stat.DrivingDistance+stat.SpreadingDistance:f0} km.";
+            lblUptolastDistance.Text = $"{stat.UptoLastDistance:f0} kg.";
         }
 
         private void btnOk_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void numSpeed_ValueChanged(object sender, EventArgs e)
+        {
+            var speed = (double)numSpeed.Value;
+            lblDrivingTime.Text = $"{(stat.DrivingDistance/speed).ToString("hh:mm")} h.";
+            lblSpreadingTime.Text = $"{stat.SpreadingDistance/speed:hh:mm} h.";
+            lblTotalTime.Text = $"{stat.DrivingDistance + stat.SpreadingDistance/speed:hh:mm} h.";
+            lblUptoLastTime.Text = $"{stat.UptoLastDistance/speed:hh:mm} h.";
+
+            lblTotalAmount.Text = $"{stat.Dosage:f0} kg.";
+            lblArea.Text = $"{stat.Area:f0} m2.";
+        }
+
+        private void numPersentage_ValueChanged(object sender, EventArgs e)
+        {
+            var persentage = (double)(numPersentage.Value/100);
+            lblDry.Text = $"{stat.Dosage*(1-persentage):f0} kg.";
+            lblWet.Text = $"{stat.Dosage*(persentage):f0} kg.";
         }
     }
 }

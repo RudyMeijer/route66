@@ -6,7 +6,10 @@ namespace Route66
 {
     internal class Statistics
     {
-        public double TotalDistance { get; set; }
-        public double TotalDosage { get; set; }
+        public double DrivingDistance { get; set; }
+        public double SpreadingDistance { get; set; }
+        public double UptoLastDistance { get; set; }
+        public double Dosage { get; set; }
+        public double Area { get; set; }
     }
 }

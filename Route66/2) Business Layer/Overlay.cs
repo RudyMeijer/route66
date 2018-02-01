@@ -618,12 +618,12 @@ namespace Route66
                 if (item.Tag is ChangeMarker || IsLast(item))
                 {
                     var cm = item.Tag as ChangeMarker;
-                    statistics.TotalDistance += distance;
+                    statistics.DrivingDistance += distance; //todo
                     //
                     // Compute dosage/m2.
                     //
                     var opp = prevWidth * distance;
-                    statistics.TotalDosage += prevDosage * opp;
+                    statistics.Dosage += prevDosage * opp; //todo
                     if (cm == null) break; // Last marker.
                     prevDosage = (cm.SpreadingOnOff) ? cm.Dosage : 0d;
                     prevWidth = cm.SpreadingWidthLeft + cm.SpreadingWidthRight;
