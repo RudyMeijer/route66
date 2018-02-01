@@ -112,6 +112,7 @@ namespace Route66
             if (Settings.SupervisorMode) chkEditRoute.Checked = true;
             chkArrowMarker.Checked = Settings.ArrowMarker;
             btnClear.Visible = Settings.SupervisorMode;
+            if (!Settings.SupervisorMode) openFileDialog1.InitialDirectory = Settings.RoutePath;
         }
 
         private int GetComboIndex(string mapProvider)
@@ -320,11 +321,11 @@ namespace Route66
         {
             var IsSubroute = sender is string;
             AskToSaveModifiedRoute();
-            openFileDialog1.InitialDirectory = Settings.RoutePath;
             openFileDialog1.FilterIndex = Settings.FileExtension;
             openFileDialog1.Title = (IsSubroute) ? "Add subroute" : "Open route";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                openFileDialog1.InitialDirectory = ""; // use last openend directory
                 Settings.FileExtension = openFileDialog1.FilterIndex;
                 My.Log($"{openFileDialog1.Title} {openFileDialog1.FileName } {((IsSubroute) ? " at " + Overlay : "")}");
                 if (!Overlay.OpenRoute(openFileDialog1.FileName, IsSubroute))
