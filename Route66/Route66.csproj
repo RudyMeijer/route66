@@ -79,6 +79,13 @@
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
     <None Include="Documents\InstructionPointParser.cs" />
+    <Compile Include="1%29 Presentation layer\FormStatistics.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="1%29 Presentation layer\FormStatistics.Designer.cs">
+      <DependentUpon>FormStatistics.cs</DependentUpon>
+    </Compile>
+    <Compile Include="2%29 Business Layer\Statistics.cs" />
     <Compile Include="3%29 Data Layer\Ar3.cs" />
     <Compile Include="DataContracts.cs" />
     <Compile Include="1%29 Presentation layer\Form1.cs">
@@ -126,6 +133,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="1%29 Presentation layer\FormOptions.resx">
       <DependentUpon>FormOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="1%29 Presentation layer\FormStatistics.resx">
+      <DependentUpon>FormStatistics.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

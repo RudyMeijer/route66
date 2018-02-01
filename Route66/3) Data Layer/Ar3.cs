@@ -338,7 +338,7 @@ namespace Route66
             };
         }
         private static object s(bool b) => (b) ? "1" : "0";
-        private static double Distance(PointLatLng p1, PointLatLng p2)
+        public static double Distance(PointLatLng p1, PointLatLng p2)
         {
             if (p1.IsEmpty) return 0;
             var mr = new MapRoute(new List<PointLatLng>() { p1, p2 }, "compute distance");

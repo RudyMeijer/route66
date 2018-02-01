@@ -14,7 +14,7 @@ namespace Route66
     using GMap.NET.WindowsForms.Markers;
     using MyLib;
     using static Route66.DataContracts;
-    
+
     /// <summary>This class exposes overlay related methods and properties. </summary>
     public class Overlay
     {
@@ -604,6 +604,37 @@ namespace Route66
         public bool IsChangeMarker(GMapMarker item) => item.Overlay.Id == "Change points";
         public bool IsNavigationMarker(GMapMarker item) => item.Overlay.Id == "Navigation points";
         public bool IsGpsMarker(GMapMarker item) => item.Overlay.Id == "Gps points";
+
+        internal Statistics ComputeStatistics()
+        {
+            var statistics = new Statistics();
+            var distance = 0d;
+            var prevDosage = 0d;
+            var prevWidth = 0d;
+            GMapMarker prevItem = null;
+            foreach (var item in Red.Markers)
+            {
+                if (prevItem != null) distance += Adapters.Distance(prevItem.Position, item.Position);
+                if (item.Tag is ChangeMarker || IsLast(item))
+                {
+                    var cm = item.Tag as ChangeMarker;
+                    statistics.TotalDistance += distance;
+                    //
+                    // Compute dosage/m2.
+                    //
+                    var opp = prevWidth * distance;
+                    statistics.TotalDosage += prevDosage * opp;
+                    if (cm == null) break; // Last marker.
+                    prevDosage = (cm.SpreadingOnOff) ? cm.Dosage : 0d;
+                    prevWidth = cm.SpreadingWidthLeft + cm.SpreadingWidthRight;
+                    distance = 0;
+                }
+                prevItem = item;
+            }
+            return statistics;
+        }
+
+        private bool IsLast(GMapMarker item) => item == Red.Markers.Last();
         #endregion
         #endregion
     }

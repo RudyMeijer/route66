@@ -508,5 +508,11 @@ namespace Route66
             numDosageFrom.Value = numDosageTo.Value;
         }
         #endregion
+
+        private void btnStatistics_Click(object sender, EventArgs e)
+        {
+            var f = new FormStatistics(Overlay);
+            f.ShowDialog();
+        }
     }
 }
