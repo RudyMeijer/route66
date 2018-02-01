@@ -57,7 +57,7 @@ namespace Route66
                         //
                         else if (line.StartsWith("WayPoint["))
                         {
-                            var distance = int.Parse(s[3]);
+                            var distance = (int)My.Val(s[3]);
                             if (distance < lastDistance) { My.Log($"{++errors[0]} {line} has descending distance and will be ignored."); }
                             else if (distance == lastDistance) { My.Log($"{++errors[1]} Duplicated line {line}"); }
                             else
@@ -165,7 +165,7 @@ namespace Route66
 
             PointLatLng FindLatLng(string sdistance)
             {
-                var distance = int.Parse(sdistance);
+                var distance = (int)My.Val(sdistance);
                 var last = default(KeyValuePair<PointLatLng, int>);
                 var idx = 0;
                 foreach (var item in distanceTable)
