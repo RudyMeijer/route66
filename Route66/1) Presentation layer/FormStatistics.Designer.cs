@@ -67,7 +67,7 @@
             // btnOk
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOk.Location = new System.Drawing.Point(529, 279);
+            this.btnOk.Location = new System.Drawing.Point(530, 260);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 2;
@@ -95,7 +95,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(399, 256);
+            this.groupBox1.Size = new System.Drawing.Size(399, 237);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Distance / Time";
@@ -135,7 +135,7 @@
             // lblUptoLastTime
             // 
             this.lblUptoLastTime.AutoSize = true;
-            this.lblUptoLastTime.Location = new System.Drawing.Point(237, 204);
+            this.lblUptoLastTime.Location = new System.Drawing.Point(237, 196);
             this.lblUptoLastTime.Name = "lblUptoLastTime";
             this.lblUptoLastTime.Size = new System.Drawing.Size(48, 17);
             this.lblUptoLastTime.TabIndex = 13;
@@ -144,7 +144,7 @@
             // lblTotalTime
             // 
             this.lblTotalTime.AutoSize = true;
-            this.lblTotalTime.Location = new System.Drawing.Point(237, 169);
+            this.lblTotalTime.Location = new System.Drawing.Point(237, 161);
             this.lblTotalTime.Name = "lblTotalTime";
             this.lblTotalTime.Size = new System.Drawing.Size(48, 17);
             this.lblTotalTime.TabIndex = 12;
@@ -153,7 +153,7 @@
             // lblSpreadingTime
             // 
             this.lblSpreadingTime.AutoSize = true;
-            this.lblSpreadingTime.Location = new System.Drawing.Point(237, 114);
+            this.lblSpreadingTime.Location = new System.Drawing.Point(237, 106);
             this.lblSpreadingTime.Name = "lblSpreadingTime";
             this.lblSpreadingTime.Size = new System.Drawing.Size(48, 17);
             this.lblSpreadingTime.TabIndex = 11;
@@ -171,7 +171,7 @@
             // lblUptolastDistance
             // 
             this.lblUptolastDistance.AutoSize = true;
-            this.lblUptolastDistance.Location = new System.Drawing.Point(160, 204);
+            this.lblUptolastDistance.Location = new System.Drawing.Point(160, 196);
             this.lblUptolastDistance.Name = "lblUptolastDistance";
             this.lblUptolastDistance.Size = new System.Drawing.Size(58, 17);
             this.lblUptolastDistance.TabIndex = 9;
@@ -180,7 +180,7 @@
             // lblTotalDistance
             // 
             this.lblTotalDistance.AutoSize = true;
-            this.lblTotalDistance.Location = new System.Drawing.Point(160, 169);
+            this.lblTotalDistance.Location = new System.Drawing.Point(160, 161);
             this.lblTotalDistance.Name = "lblTotalDistance";
             this.lblTotalDistance.Size = new System.Drawing.Size(58, 17);
             this.lblTotalDistance.TabIndex = 8;
@@ -189,7 +189,7 @@
             // lblSpreadingDistance
             // 
             this.lblSpreadingDistance.AutoSize = true;
-            this.lblSpreadingDistance.Location = new System.Drawing.Point(160, 114);
+            this.lblSpreadingDistance.Location = new System.Drawing.Point(160, 106);
             this.lblSpreadingDistance.Name = "lblSpreadingDistance";
             this.lblSpreadingDistance.Size = new System.Drawing.Size(58, 17);
             this.lblSpreadingDistance.TabIndex = 7;
@@ -207,7 +207,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 204);
+            this.label6.Location = new System.Drawing.Point(12, 196);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(106, 17);
             this.label6.TabIndex = 5;
@@ -216,7 +216,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 169);
+            this.label5.Location = new System.Drawing.Point(12, 161);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(40, 17);
             this.label5.TabIndex = 4;
@@ -225,16 +225,16 @@
             // label4
             // 
             this.label4.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label4.Location = new System.Drawing.Point(12, 149);
+            this.label4.Location = new System.Drawing.Point(12, 141);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(357, 3);
+            this.label4.Size = new System.Drawing.Size(365, 3);
             this.label4.TabIndex = 3;
             this.label4.Text = "Spreading / Spaying";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 114);
+            this.label3.Location = new System.Drawing.Point(12, 106);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(136, 17);
             this.label3.TabIndex = 2;
@@ -274,15 +274,15 @@
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Location = new System.Drawing.Point(417, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(187, 256);
+            this.groupBox2.Size = new System.Drawing.Size(187, 237);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Amount";
+            this.groupBox2.Text = "Spread amount";
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(153, 115);
+            this.label13.Location = new System.Drawing.Point(93, 109);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(20, 17);
             this.label13.TabIndex = 21;
@@ -290,7 +290,7 @@
             // 
             // numPersentage
             // 
-            this.numPersentage.Location = new System.Drawing.Point(105, 112);
+            this.numPersentage.Location = new System.Drawing.Point(45, 106);
             this.numPersentage.Maximum = new decimal(new int[] {
             99,
             0,
@@ -308,46 +308,46 @@
             // 
             // lblArea
             // 
-            this.lblArea.AutoSize = true;
             this.lblArea.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblArea.Location = new System.Drawing.Point(48, 205);
+            this.lblArea.Location = new System.Drawing.Point(71, 199);
             this.lblArea.Name = "lblArea";
-            this.lblArea.Size = new System.Drawing.Size(84, 17);
+            this.lblArea.Size = new System.Drawing.Size(99, 19);
             this.lblArea.TabIndex = 19;
-            this.lblArea.Text = "55.456 m2";
+            this.lblArea.Text = "m2";
+            this.lblArea.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblTotalAmount
             // 
-            this.lblTotalAmount.AutoSize = true;
             this.lblTotalAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalAmount.Location = new System.Drawing.Point(48, 170);
+            this.lblTotalAmount.Location = new System.Drawing.Point(71, 164);
             this.lblTotalAmount.Name = "lblTotalAmount";
-            this.lblTotalAmount.Size = new System.Drawing.Size(57, 17);
+            this.lblTotalAmount.Size = new System.Drawing.Size(99, 19);
             this.lblTotalAmount.TabIndex = 18;
-            this.lblTotalAmount.Text = "549 kg";
+            this.lblTotalAmount.Text = "kg";
+            this.lblTotalAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblWet
             // 
-            this.lblWet.AutoSize = true;
-            this.lblWet.Location = new System.Drawing.Point(48, 115);
+            this.lblWet.Location = new System.Drawing.Point(71, 109);
             this.lblWet.Name = "lblWet";
-            this.lblWet.Size = new System.Drawing.Size(51, 17);
+            this.lblWet.Size = new System.Drawing.Size(99, 19);
             this.lblWet.TabIndex = 17;
-            this.lblWet.Text = "470 kg";
+            this.lblWet.Text = "kg";
+            this.lblWet.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblDry
             // 
-            this.lblDry.AutoSize = true;
-            this.lblDry.Location = new System.Drawing.Point(48, 75);
+            this.lblDry.Location = new System.Drawing.Point(71, 74);
             this.lblDry.Name = "lblDry";
-            this.lblDry.Size = new System.Drawing.Size(43, 17);
+            this.lblDry.Size = new System.Drawing.Size(99, 20);
             this.lblDry.TabIndex = 16;
-            this.lblDry.Text = "89 kg";
+            this.lblDry.Text = "kg";
+            this.lblDry.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label12
             // 
             this.label12.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label12.Location = new System.Drawing.Point(8, 148);
+            this.label12.Location = new System.Drawing.Point(8, 142);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(162, 3);
             this.label12.TabIndex = 15;
@@ -356,7 +356,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(6, 204);
+            this.label11.Location = new System.Drawing.Point(6, 198);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(38, 17);
             this.label11.TabIndex = 14;
@@ -365,7 +365,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 169);
+            this.label9.Location = new System.Drawing.Point(6, 163);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(40, 17);
             this.label9.TabIndex = 13;
@@ -374,7 +374,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 114);
+            this.label8.Location = new System.Drawing.Point(6, 108);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(33, 17);
             this.label8.TabIndex = 12;
@@ -393,7 +393,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(616, 314);
+            this.ClientSize = new System.Drawing.Size(617, 295);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnOk);

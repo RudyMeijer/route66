@@ -19,13 +19,13 @@ namespace Route66
         {
             InitializeComponent();
             stat = overlay.ComputeStatistics();
-            lblDrivingDistance.Text = $"{stat.DrivingDistance:f0} km.";
-            lblSpreadingDistance.Text = $"{stat.SpreadingDistance:f0} km.";
-            lblTotalDistance.Text = $"{stat.DrivingDistance + stat.SpreadingDistance:f0} km.";
-            lblUptolastDistance.Text = $"{stat.UptoLastDistance:f0} km.";
+            lblDrivingDistance.Text = $"{stat.DrivingDistance:f0} km";
+            lblSpreadingDistance.Text = $"{stat.SpreadingDistance:f0} km";
+            lblTotalDistance.Text = $"{stat.DrivingDistance + stat.SpreadingDistance:f0} km";
+            lblUptolastDistance.Text = $"{stat.UptoLastDistance:f0} km";
 
-            lblTotalAmount.Text = $"{stat.Dosage:f0} kg.";
-            lblArea.Text = $"{stat.Area:f3} m2.";
+            lblTotalAmount.Text = $"{stat.Dosage:f0} kg";
+            lblArea.Text = $"{stat.Area:f3} m2";
             numSpeed_ValueChanged(null,null);
             numPersentage_ValueChanged(null, null);
         }
@@ -38,10 +38,10 @@ namespace Route66
         private void numSpeed_ValueChanged(object sender, EventArgs e)
         {
             var speed = (double)numSpeed.Value;
-            lblDrivingTime.Text = $"{Hour(stat.DrivingDistance / speed)} h.";
-            lblSpreadingTime.Text = $"{Hour(stat.SpreadingDistance / speed)} h.";
-            lblTotalTime.Text = $"{Hour(stat.DrivingDistance + stat.SpreadingDistance / speed)} h.";
-            lblUptoLastTime.Text = $"{Hour(stat.UptoLastDistance / speed)} h.";
+            lblDrivingTime.Text = $"{Hour(stat.DrivingDistance / speed)} h";
+            lblSpreadingTime.Text = $"{Hour(stat.SpreadingDistance / speed)} h";
+            lblTotalTime.Text = $"{Hour((stat.DrivingDistance + stat.SpreadingDistance) / speed)} h";
+            lblUptoLastTime.Text = $"{Hour(stat.UptoLastDistance / speed)} h";
         }
 
         private string Hour(double hour) => new DateTime().AddHours(hour).ToString("HH:mm");
@@ -49,8 +49,8 @@ namespace Route66
         private void numPersentage_ValueChanged(object sender, EventArgs e)
         {
             var persentage = (double)(numPersentage.Value / 100);
-            lblDry.Text = $"{stat.Dosage * (1 - persentage):f0} kg.";
-            lblWet.Text = $"{stat.Dosage * (persentage):f0} kg.";
+            lblDry.Text = $"{stat.Dosage * (1 - persentage):f0} kg";
+            lblWet.Text = $"{stat.Dosage * (persentage):f0} kg";
         }
     }
 }
