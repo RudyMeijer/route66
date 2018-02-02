@@ -608,23 +608,32 @@ namespace Route66
         internal Statistics ComputeStatistics()
         {
             var statistics = new Statistics();
-            var distance = 0d;
-            var prevDosage = 0d;
-            var prevWidth = 0d;
-            GMapMarker prevItem = null;
+            var distance = 0d;   // km.
+            var prevDosage = 0d; // gr.
+            var prevWidth = 0d;  // m.
+            GMapMarker prevItem = Red.Markers[0];
             foreach (var item in Red.Markers)
             {
-                if (prevItem != null) distance += Adapters.Distance(prevItem.Position, item.Position);
+                distance += Adapters.Distance(prevItem.Position, item.Position);
                 if (item.Tag is ChangeMarker || IsLast(item))
                 {
                     var cm = item.Tag as ChangeMarker;
-                    statistics.DrivingDistance += distance; //todo
                     //
-                    // Compute dosage/m2.
+                    // Compute total dosage.
                     //
                     var opp = prevWidth * distance;
-                    statistics.Dosage += prevDosage * opp; //todo
+                    statistics.Dosage += prevDosage * opp; // in kg.
+                    if (prevDosage > 0)
+                    {
+                        statistics.SpreadingDistance += distance;
+                        statistics.Area += opp; // in 1000 m2.
+                    }
+                    else
+                    {
+                        statistics.DrivingDistance += distance;
+                    }
                     if (cm == null) break; // Last marker.
+                    statistics.UptoLastDistance += distance;
                     prevDosage = (cm.SpreadingOnOff) ? cm.Dosage : 0d;
                     prevWidth = cm.SpreadingWidthLeft + cm.SpreadingWidthRight;
                     distance = 0;

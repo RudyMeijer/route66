@@ -23,6 +23,8 @@ namespace Route66
         [STAThread]
         public static void Main()
         {
+            //// while(true)
+            //// TestFormat();
             //// TestFloat();
             //// TestStack();
             //// TestReflection();
@@ -36,6 +38,14 @@ namespace Route66
             {
                 My.Show($"{e} {e.InnerException}", "Sometimes you have luck sometimes not. Please send file Route66.log to Rudy.");
             }
+        }
+
+        private static void TestFormat()
+        {
+            var d = new DateTime();
+            
+            var r = d.AddHours(1.1);
+            var x = r.ToString("HH:mm");
         }
 
         ////private static void TestFloat()

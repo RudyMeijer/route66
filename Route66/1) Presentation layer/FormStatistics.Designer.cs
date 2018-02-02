@@ -102,7 +102,7 @@
             // 
             // numSpeed
             // 
-            this.numSpeed.Location = new System.Drawing.Point(298, 74);
+            this.numSpeed.Location = new System.Drawing.Point(298, 72);
             this.numSpeed.Maximum = new decimal(new int[] {
             99,
             0,
@@ -293,11 +293,6 @@
             this.numPersentage.Location = new System.Drawing.Point(105, 112);
             this.numPersentage.Maximum = new decimal(new int[] {
             99,
-            0,
-            0,
-            0});
-            this.numPersentage.Minimum = new decimal(new int[] {
-            1,
             0,
             0,
             0});
