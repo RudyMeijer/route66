@@ -201,7 +201,7 @@ namespace Route66
                 //
                 #region WRITE HEADER.
                 //
-                writer.WriteLine($"Ar3Version: 2");
+                writer.WriteLine($"Ar3Version:2");
                 writer.WriteLine($"MachineType: {route.MachineType}");
                 writer.WriteLine($"ImageFiles:");
                 writer.WriteLine($"SoundFiles:");
