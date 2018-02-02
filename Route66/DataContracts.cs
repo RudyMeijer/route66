@@ -182,10 +182,11 @@ namespace Route66
             /// <returns>return message</returns>
             public override string ToString()
             {
+                var sign = (SpreadingOnOff)?' ':'-';
                 return (Settings.Global.MachineType == MachineTypes.StreetWasher) ?
-                    $"Pressure {Dosage} bar \nLeft {SpreadingWidthLeft} m \nRight {SpreadingWidthRight} m"
+                    $"{sign}Pressure {Dosage} bar \nLeft {SpreadingWidthLeft} m \nRight {SpreadingWidthRight} m"
                     :
-                    $"Dosage {Dosage} g \nLeft {SpreadingWidthLeft} m \nRight {SpreadingWidthRight} m";
+                    $"{sign}Dosage {Dosage} g \nLeft {SpreadingWidthLeft} m \nRight {SpreadingWidthRight} m";
             }
         }
 
