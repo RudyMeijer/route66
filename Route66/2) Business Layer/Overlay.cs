@@ -50,7 +50,7 @@ namespace Route66
 
             RedRoute = new GMapRoute("routes")
             {
-                Stroke = new Pen(Color.Red, 2)
+                Stroke = new Pen(Color.Red, 3)
             };
             Red.Routes.Add(RedRoute);
             Settings = Settings.Global;
@@ -611,10 +611,10 @@ namespace Route66
             var distance = 0d;   // km.
             var prevDosage = 0d; // gr.
             var prevWidth = 0d;  // m.
-            GMapMarker prevItem = Red.Markers[0];
+            GMapMarker prevItem = null;
             foreach (var item in Red.Markers)
             {
-                distance += Adapters.Distance(prevItem.Position, item.Position);
+                if (prevItem != null) distance += Adapters.Distance(prevItem.Position, item.Position);
                 if (item.Tag is ChangeMarker || IsLast(item))
                 {
                     var cm = item.Tag as ChangeMarker;
