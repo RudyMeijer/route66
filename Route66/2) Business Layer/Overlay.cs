@@ -325,13 +325,42 @@ namespace Route66
             ShowDosageRoute();
         }
 
-        private void ShowDosageRoute()
+        public void ShowDosageRoute()
         {
-            //foreach (var rm in Red.Markers)
-            //{
-            //    if (rm.Tag is )
-            //}
+            Console.WriteLine("ShowDosageRoute");
+            var DosingState = false;
+            GMapRoute GreenRoute=null;
+            Green.Routes.Clear();
+            foreach (var rm in Red.Markers)
+            {
+                if (rm.Tag is ChangeMarker || IsLast(rm))
+                {
+                    var cm = rm.Tag as ChangeMarker;
+                    //
+                    // If dosing state is off and current marker dosing is on then start green route.
+                    // Else if dosing state is on and change marker dosing is off then end green route.
+                    // Else add red markers to green route.
+                    //
+                    if (!DosingState && IsDosingOn(cm)) // Dosage turned on.
+                    {
+                        DosingState = true;
+                        GreenRoute = new GMapRoute("dosage")
+                        {
+                            Stroke = new Pen(Color.LightGreen, 4)
+                        };
+                    }
+                    else if (DosingState && !IsDosingOn(cm)) // Dosage turned off.
+                    {
+                        DosingState = false;
+                        GreenRoute.Points.Add(rm.Position);
+                        Green.Routes.Add(GreenRoute);
+                    }
+                }
+                if (DosingState) GreenRoute.Points.Add(rm.Position);
+            }
         }
+
+        private bool IsDosingOn(ChangeMarker cm) => cm !=null && cm.SpreadingOnOff && cm.Dosage > 0;
         #endregion
         /// <summary>
         /// Show properties of current marker on windows form.

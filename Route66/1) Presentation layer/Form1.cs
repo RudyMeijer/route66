@@ -177,6 +177,7 @@ namespace Route66
             if (e.Button == MouseButtons.Left && !IsOnMarker && !IsDragging && IsEditMode() && IsShowAutoRoute()) { Overlay.AddMarker(e.X, e.Y); }
             if (e.Button == MouseButtons.Left && IsOnMarker && !IsDragging) { Overlay.EditMarker(CtrlKeyIsPressed); }
             IsDragging = false;
+            Overlay.ShowDosageRoute();
         }
 
         private bool IsShowAutoRoute()
@@ -198,6 +199,7 @@ namespace Route66
                 if (!IsOnMarker) return;
                 if (e.Button == MouseButtons.Left) { Overlay.SetCurrentMarker(LastEnteredMarker); }
                 if (e.Button == MouseButtons.Right && IsEditMode()) { Overlay.Remove(LastEnteredMarker); IsOnMarker = false; }
+                Overlay.ShowDosageRoute();
             }
             catch (Exception ee) { My.Status($"Error {ee}"); }
         }
@@ -208,7 +210,7 @@ namespace Route66
             return false;
         }
         /// <summary>
-        /// When hover over marker and fast draw mode is enabled set current marker.
+        /// When a marker is entered: set current marker, set red tooltip and play sound.
         /// </summary>
         /// <param name="item"></param>
         private void gmap_OnMarkerEnter(GMapMarker item)
@@ -226,6 +228,10 @@ namespace Route66
                 }
             }
         }
+        /// <summary>
+        /// When leave marker reset IsOnMarker.
+        /// </summary>
+        /// <param name="item"></param>
         private void gmap_OnMarkerLeave(GMapMarker item)
         {
             //Console.WriteLine($"Leave IsDragging={IsDragging}");
@@ -245,6 +251,7 @@ namespace Route66
                 {
                     Overlay.SetCurrentMarker(LastEnteredMarker);
                     Overlay.UpdateCurrentMarkerPosition(e.X, e.Y);
+                    if (chkChangePoints.Checked) Overlay.ShowDosageRoute();
                 }
             }
         }
@@ -306,6 +313,7 @@ namespace Route66
 
                     default: return base.ProcessCmdKey(ref msg, keyCode);
                 }
+                Overlay.ShowDosageRoute();
                 return true;
             }
             return base.ProcessCmdKey(ref msg, keyCode); // Handle Ctrl-O, Ctrl-S, Holten
