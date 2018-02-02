@@ -319,6 +319,19 @@ namespace Route66
                 UpdateGreenAndBlueOverlay(Crud.Create, null, CurrentMarker.Tag);
             }
         }
+
+        internal void Test()
+        {
+            ShowDosageRoute();
+        }
+
+        private void ShowDosageRoute()
+        {
+            //foreach (var rm in Red.Markers)
+            //{
+            //    if (rm.Tag is )
+            //}
+        }
         #endregion
         /// <summary>
         /// Show properties of current marker on windows form.
@@ -435,12 +448,12 @@ namespace Route66
             SetCurrentMarker(null);
         }
 
-        internal GMapMarker SetArrowMarker(bool forward)
+        internal GMapMarker SetArrowMarker(int offset)
         {
             var idx = GetIndexRed(CurrentMarker);
             if (idx >= 0)
             {
-                idx += (forward) ? 1 : -1;
+                idx += offset;
                 idx = InRange(idx, 0, Red.Markers.Count - 1);
                 SetCurrentMarker(Red.Markers[idx]);
                 if (idx == Red.Markers.Count - 1)

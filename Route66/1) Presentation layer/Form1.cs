@@ -292,14 +292,18 @@ namespace Route66
                 var key = keyCode & ~Keys.Control;
                 switch (key)
                 {
-                    case Keys.Up: LastEnteredMarker = Overlay.SetArrowMarker(true); break;
-                    case Keys.Down: LastEnteredMarker = Overlay.SetArrowMarker(false); break;
+                    case Keys.Up: LastEnteredMarker = Overlay.SetArrowMarker(+1); break;
+                    case Keys.Down: LastEnteredMarker = Overlay.SetArrowMarker(-1); break;
+                    case Keys.Home: LastEnteredMarker = Overlay.SetArrowMarker(-10000); break;
+                    case Keys.End: LastEnteredMarker = Overlay.SetArrowMarker(10000); break;
                     case Keys.Delete: if (IsEditMode()) { Overlay.RemoveCurrentMarker(); IsOnMarker = false; } break;
                     case Keys.C: Overlay.EditMarker(false); break;
                     case Keys.N: Overlay.EditMarker(true); break;
                     case Keys.I: My.Status($"currentmarker={Overlay.CurrentMarker.Info()}, LastEnteredMarker={((Overlay?.CurrentMarker == LastEnteredMarker) ? "+" : LastEnteredMarker.Info())}, IsOnMarker={IsOnMarker}, IsDragging={IsDragging}, gmap.Focused={gmap.Focused}"); break;
                     case Keys.X: Overlay.CutMarker(); break;
                     case Keys.V: Overlay.PastMarker(); break;
+                    case Keys.T: Overlay.Test(); break;
+
                     default: return base.ProcessCmdKey(ref msg, keyCode);
                 }
                 return true;
@@ -508,12 +512,11 @@ namespace Route66
                 My.Status($"No Changemarkers found with dosage {from}.", Color.Red);
             numDosageFrom.Value = numDosageTo.Value;
         }
-        #endregion
-
         private void btnStatistics_Click(object sender, EventArgs e)
         {
             var f = new FormStatistics(Overlay);
             f.ShowDialog();
         }
+        #endregion
     }
 }
