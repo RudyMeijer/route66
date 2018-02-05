@@ -113,6 +113,7 @@ namespace Route66
             chkArrowMarker.Checked = Settings.ArrowMarker;
             btnClear.Visible = Settings.SupervisorMode;
             if (!Settings.SupervisorMode) openFileDialog1.InitialDirectory = Settings.RoutePath;
+            toolStripStatusLabel2.Text = $"{Settings.MachineType}";
         }
 
         private int GetComboIndex(string mapProvider)

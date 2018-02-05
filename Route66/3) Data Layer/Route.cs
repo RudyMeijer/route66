@@ -138,7 +138,7 @@ using static Route66.DataContracts;
 
         public override string ToString()
         {
-            return $"{FileName} V{Version}, Type {MachineType}";
+            return $"{FileName}";
         }
         #endregion
     }
