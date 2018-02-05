@@ -187,7 +187,7 @@ namespace Route66
                         break;
                     }
                 }
-                distanceTable.Remove(last.Key); // Use distance only one's so that not both Navigation- and Change marker can be added to one gps marker.
+                distanceTable.Remove(last.Key); // Use distance only one's so that both Navigation- and Change marker can't be added to one gps marker.
 
                 return last.Key;
             }

@@ -1,5 +1,5 @@
 ﻿rem xcopy exclude files.
-.pdb
+rem .pdb
 .log
 .config
 .xml

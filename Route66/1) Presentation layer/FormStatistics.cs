@@ -19,10 +19,10 @@ namespace Route66
         {
             InitializeComponent();
             stat = overlay.ComputeStatistics();
-            lblDrivingDistance.Text = $"{stat.DrivingDistance:f0} km";
-            lblSpreadingDistance.Text = $"{stat.SpreadingDistance:f0} km";
-            lblTotalDistance.Text = $"{stat.DrivingDistance + stat.SpreadingDistance:f0} km";
-            lblUptolastDistance.Text = $"{stat.UptoLastDistance:f0} km";
+            lblDrivingDistance.Text = $"{stat.DrivingDistance:f1} km";
+            lblSpreadingDistance.Text = $"{stat.SpreadingDistance:f1} km";
+            lblTotalDistance.Text = $"{stat.DrivingDistance + stat.SpreadingDistance:f1} km";
+            lblUptolastDistance.Text = $"{stat.UptoLastDistance:f1} km";
 
             lblTotalAmount.Text = $"{stat.Dosage:f0} kg";
             lblArea.Text = $"{stat.Area:f3} m2";

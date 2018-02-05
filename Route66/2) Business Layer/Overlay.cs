@@ -337,7 +337,7 @@ namespace Route66
                 {
                     var cm = rm.Tag as ChangeMarker;
                     //
-                    // If dosing state is off and current marker dosing is on then start green route.
+                    // If dosing state is off and change marker dosing is on then start green route.
                     // Else if dosing state is on and change marker dosing is off then end green route.
                     // Else add red markers to green route.
                     //
@@ -346,7 +346,7 @@ namespace Route66
                         DosingState = true;
                         GreenRoute = new GMapRoute("dosage")
                         {
-                            Stroke = new Pen(Color.LightGreen, 4)
+                            Stroke = new Pen(Color.Green, 3)
                         };
                     }
                     else if (DosingState && !IsDosingOn(cm)) // Dosage turned off.
@@ -650,7 +650,7 @@ namespace Route66
         internal Statistics ComputeStatistics()
         {
             var statistics = new Statistics();
-            var distance = 0d;   // km.
+            var distance = 0d;   // Distance between current- and previous change markers in km.
             var prevDosage = 0d; // gr.
             var prevWidth = 0d;  // m.
             GMapMarker prevItem = null;
