@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
+    <None Include="Documents\FOS lijst AutoLogic 2017 2018.xlsx" />
     <None Include="Documents\InstructionPointParser.cs" />
     <Compile Include="1%29 Presentation layer\FormStatistics.cs">
       <SubType>Form</SubType>
