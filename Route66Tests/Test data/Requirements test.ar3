@@ -17,8 +17,8 @@ WayPoint[5]:5.99471569061279,52.235369331919,80879
 WayPoint[6]:5.99471569061279,52.235369331919,80878    ,Decending distance.
 WayPoint[7]:5.99471569063466,52.235369243797,80878.0  ,Exception.
 Instructions: DistanceFromStartInCm, InstructionType, RoundaboutIndex, RoundaboutCount, SoundFile, Message
-Instruction[0]:0,66,-1,-1,,							  ,Place not at 0 cm.
+Instruction[0]:0,66,-1,-1,,							  ,Do not place at 0 cm.
 ChangePoints: DistanceFromStartInCm, SpreadSprayOnOff, SprayModeOnOff, Max, SecMat,Dosage, WidthLeft, WidthRight, SecDos, WidthLeftSpraying, WidthRightSpraying, CombiPercentage, HopperSelection
 ChangePoint[0]:27149,1,0,0,0,2222,100,100,0,0,0,0,1   ,Change point should start at zero.
 ChangePoint[1]:57150,0,0,0,0,3333,100,100,0,0,0,0,1   ,Orphan marker.
-ChangePoint[3]:57150.0,0,0,0,0,3333,100,100,0,0,0,0,1 ,Exception.
+ChangePoint[3]:5715O.0,0,0,0,0,3333,100,100,0,0,0,0,1 ,Exception.

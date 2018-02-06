@@ -48,27 +48,27 @@ namespace Route66.Tests
             var p = My.CurrentDirectory;
             var filename = "Requirements test.ar3";
             var route = Adapters.ReadAr3(filename);
-            Assert.IsTrue(route.GpsMarkers.Count == 5, "Requirement violation 12");
+            Assert.IsTrue(route.GpsMarkers.Count == 4, "Requirement violation 12");
             Assert.IsTrue(route.NavigationMarkers.Count == 1, "Requirement violation 13");
-            Assert.IsTrue(route.ChangeMarkers.Count == 3, "Requirement violation 14");
+            Assert.IsTrue(route.ChangeMarkers.Count == 4, "Requirement violation 14");
             //
             // Check errors.
             //
             var e= Adapters.errors;
-            Assert.IsTrue(e[0]==1, "Points have descending distance and will be ignored.");
-            Assert.IsTrue(e[1]==1, "Duplicated line.");
+            Assert.IsTrue(e[0]==2, "Points have descending distance and will be ignored.");
+            Assert.IsTrue(e[1]==2, "Duplicated line.");
             Assert.IsTrue(e[2]==1, "Unkown navigation type.");
-            Assert.IsTrue(e[3]==2, "Exception.");
-            Assert.IsTrue(e[4]==1, "Orphan.");
+            Assert.IsTrue(e[3]==0, "Exception.");
+            Assert.IsTrue(e[4]==2, "Orphan.");
             //
             // Write ar3 and read back.
             //
             filename = "Requirements test wr.ar3";
             Adapters.WriteAr3(filename, route);
             var route2 = Adapters.ReadAr3(filename);
-            Assert.IsTrue(route2.GpsMarkers.Count == 5, "Requirement violation 22");
+            Assert.IsTrue(route2.GpsMarkers.Count == 4, "Requirement violation 22");
             Assert.IsTrue(route2.NavigationMarkers.Count == 1, "Requirement violation 23");
-            Assert.IsTrue(route2.ChangeMarkers.Count == 3, "Requirement violation 24");
+            Assert.IsTrue(route2.ChangeMarkers.Count == 4, "Requirement violation 24");
         }
     }
 }
