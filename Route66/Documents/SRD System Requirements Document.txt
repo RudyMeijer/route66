@@ -1,14 +1,16 @@
 ﻿SRD Software Requirements Document.
 
+Route66 heeft Windows "look and feel". Windows gebruikers hebben hierdoor een kortere inleer kurve. 
 Use Mouse to CRUD (Create, Update and Delete) route from scratch. Including change- and navigation markers.
 Allow CRUD (Create, Update, Delete) operations on change- and navigation marker on map.
 Ask to save modified route when opening new route or program exit.
 When current marker is removed make previous marker current.
 Update dosage values globally from x -> y.
-On startup show file open menu.
-Add changemarker edit form according http://confluence.ash.ads.org/display/PROD/Routecreator+ES#space-menu-link-content
+On startup show file open menu in supervisor mode.
+Add change marker edit form according http://confluence.ash.ads.org/display/PROD/Routecreator+ES#space-menu-link-content
 Allow cut and paste operations on map using Ctrl-X, Ctrl-V.
 Create AR3 Adapter according http://confluence.ash.ads.org/display/EHP/Autologic+ar3+route+file+format.+V2
-Add navigation markers automatically.
+Add navigation markers automatically (Left, Right, U-turn).
 Compute route statistics: total distance in km, total dosage in kg.
+Route66 support XML, AR3-V2 en GPX file format.
 
