@@ -180,7 +180,7 @@ namespace Route66
             /// <returns>return message</returns>
             public override string ToString()
             {
-                (double dosage, double width, bool active) = GetDosageAndWith();
+                (double dosage, double width, bool active) = GetDosageAndWith(Settings.Global.MachineType);
                 var sign = (active) ? ' ' : '-';
                 if (Settings.Global.MachineType == MachineTypes.StreetWasher)
                     return $"{sign}Pressure {dosage} bar \nWidth {width} m";
@@ -188,37 +188,24 @@ namespace Route66
                     return $"{sign}Dosage {dosage} g \nWidth {width} m";
             }
 
-            internal (double dosage, double width, bool active) GetDosageAndWith()
+            internal (double dosage, double width, bool active) GetDosageAndWith(MachineTypes machineType)
             {
-                var dosage = Dosage;
-                var width = SpreadingWidthLeft + SpreadingWidthRight;
-                var active = SpreadingOnOff;
+                var IsSprayer = machineType == MachineTypes.Sprayer || machineType == MachineTypes.WspDosage || machineType == MachineTypes.RspDosage;
+                var IsDosing = machineType != MachineTypes.Sprayer;
 
-                switch (Settings.Global.MachineType)
+                var dosage = 0d;
+                var width = 0d;// SpreadingWidthLeft + SpreadingWidthRight;
+                var active = IsDosing && SpreadingOnOff || IsSprayer && SprayingOnOff;
+
+                if (IsDosing)
                 {
-                    case MachineTypes.WspDosage:
-                        dosage = 0;
-                        if (SpreadingOnOff)
-                        {
-                            dosage = Dosage;
-                            width = SpreadingWidthLeft + SpreadingWidthRight;
-                        }
-                        if (SprayingOnOff)
-                        {
-                            dosage += DosageLiquid; // Summarize spreading and spraying.
-                            width = SprayingWidthLeft + SprayingWidthRight;
-                        }
-                        active = SpreadingOnOff || SprayingOnOff;
-                        break;
-
-                    case MachineTypes.Sprayer:
-                        dosage = DosageLiquid;
-                        width = SprayingWidthLeft + SprayingWidthRight;
-                        active = SprayingOnOff;
-                        break;
-
-                    default: // Alle other machine types.
-                        break;
+                    dosage = (SpreadingOnOff) ? Dosage : 0;
+                    width = SpreadingWidthLeft + SpreadingWidthRight;
+                }
+                if (IsSprayer)
+                {
+                    dosage += (SprayingOnOff) ? DosageLiquid : 0; // Summerize spreading and spraying.
+                    width = SprayingWidthLeft + SprayingWidthRight;
                 }
                 return (dosage, width, active);
             }

@@ -463,6 +463,7 @@ namespace Route66
                 gmap.UpdateRouteLocalPosition(RedRoute);
             }
             else gmap.ZoomAndCenterRoute(RedRoute);
+            ShowGreenRoute();
             Initialize = false;
             return true;
         }
@@ -695,7 +696,7 @@ namespace Route66
                     //
                     // Get actual dosage and width for this change marker.
                     //
-                    var (dosage, width, active) = cm.GetDosageAndWith();
+                    var (dosage, width, active) = cm.GetDosageAndWith(MachineType);
                     prevDosage = (active) ? dosage : 0;
                     prevWidth = (active) ? width : 0;
                     distance = 0;

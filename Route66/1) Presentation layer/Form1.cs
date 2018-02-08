@@ -105,6 +105,7 @@ namespace Route66
         private void InitializeSettings()
         {
             Overlay.MachineType = Settings.MachineType;
+            Overlay.ShowGreenRoute();
             var idx = GetComboIndex(Settings.MapProvider);
             if (idx == 6) gmap.Zoom = 9;
             comboBox1.SelectedIndex = idx;
