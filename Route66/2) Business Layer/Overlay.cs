@@ -695,9 +695,9 @@ namespace Route66
                     //
                     // Get actual dosage and width for this change marker.
                     //
-                    var (dosage, width) = GetDosageAndWith(cm, MachineType);
-                    prevDosage = dosage;
-                    prevWidth = width;// cm.SpreadingWidthLeft + cm.SpreadingWidthRight;
+                    var (dosage, width, active) = cm.GetDosageAndWith();
+                    prevDosage = (active) ? dosage : 0;
+                    prevWidth = (active) ? width : 0;
                     distance = 0;
                 }
                 prevItem = item;
@@ -705,29 +705,29 @@ namespace Route66
             return statistics;
         }
 
-        private (double dosage, double width) GetDosageAndWith(ChangeMarker cm, MachineTypes machineType)
-        {
-            double width = 0;
-            double dosage = 0;
-            if (cm != null)
-            {
-                if (cm.SpreadingOnOff)
-                {
-                    width = cm.SpreadingWidthLeft + cm.SpreadingWidthRight;
-                    dosage = cm.Dosage;
-                }
-                if (cm.SprayingOnOff) // Summarize spreading and spraying.
-                {
-                    width = cm.SprayingWidthLeft + cm.SprayingWidthRight;
-                    dosage += cm.DosageLiquid;
-                }
-                if (cm.PumpOnOff)
-                {
-                    dosage = 1; //Make route green.
-                }
-            }
-            return (dosage, width);
-        }
+        //public static (double dosage, double width) GetDosageAndWith(ChangeMarker cm, MachineTypes machineType)
+        //{
+        //    double width = 0;
+        //    double dosage = 0;
+        //    if (cm != null)
+        //    {
+        //        if (cm.SpreadingOnOff)
+        //        {
+        //            width = cm.SpreadingWidthLeft + cm.SpreadingWidthRight;
+        //            dosage = cm.Dosage;
+        //        }
+        //        if (cm.SprayingOnOff) // Summarize spreading and spraying.
+        //        {
+        //            width = cm.SprayingWidthLeft + cm.SprayingWidthRight;
+        //            dosage += cm.DosageLiquid;
+        //        }
+        //        if (cm.PumpOnOff)
+        //        {
+        //            dosage = 1; // Make route green.
+        //        }
+        //    }
+        //    return (dosage, width);
+        //}
 
         private bool IsLast(GMapMarker item) => item == Red.Markers.Last();
         #endregion

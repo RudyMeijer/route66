@@ -182,38 +182,53 @@ namespace Route66
             /// <returns>return message</returns>
             public override string ToString()
             {
+                (double dosage, double width, bool active) = GetDosageAndWith();
+                var sign = (active) ? ' ' : '-';
+                if (Settings.Global.MachineType == MachineTypes.StreetWasher)
+                    return $"{sign}Pressure {dosage} bar \nWidth {width} m";
+                else
+                    return $"{sign}Dosage {dosage} g \nWidth {width} m";
+            }
 
-                var width = SpreadingWidthLeft + SpreadingWidthRight;
+            internal (double dosage, double width, bool active) GetDosageAndWith()
+            {
                 var dosage = Dosage;
-                var sign = (SpreadingOnOff && Dosage > 0 || PumpOnOff) ? ' ' : '-';
+                var width = SpreadingWidthLeft + SpreadingWidthRight;
+                var active = SpreadingOnOff;
 
-                if (Settings.Global.MachineType == MachineTypes.StreetWasher) return $"{sign}Pressure {dosage} bar \nWidth {width} m";
-                else if (Settings.Global.MachineType == MachineTypes.Sprayer)
+                switch (Settings.Global.MachineType)
                 {
-                    dosage = DosageLiquid;
-                    width = SprayingWidthLeft + SprayingWidthRight;
-                    sign = (SprayingOnOff && DosageLiquid > 0) ? ' ' : '-';
-                }
-                else if (Settings.Global.MachineType == MachineTypes.WspDosage)
-                {
-                    dosage = 0;
-                    if (SpreadingOnOff)
-                    {
-                        dosage = Dosage;
-                        width = SpreadingWidthLeft + SpreadingWidthRight;
-                    }
-                    if (SprayingOnOff)
-                    {
-                        dosage += DosageLiquid; // Summarize spreading and spraying.
+                    case MachineTypes.WspDosage:
+                        dosage = 0;
+                        if (SpreadingOnOff)
+                        {
+                            dosage = Dosage;
+                            width = SpreadingWidthLeft + SpreadingWidthRight;
+                        }
+                        if (SprayingOnOff)
+                        {
+                            dosage += DosageLiquid; // Summarize spreading and spraying.
+                            width = SprayingWidthLeft + SprayingWidthRight;
+                        }
+                        active = SpreadingOnOff || SprayingOnOff;
+                        break;
+
+                    case MachineTypes.Sprayer:
+                        dosage = DosageLiquid;
                         width = SprayingWidthLeft + SprayingWidthRight;
-                    }
-                    sign = (SpreadingOnOff || SprayingOnOff) ? ' ' : '-';
-                }
+                        active = SprayingOnOff;
+                        break;
 
-                return $"{sign}Dosage {dosage} g \nWidth {width} m";
+                    case MachineTypes.StreetWasher:
+                        active = PumpOnOff;
+                        break;
+
+                    default: // Alle other machine types.
+                        break;
+                }
+                return (dosage, width, active);
             }
         }
-
         /// <summary>
         /// This class contains all properties for a red GPS marker: Longitude Latitude.
         /// It is used as base class for classes above.
