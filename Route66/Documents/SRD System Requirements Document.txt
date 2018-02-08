@@ -7,10 +7,10 @@ Ask to save modified route when opening new route or program exit.
 When current marker is removed make previous marker current.
 Update dosage values globally from x -> y.
 On startup show file open menu in supervisor mode.
-Add change marker edit form according http://confluence.ash.ads.org/display/PROD/Routecreator+ES#space-menu-link-content
-Allow cut and paste operations on map using Ctrl-X, Ctrl-V.
+Edit change- and Navigation markers according http://confluence.ash.ads.org/display/PROD/Routecreator+ES#space-menu-link-content
+Support XML, AR3-V2 en GPX file format.
 Create AR3 Adapter according http://confluence.ash.ads.org/display/EHP/Autologic+ar3+route+file+format.+V2
+Allow cut and paste operations on map using Ctrl-X, Ctrl-V.
 Add navigation markers automatically (Left, Right, U-turn).
 Compute route statistics: total distance in km, total dosage in kg.
-Route66 support XML, AR3-V2 en GPX file format.
 

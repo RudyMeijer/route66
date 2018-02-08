@@ -178,7 +178,7 @@ namespace Route66
             if (e.Button == MouseButtons.Left && !IsOnMarker && !IsDragging && IsEditMode() && IsShowAutoRoute()) { Overlay.AddMarker(e.X, e.Y); }
             if (e.Button == MouseButtons.Left && IsOnMarker && !IsDragging) { Overlay.EditMarker(CtrlKeyIsPressed); }
             IsDragging = false;
-            Overlay.ShowDosageRoute();
+            Overlay.ShowGreenRoute();
         }
 
         private bool IsShowAutoRoute()
@@ -200,7 +200,7 @@ namespace Route66
                 if (!IsOnMarker) return;
                 if (e.Button == MouseButtons.Left) { Overlay.SetCurrentMarker(LastEnteredMarker); }
                 if (e.Button == MouseButtons.Right && IsEditMode()) { Overlay.Remove(LastEnteredMarker); IsOnMarker = false; }
-                Overlay.ShowDosageRoute();
+                Overlay.ShowGreenRoute();
             }
             catch (Exception ee) { My.Status($"Error {ee}"); }
         }
@@ -252,7 +252,7 @@ namespace Route66
                 {
                     Overlay.SetCurrentMarker(LastEnteredMarker);
                     Overlay.UpdateCurrentMarkerPosition(e.X, e.Y);
-                    if (chkChangePoints.Checked) Overlay.ShowDosageRoute();
+                    if (chkChangePoints.Checked) Overlay.ShowGreenRoute();
                 }
             }
         }
@@ -314,7 +314,7 @@ namespace Route66
 
                     default: return base.ProcessCmdKey(ref msg, keyCode);
                 }
-                Overlay.ShowDosageRoute();
+                Overlay.ShowGreenRoute();
                 return true;
             }
             return base.ProcessCmdKey(ref msg, keyCode); // Handle Ctrl-O, Ctrl-S, Holten

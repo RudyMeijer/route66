@@ -177,16 +177,40 @@ namespace Route66
             #endregion
 
             /// <summary>
-            /// override string
+            /// override string: Display change marker tooltip.
             /// </summary>
             /// <returns>return message</returns>
             public override string ToString()
             {
-                var sign = (SpreadingOnOff)?' ':'-';
-                return (Settings.Global.MachineType == MachineTypes.StreetWasher) ?
-                    $"{sign}Pressure {Dosage} bar \nLeft {SpreadingWidthLeft} m \nRight {SpreadingWidthRight} m"
-                    :
-                    $"{sign}Dosage {Dosage} g \nLeft {SpreadingWidthLeft} m \nRight {SpreadingWidthRight} m";
+
+                var width = SpreadingWidthLeft + SpreadingWidthRight;
+                var dosage = Dosage;
+                var sign = (SpreadingOnOff && Dosage > 0 || PumpOnOff) ? ' ' : '-';
+
+                if (Settings.Global.MachineType == MachineTypes.StreetWasher) return $"{sign}Pressure {dosage} bar \nWidth {width} m";
+                else if (Settings.Global.MachineType == MachineTypes.Sprayer)
+                {
+                    dosage = DosageLiquid;
+                    width = SprayingWidthLeft + SprayingWidthRight;
+                    sign = (SprayingOnOff && DosageLiquid > 0) ? ' ' : '-';
+                }
+                else if (Settings.Global.MachineType == MachineTypes.WspDosage)
+                {
+                    dosage = 0;
+                    if (SpreadingOnOff)
+                    {
+                        dosage = Dosage;
+                        width = SprayingWidthLeft + SprayingWidthRight;
+                    }
+                    if (SprayingOnOff)
+                    {
+                        dosage += DosageLiquid; //summarize dosage spreading and spraying.
+                        width = SprayingWidthLeft + SprayingWidthRight;
+                    }
+                    sign = (SpreadingOnOff || SprayingOnOff) ? ' ' : '-';
+                }
+
+                return $"{sign}Dosage {dosage} g \nWidth {width} m";
             }
         }
 

@@ -322,14 +322,17 @@ namespace Route66
 
         internal void Test()
         {
-            ShowDosageRoute();
+            ShowGreenRoute();
         }
 
-        public void ShowDosageRoute()
+        /// <summary>
+        /// This function draw route tracks, where dosing occurs, as green route.
+        /// </summary>
+        public void ShowGreenRoute()
         {
             Console.WriteLine("ShowDosageRoute");
-            var DosingState = false;
-            GMapRoute GreenRoute=null;
+            var DosingState = false; // True when dosage/spaying is active.
+            GMapRoute GreenRoute = null;
             Green.Routes.Clear();
             foreach (var rm in Red.Markers)
             {
@@ -360,7 +363,14 @@ namespace Route66
             }
         }
 
-        private bool IsDosingOn(ChangeMarker cm) => cm !=null && cm.SpreadingOnOff && cm.Dosage > 0;
+        private bool IsDosingOn(ChangeMarker cm)
+        {
+            if (cm == null) return false;
+            var IsSprayer = MachineType == MachineTypes.Sprayer || MachineType == MachineTypes.WspDosage || MachineType == MachineTypes.RspDosage;
+            var IsDosing = !(MachineType == MachineTypes.Sprayer || MachineType == MachineTypes.StreetWasher);
+
+            return (IsDosing && cm.SpreadingOnOff) || IsSprayer && cm.SprayingOnOff || cm.PumpOnOff;
+        }
         #endregion
         /// <summary>
         /// Show properties of current marker on windows form.
@@ -490,9 +500,9 @@ namespace Route66
                     My.Status($" End of route. Gps marker {idx}.");
                     if (Settings.SpeechSyntesizer) My.PlaySound(" End of route.");
                 }
-                else if (CurrentMarker.Tag is NavigationMarker)
+                else if (CurrentMarker.Tag is NavigationMarker && Settings.SpeechSyntesizer)
                 {
-                    if (Settings.SpeechSyntesizer) My.PlaySound((CurrentMarker.Tag as NavigationMarker).Message);
+                    My.PlaySound((CurrentMarker.Tag as NavigationMarker).Message);
                 }
             }
             return CurrentMarker;
@@ -647,6 +657,10 @@ namespace Route66
         public bool IsNavigationMarker(GMapMarker item) => item.Overlay.Id == "Navigation points";
         public bool IsGpsMarker(GMapMarker item) => item.Overlay.Id == "Gps points";
 
+        /// <summary>
+        /// This function returns route statistics which are displayed on the route statistics form.
+        /// </summary>
+        /// <returns>Statistics</returns>
         internal Statistics ComputeStatistics()
         {
             var statistics = new Statistics();
@@ -676,13 +690,41 @@ namespace Route66
                     }
                     if (cm == null) break; // Last marker.
                     statistics.UptoLastDistance += distance;
-                    prevDosage = (cm.SpreadingOnOff) ? cm.Dosage : 0d;
-                    prevWidth = cm.SpreadingWidthLeft + cm.SpreadingWidthRight;
+                    //
+                    // Get actual dosage and width for this change marker.
+                    //
+                    var (dosage, width) = GetDosageAndWith(cm, MachineType);
+                    prevDosage = dosage;
+                    prevWidth = width;// cm.SpreadingWidthLeft + cm.SpreadingWidthRight;
                     distance = 0;
                 }
                 prevItem = item;
             }
             return statistics;
+        }
+
+        private (double dosage, double width) GetDosageAndWith(ChangeMarker cm, MachineTypes machineType)
+        {
+            double width = 0;
+            double dosage = 0;
+            if (cm != null)
+            {
+                if (cm.SpreadingOnOff)
+                {
+                    width = cm.SpreadingWidthLeft + cm.SpreadingWidthRight;
+                    dosage = cm.Dosage;
+                }
+                if (cm.SprayingOnOff) // summarize spreading and spraying.
+                {
+                    width += cm.SprayingWidthLeft + cm.SprayingWidthRight;
+                    dosage += cm.DosageLiquid;
+                }
+                if (cm.PumpOnOff)
+                {
+                    dosage = 1; //Make route green.
+                }
+            }
+            return (dosage, width);
         }
 
         private bool IsLast(GMapMarker item) => item == Red.Markers.Last();
