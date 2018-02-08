@@ -145,8 +145,6 @@ namespace Route66
             [XmlAttribute("DualWidth")] public bool DualWidthOnOff { get; set; }
 
             [XmlAttribute("Spraying")] public bool SprayingOnOff { get; set; }
-
-            [XmlAttribute("Pump")] public bool PumpOnOff { get; set; }
             #endregion
             #region ROW2
             /// <summary>
@@ -217,10 +215,6 @@ namespace Route66
                         dosage = DosageLiquid;
                         width = SprayingWidthLeft + SprayingWidthRight;
                         active = SprayingOnOff;
-                        break;
-
-                    case MachineTypes.StreetWasher:
-                        active = PumpOnOff;
                         break;
 
                     default: // Alle other machine types.

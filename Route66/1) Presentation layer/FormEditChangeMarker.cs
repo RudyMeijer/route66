@@ -111,7 +111,7 @@ namespace Route66
 		{
 			if (Settings.MachineType == MachineTypes.StreetWasher)
 			{
-				chkPump.Checked = cm.PumpOnOff;
+				chkPump.Checked = cm.SpreadingOnOff;
 				chkLeftJetOnOff.Checked = cm.Hopper1OnOff;
 				chkRightJetOnOff.Checked = cm.Hopper2OnOff;
 				Set(numPressure, cm.Dosage);
@@ -153,7 +153,7 @@ namespace Route66
 		{
 			if (Settings.MachineType == MachineTypes.StreetWasher)
 			{
-				cm.PumpOnOff = chkPump.Checked;
+				cm.SpreadingOnOff = chkPump.Checked;
 				cm.Hopper1OnOff = chkLeftJetOnOff.Checked;
 				cm.Hopper2OnOff = chkRightJetOnOff.Checked;
 				cm.Dosage = (double)numPressure.Value;

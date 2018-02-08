@@ -109,7 +109,7 @@ namespace Route66
                                 // If this code is changed then modify also methode DisplayOnForm.
                                 //
                                 // Handle empty strings; use previous marker value.
-                                marker.PumpOnOff = My.Bool(s[2], previousChangeMarker.PumpOnOff);
+                                marker.SpreadingOnOff = My.Bool(s[2], previousChangeMarker.SpreadingOnOff);
                                 marker.Hopper1OnOff = My.Bool(s[3], previousChangeMarker.Hopper1OnOff);
                                 marker.SpreadingWidthLeft = My.Val(s[4], previousChangeMarker.SpreadingWidthLeft);
                                 marker.Hopper2OnOff = My.Bool(s[5], previousChangeMarker.Hopper2OnOff);

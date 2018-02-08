@@ -374,9 +374,9 @@ namespace Route66
         {
             if (cm == null) return false;
             var IsSprayer = MachineType == MachineTypes.Sprayer || MachineType == MachineTypes.WspDosage || MachineType == MachineTypes.RspDosage;
-            var IsDosing = !(MachineType == MachineTypes.Sprayer || MachineType == MachineTypes.StreetWasher);
+            var IsDosing =  MachineType != MachineTypes.Sprayer;
 
-            return (IsDosing && cm.SpreadingOnOff) || IsSprayer && cm.SprayingOnOff || cm.PumpOnOff;
+            return (IsDosing && cm.SpreadingOnOff) || IsSprayer && cm.SprayingOnOff;
         }
         #endregion
         /// <summary>
@@ -704,30 +704,6 @@ namespace Route66
             }
             return statistics;
         }
-
-        //public static (double dosage, double width) GetDosageAndWith(ChangeMarker cm, MachineTypes machineType)
-        //{
-        //    double width = 0;
-        //    double dosage = 0;
-        //    if (cm != null)
-        //    {
-        //        if (cm.SpreadingOnOff)
-        //        {
-        //            width = cm.SpreadingWidthLeft + cm.SpreadingWidthRight;
-        //            dosage = cm.Dosage;
-        //        }
-        //        if (cm.SprayingOnOff) // Summarize spreading and spraying.
-        //        {
-        //            width = cm.SprayingWidthLeft + cm.SprayingWidthRight;
-        //            dosage += cm.DosageLiquid;
-        //        }
-        //        if (cm.PumpOnOff)
-        //        {
-        //            dosage = 1; // Make route green.
-        //        }
-        //    }
-        //    return (dosage, width);
-        //}
 
         private bool IsLast(GMapMarker item) => item == Red.Markers.Last();
         #endregion
