@@ -200,11 +200,11 @@ namespace Route66
                     if (SpreadingOnOff)
                     {
                         dosage = Dosage;
-                        width = SprayingWidthLeft + SprayingWidthRight;
+                        width = SpreadingWidthLeft + SpreadingWidthRight;
                     }
                     if (SprayingOnOff)
                     {
-                        dosage += DosageLiquid; //summarize dosage spreading and spraying.
+                        dosage += DosageLiquid; // Summarize spreading and spraying.
                         width = SprayingWidthLeft + SprayingWidthRight;
                     }
                     sign = (SpreadingOnOff || SprayingOnOff) ? ' ' : '-';

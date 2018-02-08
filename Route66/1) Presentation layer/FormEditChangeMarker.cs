@@ -201,7 +201,7 @@ namespace Route66
 		private void numSpreadingWidthLeftRight_ValueChanged(object sender, EventArgs e)
 		{
 			lblSpreadingTotalWidth.Text = $"{numSpreadingWidthLeft.Value + numSpreadingWidthRight.Value} m";
-			if (chkDualWidth.Enabled && !chkDualWidth.Checked)
+			if (!chkDualWidth.Checked)
 			{
 				numSprayingWidthLeft.Value = numSpreadingWidthLeft.Value;
 				numSprayingWidthRight.Value = numSpreadingWidthRight.Value;

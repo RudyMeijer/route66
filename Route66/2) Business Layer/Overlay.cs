@@ -98,7 +98,7 @@ namespace Route66
                 }
             }
             else AddMarker(point);
-            SetTooltipRed(CurrentMarker); // Not nessesarry but nice 4 debugging.
+            SetTooltip(CurrentMarker); // Not nessesarry but nice 4 debugging.
             ShowArrowMarker(CurrentMarker);
             Route.IsChanged = true;
             gmap.UpdateRouteLocalPosition(RedRoute);
@@ -192,13 +192,20 @@ namespace Route66
             RoutingProvider rp = GMapProviders.OpenStreetMap; // use OpenStreetMap if provider does not implement routing
             return rp.GetRoute(start.Position, end.Position, false, false, (int)gmap.Zoom);
         }
-        public void SetTooltipRed(GMapMarker item)
+        public void SetTooltip(GMapMarker item)
         {
             var idx = GetIndexRed(item);
             if (idx >= 0)
             {
                 item.ToolTipMode = (Settings.ToolTipMode) ? MarkerTooltipMode.OnMouseOver : MarkerTooltipMode.Never;
                 item.ToolTipText = $"{idx}";
+            }
+            //
+            // Set Change- and Navigation tooltiptext.
+            //
+            if (IsChangeMarker(item) || IsNavigationMarker(item))
+            {
+                item.ToolTipText = $"{item.Tag}";
             }
         }
 
@@ -430,8 +437,6 @@ namespace Route66
                             }
                     break;
                 case Crud.Update:
-                    if (tag is ChangeMarker) GetGreenMarker(CurrentMarker).ToolTipText = $"{tag}";
-                    if (tag is NavigationMarker) GetBlueMarker(CurrentMarker).ToolTipText = $"{tag}";
                     break;
                 default:
                     My.Log($"Error crud operation {crud}");
@@ -621,14 +626,12 @@ namespace Route66
         {
             var marker = new GMarkerGoogle(currentMarker.Position, GMarkerGoogleType.green_small);
             marker.Tag = currentMarker.Tag;
-            marker.ToolTipText = currentMarker.Tag.ToString();
             Green.Markers.Add(marker);
         }
         private void AddOverlayBlueMarker(GMapMarker currentMarker)
         {
             var marker = new GMarkerGoogle(currentMarker.Position, GMarkerGoogleType.blue_small);
             marker.Tag = currentMarker.Tag;
-            marker.ToolTipText = currentMarker.Tag.ToString();
             Blue.Markers.Add(marker);
         }
         /// <summary>
@@ -646,7 +649,6 @@ namespace Route66
                 if (x.Dosage == from || from == 0)
                 {
                     x.Dosage = to;
-                    item.ToolTipText = x.ToString();
                     ++cnt;
                 }
             }
@@ -714,9 +716,9 @@ namespace Route66
                     width = cm.SpreadingWidthLeft + cm.SpreadingWidthRight;
                     dosage = cm.Dosage;
                 }
-                if (cm.SprayingOnOff) // summarize spreading and spraying.
+                if (cm.SprayingOnOff) // Summarize spreading and spraying.
                 {
-                    width += cm.SprayingWidthLeft + cm.SprayingWidthRight;
+                    width = cm.SprayingWidthLeft + cm.SprayingWidthRight;
                     dosage += cm.DosageLiquid;
                 }
                 if (cm.PumpOnOff)

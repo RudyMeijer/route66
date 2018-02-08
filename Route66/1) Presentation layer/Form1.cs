@@ -220,7 +220,7 @@ namespace Route66
             {
                 IsOnMarker = true;
                 LastEnteredMarker = item;
-                Overlay.SetTooltipRed(item);
+                Overlay.SetTooltip(item);
                 //Console.WriteLine($"Enter {item.Info()}");
                 if (Settings.FastDrawMode || !chkGpsPoints.Checked) Overlay.SetCurrentMarker(item);
                 if (Overlay.IsNavigationMarker(item) && Settings.SpeechSyntesizer && chkNavPoints.Checked)
