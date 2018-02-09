@@ -374,7 +374,7 @@ namespace Route66
         {
             if (cm == null) return false;
             var IsSprayer = MachineType == MachineTypes.Sprayer || MachineType == MachineTypes.WspDosage || MachineType == MachineTypes.RspDosage;
-            var IsDosing =  MachineType != MachineTypes.Sprayer;
+            var IsDosing = MachineType != MachineTypes.Sprayer;
 
             return (IsDosing && cm.SpreadingOnOff) || IsSprayer && cm.SprayingOnOff;
         }
@@ -487,6 +487,7 @@ namespace Route66
             {
                 if (overlay.Id.Contains("Arrow marker")) continue;
                 overlay.Markers.Clear();
+                if (overlay != Red) overlay.Routes.Clear();
                 foreach (var route in overlay.Routes) route.Clear();
             }
             gmap.UpdateRouteLocalPosition(RedRoute);
