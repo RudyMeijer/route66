@@ -28,7 +28,7 @@ namespace Route66
             #region FIELDS
             //
             // The distance table contains the relation between LatLng and distance.
-            // Filled during Read Gps markers.
+            // Filled during Read Gps markers. Filled with unique latlng and sorted distance.
             //
             var distanceTable = new Dictionary<PointLatLng, int>();
             var line = "";

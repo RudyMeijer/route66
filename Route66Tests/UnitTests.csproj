@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Test data\Holten_cityjet - Copy.ar3" />
     <None Include="Test data\KleineRoute.ar3" />
     <None Include="Test data\Requirements test.ar3" />
   </ItemGroup>
