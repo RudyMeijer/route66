@@ -553,8 +553,12 @@ namespace Route66
                 var rm = FindRedMarker(item.Lat, item.Lng);
                 if (rm != null)
                 {
-                    rm.Tag = item;
-                    AddOverlayBlueMarker(rm);
+                    if (rm.Tag == null)
+                    {
+                        rm.Tag = item;
+                        AddOverlayBlueMarker(rm);
+                    }
+                    else My.Status($"Can't add navigation instruction {item} to red marker tag {rm.Tag}.");
                 }
                 else My.Status($"Blue marker {new PointLatLng(item.Lat, item.Lng)} not found in red markers list.", Color.Red);
             }

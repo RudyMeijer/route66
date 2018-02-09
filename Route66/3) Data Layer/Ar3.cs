@@ -16,6 +16,7 @@ namespace Route66
     public class Adapters
     {
         private static Dictionary<string, NavigationMessages> naviTypes;
+        private static PointLatLng LatLngFirstNav;
 
         /// <summary>
         /// Read AR3 file. See http://confluence.ash.ads.org/display/EHP/Autologic+ar3+route+file+format.+V2
@@ -64,7 +65,11 @@ namespace Route66
                             {
                                 var point = Unique(new PointLatLng(My.Val(s[2]), My.Val(s[1])), distance);
                                 route.GpsMarkers.Add(new GpsMarker(point));
-                                if (startPoint.IsEmpty) startPoint = point;
+                                if (startPoint.IsEmpty)
+                                {
+                                    startPoint = point;
+                                    LatLngFirstNav = Unique(startPoint, 200); // Sort dictionary 4 holten_cityjet.ar3
+                                }
                             }
                             lastDistance = distance;
                         }
@@ -78,7 +83,7 @@ namespace Route66
 
                             if (s[1] == "0") // Set first Navigation marker not at distance zero. This is reserved for Change marker.
                             {
-                                latlng = Unique(startPoint, 200);
+                                latlng = LatLngFirstNav;
                                 route.GpsMarkers.Insert(1, new GpsMarker(latlng));
                             }
                             else
