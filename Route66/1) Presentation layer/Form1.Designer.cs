@@ -114,7 +114,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.comboBox1);
             this.splitContainer1.Panel2.Controls.Add(this.btnClear);
             this.splitContainer1.Size = new System.Drawing.Size(1121, 668);
-            this.splitContainer1.SplitterDistance = 981;
+            this.splitContainer1.SplitterDistance = 980;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 1;
             // 
@@ -142,7 +142,7 @@
             this.gmap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.gmap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.gmap.ShowTileGridLines = false;
-            this.gmap.Size = new System.Drawing.Size(981, 668);
+            this.gmap.Size = new System.Drawing.Size(980, 668);
             this.gmap.TabIndex = 0;
             this.gmap.Zoom = 13D;
             this.gmap.OnMarkerEnter += new GMap.NET.WindowsForms.MarkerEnter(this.gmap_OnMarkerEnter);
@@ -168,7 +168,7 @@
             this.groupBox3.Size = new System.Drawing.Size(128, 162);
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Dosage";
+            this.groupBox3.Text = "Global Dosage";
             // 
             // btnStatistics
             // 
@@ -234,6 +234,11 @@
             this.numDosageFrom.Size = new System.Drawing.Size(52, 22);
             this.numDosageFrom.TabIndex = 0;
             this.toolTip1.SetToolTip(this.numDosageFrom, "Enter zero to update all dosages.");
+            this.numDosageFrom.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
             // 
             // groupBox2
             // 
@@ -509,7 +514,7 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(911, 20);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(950, 20);
             this.toolStripStatusLabel1.Spring = true;
             this.toolStripStatusLabel1.Text = "Ready";
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
