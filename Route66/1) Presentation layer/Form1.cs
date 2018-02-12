@@ -487,7 +487,7 @@ namespace Route66
         }
         private void chkChangePoints_CheckedChanged(object sender, EventArgs e)
         {
-            gmap.Overlays[1].IsVisibile = chkChangePoints.Checked;
+            foreach (var item in gmap.Overlays[1].Markers) item.IsVisible = chkChangePoints.Checked;
             gmap.Refresh();
         }
         private void chkNavPoints_CheckedChanged(object sender, EventArgs e)
