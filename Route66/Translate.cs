@@ -18,7 +18,7 @@ namespace Route66
 						list.Add(My.PascalCase(item));
 						////list.Add("Turn left");
 						////list.Add("Turn right");
-						//// TODO list.Add(dictionary<string, string>(item));
+						////list.Add(dictionary<string, string>(item));
 					}
 					navigationMessages = list.ToArray();
 				}

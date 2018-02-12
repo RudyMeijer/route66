@@ -14,3 +14,5 @@
 
 	Make LatLng unique during read of Nav- and Change markers using Dictionary key-value pair.
 	Make distance unique during write of Nav- and Change markers by adding 1 cm.
+
+

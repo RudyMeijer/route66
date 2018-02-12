@@ -120,7 +120,7 @@ namespace Route66
         private int GetComboIndex(string mapProvider)
         {
             for (int i = 0; i < comboBox1.Items.Count; i++)
-                if (comboBox1.Items[i].GetType().Name.Contains(Settings.MapProvider))
+                if (comboBox1.Items[i].GetType().Name.Contains(mapProvider))
                     return i;
             return 0;
         }
@@ -141,7 +141,6 @@ namespace Route66
             comboBox1.Items.Add(WikiMapiaMapProvider.Instance);
             comboBox1.Items.Add(BingHybridMapProvider.Instance);
             comboBox1.Items.Add(OpenStreetMapProvider.Instance);
-            //comboBox1.SelectedIndex = 0;
         }
 
         private void InitializeGmapProvider()
@@ -156,7 +155,7 @@ namespace Route66
             gmap.DragButton = MouseButtons.Left;
             gmap.IgnoreMarkerOnMouseWheel = true;
             Console.WriteLine($"{txtSearchPlaces.Text} at {gmap.Position}");
-            //gmap.ShowCenter = false;
+            ////gmap.ShowCenter = false;
         }
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -222,7 +221,7 @@ namespace Route66
                 IsOnMarker = true;
                 LastEnteredMarker = item;
                 Overlay.SetTooltip(item);
-                //Console.WriteLine($"Enter {item.Info()}");
+                ////Console.WriteLine($"Enter {item.Info()}");
                 if (Settings.FastDrawMode || !chkGpsPoints.Checked) Overlay.SetCurrentMarker(item);
                 if (Overlay.IsNavigationMarker(item) && Settings.SpeechSyntesizer && chkNavPoints.Checked)
                 {
@@ -236,7 +235,7 @@ namespace Route66
         /// <param name="item"></param>
         private void gmap_OnMarkerLeave(GMapMarker item)
         {
-            //Console.WriteLine($"Leave IsDragging={IsDragging}");
+            ////Console.WriteLine($"Leave IsDragging={IsDragging}");
             if (!IsDragging) IsOnMarker = false;
         }
         /// <summary>
@@ -244,7 +243,7 @@ namespace Route66
         /// </summary>
         private void gmap_MouseMove(object sender, MouseEventArgs e)
         {
-            //Console.WriteLine($"gmap_MouseMove x,y=({e.X},{e.Y})");
+            ////Console.WriteLine($"gmap_MouseMove x,y=({e.X},{e.Y})");
             if (e.Button == MouseButtons.Left && (IsOnMarker || IsMouseOutsideRegion(e, 30)))
             {
                 if (!IsDragging) Console.WriteLine("start dragging ");
@@ -267,7 +266,7 @@ namespace Route66
         {
             if (eLast == null) return true; // Doubleclick in fileopenmenu -> adds marker.
 
-            //Console.WriteLine($"IsMouseOutsideRegion delta x,y=({Math.Abs(e.X - eLast.X)},{Math.Abs(e.Y - eLast.Y)})");
+            ////Console.WriteLine($"IsMouseOutsideRegion delta x,y=({Math.Abs(e.X - eLast.X)},{Math.Abs(e.Y - eLast.Y)})");
             return (Math.Abs(e.X - eLast.X) > region || Math.Abs(e.Y - eLast.Y) > region);
         }
         /// <summary>
@@ -277,7 +276,7 @@ namespace Route66
         /// <param name="e"></param>
         private void gmap_MouseLeave(object sender, EventArgs e)
         {
-            //Console.WriteLine("gmap_MouseLeave");
+            ////Console.WriteLine("gmap_MouseLeave");
             IsOnMarker = false;
             ShowAreYouSure = true;
             My.Status(" Ready", SystemColors.Control);
@@ -292,13 +291,13 @@ namespace Route66
         }
         #endregion
         #region PROCESS KEYS
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyCode)
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            Console.WriteLine($"ProcessCmdKey={keyCode} focused={gmap.Focused}");
-            if (gmap.Focused && (Overlay.CurrentMarker != null || keyCode == Keys.I))
+            Console.WriteLine($"ProcessCmdKey={keyData} focused={gmap.Focused}");
+            if (gmap.Focused && (Overlay.CurrentMarker != null || keyData == Keys.I))
             {
-                CtrlKeyIsPressed = keyCode == (Keys.ControlKey | Keys.Control);
-                var key = keyCode & ~Keys.Control;
+                CtrlKeyIsPressed = keyData == (Keys.ControlKey | Keys.Control);
+                var key = keyData & ~Keys.Control;
                 switch (key)
                 {
                     case Keys.Up: LastEnteredMarker = Overlay.SetArrowMarker(+1); break;
@@ -313,12 +312,12 @@ namespace Route66
                     case Keys.V: Overlay.PastMarker(); break;
                     case Keys.T: Overlay.Test(); break;
 
-                    default: return base.ProcessCmdKey(ref msg, keyCode);
+                    default: return base.ProcessCmdKey(ref msg, keyData);
                 }
                 Overlay.ShowGreenRoute();
                 return true;
             }
-            return base.ProcessCmdKey(ref msg, keyCode); // Handle Ctrl-O, Ctrl-S, Holten
+            return base.ProcessCmdKey(ref msg, keyData); // Handle Ctrl-O, Ctrl-S, Holten
         }
         #endregion
         #region MENU ITEMS

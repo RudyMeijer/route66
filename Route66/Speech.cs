@@ -3,7 +3,7 @@ using System.Speech.Synthesis;
 
 namespace Route66
 {
-	internal class Speech // Todo test  is class.
+	internal class Speech
 	{
 		private static SpeechSynthesizer synthesizer;
 		public Speech()

@@ -19,11 +19,7 @@ namespace Route66
     public class Overlay
     {
         #region FIELDS
-        private GMapControl gmap;
-        /// <summary>
-        /// This field contains Lat,Lng coordinates of the last clicked Red marker.
-        /// </summary>
-        public GMapMarker CurrentMarker;
+        private readonly GMapControl gmap;
         private bool Initialize;
         private GpsMarker savedTag;
         private readonly GMapRoute RedRoute;
@@ -74,6 +70,10 @@ namespace Route66
         }
         public bool IsChanged { get => Route.IsChanged; }
         public bool IsNotOnLastMarker { get => IsAutoRoute && RedRoute.Points.Count > 0 && CurrentMarker != Red.Markers.Last(); }
+        /// <summary>
+        /// This field contains Lat,Lng coordinates of the last clicked Red marker.
+        /// </summary>
+        public GMapMarker CurrentMarker { get; set; }
         #endregion
         #region METHODS
         internal void AddMarker(int x, int y)
@@ -173,7 +173,7 @@ namespace Route66
             //
             // Update current marker position. Red marker will implicit be updated.
             //
-            //Red.Markers[idx].Position = newPosition;
+            ////Red.Markers[idx].Position = newPosition;
             CurrentMarker.Position = newPosition;
             if (CurrentMarker.Tag != null)
             {
@@ -402,7 +402,7 @@ namespace Route66
             else if (CurrentMarker.Tag is ChangeMarker) form = new FormEditChangeMarker(CurrentMarker);
             else if (CurrentMarker.Tag is NavigationMarker) form = new FormEditNavigationMarker(CurrentMarker);
 
-            form.ShowDialog();
+            form?.ShowDialog();
             //
             // Determine CRUD operation (None, Create, Update or Delete).
             // 0= No operation, 1 = Create, 2 = Delete, 3 = Update.

@@ -57,11 +57,6 @@ namespace Route66
 			if (machineType == MachineTypes.StreetWasher)
 			{
 				chkPump.Visible = grpLeftJet.Visible = grpPressure.Visible = grpRightJet.Visible = true;
-				//foreach (var item in flowLayoutPanel2.Controls)
-				//{
-				//	var c = (item as Control);
-				//	Console.WriteLine($"childindex={c.Name} {c.TabIndex}");
-				//}
 			}
 			else
 			{
@@ -89,17 +84,17 @@ namespace Route66
 			var width = 0;
 			var marge = 4;
 			foreach (var item in flowLayoutPanel.Controls) if ((item as Control).Visible && !(item is Label)) width += (item as Control).Width + marge;
-			//Console.Write($"{flowLayoutPanel.Name}:");
-			//foreach (var item in flowLayoutPanel.Controls)
-			//{
-			//	var c = (item as Control);
-			//	Console.Write($" {c.Name} {c.Width}");
-			//	if (c.Visible && !(item is Label))
-			//	{
-			//		width += c.Width + marge;
-			//	}
-			//}
-			//Console.WriteLine($" -> {flowLayoutPanel.Width}-{width}/2={(flowLayoutPanel.Width - width) / 2}");
+			////Console.Write($"{flowLayoutPanel.Name}:");
+			////foreach (var item in flowLayoutPanel.Controls)
+			////{
+			////	var c = (item as Control);
+			////	Console.Write($" {c.Name} {c.Width}");
+			////	if (c.Visible && !(item is Label))
+			////	{
+			////		width += c.Width + marge;
+			////	}
+			////}
+			////Console.WriteLine($" -> {flowLayoutPanel.Width}-{width}/2={(flowLayoutPanel.Width - width) / 2}");
 			return (flowLayoutPanel.Width - width) / 2;
 		}
 		/// <summary>
@@ -216,7 +211,6 @@ namespace Route66
 		private void chkMaxOnOff_CheckedChanged(object sender, EventArgs e)
 		{
 			var c = (sender as CheckBox);
-			var n = c.Name;
 			c.Text = (c.Checked) ? "ON" : "OFF";
 		}
 
@@ -262,7 +256,6 @@ namespace Route66
 
 		private void chkDualWidth_CheckedChanged(object sender, EventArgs e)
 		{
-			//grpSprayingWidth.Enabled = chkDualWidth.Checked;
 			grpSprayingWidth.Enabled = chkSpraying.Checked && (chkDualWidth.Checked || !chkSpreading.Checked);
 		}
 
