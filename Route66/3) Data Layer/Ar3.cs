@@ -120,6 +120,10 @@ namespace Route66
                                 marker.Hopper2OnOff = My.Bool(s[5], previousChangeMarker.Hopper2OnOff);
                                 marker.SpreadingWidthRight = My.Val(s[6], previousChangeMarker.SpreadingWidthRight);
                                 marker.Dosage = My.Val(s[7], previousChangeMarker.Dosage);
+                                //
+                                // Set default pressure according spec.
+                                //
+                                if (marker.Dosage < 5) marker.Dosage = 5;
                             }
                             else
                             {
