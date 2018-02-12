@@ -13,7 +13,12 @@ namespace Route66
     using static MyLib.My;
     using static Route66.DataContracts;
 
-    public class Adapters
+    /// <summary>
+    /// Helper class for reading / writing AR3 files.
+    /// Todo Orphan markers.
+    /// Todo statistics dosage.
+    /// </summary>
+    public static class Adapters
     {
         private static Dictionary<string, NavigationMessages> naviTypes;
         private static PointLatLng LatLngFirstNav;
@@ -205,6 +210,7 @@ namespace Route66
         public static void WriteAr3(String fileName, Route route)
         {
             var provider = CultureInfo.GetCultureInfo("en").NumberFormat;
+            var isWasher = route.MachineType == MachineTypes.StreetWasher;
             using (TextWriter writer = new StreamWriter(fileName))
             {
                 //
@@ -274,11 +280,13 @@ namespace Route66
                 idx = 0;
                 distance = 0d;
                 lastPoint = default(PointLatLng);
-                writer.WriteLine("ChangePoints: DistanceFromStartInCm, SpreadSprayOnOff, SprayModeOnOff, Max, SecMat,Dosage, WidthLeft, WidthRight, SecDos, WidthLeftSpraying, WidthRightSpraying, CombiPercentage, HopperSelection");
+                writer.WriteLine((isWasher) ? "ChangePoints: DistanceFromStartInCm, ActivityState, LeftNozzleIsActive, LeftNozzlePosition, RightNozzleIsActive, RightNozzlePosition, WaterPressure, Marked, Message"
+                    : "ChangePoints: DistanceFromStartInCm, SpreadSprayOnOff, SprayModeOnOff, Max, SecMat,Dosage, WidthLeft, WidthRight, SecDos, WidthLeftSpraying, WidthRightSpraying, CombiPercentage, HopperSelection");
                 foreach (var item in route.ChangeMarkers)
                 {
                     var point = new PointLatLng(item.Lat, item.Lng);
-                    writer.WriteLine($"ChangePoint[{idx++}]:{GetDistance(point)},{s(item.SpreadingOnOff)},{s(item.SprayingOnOff)},{s(item.MaxOnOff)},{s(item.SecMatOnOff)},{(int)(item.Dosage * 100)},{(int)(item.SpreadingWidthLeft * 100)},{(int)(item.SpreadingWidthRight * 100)},{(int)(item.DosageLiquid * 100)},{(int)(item.SprayingWidthLeft * 100)},{(int)(item.SprayingWidthRight * 100)},{item.PersentageLiquid},1");
+                    writer.WriteLine((isWasher) ? $"ChangePoint[{idx++}]:{GetDistance(point)},{s(item.SpreadingOnOff)},{s(item.Hopper1OnOff)},{item.SpreadingWidthLeft},{s(item.Hopper2OnOff)},{item.SpreadingWidthRight},{item.Dosage}"
+                        : $"ChangePoint[{idx++}]:{GetDistance(point)},{s(item.SpreadingOnOff)},{s(item.SprayingOnOff)},{s(item.MaxOnOff)},{s(item.SecMatOnOff)},{(int)(item.Dosage * 100)},{(int)(item.SpreadingWidthLeft * 100)},{(int)(item.SpreadingWidthRight * 100)},{(int)(item.DosageLiquid * 100)},{(int)(item.SprayingWidthLeft * 100)},{(int)(item.SprayingWidthRight * 100)},{item.PersentageLiquid},1");
                 }
                 #endregion
             }
