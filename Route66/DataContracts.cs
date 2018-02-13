@@ -194,7 +194,7 @@ namespace Route66
                 var IsDosing = machineType != MachineTypes.Sprayer;
 
                 var dosage = 0d;
-                var width = 0d;// SpreadingWidthLeft + SpreadingWidthRight;
+                var width = 0d;
                 var active = IsDosing && SpreadingOnOff || IsSprayer && SprayingOnOff;
 
                 if (IsDosing)

@@ -160,6 +160,14 @@ namespace Route66
                     }
                     catch (Exception ee) { Log($"{++errors[3]} Error in {line} {ee.Message} {ee.StackTrace}"); }
                 }
+                //
+                // First change marker should have distance 0.
+                //
+                if (route.ChangeMarkers.Count == 0 )
+                {
+                    route.ChangeMarkers.Add(new ChangeMarker(startPoint));
+                }
+
             }
             My.Log("End of requirement analyze.");
             return route;
