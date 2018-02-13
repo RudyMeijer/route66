@@ -252,7 +252,7 @@ namespace Route66
                 {
                     Overlay.SetCurrentMarker(LastEnteredMarker);
                     Overlay.UpdateCurrentMarkerPosition(e.X, e.Y);
-                    if (chkChangePoints.Checked) Overlay.ShowGreenRoute();
+                    Overlay.ShowGreenRoute();
                 }
             }
         }
