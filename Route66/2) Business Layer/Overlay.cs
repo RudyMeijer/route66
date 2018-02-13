@@ -353,12 +353,9 @@ namespace Route66
                     if (!DosingState && IsDosingOn(cm)) // Dosage turned on.
                     {
                         DosingState = true;
-                        GreenRoute = new GMapRoute("dosage")
-                        {
-                            Stroke = new Pen(Color.Green, 3)
-                        };
+                        GreenRoute = new GMapRoute("dosage") { Stroke = new Pen(Color.Green, 3) };
                     }
-                    else if (DosingState && !IsDosingOn(cm)) // Dosage turned off.
+                    else if ((DosingState && !IsDosingOn(cm))||IsLast(rm)) // Dosage turned off.
                     {
                         DosingState = false;
                         GreenRoute.Points.Add(rm.Position);
