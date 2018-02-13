@@ -15,6 +15,9 @@ namespace Route66.Tests
     [TestClass()]
     public class AdaptersTests
     {
+        private PointLatLng startpoint;
+        private PointLatLng FirstNavpoint;
+
         [TestMethod, DeploymentItem(@"..\..\Test data\")]
         public void ReadAr3Test()
         {
@@ -76,6 +79,7 @@ namespace Route66.Tests
         public void UniqueLatLngTest()
         {
             UniqueTest("Holten_cityjet - Copy.ar3");
+            UniqueTest("Holten_cityjet - Copy wr.ar3");
             UniqueTest("KleineRoute.ar3");
             UniqueTest("Requirements test.ar3");
         }
@@ -94,6 +98,9 @@ namespace Route66.Tests
                 if (uniqueGps.ContainsKey(point))
                     Assert.Fail($"Gps[{idx}] marker {point} not unique.");
                 else uniqueGps.Add(point, 0);
+
+                if (idx == 0) startpoint = point;
+                if (idx == 1) FirstNavpoint = point;
                 ++idx;
             }
             //
@@ -104,6 +111,10 @@ namespace Route66.Tests
             foreach (var item in route.NavigationMarkers)
             {
                 var point = new PointLatLng(item.Lat, item.Lng);
+                if(idx==0 && point != FirstNavpoint)
+                {
+                    Assert.Fail($"First Navigation marker[{idx}] {point} is not equal to gps marker[1] {FirstNavpoint}.");
+                }
                 if (uniqueNav.ContainsKey(point))
                 {
                     var i = route.NavigationMarkers.FindIndex(n => n.Lat == point.Lat);
@@ -122,6 +133,10 @@ namespace Route66.Tests
             foreach (var item in route.ChangeMarkers)
             {
                 var point = new PointLatLng(item.Lat, item.Lng);
+                if (idx == 0 && point != startpoint)
+                {
+                    Assert.Fail($"First Change marker[{idx}] {point} is not equal to gps marker[0] {startpoint}.");
+                }
                 if (uniqueChange.ContainsKey(point))
                 {
                     var i = route.ChangeMarkers.FindIndex(n => n.Lat == point.Lat);

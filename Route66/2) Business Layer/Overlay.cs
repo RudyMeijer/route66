@@ -586,9 +586,9 @@ namespace Route66
             var marge = 45f;
             string message = null;
             var angle = GetAngeWithPreviousItem(marker);
-            if (angle < uturn || angle > 360 - uturn) message = Translate.NavigationMessages[(int)NavigationMessages.U_TURN];
-            if (angle > 90 - marge && angle < 90 + marge) message = Translate.NavigationMessages[(int)NavigationMessages.TURN_RIGHT];
-            if (angle > 270 - marge && angle < 270 + marge) message = Translate.NavigationMessages[(int)NavigationMessages.TURN_LEFT];
+            if (angle < uturn || angle > 360 - uturn) message = Translate.NavigationMessages[(int)NavigationTypes.U_TURN];
+            if (angle > 90 - marge && angle < 90 + marge) message = Translate.NavigationMessages[(int)NavigationTypes.TURN_RIGHT];
+            if (angle > 270 - marge && angle < 270 + marge) message = Translate.NavigationMessages[(int)NavigationTypes.TURN_LEFT];
             if (message != null)
             {
                 var tag = new NavigationMarker(marker.Position);

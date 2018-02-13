@@ -69,7 +69,6 @@
     </Members>
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
-      <Compartment Name="Properties" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
       <HashCode>AAAAsIACAEBAAIAAAAIAASIAAgAAgAACAlFAAAABGAA=</HashCode>
@@ -90,7 +89,7 @@
       <Field Name="Blue" Hidden="true" />
       <Method Name="ConvertRoute" Hidden="true" />
       <Method Name="CopyOverlayTo" Hidden="true" />
-      <Field Name="CurrentMarker" Hidden="true" />
+      <Property Name="CurrentMarker" Hidden="true" />
       <Method Name="CutMarker" Hidden="true" />
       <Method Name="FindRedMarker" Hidden="true" />
       <Method Name="GetAngeWithPreviousItem" Hidden="true" />
@@ -125,7 +124,7 @@
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
     <NestedTypes>
-      <Enum Name="Route66.Overlay.Crud" Collapsed="true">
+      <Enum Name="Route66.Overlay.Crud">
         <TypeIdentifier>
           <NewMemberFileName>2) Business Layer\Overlay.cs</NewMemberFileName>
         </TypeIdentifier>
@@ -140,12 +139,12 @@
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AgijIhAAIIUAA7AEIEAArFCACWJIgAAIwlIgCBDAAAA=</HashCode>
+      <HashCode>AgirIBAAIIUAA7AEIEAArFCACWZIgAAIwlIgCBDAAAA=</HashCode>
       <FileName>2) Business Layer\Overlay.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Route" />
       <Property Name="Settings" />
+      <Property Name="Route" />
     </ShowAsAssociation>
   </Class>
   <Enum Name="Route66.MachineTypes">
@@ -155,7 +154,7 @@
       <FileName>DataContracts.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="Route66.NavigationMessages">
+  <Enum Name="Route66.NavigationTypes">
     <Position X="11" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ACAAAAEEgIIhQYgBAAAAAAEAEAEAAEAIAAAAAARAAAA=</HashCode>

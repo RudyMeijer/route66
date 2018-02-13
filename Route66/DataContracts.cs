@@ -33,7 +33,7 @@ namespace Route66
     /// <summary>
     /// This enum contains NavigationMessages.
     /// </summary>
-    public enum NavigationMessages
+    public enum NavigationTypes
     {
         TURN_LEFT,
         TURN_RIGHT,
