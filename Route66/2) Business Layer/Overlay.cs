@@ -104,14 +104,13 @@ namespace Route66
             gmap.UpdateRouteLocalPosition(RedRoute);
             My.Log($"Add marker {CurrentMarker.Info()}.");
         }
-        private bool AddMarker(PointLatLng point)
+        private void AddMarker(PointLatLng point)
         {
             var marker = new GMarkerGoogle(point, (Red.Markers.Count == 0) ? GMarkerGoogleType.green_big_go : GMarkerGoogleType.red_small);
             var idx = GetIndexRed(CurrentMarker) + 1;
             CurrentMarker = marker;
             Red.Markers.Insert(idx, marker);
             RedRoute.Points.Insert(idx, point);
-            return true;
         }
         internal void RemoveCurrentMarker()
         {
@@ -269,7 +268,7 @@ namespace Route66
                 if (idx == 0) dx += currentMarker.Offset.X - nextMarker.Offset.X;
 
                 angle = Math.Atan2(dy, dx) * DEG;
-                //Console.WriteLine($"Angle={angle} nextmarker={nextMarker.LocalPosition} currentmarker={currentMarker.LocalPosition}");
+                ////Console.WriteLine($"Angle={angle} nextmarker={nextMarker.LocalPosition} currentmarker={currentMarker.LocalPosition}");
             }
             return (float)angle;
         }

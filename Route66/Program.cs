@@ -40,13 +40,13 @@ namespace Route66
             }
         }
 
-        private static void TestFormat()
-        {
-            var d = new DateTime();
+        ////private static void TestFormat()
+        ////{
+        ////    var d = new DateTime();
             
-            var r = d.AddHours(1.1);
-            var x = r.ToString("HH:mm");
-        }
+        ////    var r = d.AddHours(1.1);
+        ////    var x = r.ToString("HH:mm");
+        ////}
 
         ////private static void TestFloat()
         ////{

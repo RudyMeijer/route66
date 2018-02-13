@@ -150,7 +150,7 @@ namespace Route66
             /// <summary>
             /// Remove get;set to promote fields in xml file.
             /// </summary>
-            [XmlAttribute("Dosage")] public double Dosage;
+            [XmlAttribute("Dosage")] public double Dosage; // Show as first attribute by using no get set.
 
             [XmlAttribute("Max")] public bool MaxOnOff { get; set; }
 

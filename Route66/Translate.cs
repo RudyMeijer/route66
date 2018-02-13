@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using MyLib;
 namespace Route66
 {
-	internal class Translate
+	internal static class Translate
 	{
 		private static string[] navigationMessages;
 		public static string[] NavigationMessages

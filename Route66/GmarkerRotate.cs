@@ -29,16 +29,16 @@ namespace Route66
 		}
 		private Bitmap RotateImage(Bitmap bmp, float angle)
 		{
-			//Console.WriteLine("rotate bitmap");
+			////Console.WriteLine("rotate bitmap");
 			Bitmap rotatedImage = new Bitmap(bmp.Width, bmp.Height);
 			using (Graphics g = Graphics.FromImage(rotatedImage))
 			{
 				// Set the rotation point to the center in the matrix
-				g.TranslateTransform(bmp.Width / 2, bmp.Height / 2);
+				g.TranslateTransform((float)bmp.Width / 2, (float)bmp.Height / 2);
 				// Rotate
 				g.RotateTransform(angle);
 				// Restore rotation point in the matrix
-				g.TranslateTransform(-bmp.Width / 2, -bmp.Height / 2);
+				g.TranslateTransform((float)-bmp.Width / 2, (float)-bmp.Height / 2);
 				// Draw the image on the bitmap
 				g.DrawImage(bmp, new Point(0, 0));
 			}
@@ -67,7 +67,7 @@ namespace Route66
 		public static string Info(this GMapMarker item)
 		{
 			var tag = "-";
-			var dis = "";
+			var dis = string.Empty;
 			if (item == null) return null;
 			if (item.Overlay.Id == "Gps points")
 				dis = $"Total distance={item.Overlay.Routes[0].Distance:f3} km ";

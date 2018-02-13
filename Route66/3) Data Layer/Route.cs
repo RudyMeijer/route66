@@ -24,7 +24,6 @@ using static Route66.DataContracts;
     {
         #region FIELDS
         // Use "internal" Access Modifiers to prohibit serialisation of variable [XmlIgnore]
-        public static bool IsDefaultFile;
         internal bool IsChanged;
         internal bool IsNotSupported;
         internal string FileName;
@@ -54,7 +53,7 @@ using static Route66.DataContracts;
         public List<ChangeMarker> ChangeMarkers { get; set; }
 
         public List<NavigationMarker> NavigationMarkers { get; set; }
-
+        public static bool IsDefaultFile { get; set; }
         #endregion
         #region METHODES
         public static Route Load(string fileName = "Route66.xml")
