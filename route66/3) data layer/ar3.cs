@@ -20,7 +20,7 @@ namespace Route66
     /// </summary>
     public static class Adapters
     {
-        private static Dictionary<string, NavigationMessages> naviTypes;
+        private static Dictionary<string, NavigationTypes> naviTypes;
         private static PointLatLng LatLngFirstNav;
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Route66
                                 if (startPoint.IsEmpty)
                                 {
                                     startPoint = point;
-                                    LatLngFirstNav = Unique(startPoint, 200); // Sort dictionary 4 holten_cityjet.ar3
+                                    LatLngFirstNav = Unique(startPoint, 20); // Sort dictionary 4 holten_cityjet.ar3
                                 }
                             }
                             lastDistance = distance;
@@ -210,6 +210,7 @@ namespace Route66
         public static void WriteAr3(String fileName, Route route)
         {
             var provider = CultureInfo.GetCultureInfo("en").NumberFormat;
+            var isWasher = route.MachineType == MachineTypes.StreetWasher;
             using (TextWriter writer = new StreamWriter(fileName))
             {
                 //
@@ -279,11 +280,13 @@ namespace Route66
                 idx = 0;
                 distance = 0d;
                 lastPoint = default(PointLatLng);
-                writer.WriteLine("ChangePoints: DistanceFromStartInCm, SpreadSprayOnOff, SprayModeOnOff, Max, SecMat,Dosage, WidthLeft, WidthRight, SecDos, WidthLeftSpraying, WidthRightSpraying, CombiPercentage, HopperSelection");
+                writer.WriteLine((isWasher) ? "ChangePoints: DistanceFromStartInCm, ActivityState, LeftNozzleIsActive, LeftNozzlePosition, RightNozzleIsActive, RightNozzlePosition, WaterPressure, Marked, Message"
+                    : "ChangePoints: DistanceFromStartInCm, SpreadSprayOnOff, SprayModeOnOff, Max, SecMat,Dosage, WidthLeft, WidthRight, SecDos, WidthLeftSpraying, WidthRightSpraying, CombiPercentage, HopperSelection");
                 foreach (var item in route.ChangeMarkers)
                 {
                     var point = new PointLatLng(item.Lat, item.Lng);
-                    writer.WriteLine($"ChangePoint[{idx++}]:{GetDistance(point)},{s(item.SpreadingOnOff)},{s(item.SprayingOnOff)},{s(item.MaxOnOff)},{s(item.SecMatOnOff)},{(int)(item.Dosage * 100)},{(int)(item.SpreadingWidthLeft * 100)},{(int)(item.SpreadingWidthRight * 100)},{(int)(item.DosageLiquid * 100)},{(int)(item.SprayingWidthLeft * 100)},{(int)(item.SprayingWidthRight * 100)},{item.PersentageLiquid},1");
+                    writer.WriteLine((isWasher) ? $"ChangePoint[{idx++}]:{GetDistance(point)},{s(item.SpreadingOnOff)},{s(item.Hopper1OnOff)},{item.SpreadingWidthLeft},{s(item.Hopper2OnOff)},{item.SpreadingWidthRight},{item.Dosage}"
+                        : $"ChangePoint[{idx++}]:{GetDistance(point)},{s(item.SpreadingOnOff)},{s(item.SprayingOnOff)},{s(item.MaxOnOff)},{s(item.SecMatOnOff)},{(int)(item.Dosage * 100)},{(int)(item.SpreadingWidthLeft * 100)},{(int)(item.SpreadingWidthRight * 100)},{(int)(item.DosageLiquid * 100)},{(int)(item.SprayingWidthLeft * 100)},{(int)(item.SprayingWidthRight * 100)},{item.PersentageLiquid},1");
                 }
                 #endregion
             }
@@ -316,39 +319,39 @@ namespace Route66
         }
         private static void InitialyzeNavigationTypes()
         {
-            naviTypes = new Dictionary<string, NavigationMessages>
+            naviTypes = new Dictionary<string, NavigationTypes>
             {
-                { "1", NavigationMessages.ENTER_ROUNDABOUT},
-                { "2", NavigationMessages.EXIT_ROUNDABOUT},
-                { "3", NavigationMessages.KEEP_LEFT},
-                { "4", NavigationMessages.TURN_LEFT},
-                { "5", NavigationMessages.KEEP_RIGHT},
-                { "6", NavigationMessages.TURN_RIGHT},
-                { "7", NavigationMessages.CONTINUE},
-                { "8", NavigationMessages.ARRIVE},
-                { "9", NavigationMessages.U_TURN},
-                { "10", NavigationMessages.BEAR_LEFT},
-                { "11", NavigationMessages.BEAR_RIGHT},
-                { "12", NavigationMessages.TURN_HARD_LEFT},
-                { "13", NavigationMessages.TURN_HARD_RIGHT},
-                { "14", NavigationMessages.TAKE_RAMP_LEFT},
-                { "15", NavigationMessages.TAKE_RAMP_RIGHT},
-                { "16", NavigationMessages.PROCEED},
-                { "21", NavigationMessages.MARKER},
-                { "22", NavigationMessages.BEGIN_BREAK},
-                { "23", NavigationMessages.END_BREAK},
-                { "24", NavigationMessages.ENTER_BIKE_LANE},
-                { "25", NavigationMessages.TURN_RIGHT_INTO_BIKE_LANE},
-                { "26", NavigationMessages.TURN_LEFT_INTO_BIKE_LANE},
+                { "1", NavigationTypes.ENTER_ROUNDABOUT},
+                { "2", NavigationTypes.EXIT_ROUNDABOUT},
+                { "3", NavigationTypes.KEEP_LEFT},
+                { "4", NavigationTypes.TURN_LEFT},
+                { "5", NavigationTypes.KEEP_RIGHT},
+                { "6", NavigationTypes.TURN_RIGHT},
+                { "7", NavigationTypes.CONTINUE},
+                { "8", NavigationTypes.ARRIVE},
+                { "9", NavigationTypes.U_TURN},
+                { "10", NavigationTypes.BEAR_LEFT},
+                { "11", NavigationTypes.BEAR_RIGHT},
+                { "12", NavigationTypes.TURN_HARD_LEFT},
+                { "13", NavigationTypes.TURN_HARD_RIGHT},
+                { "14", NavigationTypes.TAKE_RAMP_LEFT},
+                { "15", NavigationTypes.TAKE_RAMP_RIGHT},
+                { "16", NavigationTypes.PROCEED},
+                { "21", NavigationTypes.MARKER},
+                { "22", NavigationTypes.BEGIN_BREAK},
+                { "23", NavigationTypes.END_BREAK},
+                { "24", NavigationTypes.ENTER_BIKE_LANE},
+                { "25", NavigationTypes.TURN_RIGHT_INTO_BIKE_LANE},
+                { "26", NavigationTypes.TURN_LEFT_INTO_BIKE_LANE},
 				//
 				// Translate old navigation messages to new ar3 format v2.
 				//
 				//{ "1005", NavigationMessages.BEGIN_PAUZE},
 				//{ "1006", NavigationMessages.END_PAUZE},
 				//{ "1007", NavigationMessages.CUSTOM_INSTRUCTION},
-				{ "1008", NavigationMessages.MARKER},
-                { "1009", NavigationMessages.BEGIN_BREAK},
-                { "1010", NavigationMessages.END_BREAK},
+				{ "1008", NavigationTypes.MARKER},
+                { "1009", NavigationTypes.BEGIN_BREAK},
+                { "1010", NavigationTypes.END_BREAK},
             };
         }
         private static object s(bool b) => (b) ? "1" : "0";
