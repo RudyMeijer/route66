@@ -1,8 +1,8 @@
-﻿
+﻿// <copyright file="Ar3.cs" company="Aebi Schmidt Nederland B.V.">
+//   Aebi Schmidt Nederland B.V. All rights reserved.
+// </copyright>
 namespace Route66
 {
-    using GMap.NET;
-    using MyLib;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -10,6 +10,8 @@ namespace Route66
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using GMap.NET;
+    using MyLib;
     using static MyLib.My;
     using static Route66.DataContracts;
 
@@ -21,14 +23,14 @@ namespace Route66
     public static class Adapters
     {
         private static Dictionary<string, NavigationTypes> naviTypes;
-        private static PointLatLng LatLngFirstNav;
+        private static PointLatLng latLngFirstNav;
 
         /// <summary>
         /// Read AR3 file. See http://confluence.ash.ads.org/display/EHP/Autologic+ar3+route+file+format.+V2
         /// </summary>
-        /// <param name="filename"></param>
-        /// <returns></returns>
-        public static Route ReadAr3(String filename)
+        /// <param name="filename">ar3 filename</param>
+        /// <returns>ar3 route</returns>
+        public static Route ReadAr3(string filename)
         {
             #region FIELDS
             //
@@ -36,8 +38,8 @@ namespace Route66
             // Filled during Read Gps markers. Filled with unique latlng and sorted distance.
             //
             var distanceTable = new Dictionary<PointLatLng, int>();
-            var line = "";
-            var version = "";
+            var line = string.Empty;
+            var version = string.Empty;
             var startPoint = new PointLatLng();
             var lastDistance = -1;
             var route = new Route() { FileName = filename };
@@ -73,7 +75,7 @@ namespace Route66
                                 if (startPoint.IsEmpty)
                                 {
                                     startPoint = point;
-                                    LatLngFirstNav = Unique(startPoint, 20); // Sort dictionary 4 holten_cityjet.ar3
+                                    latLngFirstNav = Unique(startPoint, 20); // Sort dictionary 4 holten_cityjet.ar3
                                 }
                             }
                             lastDistance = distance;
@@ -88,7 +90,7 @@ namespace Route66
 
                             if (s[1] == "0") // Set first Navigation marker not at distance zero. This is reserved for Change marker.
                             {
-                                latlng = LatLngFirstNav;
+                                latlng = latLngFirstNav;
                                 route.GpsMarkers.Insert(1, new GpsMarker(latlng));
                             }
                             else
@@ -160,6 +162,14 @@ namespace Route66
                     }
                     catch (Exception ee) { Log($"{++errors[3]} Error in {line} {ee.Message} {ee.StackTrace}"); }
                 }
+                //
+                // First change marker should have distance 0.
+                //
+                if (route.ChangeMarkers.Count == 0 )
+                {
+                    route.ChangeMarkers.Add(new ChangeMarker(startPoint));
+                }
+
             }
             My.Log("End of requirement analyze.");
             return route;
@@ -296,7 +306,7 @@ namespace Route66
         #endregion
         #region HELPER METHODES
         /// <summary>
-        /// This function translates an navigation type (in ar3 file) to corresponding navigation message.
+        /// This function translates an navigation type in ar3 file to corresponding navigation message.
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
