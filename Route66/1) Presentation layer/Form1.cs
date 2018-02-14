@@ -482,6 +482,11 @@ namespace Route66
         private void chkGpsPoints_CheckedChanged(object sender, EventArgs e)
         {
             foreach (var item in gmap.Overlays[0].Markers) item.IsVisible = chkGpsPoints.Checked;
+            if (gmap.Overlays[0].Markers.Count > 0)
+            {
+                gmap.Overlays[0].Markers.First().IsVisible = true;
+                gmap.Overlays[0].Markers.Last().IsVisible = true;
+            }
             gmap.Refresh();
         }
         private void chkChangePoints_CheckedChanged(object sender, EventArgs e)
