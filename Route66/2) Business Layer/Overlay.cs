@@ -666,7 +666,7 @@ namespace Route66
         /// This function returns route statistics which are displayed on the route statistics form.
         /// </summary>
         /// <returns>Statistics</returns>
-        internal Statistics ComputeStatistics()
+        public Statistics ComputeStatistics()
         {
             var statistics = new Statistics();
             var distance = 0d;   // Distance between current- and previous change markers in km.

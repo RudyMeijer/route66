@@ -1,0 +1,21 @@
+Ar3Version:2
+MachineType: RspDosage
+ImageFiles:
+SoundFiles:
+RouteID: statistics 1m
+RouteTimestamp: 20180214 14.30.54
+RouteResult:
+Duration: 0
+Length: 0
+CalcTime: 0
+WayPoints: Longitude, Latitude, DistanceFromStartInCm
+WayPoint[0]:6.39172554016113,52.2776372166042,0
+WayPoint[1]:6.40631675720215,52.2775715736944,99382
+WayPoint[2]:6.40633821487427,52.2685644446874,199649
+WayPoint[3]:6.39168262481689,52.2685775759452,299488
+WayPoint[4]:6.39142513275146,52.2776175237415,400135
+Instructions: DistanceFromStartInCm, InstructionType, RoundaboutIndex, RoundaboutCount, SoundFile, Message
+ChangePoints: DistanceFromStartInCm, SpreadSprayOnOff, SprayModeOnOff, Max, SecMat,Dosage, WidthLeft, WidthRight, SecDos, WidthLeftSpraying, WidthRightSpraying, CombiPercentage, HopperSelection
+ChangePoint[0]:0,1,0,0,0,2000,100,100,0,100,100,0,1
+ChangePoint[1]:199649,0,1,0,0,2000,200,100,200,200,100,0,1
+ChangePoint[2]:299488,0,0,0,0,2000,100,100,0,0,0,0,1

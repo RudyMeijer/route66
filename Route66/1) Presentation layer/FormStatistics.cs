@@ -18,6 +18,7 @@ namespace Route66
         public FormStatistics(Overlay overlay)
         {
             InitializeComponent();
+            this.Text += $" {overlay.Settings.MachineType}";
             stat = overlay.ComputeStatistics();
             lblDrivingDistance.Text = $"{stat.DrivingDistance:f1} km";
             lblSpreadingDistance.Text = $"{stat.SpreadingDistance:f1} km";

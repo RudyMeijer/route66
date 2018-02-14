@@ -4,7 +4,7 @@
 
 namespace Route66
 {
-    internal class Statistics
+    public class Statistics
     {
         public double DrivingDistance { get; set; }
         public double SpreadingDistance { get; set; }

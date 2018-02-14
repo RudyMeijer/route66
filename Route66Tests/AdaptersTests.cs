@@ -31,7 +31,7 @@ namespace Route66.Tests
             // Test last navigation marker.
             //
             var np = route.NavigationMarkers[55];
-            Assert.IsTrue(np.Lat == 52.2769583333333, "ReadAr3 error 4");
+            Assert.IsTrue(np.Lat == 52.2769733333333, "ReadAr3 error 4");
             Assert.IsTrue(np.SoundFile == "Arrive.wav", "ReadAr3 error 5");
             //
             // Test internal Filename.
@@ -44,7 +44,7 @@ namespace Route66.Tests
             Assert.IsTrue(Adapters.errors[1] == 4, "Requirement violation 8");
             Assert.IsTrue(Adapters.errors[2] == 0, "Requirement violation 9");
             Assert.IsTrue(Adapters.errors[3] == 0, "Requirement violation 10");
-            Assert.IsTrue(Adapters.errors[4] == 112, "Requirement violation 11");
+            Assert.IsTrue(Adapters.errors[4] == 4, "Requirement violation 11");
         }
         [TestMethod, DeploymentItem(@"..\..\Test data\")]
         public void RequirementsAr3Test()
