@@ -165,7 +165,7 @@ namespace Route66
                 //
                 // First change marker should have distance 0.
                 //
-                if (route.ChangeMarkers.Count == 0 )
+                if (route.ChangeMarkers.Count == 0)
                 {
                     route.ChangeMarkers.Add(new ChangeMarker(startPoint));
                 }
@@ -206,8 +206,11 @@ namespace Route66
                     }
                     else if (item.Value > distance) // No corresponding Gps marker (orphan).
                     {
-                        ++errors[4];
                         if (last.Key.IsEmpty) last = item;
+                        if (item.Value - distance < distance - last.Value) last = item;
+                        if (distance - last.Value > 200) break;
+                        if (item.Value - distance > 200) break;
+                        ++errors[4];
                         break;
                     }
                 }
