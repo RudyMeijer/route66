@@ -208,8 +208,8 @@ namespace Route66
                     {
                         if (last.Key.IsEmpty) last = item;
                         if (item.Value - distance < distance - last.Value) last = item;
-                        if (distance - last.Value > 200) break;
-                        if (item.Value - distance > 200) break;
+                        if (distance - last.Value < 200) break; // Don't mark as orphan when marker is within 200 cm of current or previous marker.
+                        if (item.Value - distance < 200) break;
                         ++errors[4];
                         break;
                     }
