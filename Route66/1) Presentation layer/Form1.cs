@@ -296,7 +296,7 @@ namespace Route66
 			Console.WriteLine($"ProcessCmdKey={keyData} focused={gmap.Focused}");
 			if (gmap.Focused && (Overlay.CurrentMarker != null || keyData == Keys.I))
 			{
-				CtrlKeyIsPressed = keyData == (Keys.ControlKey | Keys.Control);
+				CtrlKeyIsPressed = ((keyData & Keys.Control) == Keys.Control);
 				var key = keyData & ~Keys.Control;
 				switch (key)
 				{
