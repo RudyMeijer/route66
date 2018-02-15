@@ -4,12 +4,12 @@
 
 namespace Route66
 {
-    public class Statistics
-    {
-        public double DrivingDistance { get; set; }
-        public double SpreadingDistance { get; set; }
-        public double UptoLastDistance { get; set; }
-        public double Dosage { get; set; }
-        public double Area { get; set; }
-    }
+	public class Statistics
+	{
+		public double DrivingDistance { get; set; }
+		public double SpreadingDistance { get; set; }
+		public double UptoLastDistance { get; set; }
+		public double Dosage { get; set; }
+		public double Area { get; set; }
+	}
 }

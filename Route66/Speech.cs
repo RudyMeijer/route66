@@ -6,11 +6,11 @@ namespace Route66
 	internal class Speech
 	{
 		private static SpeechSynthesizer synthesizer;
-        protected Speech()
-        {
+		protected Speech()
+		{
 
-        }
-        internal static void Play(string text)
+		}
+		internal static void Play(string text)
 		{
 			if (synthesizer == null)
 			{
