@@ -42,11 +42,13 @@
 			cmbMessage.SelectedIndex = -1; // Allow custom message.
 			cmbMessage.Text = marker.Message;
 			txtSoundFile.Text = marker.SoundFile;
+			numRoundAboutIndex.Value = marker.RoundAboutIndex;
 		}
 		private void GetFromForm()
 		{
 			NavigationMarker.Message = cmbMessage.Text;
 			NavigationMarker.SoundFile = txtSoundFile.Text;
+			NavigationMarker.RoundAboutIndex = (int)numRoundAboutIndex.Value;
 		}
 		private void btnSave_Click(object sender, EventArgs e)
 		{
@@ -78,12 +80,14 @@
 				var wavFile = My.CheckPath(Settings.RoutePath, "VoiceFiles", My.ValidateFilename(cmbMessage.Text) + ".wav");
 				Speech.SaveWav(cmbMessage.Text, wavFile);
 			}
-			cmbMessage_SelectedIndexChanged(null, null);
+			cmbMessage_SelectedIndexChanged(sender, null);
 		}
 
 		private void cmbMessage_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			txtSoundFile.Text = My.ValidateFilename(cmbMessage.Text) + ".wav";
+			var idx = (sender as ComboBox).SelectedIndex;
+			numRoundAboutIndex.Visible = (idx == (int)NavigationTypes.ENTER_ROUNDABOUT);
 		}
 		#endregion
 	}

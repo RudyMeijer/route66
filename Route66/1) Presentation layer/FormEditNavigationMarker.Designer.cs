@@ -35,17 +35,19 @@
 			this.cmbMessage = new System.Windows.Forms.ComboBox();
 			this.btnRemove = new System.Windows.Forms.Button();
 			this.btnSave = new System.Windows.Forms.Button();
+			this.numRoundAboutIndex = new System.Windows.Forms.NumericUpDown();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numRoundAboutIndex)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// groupBox1
 			// 
 			this.groupBox1.Controls.Add(this.txtSoundFile);
 			this.groupBox1.Location = new System.Drawing.Point(16, 80);
-			this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
 			this.groupBox1.Size = new System.Drawing.Size(360, 58);
 			this.groupBox1.TabIndex = 3;
 			this.groupBox1.TabStop = false;
@@ -55,7 +57,7 @@
 			// 
 			this.txtSoundFile.Enabled = false;
 			this.txtSoundFile.Location = new System.Drawing.Point(8, 23);
-			this.txtSoundFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.txtSoundFile.Margin = new System.Windows.Forms.Padding(4);
 			this.txtSoundFile.Name = "txtSoundFile";
 			this.txtSoundFile.Size = new System.Drawing.Size(337, 22);
 			this.txtSoundFile.TabIndex = 0;
@@ -63,7 +65,7 @@
 			// btnPlay
 			// 
 			this.btnPlay.Location = new System.Drawing.Point(288, 20);
-			this.btnPlay.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.btnPlay.Margin = new System.Windows.Forms.Padding(4);
 			this.btnPlay.Name = "btnPlay";
 			this.btnPlay.Size = new System.Drawing.Size(59, 28);
 			this.btnPlay.TabIndex = 1;
@@ -73,12 +75,13 @@
 			// 
 			// groupBox2
 			// 
+			this.groupBox2.Controls.Add(this.numRoundAboutIndex);
 			this.groupBox2.Controls.Add(this.btnPlay);
 			this.groupBox2.Controls.Add(this.cmbMessage);
 			this.groupBox2.Location = new System.Drawing.Point(16, 15);
-			this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
 			this.groupBox2.Size = new System.Drawing.Size(360, 58);
 			this.groupBox2.TabIndex = 5;
 			this.groupBox2.TabStop = false;
@@ -88,9 +91,9 @@
 			// 
 			this.cmbMessage.FormattingEnabled = true;
 			this.cmbMessage.Location = new System.Drawing.Point(4, 20);
-			this.cmbMessage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.cmbMessage.Margin = new System.Windows.Forms.Padding(4);
 			this.cmbMessage.Name = "cmbMessage";
-			this.cmbMessage.Size = new System.Drawing.Size(275, 24);
+			this.cmbMessage.Size = new System.Drawing.Size(235, 24);
 			this.cmbMessage.TabIndex = 0;
 			this.cmbMessage.SelectedIndexChanged += new System.EventHandler(this.cmbMessage_SelectedIndexChanged);
 			this.cmbMessage.Validated += new System.EventHandler(this.cmbMessage_Validated);
@@ -98,7 +101,7 @@
 			// btnRemove
 			// 
 			this.btnRemove.Location = new System.Drawing.Point(155, 156);
-			this.btnRemove.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.btnRemove.Margin = new System.Windows.Forms.Padding(4);
 			this.btnRemove.Name = "btnRemove";
 			this.btnRemove.Size = new System.Drawing.Size(100, 28);
 			this.btnRemove.TabIndex = 6;
@@ -109,13 +112,25 @@
 			// btnSave
 			// 
 			this.btnSave.Location = new System.Drawing.Point(263, 156);
-			this.btnSave.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.btnSave.Margin = new System.Windows.Forms.Padding(4);
 			this.btnSave.Name = "btnSave";
 			this.btnSave.Size = new System.Drawing.Size(100, 28);
 			this.btnSave.TabIndex = 7;
 			this.btnSave.Text = "Save";
 			this.btnSave.UseVisualStyleBackColor = true;
 			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+			// 
+			// numRoundAboutIndex
+			// 
+			this.numRoundAboutIndex.Location = new System.Drawing.Point(247, 21);
+			this.numRoundAboutIndex.Maximum = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+			this.numRoundAboutIndex.Name = "numRoundAboutIndex";
+			this.numRoundAboutIndex.Size = new System.Drawing.Size(39, 22);
+			this.numRoundAboutIndex.TabIndex = 2;
 			// 
 			// FormEditNavigationMarker
 			// 
@@ -127,7 +142,7 @@
 			this.Controls.Add(this.btnRemove);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
-			this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.Margin = new System.Windows.Forms.Padding(4);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "FormEditNavigationMarker";
@@ -137,6 +152,7 @@
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.numRoundAboutIndex)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -149,5 +165,6 @@
 		private System.Windows.Forms.ComboBox cmbMessage;
 		private System.Windows.Forms.TextBox txtSoundFile;
 		private System.Windows.Forms.Button btnPlay;
+		private System.Windows.Forms.NumericUpDown numRoundAboutIndex;
 	}
 }

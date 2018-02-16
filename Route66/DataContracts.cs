@@ -83,19 +83,12 @@ namespace Route66
 			{
 				this.Message = "Turn right";
 				this.SoundFile = "Turn right.wav";
+				this.RoundAboutIndex = 0;
 			}
 			#region PROPERTIES
-			/// <summary>
-			/// Gets or sets sound file.
-			/// </summary>
-			[XmlAttribute]
-			public string SoundFile { get; set; }
-
-			/// <summary>
-			/// Gets or sets message.
-			/// </summary>
-			[XmlAttribute]
-			public string Message { get; set; }
+			[XmlAttribute] public string SoundFile { get; set; }
+			[XmlAttribute] public string Message { get; set; }
+			[XmlAttribute] public int RoundAboutIndex { get; set; }
 			#endregion
 
 			/// <summary>

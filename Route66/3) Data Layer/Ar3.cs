@@ -102,7 +102,10 @@ namespace Route66
 								marker.Message = (s[6] != "") ? s[6] : Path.GetFileNameWithoutExtension(s[5]);
 							else
 								marker.Message = NavigationMessage(s[2]);
-
+							//
+							// Get roundabout index.
+							//
+							marker.RoundAboutIndex = Math.Max((int)My.Val(s[3]),0);
 							if (marker.Message == "-") { My.Log($"{++errors[2]} {line} Unkown navigation type {s[2]}"); }
 							marker.SoundFile = My.ValidateFilename((s[5] != "") ? s[5] : (marker.Message + ".wav")); // Todo create soundfile.
 							route.NavigationMarkers.Add(marker);
@@ -273,12 +276,14 @@ namespace Route66
 				distance = 0d;
 				lastPoint = default(PointLatLng);
 				writer.WriteLine("Instructions: DistanceFromStartInCm, InstructionType, RoundaboutIndex, RoundaboutCount, SoundFile, Message");
+				writer.WriteLine($"Instruction[{idx++}]:0,16,,,,");
 				foreach (var item in route.NavigationMarkers)
 				{
 					var point = new PointLatLng(item.Lat, item.Lng);
 					var key = NavigationKey(item.Message);
 					var soundfile = (key == "1007") ? item.SoundFile : "";
-					writer.WriteLine($"Instruction[{idx++}]:{GetDistance(point)},{key},-1,-1,{soundfile},");
+					var roundAboutIndex = (key == "1") ? item.RoundAboutIndex : -1;
+					writer.WriteLine($"Instruction[{idx++}]:{GetDistance(point)},{key},{roundAboutIndex},-1,{soundfile},");
 				}
 				int GetDistance(PointLatLng point)
 				{
