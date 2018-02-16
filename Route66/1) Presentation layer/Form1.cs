@@ -368,6 +368,7 @@ namespace Route66
 				// Show red markers according Gps checkbox state.
 				//
 				if (!chkGpsPoints.Checked) chkGpsPoints_CheckedChanged(null, null);
+				if (!chkChangePoints.Checked) chkChangePoints_CheckedChanged(null, null);
 			}
 		}
 		private void AddtoolStripMenuItem_Click(object sender, EventArgs e)
