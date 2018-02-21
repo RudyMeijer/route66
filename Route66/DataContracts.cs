@@ -124,6 +124,8 @@ namespace Route66
 				this.Dosage = 20.0;
 				this.SpreadingWidthLeft = 1.0;
 				this.SpreadingWidthRight = 1.0;
+				this.SprayingWidthLeft = 1.0;
+				this.SprayingWidthRight = 1.0;
 				this.SpreadingOnOff = false;
 			}
 
