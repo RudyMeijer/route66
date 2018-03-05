@@ -148,7 +148,6 @@ namespace Route66
 								marker.SprayingWidthLeft = My.Val(s[10], previousChangeMarker.SprayingWidthLeft * 100) / 100;
 								marker.SprayingWidthRight = My.Val(s[11], previousChangeMarker.SprayingWidthRight * 100) / 100;
 								marker.PersentageLiquid = My.Val(s[12], previousChangeMarker.PersentageLiquid);
-
 							}
 							//
 							// First change marker should have distance 0.
