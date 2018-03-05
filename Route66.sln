@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Route66", "Route66\Route66.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "Route66Tests\UnitTests.csproj", "{999FDC72-77A7-4535-AEE4-54C6CBFF6FDF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RouteConvertTool", "RouteConvert\RouteConvertTool.csproj", "{AA321683-4F41-49B1-BBCC-068261CC7178}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My", "..\My\My\My.csproj", "{02B95A35-AA86-49EE-B9A2-85BED81A189A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{999FDC72-77A7-4535-AEE4-54C6CBFF6FDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{999FDC72-77A7-4535-AEE4-54C6CBFF6FDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{999FDC72-77A7-4535-AEE4-54C6CBFF6FDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA321683-4F41-49B1-BBCC-068261CC7178}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA321683-4F41-49B1-BBCC-068261CC7178}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA321683-4F41-49B1-BBCC-068261CC7178}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA321683-4F41-49B1-BBCC-068261CC7178}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02B95A35-AA86-49EE-B9A2-85BED81A189A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02B95A35-AA86-49EE-B9A2-85BED81A189A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02B95A35-AA86-49EE-B9A2-85BED81A189A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02B95A35-AA86-49EE-B9A2-85BED81A189A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

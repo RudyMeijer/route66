@@ -19,7 +19,7 @@ namespace Route66.Tests
 	public class OverlayTests
 	{
 		private readonly ToolStripStatusLabel status;
-		private GMapControl gmap = new GMapControl();
+		private readonly GMapControl gmap = new GMapControl();
 		public OverlayTests()
 		{
 			status = new System.Windows.Forms.ToolStripStatusLabel();
@@ -36,12 +36,12 @@ namespace Route66.Tests
 		[TestMethod(), DeploymentItem(@"..\..\Test data\")]
 		public void OpenRouteTest()
 		{
-			var filename = "angle.xml";
+			const string filename = "angle.xml";
 			var d = My.CurrentDirectory;
 			var overlay = new Overlay(gmap);
 			Settings.MachineType = MachineTypes.Dst;
 			var r = overlay.OpenRoute(filename);
-			Assert.IsTrue(r == true, "Couldn't Open Route");
+			Assert.IsTrue(r, "Couldn't Open Route");
 			//
 			// Test conversion.
 			//
@@ -59,7 +59,7 @@ namespace Route66.Tests
 			// Check green marker tag dosage.
 			//
 			var cm = My.Invoke(overlay, "GetGreenMarker", marker) as GMap.NET.WindowsForms.Markers.GMarkerGoogle;
-			Assert.IsTrue((cm.Tag as ChangeMarker).Dosage == 30, "Error in ChangeMarker");
+			Assert.IsTrue((cm.Tag as ChangeMarker)?.Dosage == 30, "Error in ChangeMarker");
 			//
 			// Get angle red marker 1.
 			//
@@ -75,10 +75,10 @@ namespace Route66.Tests
 		[TestMethod(), DeploymentItem(@"..\..\Test data\")]
 		public void ComputeStatisticsTest()
 		{
-			var filename = "statistics 1m.ar3";
+			const string filename = "statistics 1m.ar3";
 			var overlay = new Overlay(gmap);
 			var res = overlay.OpenRoute(filename);
-			Assert.IsTrue(res == true, $"Couldn't Open Route {filename}");
+			Assert.IsTrue(res, $"Couldn't Open Route {filename}");
 			overlay.MachineType = MachineTypes.StandardSpreader;
 			var m = Settings.MachineType;
 			var stat = overlay.ComputeStatistics();

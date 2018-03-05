@@ -83,14 +83,19 @@
             var backupFile = fileName.Replace(".xml", " backup.xml");
             try
             {
-                if (File.Exists(fileName))
-                {
-                    using (TextReader reader = new StreamReader(fileName)) appSettings = new XmlSerializer(typeof(Settings)).Deserialize(reader) as Settings;
-                }
-                else if (autoCreate) appSettings.SaveAs(fileName);
-                else if (My.Show("Would you like to load default settings?", "", MessageBoxButtons.YesNo) == DialogResult.No)
-                    Environment.Exit(1);
-            }
+				if (File.Exists(fileName))
+				{
+					using (TextReader reader = new StreamReader(fileName)) appSettings = new XmlSerializer(typeof(Settings)).Deserialize(reader) as Settings;
+				}
+				else if (autoCreate)
+				{
+					appSettings.SaveAs(fileName);
+				}
+				else if (My.Show("Would you like to load default settings?", "", MessageBoxButtons.YesNo) == DialogResult.No)
+				{
+					Environment.Exit(1);
+				}
+			}
             catch (Exception ex)
             {
                 My.Show(ex.Message, "Error during loading settings.");
@@ -116,7 +121,7 @@
             var property = e.ChangedItem;
             if (property.Label == "SupervisorMode")
             {
-                if (appSettings.SupervisorMode) appSettings.SupervisorMode = (Prompt.ShowDialog("Enter Supervisor password:", (s as PropertyGrid).ParentForm.Text) == "Rudy" + DateTime.Now.Minute.ToString("00"));
+                if (appSettings.SupervisorMode) appSettings.SupervisorMode = (Prompt.ShowDialog("Enter Supervisor password:", (s as PropertyGrid)?.ParentForm.Text) == "Rudy" + DateTime.Now.Minute.ToString("00"));
                 else appSettings.SaveAs(appSettings.fileName); ////Save SuperVisor = false;
             }
             My.Log($"User {My.UserName} changed application setting {property.Label} from {e.OldValue} to {property.Value}.");
@@ -128,7 +133,6 @@
 
         private static void CheckPath(PropertyValueChangedEventArgs e)
         {
-
             string path = e.ChangedItem.Value as String;
             bool IsFile = Path.GetExtension(path) != "";
             string dir = (IsFile) ? Path.GetDirectoryName(path) : path;
@@ -160,7 +164,7 @@
 
         internal void Refresh()
         {
-            if (_propertyGrid != null) _propertyGrid.Refresh();
+            _propertyGrid?.Refresh();
             Save();
         }
         #endregion

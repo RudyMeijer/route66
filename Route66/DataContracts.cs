@@ -57,9 +57,9 @@ namespace Route66
 
 	#region DATA CONTRACTS
 	/// <summary>
-	/// This class contains data contracts.
+	/// This utility class contains data contracts.
 	/// </summary>
-	public class DataContracts
+	public static class DataContracts
 	{
 		/// <summary>
 		/// This class contains all properties for a blue navigation marker: sound file, navigation message...
@@ -97,7 +97,7 @@ namespace Route66
 			/// <returns>return message</returns>
 			public override string ToString()
 			{
-				return $"{Message}";
+				return Message;
 			}
 		}
 
@@ -186,7 +186,7 @@ namespace Route66
 
 				var dosage = 0d;
 				var width = 0d;
-				var active = IsDosing && SpreadingOnOff || IsSprayer && SprayingOnOff;
+				var active = (IsDosing && SpreadingOnOff) || (IsSprayer && SprayingOnOff);
 
 				if (IsDosing)
 				{

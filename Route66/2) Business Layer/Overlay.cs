@@ -208,7 +208,7 @@ namespace Route66
 			}
 		}
 
-		public override string ToString() => $"{CurrentMarker.Info()}";
+		public override string ToString() => CurrentMarker.Info();
 
 		public void SetCurrentMarker(GMapMarker item)
 		{
@@ -373,7 +373,7 @@ namespace Route66
 			var IsSprayer = MachineType == MachineTypes.Sprayer || MachineType == MachineTypes.WspDosage || MachineType == MachineTypes.RspDosage;
 			var IsDosing = MachineType != MachineTypes.Sprayer;
 
-			return (IsDosing && cm.SpreadingOnOff) || IsSprayer && cm.SprayingOnOff;
+			return (IsDosing && cm.SpreadingOnOff) || (IsSprayer && cm.SprayingOnOff);
 		}
 		#endregion
 		/// <summary>

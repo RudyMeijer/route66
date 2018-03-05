@@ -21,7 +21,7 @@ namespace Route66.Tests
 		[TestMethod, DeploymentItem(@"..\..\Test data\")]
 		public void ReadAr3Test()
 		{
-			var filename = "KleineRoute.ar3";
+			const string filename = "KleineRoute.ar3";
 			var route = Adapters.ReadAr3(filename);
 			Assert.IsFalse(Route.IsDefaultFile, "ReadAr3 error 0");
 			Assert.IsTrue(route.GpsMarkers.Count == 595, "ReadAr3 error 1");
@@ -46,6 +46,7 @@ namespace Route66.Tests
 			Assert.IsTrue(Adapters.errors[3] == 0, "Requirement violation 10");
 			Assert.IsTrue(Adapters.errors[4] == 4, "Requirement violation 11");
 		}
+
 		[TestMethod, DeploymentItem(@"..\..\Test data\")]
 		public void RequirementsAr3Test()
 		{
@@ -70,8 +71,8 @@ namespace Route66.Tests
 			filename = "Requirements test wr.ar3";
 			Adapters.WriteAr3(filename, route);
 			var route2 = Adapters.ReadAr3(filename);
-			Assert.IsTrue(route2.GpsMarkers.Count == 5, "Requirement violation 22");
-			Assert.IsTrue(route2.NavigationMarkers.Count == 1, "Requirement violation 23");
+			Assert.IsTrue(route2.GpsMarkers.Count == 6, "Requirement violation 22");
+			Assert.IsTrue(route2.NavigationMarkers.Count == 2, "Requirement violation 23");
 			Assert.IsTrue(route2.ChangeMarkers.Count == 4, "Requirement violation 24");
 		}
 
@@ -83,6 +84,7 @@ namespace Route66.Tests
 			UniqueTest("KleineRoute.ar3");
 			UniqueTest("Requirements test.ar3");
 		}
+
 		public void UniqueTest(string filename)
 		{
 			Console.WriteLine($"Unique test {filename}");
@@ -120,7 +122,10 @@ namespace Route66.Tests
 					var i = route.NavigationMarkers.FindIndex(n => n.Lat == point.Lat);
 					Assert.Fail($"Navigation marker[{idx}] is equal to marker[{i}] {point}.");
 				}
-				else uniqueNav.Add(point, 0);
+				else
+				{
+					uniqueNav.Add(point, 0);
+				}
 
 				Assert.IsTrue(uniqueGps.ContainsKey(point), $"Navigation[{idx}] orphan marker. Not in Gps table.");
 				++idx;

@@ -84,11 +84,11 @@ namespace Route66
 				{
 					if (ee.InnerException != null)
 					{
-						My.Show($"{ee.InnerException.Message}", ee.Message);
+						My.Show(ee.InnerException.Message, ee.Message);
 					}
 					else
 					{
-						My.Show($"{ee.Message}", "Loading route.");
+						My.Show(ee.Message, "Loading route.");
 					}
 				}
 			}
@@ -137,7 +137,7 @@ namespace Route66
 
 		public override string ToString()
 		{
-			return $"{FileName}";
+			return FileName;
 		}
 		#endregion
 	}
