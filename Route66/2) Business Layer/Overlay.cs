@@ -575,7 +575,7 @@ namespace Route66
 			foreach (var item in Red.Markers) if (AddNavigation(item)) ++cnt;
 			My.Status($"{cnt} navigation markers succesfull added.");
 		}
-		/// <summary></summary>
+
 		private bool AddNavigation(GMapMarker marker)
 		{
 			if (marker == null || marker.Tag != null || !IsGpsMarker(marker)) return false;
