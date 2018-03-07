@@ -58,18 +58,18 @@ namespace RouteConvertTool
 			if (CheckArgs(args))
 			{
 				if (Path.GetExtension(filenames)?.Length == 0) { filenames += "\\*.ar3"; }
-				string path = Path.GetDirectoryName(filenames);
+				var inputPath = Path.GetDirectoryName(filenames);
 				var pattern = Path.GetFileName(filenames);
-				var outputPath = path + ConvertPath;
-				if (path.Length == 0) { path = "."; }
-				var files = Directory.GetFiles(path, pattern, blnIncludeSubdirs ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+				var outputPath = inputPath + ConvertPath;
+				if (inputPath.Length == 0) { inputPath = "."; }
+				var files = Directory.GetFiles(inputPath, pattern, blnIncludeSubdirs ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
 				if (files.Length == 0) { Console.WriteLine($"No files found: {filenames}"); }
 				totalCnt = 0;
 				foreach (var file in files)
 				{
 					try
 					{
-						RouteConvertTool(path, outputPath, file.Substring(path.Length), src, dst);
+						RouteConvertTool(inputPath, outputPath, file.Substring(inputPath.Length), src, dst);
 					}
 					catch (Exception ee) { Console.WriteLine($"Error: {ee.Message} {ee.InnerException?.Message}"); }
 				}
