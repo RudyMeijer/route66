@@ -212,6 +212,7 @@ namespace Route66
 						if (distance - last.Value < 200) break; // Don't mark as orphan when marker is within 200 cm of current or previous marker.
 						if (item.Value - distance < 200) break;
 						++errors[4];
+						My.Log($"Orphan marker found: {line}");
 						break;
 					}
 				}

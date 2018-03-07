@@ -352,7 +352,7 @@ namespace Route66
 						$"{Adapters.errors[1]} duplicated distances will be ignored.\n" +
 						$"{Adapters.errors[0]} points have descending distance and will be ignored. \n" +
 						$"{Adapters.errors[2]} unknown navigation types. \n" +
-						$"{Adapters.errors[4]} orphan markers found. They will be connected to Gps markers. \n" +
+						$"{Adapters.errors[4]} orphan markers found.\n" +
 						$"{Adapters.errors[3]} exceptions. \n" +
 						$"See logfile for more information.", $"Requirements Conformation Report.");
 					Adapters.errors = null;
@@ -371,6 +371,7 @@ namespace Route66
 				if (!chkChangePoints.Checked) chkChangePoints_CheckedChanged(null, null);
 			}
 		}
+
 		private void AddtoolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			var idx = Overlay.GetIndexRed(Overlay.CurrentMarker);

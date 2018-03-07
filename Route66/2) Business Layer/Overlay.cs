@@ -698,9 +698,9 @@ namespace Route66
 					//
 					// Get actual dosage and width for this change marker.
 					//
-					var (dosage, width, active) = cm.GetDosageAndWith(MachineType);
+					var (dosage, widthLeft, widthRight, active) = cm.GetDosageAndWith(MachineType);
 					prevDosage = (active) ? dosage : 0;
-					prevWidth = (active) ? width : 0;
+					prevWidth = (active) ? widthLeft + widthRight : 0;
 					distance = 0;
 				}
 				prevItem = item;

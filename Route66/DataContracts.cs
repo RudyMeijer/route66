@@ -171,34 +171,36 @@ namespace Route66
 			/// <returns>return message</returns>
 			public override string ToString()
 			{
-				(double dosage, double width, bool active) = GetDosageAndWith(Settings.Global.MachineType);
+				(double dosage, double widthLeft, double widthRight, bool active) = GetDosageAndWith(Settings.Global.MachineType);
 				var sign = (active) ? ' ' : '-';
-				if (Settings.Global.MachineType == MachineTypes.StreetWasher)
-					return $"{sign}Pressure {dosage} bar \nWidth {width} m";
-				else
-					return $"{sign}Dosage {dosage} g \nWidth {width} m";
+				var sDosage = (Settings.Global.MachineType == MachineTypes.StreetWasher)?"Pressure":"Dosage";
+				var sUnits = (Settings.Global.MachineType == MachineTypes.StreetWasher) ? "bar":"g";
+				return $"{sign}{sDosage} {dosage} {sUnits} \nWidthLeft {widthLeft} m\nWidthRight {widthRight} m";
 			}
 
-			internal (double dosage, double width, bool active) GetDosageAndWith(MachineTypes machineType)
+			internal (double dosage, double widthLeft, double widthRight, bool active) GetDosageAndWith(MachineTypes machineType)
 			{
 				var IsSprayer = machineType == MachineTypes.Sprayer || machineType == MachineTypes.WspDosage || machineType == MachineTypes.RspDosage;
 				var IsDosing = machineType != MachineTypes.Sprayer;
 
 				var dosage = 0d;
-				var width = 0d;
+				var widthLeft = 0d;
+				var widthRight = 0d;
 				var active = (IsDosing && SpreadingOnOff) || (IsSprayer && SprayingOnOff);
 
 				if (IsDosing)
 				{
 					dosage = (SpreadingOnOff) ? Dosage : 0;
-					width = SpreadingWidthLeft + SpreadingWidthRight;
+					widthLeft = SpreadingWidthLeft;
+					widthRight = SpreadingWidthRight;
 				}
 				if (IsSprayer)
 				{
 					dosage += (SprayingOnOff) ? DosageLiquid : 0; // Summerize spreading and spraying.
-					width = SprayingWidthLeft + SprayingWidthRight;
+					widthLeft = SprayingWidthLeft;
+					widthRight = SprayingWidthRight;
 				}
-				return (dosage, width, active);
+				return (dosage, widthLeft, widthRight, active);
 			}
 		}
 		/// <summary>
