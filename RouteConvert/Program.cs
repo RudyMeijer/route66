@@ -93,13 +93,15 @@ namespace RouteConvertTool
 			var inputfilename = inputPath + filename;
 			var outputfilename = My.CheckPath(outputPath, filename);
 			using (TextReader reader = new StreamReader(inputfilename))
-			using (TextWriter writer = new StreamWriter(outputfilename))
 			{
-				while ((line = reader.ReadLine()) != null)
+				using (TextWriter writer = new StreamWriter(outputfilename))
 				{
-					var output = line.Replace(src, dst);
-					writer.WriteLine(output);
-					if (line != output) { ++cnt; }
+					while ((line = reader.ReadLine()) != null)
+					{
+						var output = line.Replace(src, dst);
+						writer.WriteLine(output);
+						if (line != output) { ++cnt; }
+					}
 				}
 			}
 
